@@ -1,0 +1,8812 @@
+[
+  {
+    "name": "a-arrow-down",
+    "title": "A Arrow Down",
+    "fileName": "a-arrow-down.js"
+  },
+  {
+    "name": "a-arrow-up",
+    "title": "A Arrow Up",
+    "fileName": "a-arrow-up.js"
+  },
+  {
+    "name": "a-large-small",
+    "title": "A Large Small",
+    "fileName": "a-large-small.js"
+  },
+  {
+    "name": "accessibility",
+    "title": "Accessibility",
+    "fileName": "accessibility.js"
+  },
+  {
+    "name": "activity",
+    "title": "Activity",
+    "fileName": "activity.js"
+  },
+  {
+    "name": "activity-square",
+    "title": "Activity Square",
+    "fileName": "activity-square.js"
+  },
+  {
+    "name": "air-vent",
+    "title": "Air Vent",
+    "fileName": "air-vent.js"
+  },
+  {
+    "name": "airplay",
+    "title": "Airplay",
+    "fileName": "airplay.js"
+  },
+  {
+    "name": "alarm-check",
+    "title": "Alarm Check",
+    "fileName": "alarm-check.js"
+  },
+  {
+    "name": "alarm-clock",
+    "title": "Alarm Clock",
+    "fileName": "alarm-clock.js"
+  },
+  {
+    "name": "alarm-clock-check",
+    "title": "Alarm Clock Check",
+    "fileName": "alarm-clock-check.js"
+  },
+  {
+    "name": "alarm-clock-minus",
+    "title": "Alarm Clock Minus",
+    "fileName": "alarm-clock-minus.js"
+  },
+  {
+    "name": "alarm-clock-off",
+    "title": "Alarm Clock Off",
+    "fileName": "alarm-clock-off.js"
+  },
+  {
+    "name": "alarm-clock-plus",
+    "title": "Alarm Clock Plus",
+    "fileName": "alarm-clock-plus.js"
+  },
+  {
+    "name": "alarm-minus",
+    "title": "Alarm Minus",
+    "fileName": "alarm-minus.js"
+  },
+  {
+    "name": "alarm-plus",
+    "title": "Alarm Plus",
+    "fileName": "alarm-plus.js"
+  },
+  {
+    "name": "alarm-smoke",
+    "title": "Alarm Smoke",
+    "fileName": "alarm-smoke.js"
+  },
+  {
+    "name": "album",
+    "title": "Album",
+    "fileName": "album.js"
+  },
+  {
+    "name": "alert-circle",
+    "title": "Alert Circle",
+    "fileName": "alert-circle.js"
+  },
+  {
+    "name": "alert-octagon",
+    "title": "Alert Octagon",
+    "fileName": "alert-octagon.js"
+  },
+  {
+    "name": "alert-triangle",
+    "title": "Alert Triangle",
+    "fileName": "alert-triangle.js"
+  },
+  {
+    "name": "align-center",
+    "title": "Align Center",
+    "fileName": "align-center.js"
+  },
+  {
+    "name": "align-center-horizontal",
+    "title": "Align Center Horizontal",
+    "fileName": "align-center-horizontal.js"
+  },
+  {
+    "name": "align-center-vertical",
+    "title": "Align Center Vertical",
+    "fileName": "align-center-vertical.js"
+  },
+  {
+    "name": "align-end-horizontal",
+    "title": "Align End Horizontal",
+    "fileName": "align-end-horizontal.js"
+  },
+  {
+    "name": "align-end-vertical",
+    "title": "Align End Vertical",
+    "fileName": "align-end-vertical.js"
+  },
+  {
+    "name": "align-horizontal-distribute-center",
+    "title": "Align Horizontal Distribute Center",
+    "fileName": "align-horizontal-distribute-center.js"
+  },
+  {
+    "name": "align-horizontal-distribute-end",
+    "title": "Align Horizontal Distribute End",
+    "fileName": "align-horizontal-distribute-end.js"
+  },
+  {
+    "name": "align-horizontal-distribute-start",
+    "title": "Align Horizontal Distribute Start",
+    "fileName": "align-horizontal-distribute-start.js"
+  },
+  {
+    "name": "align-horizontal-justify-center",
+    "title": "Align Horizontal Justify Center",
+    "fileName": "align-horizontal-justify-center.js"
+  },
+  {
+    "name": "align-horizontal-justify-end",
+    "title": "Align Horizontal Justify End",
+    "fileName": "align-horizontal-justify-end.js"
+  },
+  {
+    "name": "align-horizontal-justify-start",
+    "title": "Align Horizontal Justify Start",
+    "fileName": "align-horizontal-justify-start.js"
+  },
+  {
+    "name": "align-horizontal-space-around",
+    "title": "Align Horizontal Space Around",
+    "fileName": "align-horizontal-space-around.js"
+  },
+  {
+    "name": "align-horizontal-space-between",
+    "title": "Align Horizontal Space Between",
+    "fileName": "align-horizontal-space-between.js"
+  },
+  {
+    "name": "align-justify",
+    "title": "Align Justify",
+    "fileName": "align-justify.js"
+  },
+  {
+    "name": "align-left",
+    "title": "Align Left",
+    "fileName": "align-left.js"
+  },
+  {
+    "name": "align-right",
+    "title": "Align Right",
+    "fileName": "align-right.js"
+  },
+  {
+    "name": "align-start-horizontal",
+    "title": "Align Start Horizontal",
+    "fileName": "align-start-horizontal.js"
+  },
+  {
+    "name": "align-start-vertical",
+    "title": "Align Start Vertical",
+    "fileName": "align-start-vertical.js"
+  },
+  {
+    "name": "align-vertical-distribute-center",
+    "title": "Align Vertical Distribute Center",
+    "fileName": "align-vertical-distribute-center.js"
+  },
+  {
+    "name": "align-vertical-distribute-end",
+    "title": "Align Vertical Distribute End",
+    "fileName": "align-vertical-distribute-end.js"
+  },
+  {
+    "name": "align-vertical-distribute-start",
+    "title": "Align Vertical Distribute Start",
+    "fileName": "align-vertical-distribute-start.js"
+  },
+  {
+    "name": "align-vertical-justify-center",
+    "title": "Align Vertical Justify Center",
+    "fileName": "align-vertical-justify-center.js"
+  },
+  {
+    "name": "align-vertical-justify-end",
+    "title": "Align Vertical Justify End",
+    "fileName": "align-vertical-justify-end.js"
+  },
+  {
+    "name": "align-vertical-justify-start",
+    "title": "Align Vertical Justify Start",
+    "fileName": "align-vertical-justify-start.js"
+  },
+  {
+    "name": "align-vertical-space-around",
+    "title": "Align Vertical Space Around",
+    "fileName": "align-vertical-space-around.js"
+  },
+  {
+    "name": "align-vertical-space-between",
+    "title": "Align Vertical Space Between",
+    "fileName": "align-vertical-space-between.js"
+  },
+  {
+    "name": "ambulance",
+    "title": "Ambulance",
+    "fileName": "ambulance.js"
+  },
+  {
+    "name": "ampersand",
+    "title": "Ampersand",
+    "fileName": "ampersand.js"
+  },
+  {
+    "name": "ampersands",
+    "title": "Ampersands",
+    "fileName": "ampersands.js"
+  },
+  {
+    "name": "amphora",
+    "title": "Amphora",
+    "fileName": "amphora.js"
+  },
+  {
+    "name": "anchor",
+    "title": "Anchor",
+    "fileName": "anchor.js"
+  },
+  {
+    "name": "angry",
+    "title": "Angry",
+    "fileName": "angry.js"
+  },
+  {
+    "name": "annoyed",
+    "title": "Annoyed",
+    "fileName": "annoyed.js"
+  },
+  {
+    "name": "antenna",
+    "title": "Antenna",
+    "fileName": "antenna.js"
+  },
+  {
+    "name": "anvil",
+    "title": "Anvil",
+    "fileName": "anvil.js"
+  },
+  {
+    "name": "aperture",
+    "title": "Aperture",
+    "fileName": "aperture.js"
+  },
+  {
+    "name": "app-window",
+    "title": "App Window",
+    "fileName": "app-window.js"
+  },
+  {
+    "name": "app-window-mac",
+    "title": "App Window Mac",
+    "fileName": "app-window-mac.js"
+  },
+  {
+    "name": "apple",
+    "title": "Apple",
+    "fileName": "apple.js"
+  },
+  {
+    "name": "archive",
+    "title": "Archive",
+    "fileName": "archive.js"
+  },
+  {
+    "name": "archive-restore",
+    "title": "Archive Restore",
+    "fileName": "archive-restore.js"
+  },
+  {
+    "name": "archive-x",
+    "title": "Archive X",
+    "fileName": "archive-x.js"
+  },
+  {
+    "name": "area-chart",
+    "title": "Area Chart",
+    "fileName": "area-chart.js"
+  },
+  {
+    "name": "armchair",
+    "title": "Armchair",
+    "fileName": "armchair.js"
+  },
+  {
+    "name": "arrow-big-down",
+    "title": "Arrow Big Down",
+    "fileName": "arrow-big-down.js"
+  },
+  {
+    "name": "arrow-big-down-dash",
+    "title": "Arrow Big Down Dash",
+    "fileName": "arrow-big-down-dash.js"
+  },
+  {
+    "name": "arrow-big-left",
+    "title": "Arrow Big Left",
+    "fileName": "arrow-big-left.js"
+  },
+  {
+    "name": "arrow-big-left-dash",
+    "title": "Arrow Big Left Dash",
+    "fileName": "arrow-big-left-dash.js"
+  },
+  {
+    "name": "arrow-big-right",
+    "title": "Arrow Big Right",
+    "fileName": "arrow-big-right.js"
+  },
+  {
+    "name": "arrow-big-right-dash",
+    "title": "Arrow Big Right Dash",
+    "fileName": "arrow-big-right-dash.js"
+  },
+  {
+    "name": "arrow-big-up",
+    "title": "Arrow Big Up",
+    "fileName": "arrow-big-up.js"
+  },
+  {
+    "name": "arrow-big-up-dash",
+    "title": "Arrow Big Up Dash",
+    "fileName": "arrow-big-up-dash.js"
+  },
+  {
+    "name": "arrow-down",
+    "title": "Arrow Down",
+    "fileName": "arrow-down.js"
+  },
+  {
+    "name": "arrow-down-0-1",
+    "title": "Arrow Down 0 1",
+    "fileName": "arrow-down-0-1.js"
+  },
+  {
+    "name": "arrow-down-01",
+    "title": "Arrow Down 01",
+    "fileName": "arrow-down-01.js"
+  },
+  {
+    "name": "arrow-down-1-0",
+    "title": "Arrow Down 1 0",
+    "fileName": "arrow-down-1-0.js"
+  },
+  {
+    "name": "arrow-down-10",
+    "title": "Arrow Down 10",
+    "fileName": "arrow-down-10.js"
+  },
+  {
+    "name": "arrow-down-a-z",
+    "title": "Arrow Down A Z",
+    "fileName": "arrow-down-a-z.js"
+  },
+  {
+    "name": "arrow-down-az",
+    "title": "Arrow Down Az",
+    "fileName": "arrow-down-az.js"
+  },
+  {
+    "name": "arrow-down-circle",
+    "title": "Arrow Down Circle",
+    "fileName": "arrow-down-circle.js"
+  },
+  {
+    "name": "arrow-down-from-line",
+    "title": "Arrow Down From Line",
+    "fileName": "arrow-down-from-line.js"
+  },
+  {
+    "name": "arrow-down-left",
+    "title": "Arrow Down Left",
+    "fileName": "arrow-down-left.js"
+  },
+  {
+    "name": "arrow-down-left-from-circle",
+    "title": "Arrow Down Left From Circle",
+    "fileName": "arrow-down-left-from-circle.js"
+  },
+  {
+    "name": "arrow-down-left-from-square",
+    "title": "Arrow Down Left From Square",
+    "fileName": "arrow-down-left-from-square.js"
+  },
+  {
+    "name": "arrow-down-left-square",
+    "title": "Arrow Down Left Square",
+    "fileName": "arrow-down-left-square.js"
+  },
+  {
+    "name": "arrow-down-narrow-wide",
+    "title": "Arrow Down Narrow Wide",
+    "fileName": "arrow-down-narrow-wide.js"
+  },
+  {
+    "name": "arrow-down-right",
+    "title": "Arrow Down Right",
+    "fileName": "arrow-down-right.js"
+  },
+  {
+    "name": "arrow-down-right-from-circle",
+    "title": "Arrow Down Right From Circle",
+    "fileName": "arrow-down-right-from-circle.js"
+  },
+  {
+    "name": "arrow-down-right-from-square",
+    "title": "Arrow Down Right From Square",
+    "fileName": "arrow-down-right-from-square.js"
+  },
+  {
+    "name": "arrow-down-right-square",
+    "title": "Arrow Down Right Square",
+    "fileName": "arrow-down-right-square.js"
+  },
+  {
+    "name": "arrow-down-square",
+    "title": "Arrow Down Square",
+    "fileName": "arrow-down-square.js"
+  },
+  {
+    "name": "arrow-down-to-dot",
+    "title": "Arrow Down To Dot",
+    "fileName": "arrow-down-to-dot.js"
+  },
+  {
+    "name": "arrow-down-to-line",
+    "title": "Arrow Down To Line",
+    "fileName": "arrow-down-to-line.js"
+  },
+  {
+    "name": "arrow-down-up",
+    "title": "Arrow Down Up",
+    "fileName": "arrow-down-up.js"
+  },
+  {
+    "name": "arrow-down-wide-narrow",
+    "title": "Arrow Down Wide Narrow",
+    "fileName": "arrow-down-wide-narrow.js"
+  },
+  {
+    "name": "arrow-down-z-a",
+    "title": "Arrow Down Z A",
+    "fileName": "arrow-down-z-a.js"
+  },
+  {
+    "name": "arrow-down-za",
+    "title": "Arrow Down Za",
+    "fileName": "arrow-down-za.js"
+  },
+  {
+    "name": "arrow-left",
+    "title": "Arrow Left",
+    "fileName": "arrow-left.js"
+  },
+  {
+    "name": "arrow-left-circle",
+    "title": "Arrow Left Circle",
+    "fileName": "arrow-left-circle.js"
+  },
+  {
+    "name": "arrow-left-from-line",
+    "title": "Arrow Left From Line",
+    "fileName": "arrow-left-from-line.js"
+  },
+  {
+    "name": "arrow-left-right",
+    "title": "Arrow Left Right",
+    "fileName": "arrow-left-right.js"
+  },
+  {
+    "name": "arrow-left-square",
+    "title": "Arrow Left Square",
+    "fileName": "arrow-left-square.js"
+  },
+  {
+    "name": "arrow-left-to-line",
+    "title": "Arrow Left To Line",
+    "fileName": "arrow-left-to-line.js"
+  },
+  {
+    "name": "arrow-right",
+    "title": "Arrow Right",
+    "fileName": "arrow-right.js"
+  },
+  {
+    "name": "arrow-right-circle",
+    "title": "Arrow Right Circle",
+    "fileName": "arrow-right-circle.js"
+  },
+  {
+    "name": "arrow-right-from-line",
+    "title": "Arrow Right From Line",
+    "fileName": "arrow-right-from-line.js"
+  },
+  {
+    "name": "arrow-right-left",
+    "title": "Arrow Right Left",
+    "fileName": "arrow-right-left.js"
+  },
+  {
+    "name": "arrow-right-square",
+    "title": "Arrow Right Square",
+    "fileName": "arrow-right-square.js"
+  },
+  {
+    "name": "arrow-right-to-line",
+    "title": "Arrow Right To Line",
+    "fileName": "arrow-right-to-line.js"
+  },
+  {
+    "name": "arrow-up",
+    "title": "Arrow Up",
+    "fileName": "arrow-up.js"
+  },
+  {
+    "name": "arrow-up-0-1",
+    "title": "Arrow Up 0 1",
+    "fileName": "arrow-up-0-1.js"
+  },
+  {
+    "name": "arrow-up-01",
+    "title": "Arrow Up 01",
+    "fileName": "arrow-up-01.js"
+  },
+  {
+    "name": "arrow-up-1-0",
+    "title": "Arrow Up 1 0",
+    "fileName": "arrow-up-1-0.js"
+  },
+  {
+    "name": "arrow-up-10",
+    "title": "Arrow Up 10",
+    "fileName": "arrow-up-10.js"
+  },
+  {
+    "name": "arrow-up-a-z",
+    "title": "Arrow Up A Z",
+    "fileName": "arrow-up-a-z.js"
+  },
+  {
+    "name": "arrow-up-az",
+    "title": "Arrow Up Az",
+    "fileName": "arrow-up-az.js"
+  },
+  {
+    "name": "arrow-up-circle",
+    "title": "Arrow Up Circle",
+    "fileName": "arrow-up-circle.js"
+  },
+  {
+    "name": "arrow-up-down",
+    "title": "Arrow Up Down",
+    "fileName": "arrow-up-down.js"
+  },
+  {
+    "name": "arrow-up-from-dot",
+    "title": "Arrow Up From Dot",
+    "fileName": "arrow-up-from-dot.js"
+  },
+  {
+    "name": "arrow-up-from-line",
+    "title": "Arrow Up From Line",
+    "fileName": "arrow-up-from-line.js"
+  },
+  {
+    "name": "arrow-up-left",
+    "title": "Arrow Up Left",
+    "fileName": "arrow-up-left.js"
+  },
+  {
+    "name": "arrow-up-left-from-circle",
+    "title": "Arrow Up Left From Circle",
+    "fileName": "arrow-up-left-from-circle.js"
+  },
+  {
+    "name": "arrow-up-left-from-square",
+    "title": "Arrow Up Left From Square",
+    "fileName": "arrow-up-left-from-square.js"
+  },
+  {
+    "name": "arrow-up-left-square",
+    "title": "Arrow Up Left Square",
+    "fileName": "arrow-up-left-square.js"
+  },
+  {
+    "name": "arrow-up-narrow-wide",
+    "title": "Arrow Up Narrow Wide",
+    "fileName": "arrow-up-narrow-wide.js"
+  },
+  {
+    "name": "arrow-up-right",
+    "title": "Arrow Up Right",
+    "fileName": "arrow-up-right.js"
+  },
+  {
+    "name": "arrow-up-right-from-circle",
+    "title": "Arrow Up Right From Circle",
+    "fileName": "arrow-up-right-from-circle.js"
+  },
+  {
+    "name": "arrow-up-right-from-square",
+    "title": "Arrow Up Right From Square",
+    "fileName": "arrow-up-right-from-square.js"
+  },
+  {
+    "name": "arrow-up-right-square",
+    "title": "Arrow Up Right Square",
+    "fileName": "arrow-up-right-square.js"
+  },
+  {
+    "name": "arrow-up-square",
+    "title": "Arrow Up Square",
+    "fileName": "arrow-up-square.js"
+  },
+  {
+    "name": "arrow-up-to-line",
+    "title": "Arrow Up To Line",
+    "fileName": "arrow-up-to-line.js"
+  },
+  {
+    "name": "arrow-up-wide-narrow",
+    "title": "Arrow Up Wide Narrow",
+    "fileName": "arrow-up-wide-narrow.js"
+  },
+  {
+    "name": "arrow-up-z-a",
+    "title": "Arrow Up Z A",
+    "fileName": "arrow-up-z-a.js"
+  },
+  {
+    "name": "arrow-up-za",
+    "title": "Arrow Up Za",
+    "fileName": "arrow-up-za.js"
+  },
+  {
+    "name": "arrows-up-from-line",
+    "title": "Arrows Up From Line",
+    "fileName": "arrows-up-from-line.js"
+  },
+  {
+    "name": "asterisk",
+    "title": "Asterisk",
+    "fileName": "asterisk.js"
+  },
+  {
+    "name": "asterisk-square",
+    "title": "Asterisk Square",
+    "fileName": "asterisk-square.js"
+  },
+  {
+    "name": "at-sign",
+    "title": "At Sign",
+    "fileName": "at-sign.js"
+  },
+  {
+    "name": "atom",
+    "title": "Atom",
+    "fileName": "atom.js"
+  },
+  {
+    "name": "audio-lines",
+    "title": "Audio Lines",
+    "fileName": "audio-lines.js"
+  },
+  {
+    "name": "audio-waveform",
+    "title": "Audio Waveform",
+    "fileName": "audio-waveform.js"
+  },
+  {
+    "name": "award",
+    "title": "Award",
+    "fileName": "award.js"
+  },
+  {
+    "name": "axe",
+    "title": "Axe",
+    "fileName": "axe.js"
+  },
+  {
+    "name": "axis-3-d",
+    "title": "Axis 3 D",
+    "fileName": "axis-3-d.js"
+  },
+  {
+    "name": "axis-3d",
+    "title": "Axis 3d",
+    "fileName": "axis-3d.js"
+  },
+  {
+    "name": "baby",
+    "title": "Baby",
+    "fileName": "baby.js"
+  },
+  {
+    "name": "backpack",
+    "title": "Backpack",
+    "fileName": "backpack.js"
+  },
+  {
+    "name": "badge",
+    "title": "Badge",
+    "fileName": "badge.js"
+  },
+  {
+    "name": "badge-alert",
+    "title": "Badge Alert",
+    "fileName": "badge-alert.js"
+  },
+  {
+    "name": "badge-cent",
+    "title": "Badge Cent",
+    "fileName": "badge-cent.js"
+  },
+  {
+    "name": "badge-check",
+    "title": "Badge Check",
+    "fileName": "badge-check.js"
+  },
+  {
+    "name": "badge-dollar-sign",
+    "title": "Badge Dollar Sign",
+    "fileName": "badge-dollar-sign.js"
+  },
+  {
+    "name": "badge-euro",
+    "title": "Badge Euro",
+    "fileName": "badge-euro.js"
+  },
+  {
+    "name": "badge-help",
+    "title": "Badge Help",
+    "fileName": "badge-help.js"
+  },
+  {
+    "name": "badge-indian-rupee",
+    "title": "Badge Indian Rupee",
+    "fileName": "badge-indian-rupee.js"
+  },
+  {
+    "name": "badge-info",
+    "title": "Badge Info",
+    "fileName": "badge-info.js"
+  },
+  {
+    "name": "badge-japanese-yen",
+    "title": "Badge Japanese Yen",
+    "fileName": "badge-japanese-yen.js"
+  },
+  {
+    "name": "badge-minus",
+    "title": "Badge Minus",
+    "fileName": "badge-minus.js"
+  },
+  {
+    "name": "badge-percent",
+    "title": "Badge Percent",
+    "fileName": "badge-percent.js"
+  },
+  {
+    "name": "badge-plus",
+    "title": "Badge Plus",
+    "fileName": "badge-plus.js"
+  },
+  {
+    "name": "badge-pound-sterling",
+    "title": "Badge Pound Sterling",
+    "fileName": "badge-pound-sterling.js"
+  },
+  {
+    "name": "badge-russian-ruble",
+    "title": "Badge Russian Ruble",
+    "fileName": "badge-russian-ruble.js"
+  },
+  {
+    "name": "badge-swiss-franc",
+    "title": "Badge Swiss Franc",
+    "fileName": "badge-swiss-franc.js"
+  },
+  {
+    "name": "badge-x",
+    "title": "Badge X",
+    "fileName": "badge-x.js"
+  },
+  {
+    "name": "baggage-claim",
+    "title": "Baggage Claim",
+    "fileName": "baggage-claim.js"
+  },
+  {
+    "name": "ban",
+    "title": "Ban",
+    "fileName": "ban.js"
+  },
+  {
+    "name": "banana",
+    "title": "Banana",
+    "fileName": "banana.js"
+  },
+  {
+    "name": "bandage",
+    "title": "Bandage",
+    "fileName": "bandage.js"
+  },
+  {
+    "name": "banknote",
+    "title": "Banknote",
+    "fileName": "banknote.js"
+  },
+  {
+    "name": "bar-chart",
+    "title": "Bar Chart",
+    "fileName": "bar-chart.js"
+  },
+  {
+    "name": "bar-chart-2",
+    "title": "Bar Chart 2",
+    "fileName": "bar-chart-2.js"
+  },
+  {
+    "name": "bar-chart-3",
+    "title": "Bar Chart 3",
+    "fileName": "bar-chart-3.js"
+  },
+  {
+    "name": "bar-chart-4",
+    "title": "Bar Chart 4",
+    "fileName": "bar-chart-4.js"
+  },
+  {
+    "name": "bar-chart-big",
+    "title": "Bar Chart Big",
+    "fileName": "bar-chart-big.js"
+  },
+  {
+    "name": "bar-chart-horizontal",
+    "title": "Bar Chart Horizontal",
+    "fileName": "bar-chart-horizontal.js"
+  },
+  {
+    "name": "bar-chart-horizontal-big",
+    "title": "Bar Chart Horizontal Big",
+    "fileName": "bar-chart-horizontal-big.js"
+  },
+  {
+    "name": "barcode",
+    "title": "Barcode",
+    "fileName": "barcode.js"
+  },
+  {
+    "name": "baseline",
+    "title": "Baseline",
+    "fileName": "baseline.js"
+  },
+  {
+    "name": "bath",
+    "title": "Bath",
+    "fileName": "bath.js"
+  },
+  {
+    "name": "battery",
+    "title": "Battery",
+    "fileName": "battery.js"
+  },
+  {
+    "name": "battery-charging",
+    "title": "Battery Charging",
+    "fileName": "battery-charging.js"
+  },
+  {
+    "name": "battery-full",
+    "title": "Battery Full",
+    "fileName": "battery-full.js"
+  },
+  {
+    "name": "battery-low",
+    "title": "Battery Low",
+    "fileName": "battery-low.js"
+  },
+  {
+    "name": "battery-medium",
+    "title": "Battery Medium",
+    "fileName": "battery-medium.js"
+  },
+  {
+    "name": "battery-plus",
+    "title": "Battery Plus",
+    "fileName": "battery-plus.js"
+  },
+  {
+    "name": "battery-warning",
+    "title": "Battery Warning",
+    "fileName": "battery-warning.js"
+  },
+  {
+    "name": "beaker",
+    "title": "Beaker",
+    "fileName": "beaker.js"
+  },
+  {
+    "name": "bean",
+    "title": "Bean",
+    "fileName": "bean.js"
+  },
+  {
+    "name": "bean-off",
+    "title": "Bean Off",
+    "fileName": "bean-off.js"
+  },
+  {
+    "name": "bed",
+    "title": "Bed",
+    "fileName": "bed.js"
+  },
+  {
+    "name": "bed-double",
+    "title": "Bed Double",
+    "fileName": "bed-double.js"
+  },
+  {
+    "name": "bed-single",
+    "title": "Bed Single",
+    "fileName": "bed-single.js"
+  },
+  {
+    "name": "beef",
+    "title": "Beef",
+    "fileName": "beef.js"
+  },
+  {
+    "name": "beer",
+    "title": "Beer",
+    "fileName": "beer.js"
+  },
+  {
+    "name": "beer-off",
+    "title": "Beer Off",
+    "fileName": "beer-off.js"
+  },
+  {
+    "name": "bell",
+    "title": "Bell",
+    "fileName": "bell.js"
+  },
+  {
+    "name": "bell-dot",
+    "title": "Bell Dot",
+    "fileName": "bell-dot.js"
+  },
+  {
+    "name": "bell-electric",
+    "title": "Bell Electric",
+    "fileName": "bell-electric.js"
+  },
+  {
+    "name": "bell-minus",
+    "title": "Bell Minus",
+    "fileName": "bell-minus.js"
+  },
+  {
+    "name": "bell-off",
+    "title": "Bell Off",
+    "fileName": "bell-off.js"
+  },
+  {
+    "name": "bell-plus",
+    "title": "Bell Plus",
+    "fileName": "bell-plus.js"
+  },
+  {
+    "name": "bell-ring",
+    "title": "Bell Ring",
+    "fileName": "bell-ring.js"
+  },
+  {
+    "name": "between-horizonal-end",
+    "title": "Between Horizonal End",
+    "fileName": "between-horizonal-end.js"
+  },
+  {
+    "name": "between-horizonal-start",
+    "title": "Between Horizonal Start",
+    "fileName": "between-horizonal-start.js"
+  },
+  {
+    "name": "between-horizontal-end",
+    "title": "Between Horizontal End",
+    "fileName": "between-horizontal-end.js"
+  },
+  {
+    "name": "between-horizontal-start",
+    "title": "Between Horizontal Start",
+    "fileName": "between-horizontal-start.js"
+  },
+  {
+    "name": "between-vertical-end",
+    "title": "Between Vertical End",
+    "fileName": "between-vertical-end.js"
+  },
+  {
+    "name": "between-vertical-start",
+    "title": "Between Vertical Start",
+    "fileName": "between-vertical-start.js"
+  },
+  {
+    "name": "biceps-flexed",
+    "title": "Biceps Flexed",
+    "fileName": "biceps-flexed.js"
+  },
+  {
+    "name": "bike",
+    "title": "Bike",
+    "fileName": "bike.js"
+  },
+  {
+    "name": "binary",
+    "title": "Binary",
+    "fileName": "binary.js"
+  },
+  {
+    "name": "binoculars",
+    "title": "Binoculars",
+    "fileName": "binoculars.js"
+  },
+  {
+    "name": "biohazard",
+    "title": "Biohazard",
+    "fileName": "biohazard.js"
+  },
+  {
+    "name": "bird",
+    "title": "Bird",
+    "fileName": "bird.js"
+  },
+  {
+    "name": "bitcoin",
+    "title": "Bitcoin",
+    "fileName": "bitcoin.js"
+  },
+  {
+    "name": "blend",
+    "title": "Blend",
+    "fileName": "blend.js"
+  },
+  {
+    "name": "blinds",
+    "title": "Blinds",
+    "fileName": "blinds.js"
+  },
+  {
+    "name": "blocks",
+    "title": "Blocks",
+    "fileName": "blocks.js"
+  },
+  {
+    "name": "bluetooth",
+    "title": "Bluetooth",
+    "fileName": "bluetooth.js"
+  },
+  {
+    "name": "bluetooth-connected",
+    "title": "Bluetooth Connected",
+    "fileName": "bluetooth-connected.js"
+  },
+  {
+    "name": "bluetooth-off",
+    "title": "Bluetooth Off",
+    "fileName": "bluetooth-off.js"
+  },
+  {
+    "name": "bluetooth-searching",
+    "title": "Bluetooth Searching",
+    "fileName": "bluetooth-searching.js"
+  },
+  {
+    "name": "bold",
+    "title": "Bold",
+    "fileName": "bold.js"
+  },
+  {
+    "name": "bolt",
+    "title": "Bolt",
+    "fileName": "bolt.js"
+  },
+  {
+    "name": "bomb",
+    "title": "Bomb",
+    "fileName": "bomb.js"
+  },
+  {
+    "name": "bone",
+    "title": "Bone",
+    "fileName": "bone.js"
+  },
+  {
+    "name": "book",
+    "title": "Book",
+    "fileName": "book.js"
+  },
+  {
+    "name": "book-a",
+    "title": "Book A",
+    "fileName": "book-a.js"
+  },
+  {
+    "name": "book-audio",
+    "title": "Book Audio",
+    "fileName": "book-audio.js"
+  },
+  {
+    "name": "book-check",
+    "title": "Book Check",
+    "fileName": "book-check.js"
+  },
+  {
+    "name": "book-copy",
+    "title": "Book Copy",
+    "fileName": "book-copy.js"
+  },
+  {
+    "name": "book-dashed",
+    "title": "Book Dashed",
+    "fileName": "book-dashed.js"
+  },
+  {
+    "name": "book-down",
+    "title": "Book Down",
+    "fileName": "book-down.js"
+  },
+  {
+    "name": "book-headphones",
+    "title": "Book Headphones",
+    "fileName": "book-headphones.js"
+  },
+  {
+    "name": "book-heart",
+    "title": "Book Heart",
+    "fileName": "book-heart.js"
+  },
+  {
+    "name": "book-image",
+    "title": "Book Image",
+    "fileName": "book-image.js"
+  },
+  {
+    "name": "book-key",
+    "title": "Book Key",
+    "fileName": "book-key.js"
+  },
+  {
+    "name": "book-lock",
+    "title": "Book Lock",
+    "fileName": "book-lock.js"
+  },
+  {
+    "name": "book-marked",
+    "title": "Book Marked",
+    "fileName": "book-marked.js"
+  },
+  {
+    "name": "book-minus",
+    "title": "Book Minus",
+    "fileName": "book-minus.js"
+  },
+  {
+    "name": "book-open",
+    "title": "Book Open",
+    "fileName": "book-open.js"
+  },
+  {
+    "name": "book-open-check",
+    "title": "Book Open Check",
+    "fileName": "book-open-check.js"
+  },
+  {
+    "name": "book-open-text",
+    "title": "Book Open Text",
+    "fileName": "book-open-text.js"
+  },
+  {
+    "name": "book-plus",
+    "title": "Book Plus",
+    "fileName": "book-plus.js"
+  },
+  {
+    "name": "book-template",
+    "title": "Book Template",
+    "fileName": "book-template.js"
+  },
+  {
+    "name": "book-text",
+    "title": "Book Text",
+    "fileName": "book-text.js"
+  },
+  {
+    "name": "book-type",
+    "title": "Book Type",
+    "fileName": "book-type.js"
+  },
+  {
+    "name": "book-up",
+    "title": "Book Up",
+    "fileName": "book-up.js"
+  },
+  {
+    "name": "book-up-2",
+    "title": "Book Up 2",
+    "fileName": "book-up-2.js"
+  },
+  {
+    "name": "book-user",
+    "title": "Book User",
+    "fileName": "book-user.js"
+  },
+  {
+    "name": "book-x",
+    "title": "Book X",
+    "fileName": "book-x.js"
+  },
+  {
+    "name": "bookmark",
+    "title": "Bookmark",
+    "fileName": "bookmark.js"
+  },
+  {
+    "name": "bookmark-check",
+    "title": "Bookmark Check",
+    "fileName": "bookmark-check.js"
+  },
+  {
+    "name": "bookmark-minus",
+    "title": "Bookmark Minus",
+    "fileName": "bookmark-minus.js"
+  },
+  {
+    "name": "bookmark-plus",
+    "title": "Bookmark Plus",
+    "fileName": "bookmark-plus.js"
+  },
+  {
+    "name": "bookmark-x",
+    "title": "Bookmark X",
+    "fileName": "bookmark-x.js"
+  },
+  {
+    "name": "boom-box",
+    "title": "Boom Box",
+    "fileName": "boom-box.js"
+  },
+  {
+    "name": "bot",
+    "title": "Bot",
+    "fileName": "bot.js"
+  },
+  {
+    "name": "bot-message-square",
+    "title": "Bot Message Square",
+    "fileName": "bot-message-square.js"
+  },
+  {
+    "name": "bot-off",
+    "title": "Bot Off",
+    "fileName": "bot-off.js"
+  },
+  {
+    "name": "box",
+    "title": "Box",
+    "fileName": "box.js"
+  },
+  {
+    "name": "box-select",
+    "title": "Box Select",
+    "fileName": "box-select.js"
+  },
+  {
+    "name": "boxes",
+    "title": "Boxes",
+    "fileName": "boxes.js"
+  },
+  {
+    "name": "braces",
+    "title": "Braces",
+    "fileName": "braces.js"
+  },
+  {
+    "name": "brackets",
+    "title": "Brackets",
+    "fileName": "brackets.js"
+  },
+  {
+    "name": "brain",
+    "title": "Brain",
+    "fileName": "brain.js"
+  },
+  {
+    "name": "brain-circuit",
+    "title": "Brain Circuit",
+    "fileName": "brain-circuit.js"
+  },
+  {
+    "name": "brain-cog",
+    "title": "Brain Cog",
+    "fileName": "brain-cog.js"
+  },
+  {
+    "name": "brick-wall",
+    "title": "Brick Wall",
+    "fileName": "brick-wall.js"
+  },
+  {
+    "name": "briefcase",
+    "title": "Briefcase",
+    "fileName": "briefcase.js"
+  },
+  {
+    "name": "briefcase-business",
+    "title": "Briefcase Business",
+    "fileName": "briefcase-business.js"
+  },
+  {
+    "name": "briefcase-conveyor-belt",
+    "title": "Briefcase Conveyor Belt",
+    "fileName": "briefcase-conveyor-belt.js"
+  },
+  {
+    "name": "briefcase-medical",
+    "title": "Briefcase Medical",
+    "fileName": "briefcase-medical.js"
+  },
+  {
+    "name": "bring-to-front",
+    "title": "Bring To Front",
+    "fileName": "bring-to-front.js"
+  },
+  {
+    "name": "brush",
+    "title": "Brush",
+    "fileName": "brush.js"
+  },
+  {
+    "name": "bug",
+    "title": "Bug",
+    "fileName": "bug.js"
+  },
+  {
+    "name": "bug-off",
+    "title": "Bug Off",
+    "fileName": "bug-off.js"
+  },
+  {
+    "name": "bug-play",
+    "title": "Bug Play",
+    "fileName": "bug-play.js"
+  },
+  {
+    "name": "building",
+    "title": "Building",
+    "fileName": "building.js"
+  },
+  {
+    "name": "building-2",
+    "title": "Building 2",
+    "fileName": "building-2.js"
+  },
+  {
+    "name": "bus",
+    "title": "Bus",
+    "fileName": "bus.js"
+  },
+  {
+    "name": "bus-front",
+    "title": "Bus Front",
+    "fileName": "bus-front.js"
+  },
+  {
+    "name": "cable",
+    "title": "Cable",
+    "fileName": "cable.js"
+  },
+  {
+    "name": "cable-car",
+    "title": "Cable Car",
+    "fileName": "cable-car.js"
+  },
+  {
+    "name": "cake",
+    "title": "Cake",
+    "fileName": "cake.js"
+  },
+  {
+    "name": "cake-slice",
+    "title": "Cake Slice",
+    "fileName": "cake-slice.js"
+  },
+  {
+    "name": "calculator",
+    "title": "Calculator",
+    "fileName": "calculator.js"
+  },
+  {
+    "name": "calendar",
+    "title": "Calendar",
+    "fileName": "calendar.js"
+  },
+  {
+    "name": "calendar-1",
+    "title": "Calendar 1",
+    "fileName": "calendar-1.js"
+  },
+  {
+    "name": "calendar-arrow-down",
+    "title": "Calendar Arrow Down",
+    "fileName": "calendar-arrow-down.js"
+  },
+  {
+    "name": "calendar-arrow-up",
+    "title": "Calendar Arrow Up",
+    "fileName": "calendar-arrow-up.js"
+  },
+  {
+    "name": "calendar-check",
+    "title": "Calendar Check",
+    "fileName": "calendar-check.js"
+  },
+  {
+    "name": "calendar-check-2",
+    "title": "Calendar Check 2",
+    "fileName": "calendar-check-2.js"
+  },
+  {
+    "name": "calendar-clock",
+    "title": "Calendar Clock",
+    "fileName": "calendar-clock.js"
+  },
+  {
+    "name": "calendar-cog",
+    "title": "Calendar Cog",
+    "fileName": "calendar-cog.js"
+  },
+  {
+    "name": "calendar-days",
+    "title": "Calendar Days",
+    "fileName": "calendar-days.js"
+  },
+  {
+    "name": "calendar-fold",
+    "title": "Calendar Fold",
+    "fileName": "calendar-fold.js"
+  },
+  {
+    "name": "calendar-heart",
+    "title": "Calendar Heart",
+    "fileName": "calendar-heart.js"
+  },
+  {
+    "name": "calendar-minus",
+    "title": "Calendar Minus",
+    "fileName": "calendar-minus.js"
+  },
+  {
+    "name": "calendar-minus-2",
+    "title": "Calendar Minus 2",
+    "fileName": "calendar-minus-2.js"
+  },
+  {
+    "name": "calendar-off",
+    "title": "Calendar Off",
+    "fileName": "calendar-off.js"
+  },
+  {
+    "name": "calendar-plus",
+    "title": "Calendar Plus",
+    "fileName": "calendar-plus.js"
+  },
+  {
+    "name": "calendar-plus-2",
+    "title": "Calendar Plus 2",
+    "fileName": "calendar-plus-2.js"
+  },
+  {
+    "name": "calendar-range",
+    "title": "Calendar Range",
+    "fileName": "calendar-range.js"
+  },
+  {
+    "name": "calendar-search",
+    "title": "Calendar Search",
+    "fileName": "calendar-search.js"
+  },
+  {
+    "name": "calendar-sync",
+    "title": "Calendar Sync",
+    "fileName": "calendar-sync.js"
+  },
+  {
+    "name": "calendar-x",
+    "title": "Calendar X",
+    "fileName": "calendar-x.js"
+  },
+  {
+    "name": "calendar-x-2",
+    "title": "Calendar X 2",
+    "fileName": "calendar-x-2.js"
+  },
+  {
+    "name": "camera",
+    "title": "Camera",
+    "fileName": "camera.js"
+  },
+  {
+    "name": "camera-off",
+    "title": "Camera Off",
+    "fileName": "camera-off.js"
+  },
+  {
+    "name": "candlestick-chart",
+    "title": "Candlestick Chart",
+    "fileName": "candlestick-chart.js"
+  },
+  {
+    "name": "candy",
+    "title": "Candy",
+    "fileName": "candy.js"
+  },
+  {
+    "name": "candy-cane",
+    "title": "Candy Cane",
+    "fileName": "candy-cane.js"
+  },
+  {
+    "name": "candy-off",
+    "title": "Candy Off",
+    "fileName": "candy-off.js"
+  },
+  {
+    "name": "cannabis",
+    "title": "Cannabis",
+    "fileName": "cannabis.js"
+  },
+  {
+    "name": "captions",
+    "title": "Captions",
+    "fileName": "captions.js"
+  },
+  {
+    "name": "captions-off",
+    "title": "Captions Off",
+    "fileName": "captions-off.js"
+  },
+  {
+    "name": "car",
+    "title": "Car",
+    "fileName": "car.js"
+  },
+  {
+    "name": "car-front",
+    "title": "Car Front",
+    "fileName": "car-front.js"
+  },
+  {
+    "name": "car-taxi-front",
+    "title": "Car Taxi Front",
+    "fileName": "car-taxi-front.js"
+  },
+  {
+    "name": "caravan",
+    "title": "Caravan",
+    "fileName": "caravan.js"
+  },
+  {
+    "name": "carrot",
+    "title": "Carrot",
+    "fileName": "carrot.js"
+  },
+  {
+    "name": "case-lower",
+    "title": "Case Lower",
+    "fileName": "case-lower.js"
+  },
+  {
+    "name": "case-sensitive",
+    "title": "Case Sensitive",
+    "fileName": "case-sensitive.js"
+  },
+  {
+    "name": "case-upper",
+    "title": "Case Upper",
+    "fileName": "case-upper.js"
+  },
+  {
+    "name": "cassette-tape",
+    "title": "Cassette Tape",
+    "fileName": "cassette-tape.js"
+  },
+  {
+    "name": "cast",
+    "title": "Cast",
+    "fileName": "cast.js"
+  },
+  {
+    "name": "castle",
+    "title": "Castle",
+    "fileName": "castle.js"
+  },
+  {
+    "name": "cat",
+    "title": "Cat",
+    "fileName": "cat.js"
+  },
+  {
+    "name": "cctv",
+    "title": "Cctv",
+    "fileName": "cctv.js"
+  },
+  {
+    "name": "chart-area",
+    "title": "Chart Area",
+    "fileName": "chart-area.js"
+  },
+  {
+    "name": "chart-bar",
+    "title": "Chart Bar",
+    "fileName": "chart-bar.js"
+  },
+  {
+    "name": "chart-bar-big",
+    "title": "Chart Bar Big",
+    "fileName": "chart-bar-big.js"
+  },
+  {
+    "name": "chart-bar-decreasing",
+    "title": "Chart Bar Decreasing",
+    "fileName": "chart-bar-decreasing.js"
+  },
+  {
+    "name": "chart-bar-increasing",
+    "title": "Chart Bar Increasing",
+    "fileName": "chart-bar-increasing.js"
+  },
+  {
+    "name": "chart-bar-stacked",
+    "title": "Chart Bar Stacked",
+    "fileName": "chart-bar-stacked.js"
+  },
+  {
+    "name": "chart-candlestick",
+    "title": "Chart Candlestick",
+    "fileName": "chart-candlestick.js"
+  },
+  {
+    "name": "chart-column",
+    "title": "Chart Column",
+    "fileName": "chart-column.js"
+  },
+  {
+    "name": "chart-column-big",
+    "title": "Chart Column Big",
+    "fileName": "chart-column-big.js"
+  },
+  {
+    "name": "chart-column-decreasing",
+    "title": "Chart Column Decreasing",
+    "fileName": "chart-column-decreasing.js"
+  },
+  {
+    "name": "chart-column-increasing",
+    "title": "Chart Column Increasing",
+    "fileName": "chart-column-increasing.js"
+  },
+  {
+    "name": "chart-column-stacked",
+    "title": "Chart Column Stacked",
+    "fileName": "chart-column-stacked.js"
+  },
+  {
+    "name": "chart-gantt",
+    "title": "Chart Gantt",
+    "fileName": "chart-gantt.js"
+  },
+  {
+    "name": "chart-line",
+    "title": "Chart Line",
+    "fileName": "chart-line.js"
+  },
+  {
+    "name": "chart-network",
+    "title": "Chart Network",
+    "fileName": "chart-network.js"
+  },
+  {
+    "name": "chart-no-axes-column",
+    "title": "Chart No Axes Column",
+    "fileName": "chart-no-axes-column.js"
+  },
+  {
+    "name": "chart-no-axes-column-decreasing",
+    "title": "Chart No Axes Column Decreasing",
+    "fileName": "chart-no-axes-column-decreasing.js"
+  },
+  {
+    "name": "chart-no-axes-column-increasing",
+    "title": "Chart No Axes Column Increasing",
+    "fileName": "chart-no-axes-column-increasing.js"
+  },
+  {
+    "name": "chart-no-axes-combined",
+    "title": "Chart No Axes Combined",
+    "fileName": "chart-no-axes-combined.js"
+  },
+  {
+    "name": "chart-no-axes-gantt",
+    "title": "Chart No Axes Gantt",
+    "fileName": "chart-no-axes-gantt.js"
+  },
+  {
+    "name": "chart-pie",
+    "title": "Chart Pie",
+    "fileName": "chart-pie.js"
+  },
+  {
+    "name": "chart-scatter",
+    "title": "Chart Scatter",
+    "fileName": "chart-scatter.js"
+  },
+  {
+    "name": "chart-spline",
+    "title": "Chart Spline",
+    "fileName": "chart-spline.js"
+  },
+  {
+    "name": "check",
+    "title": "Check",
+    "fileName": "check.js"
+  },
+  {
+    "name": "check-check",
+    "title": "Check Check",
+    "fileName": "check-check.js"
+  },
+  {
+    "name": "check-circle",
+    "title": "Check Circle",
+    "fileName": "check-circle.js"
+  },
+  {
+    "name": "check-circle-2",
+    "title": "Check Circle 2",
+    "fileName": "check-circle-2.js"
+  },
+  {
+    "name": "check-square",
+    "title": "Check Square",
+    "fileName": "check-square.js"
+  },
+  {
+    "name": "check-square-2",
+    "title": "Check Square 2",
+    "fileName": "check-square-2.js"
+  },
+  {
+    "name": "chef-hat",
+    "title": "Chef Hat",
+    "fileName": "chef-hat.js"
+  },
+  {
+    "name": "cherry",
+    "title": "Cherry",
+    "fileName": "cherry.js"
+  },
+  {
+    "name": "chevron-down",
+    "title": "Chevron Down",
+    "fileName": "chevron-down.js"
+  },
+  {
+    "name": "chevron-down-circle",
+    "title": "Chevron Down Circle",
+    "fileName": "chevron-down-circle.js"
+  },
+  {
+    "name": "chevron-down-square",
+    "title": "Chevron Down Square",
+    "fileName": "chevron-down-square.js"
+  },
+  {
+    "name": "chevron-first",
+    "title": "Chevron First",
+    "fileName": "chevron-first.js"
+  },
+  {
+    "name": "chevron-last",
+    "title": "Chevron Last",
+    "fileName": "chevron-last.js"
+  },
+  {
+    "name": "chevron-left",
+    "title": "Chevron Left",
+    "fileName": "chevron-left.js"
+  },
+  {
+    "name": "chevron-left-circle",
+    "title": "Chevron Left Circle",
+    "fileName": "chevron-left-circle.js"
+  },
+  {
+    "name": "chevron-left-square",
+    "title": "Chevron Left Square",
+    "fileName": "chevron-left-square.js"
+  },
+  {
+    "name": "chevron-right",
+    "title": "Chevron Right",
+    "fileName": "chevron-right.js"
+  },
+  {
+    "name": "chevron-right-circle",
+    "title": "Chevron Right Circle",
+    "fileName": "chevron-right-circle.js"
+  },
+  {
+    "name": "chevron-right-square",
+    "title": "Chevron Right Square",
+    "fileName": "chevron-right-square.js"
+  },
+  {
+    "name": "chevron-up",
+    "title": "Chevron Up",
+    "fileName": "chevron-up.js"
+  },
+  {
+    "name": "chevron-up-circle",
+    "title": "Chevron Up Circle",
+    "fileName": "chevron-up-circle.js"
+  },
+  {
+    "name": "chevron-up-square",
+    "title": "Chevron Up Square",
+    "fileName": "chevron-up-square.js"
+  },
+  {
+    "name": "chevrons-down",
+    "title": "Chevrons Down",
+    "fileName": "chevrons-down.js"
+  },
+  {
+    "name": "chevrons-down-up",
+    "title": "Chevrons Down Up",
+    "fileName": "chevrons-down-up.js"
+  },
+  {
+    "name": "chevrons-left",
+    "title": "Chevrons Left",
+    "fileName": "chevrons-left.js"
+  },
+  {
+    "name": "chevrons-left-right",
+    "title": "Chevrons Left Right",
+    "fileName": "chevrons-left-right.js"
+  },
+  {
+    "name": "chevrons-left-right-ellipsis",
+    "title": "Chevrons Left Right Ellipsis",
+    "fileName": "chevrons-left-right-ellipsis.js"
+  },
+  {
+    "name": "chevrons-right",
+    "title": "Chevrons Right",
+    "fileName": "chevrons-right.js"
+  },
+  {
+    "name": "chevrons-right-left",
+    "title": "Chevrons Right Left",
+    "fileName": "chevrons-right-left.js"
+  },
+  {
+    "name": "chevrons-up",
+    "title": "Chevrons Up",
+    "fileName": "chevrons-up.js"
+  },
+  {
+    "name": "chevrons-up-down",
+    "title": "Chevrons Up Down",
+    "fileName": "chevrons-up-down.js"
+  },
+  {
+    "name": "chrome",
+    "title": "Chrome",
+    "fileName": "chrome.js"
+  },
+  {
+    "name": "church",
+    "title": "Church",
+    "fileName": "church.js"
+  },
+  {
+    "name": "cigarette",
+    "title": "Cigarette",
+    "fileName": "cigarette.js"
+  },
+  {
+    "name": "cigarette-off",
+    "title": "Cigarette Off",
+    "fileName": "cigarette-off.js"
+  },
+  {
+    "name": "circle",
+    "title": "Circle",
+    "fileName": "circle.js"
+  },
+  {
+    "name": "circle-alert",
+    "title": "Circle Alert",
+    "fileName": "circle-alert.js"
+  },
+  {
+    "name": "circle-arrow-down",
+    "title": "Circle Arrow Down",
+    "fileName": "circle-arrow-down.js"
+  },
+  {
+    "name": "circle-arrow-left",
+    "title": "Circle Arrow Left",
+    "fileName": "circle-arrow-left.js"
+  },
+  {
+    "name": "circle-arrow-out-down-left",
+    "title": "Circle Arrow Out Down Left",
+    "fileName": "circle-arrow-out-down-left.js"
+  },
+  {
+    "name": "circle-arrow-out-down-right",
+    "title": "Circle Arrow Out Down Right",
+    "fileName": "circle-arrow-out-down-right.js"
+  },
+  {
+    "name": "circle-arrow-out-up-left",
+    "title": "Circle Arrow Out Up Left",
+    "fileName": "circle-arrow-out-up-left.js"
+  },
+  {
+    "name": "circle-arrow-out-up-right",
+    "title": "Circle Arrow Out Up Right",
+    "fileName": "circle-arrow-out-up-right.js"
+  },
+  {
+    "name": "circle-arrow-right",
+    "title": "Circle Arrow Right",
+    "fileName": "circle-arrow-right.js"
+  },
+  {
+    "name": "circle-arrow-up",
+    "title": "Circle Arrow Up",
+    "fileName": "circle-arrow-up.js"
+  },
+  {
+    "name": "circle-check",
+    "title": "Circle Check",
+    "fileName": "circle-check.js"
+  },
+  {
+    "name": "circle-check-big",
+    "title": "Circle Check Big",
+    "fileName": "circle-check-big.js"
+  },
+  {
+    "name": "circle-chevron-down",
+    "title": "Circle Chevron Down",
+    "fileName": "circle-chevron-down.js"
+  },
+  {
+    "name": "circle-chevron-left",
+    "title": "Circle Chevron Left",
+    "fileName": "circle-chevron-left.js"
+  },
+  {
+    "name": "circle-chevron-right",
+    "title": "Circle Chevron Right",
+    "fileName": "circle-chevron-right.js"
+  },
+  {
+    "name": "circle-chevron-up",
+    "title": "Circle Chevron Up",
+    "fileName": "circle-chevron-up.js"
+  },
+  {
+    "name": "circle-dashed",
+    "title": "Circle Dashed",
+    "fileName": "circle-dashed.js"
+  },
+  {
+    "name": "circle-divide",
+    "title": "Circle Divide",
+    "fileName": "circle-divide.js"
+  },
+  {
+    "name": "circle-dollar-sign",
+    "title": "Circle Dollar Sign",
+    "fileName": "circle-dollar-sign.js"
+  },
+  {
+    "name": "circle-dot",
+    "title": "Circle Dot",
+    "fileName": "circle-dot.js"
+  },
+  {
+    "name": "circle-dot-dashed",
+    "title": "Circle Dot Dashed",
+    "fileName": "circle-dot-dashed.js"
+  },
+  {
+    "name": "circle-ellipsis",
+    "title": "Circle Ellipsis",
+    "fileName": "circle-ellipsis.js"
+  },
+  {
+    "name": "circle-equal",
+    "title": "Circle Equal",
+    "fileName": "circle-equal.js"
+  },
+  {
+    "name": "circle-fading-arrow-up",
+    "title": "Circle Fading Arrow Up",
+    "fileName": "circle-fading-arrow-up.js"
+  },
+  {
+    "name": "circle-fading-plus",
+    "title": "Circle Fading Plus",
+    "fileName": "circle-fading-plus.js"
+  },
+  {
+    "name": "circle-gauge",
+    "title": "Circle Gauge",
+    "fileName": "circle-gauge.js"
+  },
+  {
+    "name": "circle-help",
+    "title": "Circle Help",
+    "fileName": "circle-help.js"
+  },
+  {
+    "name": "circle-minus",
+    "title": "Circle Minus",
+    "fileName": "circle-minus.js"
+  },
+  {
+    "name": "circle-off",
+    "title": "Circle Off",
+    "fileName": "circle-off.js"
+  },
+  {
+    "name": "circle-parking",
+    "title": "Circle Parking",
+    "fileName": "circle-parking.js"
+  },
+  {
+    "name": "circle-parking-off",
+    "title": "Circle Parking Off",
+    "fileName": "circle-parking-off.js"
+  },
+  {
+    "name": "circle-pause",
+    "title": "Circle Pause",
+    "fileName": "circle-pause.js"
+  },
+  {
+    "name": "circle-percent",
+    "title": "Circle Percent",
+    "fileName": "circle-percent.js"
+  },
+  {
+    "name": "circle-play",
+    "title": "Circle Play",
+    "fileName": "circle-play.js"
+  },
+  {
+    "name": "circle-plus",
+    "title": "Circle Plus",
+    "fileName": "circle-plus.js"
+  },
+  {
+    "name": "circle-power",
+    "title": "Circle Power",
+    "fileName": "circle-power.js"
+  },
+  {
+    "name": "circle-slash",
+    "title": "Circle Slash",
+    "fileName": "circle-slash.js"
+  },
+  {
+    "name": "circle-slash-2",
+    "title": "Circle Slash 2",
+    "fileName": "circle-slash-2.js"
+  },
+  {
+    "name": "circle-slashed",
+    "title": "Circle Slashed",
+    "fileName": "circle-slashed.js"
+  },
+  {
+    "name": "circle-small",
+    "title": "Circle Small",
+    "fileName": "circle-small.js"
+  },
+  {
+    "name": "circle-stop",
+    "title": "Circle Stop",
+    "fileName": "circle-stop.js"
+  },
+  {
+    "name": "circle-user",
+    "title": "Circle User",
+    "fileName": "circle-user.js"
+  },
+  {
+    "name": "circle-user-round",
+    "title": "Circle User Round",
+    "fileName": "circle-user-round.js"
+  },
+  {
+    "name": "circle-x",
+    "title": "Circle X",
+    "fileName": "circle-x.js"
+  },
+  {
+    "name": "circuit-board",
+    "title": "Circuit Board",
+    "fileName": "circuit-board.js"
+  },
+  {
+    "name": "citrus",
+    "title": "Citrus",
+    "fileName": "citrus.js"
+  },
+  {
+    "name": "clapperboard",
+    "title": "Clapperboard",
+    "fileName": "clapperboard.js"
+  },
+  {
+    "name": "clipboard",
+    "title": "Clipboard",
+    "fileName": "clipboard.js"
+  },
+  {
+    "name": "clipboard-check",
+    "title": "Clipboard Check",
+    "fileName": "clipboard-check.js"
+  },
+  {
+    "name": "clipboard-copy",
+    "title": "Clipboard Copy",
+    "fileName": "clipboard-copy.js"
+  },
+  {
+    "name": "clipboard-edit",
+    "title": "Clipboard Edit",
+    "fileName": "clipboard-edit.js"
+  },
+  {
+    "name": "clipboard-list",
+    "title": "Clipboard List",
+    "fileName": "clipboard-list.js"
+  },
+  {
+    "name": "clipboard-minus",
+    "title": "Clipboard Minus",
+    "fileName": "clipboard-minus.js"
+  },
+  {
+    "name": "clipboard-paste",
+    "title": "Clipboard Paste",
+    "fileName": "clipboard-paste.js"
+  },
+  {
+    "name": "clipboard-pen",
+    "title": "Clipboard Pen",
+    "fileName": "clipboard-pen.js"
+  },
+  {
+    "name": "clipboard-pen-line",
+    "title": "Clipboard Pen Line",
+    "fileName": "clipboard-pen-line.js"
+  },
+  {
+    "name": "clipboard-plus",
+    "title": "Clipboard Plus",
+    "fileName": "clipboard-plus.js"
+  },
+  {
+    "name": "clipboard-signature",
+    "title": "Clipboard Signature",
+    "fileName": "clipboard-signature.js"
+  },
+  {
+    "name": "clipboard-type",
+    "title": "Clipboard Type",
+    "fileName": "clipboard-type.js"
+  },
+  {
+    "name": "clipboard-x",
+    "title": "Clipboard X",
+    "fileName": "clipboard-x.js"
+  },
+  {
+    "name": "clock",
+    "title": "Clock",
+    "fileName": "clock.js"
+  },
+  {
+    "name": "clock-1",
+    "title": "Clock 1",
+    "fileName": "clock-1.js"
+  },
+  {
+    "name": "clock-10",
+    "title": "Clock 10",
+    "fileName": "clock-10.js"
+  },
+  {
+    "name": "clock-11",
+    "title": "Clock 11",
+    "fileName": "clock-11.js"
+  },
+  {
+    "name": "clock-12",
+    "title": "Clock 12",
+    "fileName": "clock-12.js"
+  },
+  {
+    "name": "clock-2",
+    "title": "Clock 2",
+    "fileName": "clock-2.js"
+  },
+  {
+    "name": "clock-3",
+    "title": "Clock 3",
+    "fileName": "clock-3.js"
+  },
+  {
+    "name": "clock-4",
+    "title": "Clock 4",
+    "fileName": "clock-4.js"
+  },
+  {
+    "name": "clock-5",
+    "title": "Clock 5",
+    "fileName": "clock-5.js"
+  },
+  {
+    "name": "clock-6",
+    "title": "Clock 6",
+    "fileName": "clock-6.js"
+  },
+  {
+    "name": "clock-7",
+    "title": "Clock 7",
+    "fileName": "clock-7.js"
+  },
+  {
+    "name": "clock-8",
+    "title": "Clock 8",
+    "fileName": "clock-8.js"
+  },
+  {
+    "name": "clock-9",
+    "title": "Clock 9",
+    "fileName": "clock-9.js"
+  },
+  {
+    "name": "clock-alert",
+    "title": "Clock Alert",
+    "fileName": "clock-alert.js"
+  },
+  {
+    "name": "clock-arrow-down",
+    "title": "Clock Arrow Down",
+    "fileName": "clock-arrow-down.js"
+  },
+  {
+    "name": "clock-arrow-up",
+    "title": "Clock Arrow Up",
+    "fileName": "clock-arrow-up.js"
+  },
+  {
+    "name": "cloud",
+    "title": "Cloud",
+    "fileName": "cloud.js"
+  },
+  {
+    "name": "cloud-alert",
+    "title": "Cloud Alert",
+    "fileName": "cloud-alert.js"
+  },
+  {
+    "name": "cloud-cog",
+    "title": "Cloud Cog",
+    "fileName": "cloud-cog.js"
+  },
+  {
+    "name": "cloud-download",
+    "title": "Cloud Download",
+    "fileName": "cloud-download.js"
+  },
+  {
+    "name": "cloud-drizzle",
+    "title": "Cloud Drizzle",
+    "fileName": "cloud-drizzle.js"
+  },
+  {
+    "name": "cloud-fog",
+    "title": "Cloud Fog",
+    "fileName": "cloud-fog.js"
+  },
+  {
+    "name": "cloud-hail",
+    "title": "Cloud Hail",
+    "fileName": "cloud-hail.js"
+  },
+  {
+    "name": "cloud-lightning",
+    "title": "Cloud Lightning",
+    "fileName": "cloud-lightning.js"
+  },
+  {
+    "name": "cloud-moon",
+    "title": "Cloud Moon",
+    "fileName": "cloud-moon.js"
+  },
+  {
+    "name": "cloud-moon-rain",
+    "title": "Cloud Moon Rain",
+    "fileName": "cloud-moon-rain.js"
+  },
+  {
+    "name": "cloud-off",
+    "title": "Cloud Off",
+    "fileName": "cloud-off.js"
+  },
+  {
+    "name": "cloud-rain",
+    "title": "Cloud Rain",
+    "fileName": "cloud-rain.js"
+  },
+  {
+    "name": "cloud-rain-wind",
+    "title": "Cloud Rain Wind",
+    "fileName": "cloud-rain-wind.js"
+  },
+  {
+    "name": "cloud-snow",
+    "title": "Cloud Snow",
+    "fileName": "cloud-snow.js"
+  },
+  {
+    "name": "cloud-sun",
+    "title": "Cloud Sun",
+    "fileName": "cloud-sun.js"
+  },
+  {
+    "name": "cloud-sun-rain",
+    "title": "Cloud Sun Rain",
+    "fileName": "cloud-sun-rain.js"
+  },
+  {
+    "name": "cloud-upload",
+    "title": "Cloud Upload",
+    "fileName": "cloud-upload.js"
+  },
+  {
+    "name": "cloudy",
+    "title": "Cloudy",
+    "fileName": "cloudy.js"
+  },
+  {
+    "name": "clover",
+    "title": "Clover",
+    "fileName": "clover.js"
+  },
+  {
+    "name": "club",
+    "title": "Club",
+    "fileName": "club.js"
+  },
+  {
+    "name": "code",
+    "title": "Code",
+    "fileName": "code.js"
+  },
+  {
+    "name": "code-2",
+    "title": "Code 2",
+    "fileName": "code-2.js"
+  },
+  {
+    "name": "code-square",
+    "title": "Code Square",
+    "fileName": "code-square.js"
+  },
+  {
+    "name": "code-xml",
+    "title": "Code Xml",
+    "fileName": "code-xml.js"
+  },
+  {
+    "name": "codepen",
+    "title": "Codepen",
+    "fileName": "codepen.js"
+  },
+  {
+    "name": "codesandbox",
+    "title": "Codesandbox",
+    "fileName": "codesandbox.js"
+  },
+  {
+    "name": "coffee",
+    "title": "Coffee",
+    "fileName": "coffee.js"
+  },
+  {
+    "name": "cog",
+    "title": "Cog",
+    "fileName": "cog.js"
+  },
+  {
+    "name": "coins",
+    "title": "Coins",
+    "fileName": "coins.js"
+  },
+  {
+    "name": "columns",
+    "title": "Columns",
+    "fileName": "columns.js"
+  },
+  {
+    "name": "columns-2",
+    "title": "Columns 2",
+    "fileName": "columns-2.js"
+  },
+  {
+    "name": "columns-3",
+    "title": "Columns 3",
+    "fileName": "columns-3.js"
+  },
+  {
+    "name": "columns-4",
+    "title": "Columns 4",
+    "fileName": "columns-4.js"
+  },
+  {
+    "name": "combine",
+    "title": "Combine",
+    "fileName": "combine.js"
+  },
+  {
+    "name": "command",
+    "title": "Command",
+    "fileName": "command.js"
+  },
+  {
+    "name": "compass",
+    "title": "Compass",
+    "fileName": "compass.js"
+  },
+  {
+    "name": "component",
+    "title": "Component",
+    "fileName": "component.js"
+  },
+  {
+    "name": "computer",
+    "title": "Computer",
+    "fileName": "computer.js"
+  },
+  {
+    "name": "concierge-bell",
+    "title": "Concierge Bell",
+    "fileName": "concierge-bell.js"
+  },
+  {
+    "name": "cone",
+    "title": "Cone",
+    "fileName": "cone.js"
+  },
+  {
+    "name": "construction",
+    "title": "Construction",
+    "fileName": "construction.js"
+  },
+  {
+    "name": "contact",
+    "title": "Contact",
+    "fileName": "contact.js"
+  },
+  {
+    "name": "contact-2",
+    "title": "Contact 2",
+    "fileName": "contact-2.js"
+  },
+  {
+    "name": "contact-round",
+    "title": "Contact Round",
+    "fileName": "contact-round.js"
+  },
+  {
+    "name": "container",
+    "title": "Container",
+    "fileName": "container.js"
+  },
+  {
+    "name": "contrast",
+    "title": "Contrast",
+    "fileName": "contrast.js"
+  },
+  {
+    "name": "cookie",
+    "title": "Cookie",
+    "fileName": "cookie.js"
+  },
+  {
+    "name": "cooking-pot",
+    "title": "Cooking Pot",
+    "fileName": "cooking-pot.js"
+  },
+  {
+    "name": "copy",
+    "title": "Copy",
+    "fileName": "copy.js"
+  },
+  {
+    "name": "copy-check",
+    "title": "Copy Check",
+    "fileName": "copy-check.js"
+  },
+  {
+    "name": "copy-minus",
+    "title": "Copy Minus",
+    "fileName": "copy-minus.js"
+  },
+  {
+    "name": "copy-plus",
+    "title": "Copy Plus",
+    "fileName": "copy-plus.js"
+  },
+  {
+    "name": "copy-slash",
+    "title": "Copy Slash",
+    "fileName": "copy-slash.js"
+  },
+  {
+    "name": "copy-x",
+    "title": "Copy X",
+    "fileName": "copy-x.js"
+  },
+  {
+    "name": "copyleft",
+    "title": "Copyleft",
+    "fileName": "copyleft.js"
+  },
+  {
+    "name": "copyright",
+    "title": "Copyright",
+    "fileName": "copyright.js"
+  },
+  {
+    "name": "corner-down-left",
+    "title": "Corner Down Left",
+    "fileName": "corner-down-left.js"
+  },
+  {
+    "name": "corner-down-right",
+    "title": "Corner Down Right",
+    "fileName": "corner-down-right.js"
+  },
+  {
+    "name": "corner-left-down",
+    "title": "Corner Left Down",
+    "fileName": "corner-left-down.js"
+  },
+  {
+    "name": "corner-left-up",
+    "title": "Corner Left Up",
+    "fileName": "corner-left-up.js"
+  },
+  {
+    "name": "corner-right-down",
+    "title": "Corner Right Down",
+    "fileName": "corner-right-down.js"
+  },
+  {
+    "name": "corner-right-up",
+    "title": "Corner Right Up",
+    "fileName": "corner-right-up.js"
+  },
+  {
+    "name": "corner-up-left",
+    "title": "Corner Up Left",
+    "fileName": "corner-up-left.js"
+  },
+  {
+    "name": "corner-up-right",
+    "title": "Corner Up Right",
+    "fileName": "corner-up-right.js"
+  },
+  {
+    "name": "cpu",
+    "title": "Cpu",
+    "fileName": "cpu.js"
+  },
+  {
+    "name": "creative-commons",
+    "title": "Creative Commons",
+    "fileName": "creative-commons.js"
+  },
+  {
+    "name": "credit-card",
+    "title": "Credit Card",
+    "fileName": "credit-card.js"
+  },
+  {
+    "name": "croissant",
+    "title": "Croissant",
+    "fileName": "croissant.js"
+  },
+  {
+    "name": "crop",
+    "title": "Crop",
+    "fileName": "crop.js"
+  },
+  {
+    "name": "cross",
+    "title": "Cross",
+    "fileName": "cross.js"
+  },
+  {
+    "name": "crosshair",
+    "title": "Crosshair",
+    "fileName": "crosshair.js"
+  },
+  {
+    "name": "crown",
+    "title": "Crown",
+    "fileName": "crown.js"
+  },
+  {
+    "name": "cuboid",
+    "title": "Cuboid",
+    "fileName": "cuboid.js"
+  },
+  {
+    "name": "cup-soda",
+    "title": "Cup Soda",
+    "fileName": "cup-soda.js"
+  },
+  {
+    "name": "curly-braces",
+    "title": "Curly Braces",
+    "fileName": "curly-braces.js"
+  },
+  {
+    "name": "currency",
+    "title": "Currency",
+    "fileName": "currency.js"
+  },
+  {
+    "name": "cylinder",
+    "title": "Cylinder",
+    "fileName": "cylinder.js"
+  },
+  {
+    "name": "dam",
+    "title": "Dam",
+    "fileName": "dam.js"
+  },
+  {
+    "name": "database",
+    "title": "Database",
+    "fileName": "database.js"
+  },
+  {
+    "name": "database-backup",
+    "title": "Database Backup",
+    "fileName": "database-backup.js"
+  },
+  {
+    "name": "database-zap",
+    "title": "Database Zap",
+    "fileName": "database-zap.js"
+  },
+  {
+    "name": "delete",
+    "title": "Delete",
+    "fileName": "delete.js"
+  },
+  {
+    "name": "dessert",
+    "title": "Dessert",
+    "fileName": "dessert.js"
+  },
+  {
+    "name": "diameter",
+    "title": "Diameter",
+    "fileName": "diameter.js"
+  },
+  {
+    "name": "diamond",
+    "title": "Diamond",
+    "fileName": "diamond.js"
+  },
+  {
+    "name": "diamond-minus",
+    "title": "Diamond Minus",
+    "fileName": "diamond-minus.js"
+  },
+  {
+    "name": "diamond-percent",
+    "title": "Diamond Percent",
+    "fileName": "diamond-percent.js"
+  },
+  {
+    "name": "diamond-plus",
+    "title": "Diamond Plus",
+    "fileName": "diamond-plus.js"
+  },
+  {
+    "name": "dice-1",
+    "title": "Dice 1",
+    "fileName": "dice-1.js"
+  },
+  {
+    "name": "dice-2",
+    "title": "Dice 2",
+    "fileName": "dice-2.js"
+  },
+  {
+    "name": "dice-3",
+    "title": "Dice 3",
+    "fileName": "dice-3.js"
+  },
+  {
+    "name": "dice-4",
+    "title": "Dice 4",
+    "fileName": "dice-4.js"
+  },
+  {
+    "name": "dice-5",
+    "title": "Dice 5",
+    "fileName": "dice-5.js"
+  },
+  {
+    "name": "dice-6",
+    "title": "Dice 6",
+    "fileName": "dice-6.js"
+  },
+  {
+    "name": "dices",
+    "title": "Dices",
+    "fileName": "dices.js"
+  },
+  {
+    "name": "diff",
+    "title": "Diff",
+    "fileName": "diff.js"
+  },
+  {
+    "name": "disc",
+    "title": "Disc",
+    "fileName": "disc.js"
+  },
+  {
+    "name": "disc-2",
+    "title": "Disc 2",
+    "fileName": "disc-2.js"
+  },
+  {
+    "name": "disc-3",
+    "title": "Disc 3",
+    "fileName": "disc-3.js"
+  },
+  {
+    "name": "disc-album",
+    "title": "Disc Album",
+    "fileName": "disc-album.js"
+  },
+  {
+    "name": "divide",
+    "title": "Divide",
+    "fileName": "divide.js"
+  },
+  {
+    "name": "divide-circle",
+    "title": "Divide Circle",
+    "fileName": "divide-circle.js"
+  },
+  {
+    "name": "divide-square",
+    "title": "Divide Square",
+    "fileName": "divide-square.js"
+  },
+  {
+    "name": "dna",
+    "title": "Dna",
+    "fileName": "dna.js"
+  },
+  {
+    "name": "dna-off",
+    "title": "Dna Off",
+    "fileName": "dna-off.js"
+  },
+  {
+    "name": "dock",
+    "title": "Dock",
+    "fileName": "dock.js"
+  },
+  {
+    "name": "dog",
+    "title": "Dog",
+    "fileName": "dog.js"
+  },
+  {
+    "name": "dollar-sign",
+    "title": "Dollar Sign",
+    "fileName": "dollar-sign.js"
+  },
+  {
+    "name": "donut",
+    "title": "Donut",
+    "fileName": "donut.js"
+  },
+  {
+    "name": "door-closed",
+    "title": "Door Closed",
+    "fileName": "door-closed.js"
+  },
+  {
+    "name": "door-open",
+    "title": "Door Open",
+    "fileName": "door-open.js"
+  },
+  {
+    "name": "dot",
+    "title": "Dot",
+    "fileName": "dot.js"
+  },
+  {
+    "name": "dot-square",
+    "title": "Dot Square",
+    "fileName": "dot-square.js"
+  },
+  {
+    "name": "download",
+    "title": "Download",
+    "fileName": "download.js"
+  },
+  {
+    "name": "download-cloud",
+    "title": "Download Cloud",
+    "fileName": "download-cloud.js"
+  },
+  {
+    "name": "drafting-compass",
+    "title": "Drafting Compass",
+    "fileName": "drafting-compass.js"
+  },
+  {
+    "name": "drama",
+    "title": "Drama",
+    "fileName": "drama.js"
+  },
+  {
+    "name": "dribbble",
+    "title": "Dribbble",
+    "fileName": "dribbble.js"
+  },
+  {
+    "name": "drill",
+    "title": "Drill",
+    "fileName": "drill.js"
+  },
+  {
+    "name": "droplet",
+    "title": "Droplet",
+    "fileName": "droplet.js"
+  },
+  {
+    "name": "droplet-off",
+    "title": "Droplet Off",
+    "fileName": "droplet-off.js"
+  },
+  {
+    "name": "droplets",
+    "title": "Droplets",
+    "fileName": "droplets.js"
+  },
+  {
+    "name": "drum",
+    "title": "Drum",
+    "fileName": "drum.js"
+  },
+  {
+    "name": "drumstick",
+    "title": "Drumstick",
+    "fileName": "drumstick.js"
+  },
+  {
+    "name": "dumbbell",
+    "title": "Dumbbell",
+    "fileName": "dumbbell.js"
+  },
+  {
+    "name": "ear",
+    "title": "Ear",
+    "fileName": "ear.js"
+  },
+  {
+    "name": "ear-off",
+    "title": "Ear Off",
+    "fileName": "ear-off.js"
+  },
+  {
+    "name": "earth",
+    "title": "Earth",
+    "fileName": "earth.js"
+  },
+  {
+    "name": "earth-lock",
+    "title": "Earth Lock",
+    "fileName": "earth-lock.js"
+  },
+  {
+    "name": "eclipse",
+    "title": "Eclipse",
+    "fileName": "eclipse.js"
+  },
+  {
+    "name": "edit",
+    "title": "Edit",
+    "fileName": "edit.js"
+  },
+  {
+    "name": "edit-2",
+    "title": "Edit 2",
+    "fileName": "edit-2.js"
+  },
+  {
+    "name": "edit-3",
+    "title": "Edit 3",
+    "fileName": "edit-3.js"
+  },
+  {
+    "name": "egg",
+    "title": "Egg",
+    "fileName": "egg.js"
+  },
+  {
+    "name": "egg-fried",
+    "title": "Egg Fried",
+    "fileName": "egg-fried.js"
+  },
+  {
+    "name": "egg-off",
+    "title": "Egg Off",
+    "fileName": "egg-off.js"
+  },
+  {
+    "name": "ellipsis",
+    "title": "Ellipsis",
+    "fileName": "ellipsis.js"
+  },
+  {
+    "name": "ellipsis-vertical",
+    "title": "Ellipsis Vertical",
+    "fileName": "ellipsis-vertical.js"
+  },
+  {
+    "name": "equal",
+    "title": "Equal",
+    "fileName": "equal.js"
+  },
+  {
+    "name": "equal-approximately",
+    "title": "Equal Approximately",
+    "fileName": "equal-approximately.js"
+  },
+  {
+    "name": "equal-not",
+    "title": "Equal Not",
+    "fileName": "equal-not.js"
+  },
+  {
+    "name": "equal-square",
+    "title": "Equal Square",
+    "fileName": "equal-square.js"
+  },
+  {
+    "name": "eraser",
+    "title": "Eraser",
+    "fileName": "eraser.js"
+  },
+  {
+    "name": "ethernet-port",
+    "title": "Ethernet Port",
+    "fileName": "ethernet-port.js"
+  },
+  {
+    "name": "euro",
+    "title": "Euro",
+    "fileName": "euro.js"
+  },
+  {
+    "name": "expand",
+    "title": "Expand",
+    "fileName": "expand.js"
+  },
+  {
+    "name": "external-link",
+    "title": "External Link",
+    "fileName": "external-link.js"
+  },
+  {
+    "name": "eye",
+    "title": "Eye",
+    "fileName": "eye.js"
+  },
+  {
+    "name": "eye-closed",
+    "title": "Eye Closed",
+    "fileName": "eye-closed.js"
+  },
+  {
+    "name": "eye-off",
+    "title": "Eye Off",
+    "fileName": "eye-off.js"
+  },
+  {
+    "name": "facebook",
+    "title": "Facebook",
+    "fileName": "facebook.js"
+  },
+  {
+    "name": "factory",
+    "title": "Factory",
+    "fileName": "factory.js"
+  },
+  {
+    "name": "fan",
+    "title": "Fan",
+    "fileName": "fan.js"
+  },
+  {
+    "name": "fast-forward",
+    "title": "Fast Forward",
+    "fileName": "fast-forward.js"
+  },
+  {
+    "name": "feather",
+    "title": "Feather",
+    "fileName": "feather.js"
+  },
+  {
+    "name": "fence",
+    "title": "Fence",
+    "fileName": "fence.js"
+  },
+  {
+    "name": "ferris-wheel",
+    "title": "Ferris Wheel",
+    "fileName": "ferris-wheel.js"
+  },
+  {
+    "name": "figma",
+    "title": "Figma",
+    "fileName": "figma.js"
+  },
+  {
+    "name": "file",
+    "title": "File",
+    "fileName": "file.js"
+  },
+  {
+    "name": "file-archive",
+    "title": "File Archive",
+    "fileName": "file-archive.js"
+  },
+  {
+    "name": "file-audio",
+    "title": "File Audio",
+    "fileName": "file-audio.js"
+  },
+  {
+    "name": "file-audio-2",
+    "title": "File Audio 2",
+    "fileName": "file-audio-2.js"
+  },
+  {
+    "name": "file-axis-3-d",
+    "title": "File Axis 3 D",
+    "fileName": "file-axis-3-d.js"
+  },
+  {
+    "name": "file-axis-3d",
+    "title": "File Axis 3d",
+    "fileName": "file-axis-3d.js"
+  },
+  {
+    "name": "file-badge",
+    "title": "File Badge",
+    "fileName": "file-badge.js"
+  },
+  {
+    "name": "file-badge-2",
+    "title": "File Badge 2",
+    "fileName": "file-badge-2.js"
+  },
+  {
+    "name": "file-bar-chart",
+    "title": "File Bar Chart",
+    "fileName": "file-bar-chart.js"
+  },
+  {
+    "name": "file-bar-chart-2",
+    "title": "File Bar Chart 2",
+    "fileName": "file-bar-chart-2.js"
+  },
+  {
+    "name": "file-box",
+    "title": "File Box",
+    "fileName": "file-box.js"
+  },
+  {
+    "name": "file-chart-column",
+    "title": "File Chart Column",
+    "fileName": "file-chart-column.js"
+  },
+  {
+    "name": "file-chart-column-increasing",
+    "title": "File Chart Column Increasing",
+    "fileName": "file-chart-column-increasing.js"
+  },
+  {
+    "name": "file-chart-line",
+    "title": "File Chart Line",
+    "fileName": "file-chart-line.js"
+  },
+  {
+    "name": "file-chart-pie",
+    "title": "File Chart Pie",
+    "fileName": "file-chart-pie.js"
+  },
+  {
+    "name": "file-check",
+    "title": "File Check",
+    "fileName": "file-check.js"
+  },
+  {
+    "name": "file-check-2",
+    "title": "File Check 2",
+    "fileName": "file-check-2.js"
+  },
+  {
+    "name": "file-clock",
+    "title": "File Clock",
+    "fileName": "file-clock.js"
+  },
+  {
+    "name": "file-code",
+    "title": "File Code",
+    "fileName": "file-code.js"
+  },
+  {
+    "name": "file-code-2",
+    "title": "File Code 2",
+    "fileName": "file-code-2.js"
+  },
+  {
+    "name": "file-cog",
+    "title": "File Cog",
+    "fileName": "file-cog.js"
+  },
+  {
+    "name": "file-cog-2",
+    "title": "File Cog 2",
+    "fileName": "file-cog-2.js"
+  },
+  {
+    "name": "file-diff",
+    "title": "File Diff",
+    "fileName": "file-diff.js"
+  },
+  {
+    "name": "file-digit",
+    "title": "File Digit",
+    "fileName": "file-digit.js"
+  },
+  {
+    "name": "file-down",
+    "title": "File Down",
+    "fileName": "file-down.js"
+  },
+  {
+    "name": "file-edit",
+    "title": "File Edit",
+    "fileName": "file-edit.js"
+  },
+  {
+    "name": "file-heart",
+    "title": "File Heart",
+    "fileName": "file-heart.js"
+  },
+  {
+    "name": "file-image",
+    "title": "File Image",
+    "fileName": "file-image.js"
+  },
+  {
+    "name": "file-input",
+    "title": "File Input",
+    "fileName": "file-input.js"
+  },
+  {
+    "name": "file-json",
+    "title": "File Json",
+    "fileName": "file-json.js"
+  },
+  {
+    "name": "file-json-2",
+    "title": "File Json 2",
+    "fileName": "file-json-2.js"
+  },
+  {
+    "name": "file-key",
+    "title": "File Key",
+    "fileName": "file-key.js"
+  },
+  {
+    "name": "file-key-2",
+    "title": "File Key 2",
+    "fileName": "file-key-2.js"
+  },
+  {
+    "name": "file-line-chart",
+    "title": "File Line Chart",
+    "fileName": "file-line-chart.js"
+  },
+  {
+    "name": "file-lock",
+    "title": "File Lock",
+    "fileName": "file-lock.js"
+  },
+  {
+    "name": "file-lock-2",
+    "title": "File Lock 2",
+    "fileName": "file-lock-2.js"
+  },
+  {
+    "name": "file-minus",
+    "title": "File Minus",
+    "fileName": "file-minus.js"
+  },
+  {
+    "name": "file-minus-2",
+    "title": "File Minus 2",
+    "fileName": "file-minus-2.js"
+  },
+  {
+    "name": "file-music",
+    "title": "File Music",
+    "fileName": "file-music.js"
+  },
+  {
+    "name": "file-output",
+    "title": "File Output",
+    "fileName": "file-output.js"
+  },
+  {
+    "name": "file-pen",
+    "title": "File Pen",
+    "fileName": "file-pen.js"
+  },
+  {
+    "name": "file-pen-line",
+    "title": "File Pen Line",
+    "fileName": "file-pen-line.js"
+  },
+  {
+    "name": "file-pie-chart",
+    "title": "File Pie Chart",
+    "fileName": "file-pie-chart.js"
+  },
+  {
+    "name": "file-plus",
+    "title": "File Plus",
+    "fileName": "file-plus.js"
+  },
+  {
+    "name": "file-plus-2",
+    "title": "File Plus 2",
+    "fileName": "file-plus-2.js"
+  },
+  {
+    "name": "file-question",
+    "title": "File Question",
+    "fileName": "file-question.js"
+  },
+  {
+    "name": "file-scan",
+    "title": "File Scan",
+    "fileName": "file-scan.js"
+  },
+  {
+    "name": "file-search",
+    "title": "File Search",
+    "fileName": "file-search.js"
+  },
+  {
+    "name": "file-search-2",
+    "title": "File Search 2",
+    "fileName": "file-search-2.js"
+  },
+  {
+    "name": "file-signature",
+    "title": "File Signature",
+    "fileName": "file-signature.js"
+  },
+  {
+    "name": "file-sliders",
+    "title": "File Sliders",
+    "fileName": "file-sliders.js"
+  },
+  {
+    "name": "file-spreadsheet",
+    "title": "File Spreadsheet",
+    "fileName": "file-spreadsheet.js"
+  },
+  {
+    "name": "file-stack",
+    "title": "File Stack",
+    "fileName": "file-stack.js"
+  },
+  {
+    "name": "file-symlink",
+    "title": "File Symlink",
+    "fileName": "file-symlink.js"
+  },
+  {
+    "name": "file-terminal",
+    "title": "File Terminal",
+    "fileName": "file-terminal.js"
+  },
+  {
+    "name": "file-text",
+    "title": "File Text",
+    "fileName": "file-text.js"
+  },
+  {
+    "name": "file-type",
+    "title": "File Type",
+    "fileName": "file-type.js"
+  },
+  {
+    "name": "file-type-2",
+    "title": "File Type 2",
+    "fileName": "file-type-2.js"
+  },
+  {
+    "name": "file-up",
+    "title": "File Up",
+    "fileName": "file-up.js"
+  },
+  {
+    "name": "file-user",
+    "title": "File User",
+    "fileName": "file-user.js"
+  },
+  {
+    "name": "file-video",
+    "title": "File Video",
+    "fileName": "file-video.js"
+  },
+  {
+    "name": "file-video-2",
+    "title": "File Video 2",
+    "fileName": "file-video-2.js"
+  },
+  {
+    "name": "file-volume",
+    "title": "File Volume",
+    "fileName": "file-volume.js"
+  },
+  {
+    "name": "file-volume-2",
+    "title": "File Volume 2",
+    "fileName": "file-volume-2.js"
+  },
+  {
+    "name": "file-warning",
+    "title": "File Warning",
+    "fileName": "file-warning.js"
+  },
+  {
+    "name": "file-x",
+    "title": "File X",
+    "fileName": "file-x.js"
+  },
+  {
+    "name": "file-x-2",
+    "title": "File X 2",
+    "fileName": "file-x-2.js"
+  },
+  {
+    "name": "files",
+    "title": "Files",
+    "fileName": "files.js"
+  },
+  {
+    "name": "film",
+    "title": "Film",
+    "fileName": "film.js"
+  },
+  {
+    "name": "filter",
+    "title": "Filter",
+    "fileName": "filter.js"
+  },
+  {
+    "name": "filter-x",
+    "title": "Filter X",
+    "fileName": "filter-x.js"
+  },
+  {
+    "name": "fingerprint",
+    "title": "Fingerprint",
+    "fileName": "fingerprint.js"
+  },
+  {
+    "name": "fire-extinguisher",
+    "title": "Fire Extinguisher",
+    "fileName": "fire-extinguisher.js"
+  },
+  {
+    "name": "fish",
+    "title": "Fish",
+    "fileName": "fish.js"
+  },
+  {
+    "name": "fish-off",
+    "title": "Fish Off",
+    "fileName": "fish-off.js"
+  },
+  {
+    "name": "fish-symbol",
+    "title": "Fish Symbol",
+    "fileName": "fish-symbol.js"
+  },
+  {
+    "name": "flag",
+    "title": "Flag",
+    "fileName": "flag.js"
+  },
+  {
+    "name": "flag-off",
+    "title": "Flag Off",
+    "fileName": "flag-off.js"
+  },
+  {
+    "name": "flag-triangle-left",
+    "title": "Flag Triangle Left",
+    "fileName": "flag-triangle-left.js"
+  },
+  {
+    "name": "flag-triangle-right",
+    "title": "Flag Triangle Right",
+    "fileName": "flag-triangle-right.js"
+  },
+  {
+    "name": "flame",
+    "title": "Flame",
+    "fileName": "flame.js"
+  },
+  {
+    "name": "flame-kindling",
+    "title": "Flame Kindling",
+    "fileName": "flame-kindling.js"
+  },
+  {
+    "name": "flashlight",
+    "title": "Flashlight",
+    "fileName": "flashlight.js"
+  },
+  {
+    "name": "flashlight-off",
+    "title": "Flashlight Off",
+    "fileName": "flashlight-off.js"
+  },
+  {
+    "name": "flask-conical",
+    "title": "Flask Conical",
+    "fileName": "flask-conical.js"
+  },
+  {
+    "name": "flask-conical-off",
+    "title": "Flask Conical Off",
+    "fileName": "flask-conical-off.js"
+  },
+  {
+    "name": "flask-round",
+    "title": "Flask Round",
+    "fileName": "flask-round.js"
+  },
+  {
+    "name": "flip-horizontal",
+    "title": "Flip Horizontal",
+    "fileName": "flip-horizontal.js"
+  },
+  {
+    "name": "flip-horizontal-2",
+    "title": "Flip Horizontal 2",
+    "fileName": "flip-horizontal-2.js"
+  },
+  {
+    "name": "flip-vertical",
+    "title": "Flip Vertical",
+    "fileName": "flip-vertical.js"
+  },
+  {
+    "name": "flip-vertical-2",
+    "title": "Flip Vertical 2",
+    "fileName": "flip-vertical-2.js"
+  },
+  {
+    "name": "flower",
+    "title": "Flower",
+    "fileName": "flower.js"
+  },
+  {
+    "name": "flower-2",
+    "title": "Flower 2",
+    "fileName": "flower-2.js"
+  },
+  {
+    "name": "focus",
+    "title": "Focus",
+    "fileName": "focus.js"
+  },
+  {
+    "name": "fold-horizontal",
+    "title": "Fold Horizontal",
+    "fileName": "fold-horizontal.js"
+  },
+  {
+    "name": "fold-vertical",
+    "title": "Fold Vertical",
+    "fileName": "fold-vertical.js"
+  },
+  {
+    "name": "folder",
+    "title": "Folder",
+    "fileName": "folder.js"
+  },
+  {
+    "name": "folder-archive",
+    "title": "Folder Archive",
+    "fileName": "folder-archive.js"
+  },
+  {
+    "name": "folder-check",
+    "title": "Folder Check",
+    "fileName": "folder-check.js"
+  },
+  {
+    "name": "folder-clock",
+    "title": "Folder Clock",
+    "fileName": "folder-clock.js"
+  },
+  {
+    "name": "folder-closed",
+    "title": "Folder Closed",
+    "fileName": "folder-closed.js"
+  },
+  {
+    "name": "folder-code",
+    "title": "Folder Code",
+    "fileName": "folder-code.js"
+  },
+  {
+    "name": "folder-cog",
+    "title": "Folder Cog",
+    "fileName": "folder-cog.js"
+  },
+  {
+    "name": "folder-cog-2",
+    "title": "Folder Cog 2",
+    "fileName": "folder-cog-2.js"
+  },
+  {
+    "name": "folder-dot",
+    "title": "Folder Dot",
+    "fileName": "folder-dot.js"
+  },
+  {
+    "name": "folder-down",
+    "title": "Folder Down",
+    "fileName": "folder-down.js"
+  },
+  {
+    "name": "folder-edit",
+    "title": "Folder Edit",
+    "fileName": "folder-edit.js"
+  },
+  {
+    "name": "folder-git",
+    "title": "Folder Git",
+    "fileName": "folder-git.js"
+  },
+  {
+    "name": "folder-git-2",
+    "title": "Folder Git 2",
+    "fileName": "folder-git-2.js"
+  },
+  {
+    "name": "folder-heart",
+    "title": "Folder Heart",
+    "fileName": "folder-heart.js"
+  },
+  {
+    "name": "folder-input",
+    "title": "Folder Input",
+    "fileName": "folder-input.js"
+  },
+  {
+    "name": "folder-kanban",
+    "title": "Folder Kanban",
+    "fileName": "folder-kanban.js"
+  },
+  {
+    "name": "folder-key",
+    "title": "Folder Key",
+    "fileName": "folder-key.js"
+  },
+  {
+    "name": "folder-lock",
+    "title": "Folder Lock",
+    "fileName": "folder-lock.js"
+  },
+  {
+    "name": "folder-minus",
+    "title": "Folder Minus",
+    "fileName": "folder-minus.js"
+  },
+  {
+    "name": "folder-open",
+    "title": "Folder Open",
+    "fileName": "folder-open.js"
+  },
+  {
+    "name": "folder-open-dot",
+    "title": "Folder Open Dot",
+    "fileName": "folder-open-dot.js"
+  },
+  {
+    "name": "folder-output",
+    "title": "Folder Output",
+    "fileName": "folder-output.js"
+  },
+  {
+    "name": "folder-pen",
+    "title": "Folder Pen",
+    "fileName": "folder-pen.js"
+  },
+  {
+    "name": "folder-plus",
+    "title": "Folder Plus",
+    "fileName": "folder-plus.js"
+  },
+  {
+    "name": "folder-root",
+    "title": "Folder Root",
+    "fileName": "folder-root.js"
+  },
+  {
+    "name": "folder-search",
+    "title": "Folder Search",
+    "fileName": "folder-search.js"
+  },
+  {
+    "name": "folder-search-2",
+    "title": "Folder Search 2",
+    "fileName": "folder-search-2.js"
+  },
+  {
+    "name": "folder-symlink",
+    "title": "Folder Symlink",
+    "fileName": "folder-symlink.js"
+  },
+  {
+    "name": "folder-sync",
+    "title": "Folder Sync",
+    "fileName": "folder-sync.js"
+  },
+  {
+    "name": "folder-tree",
+    "title": "Folder Tree",
+    "fileName": "folder-tree.js"
+  },
+  {
+    "name": "folder-up",
+    "title": "Folder Up",
+    "fileName": "folder-up.js"
+  },
+  {
+    "name": "folder-x",
+    "title": "Folder X",
+    "fileName": "folder-x.js"
+  },
+  {
+    "name": "folders",
+    "title": "Folders",
+    "fileName": "folders.js"
+  },
+  {
+    "name": "footprints",
+    "title": "Footprints",
+    "fileName": "footprints.js"
+  },
+  {
+    "name": "fork-knife",
+    "title": "Fork Knife",
+    "fileName": "fork-knife.js"
+  },
+  {
+    "name": "fork-knife-crossed",
+    "title": "Fork Knife Crossed",
+    "fileName": "fork-knife-crossed.js"
+  },
+  {
+    "name": "forklift",
+    "title": "Forklift",
+    "fileName": "forklift.js"
+  },
+  {
+    "name": "form-input",
+    "title": "Form Input",
+    "fileName": "form-input.js"
+  },
+  {
+    "name": "forward",
+    "title": "Forward",
+    "fileName": "forward.js"
+  },
+  {
+    "name": "frame",
+    "title": "Frame",
+    "fileName": "frame.js"
+  },
+  {
+    "name": "framer",
+    "title": "Framer",
+    "fileName": "framer.js"
+  },
+  {
+    "name": "frown",
+    "title": "Frown",
+    "fileName": "frown.js"
+  },
+  {
+    "name": "fuel",
+    "title": "Fuel",
+    "fileName": "fuel.js"
+  },
+  {
+    "name": "fullscreen",
+    "title": "Fullscreen",
+    "fileName": "fullscreen.js"
+  },
+  {
+    "name": "function-square",
+    "title": "Function Square",
+    "fileName": "function-square.js"
+  },
+  {
+    "name": "gallery-horizontal",
+    "title": "Gallery Horizontal",
+    "fileName": "gallery-horizontal.js"
+  },
+  {
+    "name": "gallery-horizontal-end",
+    "title": "Gallery Horizontal End",
+    "fileName": "gallery-horizontal-end.js"
+  },
+  {
+    "name": "gallery-thumbnails",
+    "title": "Gallery Thumbnails",
+    "fileName": "gallery-thumbnails.js"
+  },
+  {
+    "name": "gallery-vertical",
+    "title": "Gallery Vertical",
+    "fileName": "gallery-vertical.js"
+  },
+  {
+    "name": "gallery-vertical-end",
+    "title": "Gallery Vertical End",
+    "fileName": "gallery-vertical-end.js"
+  },
+  {
+    "name": "gamepad",
+    "title": "Gamepad",
+    "fileName": "gamepad.js"
+  },
+  {
+    "name": "gamepad-2",
+    "title": "Gamepad 2",
+    "fileName": "gamepad-2.js"
+  },
+  {
+    "name": "gantt-chart",
+    "title": "Gantt Chart",
+    "fileName": "gantt-chart.js"
+  },
+  {
+    "name": "gantt-chart-square",
+    "title": "Gantt Chart Square",
+    "fileName": "gantt-chart-square.js"
+  },
+  {
+    "name": "gauge",
+    "title": "Gauge",
+    "fileName": "gauge.js"
+  },
+  {
+    "name": "gauge-circle",
+    "title": "Gauge Circle",
+    "fileName": "gauge-circle.js"
+  },
+  {
+    "name": "gavel",
+    "title": "Gavel",
+    "fileName": "gavel.js"
+  },
+  {
+    "name": "gem",
+    "title": "Gem",
+    "fileName": "gem.js"
+  },
+  {
+    "name": "ghost",
+    "title": "Ghost",
+    "fileName": "ghost.js"
+  },
+  {
+    "name": "gift",
+    "title": "Gift",
+    "fileName": "gift.js"
+  },
+  {
+    "name": "git-branch",
+    "title": "Git Branch",
+    "fileName": "git-branch.js"
+  },
+  {
+    "name": "git-branch-plus",
+    "title": "Git Branch Plus",
+    "fileName": "git-branch-plus.js"
+  },
+  {
+    "name": "git-commit",
+    "title": "Git Commit",
+    "fileName": "git-commit.js"
+  },
+  {
+    "name": "git-commit-horizontal",
+    "title": "Git Commit Horizontal",
+    "fileName": "git-commit-horizontal.js"
+  },
+  {
+    "name": "git-commit-vertical",
+    "title": "Git Commit Vertical",
+    "fileName": "git-commit-vertical.js"
+  },
+  {
+    "name": "git-compare",
+    "title": "Git Compare",
+    "fileName": "git-compare.js"
+  },
+  {
+    "name": "git-compare-arrows",
+    "title": "Git Compare Arrows",
+    "fileName": "git-compare-arrows.js"
+  },
+  {
+    "name": "git-fork",
+    "title": "Git Fork",
+    "fileName": "git-fork.js"
+  },
+  {
+    "name": "git-graph",
+    "title": "Git Graph",
+    "fileName": "git-graph.js"
+  },
+  {
+    "name": "git-merge",
+    "title": "Git Merge",
+    "fileName": "git-merge.js"
+  },
+  {
+    "name": "git-pull-request",
+    "title": "Git Pull Request",
+    "fileName": "git-pull-request.js"
+  },
+  {
+    "name": "git-pull-request-arrow",
+    "title": "Git Pull Request Arrow",
+    "fileName": "git-pull-request-arrow.js"
+  },
+  {
+    "name": "git-pull-request-closed",
+    "title": "Git Pull Request Closed",
+    "fileName": "git-pull-request-closed.js"
+  },
+  {
+    "name": "git-pull-request-create",
+    "title": "Git Pull Request Create",
+    "fileName": "git-pull-request-create.js"
+  },
+  {
+    "name": "git-pull-request-create-arrow",
+    "title": "Git Pull Request Create Arrow",
+    "fileName": "git-pull-request-create-arrow.js"
+  },
+  {
+    "name": "git-pull-request-draft",
+    "title": "Git Pull Request Draft",
+    "fileName": "git-pull-request-draft.js"
+  },
+  {
+    "name": "github",
+    "title": "Github",
+    "fileName": "github.js"
+  },
+  {
+    "name": "gitlab",
+    "title": "Gitlab",
+    "fileName": "gitlab.js"
+  },
+  {
+    "name": "glass-water",
+    "title": "Glass Water",
+    "fileName": "glass-water.js"
+  },
+  {
+    "name": "glasses",
+    "title": "Glasses",
+    "fileName": "glasses.js"
+  },
+  {
+    "name": "globe",
+    "title": "Globe",
+    "fileName": "globe.js"
+  },
+  {
+    "name": "globe-2",
+    "title": "Globe 2",
+    "fileName": "globe-2.js"
+  },
+  {
+    "name": "globe-lock",
+    "title": "Globe Lock",
+    "fileName": "globe-lock.js"
+  },
+  {
+    "name": "goal",
+    "title": "Goal",
+    "fileName": "goal.js"
+  },
+  {
+    "name": "grab",
+    "title": "Grab",
+    "fileName": "grab.js"
+  },
+  {
+    "name": "graduation-cap",
+    "title": "Graduation Cap",
+    "fileName": "graduation-cap.js"
+  },
+  {
+    "name": "grape",
+    "title": "Grape",
+    "fileName": "grape.js"
+  },
+  {
+    "name": "grid",
+    "title": "Grid",
+    "fileName": "grid.js"
+  },
+  {
+    "name": "grid-2-x-2",
+    "title": "Grid 2 X 2",
+    "fileName": "grid-2-x-2.js"
+  },
+  {
+    "name": "grid-2-x-2-check",
+    "title": "Grid 2 X 2 Check",
+    "fileName": "grid-2-x-2-check.js"
+  },
+  {
+    "name": "grid-2-x-2-plus",
+    "title": "Grid 2 X 2 Plus",
+    "fileName": "grid-2-x-2-plus.js"
+  },
+  {
+    "name": "grid-2-x-2-x",
+    "title": "Grid 2 X 2 X",
+    "fileName": "grid-2-x-2-x.js"
+  },
+  {
+    "name": "grid-2x2",
+    "title": "Grid 2x2",
+    "fileName": "grid-2x2.js"
+  },
+  {
+    "name": "grid-2x2-check",
+    "title": "Grid 2x2 Check",
+    "fileName": "grid-2x2-check.js"
+  },
+  {
+    "name": "grid-2x2-plus",
+    "title": "Grid 2x2 Plus",
+    "fileName": "grid-2x2-plus.js"
+  },
+  {
+    "name": "grid-2x2-x",
+    "title": "Grid 2x2 X",
+    "fileName": "grid-2x2-x.js"
+  },
+  {
+    "name": "grid-3-x-3",
+    "title": "Grid 3 X 3",
+    "fileName": "grid-3-x-3.js"
+  },
+  {
+    "name": "grid-3x3",
+    "title": "Grid 3x3",
+    "fileName": "grid-3x3.js"
+  },
+  {
+    "name": "grip",
+    "title": "Grip",
+    "fileName": "grip.js"
+  },
+  {
+    "name": "grip-horizontal",
+    "title": "Grip Horizontal",
+    "fileName": "grip-horizontal.js"
+  },
+  {
+    "name": "grip-vertical",
+    "title": "Grip Vertical",
+    "fileName": "grip-vertical.js"
+  },
+  {
+    "name": "group",
+    "title": "Group",
+    "fileName": "group.js"
+  },
+  {
+    "name": "guitar",
+    "title": "Guitar",
+    "fileName": "guitar.js"
+  },
+  {
+    "name": "ham",
+    "title": "Ham",
+    "fileName": "ham.js"
+  },
+  {
+    "name": "hammer",
+    "title": "Hammer",
+    "fileName": "hammer.js"
+  },
+  {
+    "name": "hand",
+    "title": "Hand",
+    "fileName": "hand.js"
+  },
+  {
+    "name": "hand-coins",
+    "title": "Hand Coins",
+    "fileName": "hand-coins.js"
+  },
+  {
+    "name": "hand-heart",
+    "title": "Hand Heart",
+    "fileName": "hand-heart.js"
+  },
+  {
+    "name": "hand-helping",
+    "title": "Hand Helping",
+    "fileName": "hand-helping.js"
+  },
+  {
+    "name": "hand-metal",
+    "title": "Hand Metal",
+    "fileName": "hand-metal.js"
+  },
+  {
+    "name": "hand-platter",
+    "title": "Hand Platter",
+    "fileName": "hand-platter.js"
+  },
+  {
+    "name": "handshake",
+    "title": "Handshake",
+    "fileName": "handshake.js"
+  },
+  {
+    "name": "hard-drive",
+    "title": "Hard Drive",
+    "fileName": "hard-drive.js"
+  },
+  {
+    "name": "hard-drive-download",
+    "title": "Hard Drive Download",
+    "fileName": "hard-drive-download.js"
+  },
+  {
+    "name": "hard-drive-upload",
+    "title": "Hard Drive Upload",
+    "fileName": "hard-drive-upload.js"
+  },
+  {
+    "name": "hard-hat",
+    "title": "Hard Hat",
+    "fileName": "hard-hat.js"
+  },
+  {
+    "name": "hash",
+    "title": "Hash",
+    "fileName": "hash.js"
+  },
+  {
+    "name": "haze",
+    "title": "Haze",
+    "fileName": "haze.js"
+  },
+  {
+    "name": "hdmi-port",
+    "title": "Hdmi Port",
+    "fileName": "hdmi-port.js"
+  },
+  {
+    "name": "heading",
+    "title": "Heading",
+    "fileName": "heading.js"
+  },
+  {
+    "name": "heading-1",
+    "title": "Heading 1",
+    "fileName": "heading-1.js"
+  },
+  {
+    "name": "heading-2",
+    "title": "Heading 2",
+    "fileName": "heading-2.js"
+  },
+  {
+    "name": "heading-3",
+    "title": "Heading 3",
+    "fileName": "heading-3.js"
+  },
+  {
+    "name": "heading-4",
+    "title": "Heading 4",
+    "fileName": "heading-4.js"
+  },
+  {
+    "name": "heading-5",
+    "title": "Heading 5",
+    "fileName": "heading-5.js"
+  },
+  {
+    "name": "heading-6",
+    "title": "Heading 6",
+    "fileName": "heading-6.js"
+  },
+  {
+    "name": "headphone-off",
+    "title": "Headphone Off",
+    "fileName": "headphone-off.js"
+  },
+  {
+    "name": "headphones",
+    "title": "Headphones",
+    "fileName": "headphones.js"
+  },
+  {
+    "name": "headset",
+    "title": "Headset",
+    "fileName": "headset.js"
+  },
+  {
+    "name": "heart",
+    "title": "Heart",
+    "fileName": "heart.js"
+  },
+  {
+    "name": "heart-crack",
+    "title": "Heart Crack",
+    "fileName": "heart-crack.js"
+  },
+  {
+    "name": "heart-handshake",
+    "title": "Heart Handshake",
+    "fileName": "heart-handshake.js"
+  },
+  {
+    "name": "heart-off",
+    "title": "Heart Off",
+    "fileName": "heart-off.js"
+  },
+  {
+    "name": "heart-pulse",
+    "title": "Heart Pulse",
+    "fileName": "heart-pulse.js"
+  },
+  {
+    "name": "heater",
+    "title": "Heater",
+    "fileName": "heater.js"
+  },
+  {
+    "name": "help-circle",
+    "title": "Help Circle",
+    "fileName": "help-circle.js"
+  },
+  {
+    "name": "helping-hand",
+    "title": "Helping Hand",
+    "fileName": "helping-hand.js"
+  },
+  {
+    "name": "hexagon",
+    "title": "Hexagon",
+    "fileName": "hexagon.js"
+  },
+  {
+    "name": "highlighter",
+    "title": "Highlighter",
+    "fileName": "highlighter.js"
+  },
+  {
+    "name": "history",
+    "title": "History",
+    "fileName": "history.js"
+  },
+  {
+    "name": "home",
+    "title": "Home",
+    "fileName": "home.js"
+  },
+  {
+    "name": "hop",
+    "title": "Hop",
+    "fileName": "hop.js"
+  },
+  {
+    "name": "hop-off",
+    "title": "Hop Off",
+    "fileName": "hop-off.js"
+  },
+  {
+    "name": "hospital",
+    "title": "Hospital",
+    "fileName": "hospital.js"
+  },
+  {
+    "name": "hotel",
+    "title": "Hotel",
+    "fileName": "hotel.js"
+  },
+  {
+    "name": "hourglass",
+    "title": "Hourglass",
+    "fileName": "hourglass.js"
+  },
+  {
+    "name": "house",
+    "title": "House",
+    "fileName": "house.js"
+  },
+  {
+    "name": "house-plug",
+    "title": "House Plug",
+    "fileName": "house-plug.js"
+  },
+  {
+    "name": "house-plus",
+    "title": "House Plus",
+    "fileName": "house-plus.js"
+  },
+  {
+    "name": "house-wifi",
+    "title": "House Wifi",
+    "fileName": "house-wifi.js"
+  },
+  {
+    "name": "ice-cream",
+    "title": "Ice Cream",
+    "fileName": "ice-cream.js"
+  },
+  {
+    "name": "ice-cream-2",
+    "title": "Ice Cream 2",
+    "fileName": "ice-cream-2.js"
+  },
+  {
+    "name": "ice-cream-bowl",
+    "title": "Ice Cream Bowl",
+    "fileName": "ice-cream-bowl.js"
+  },
+  {
+    "name": "ice-cream-cone",
+    "title": "Ice Cream Cone",
+    "fileName": "ice-cream-cone.js"
+  },
+  {
+    "name": "id-card",
+    "title": "Id Card",
+    "fileName": "id-card.js"
+  },
+  {
+    "name": "image",
+    "title": "Image",
+    "fileName": "image.js"
+  },
+  {
+    "name": "image-down",
+    "title": "Image Down",
+    "fileName": "image-down.js"
+  },
+  {
+    "name": "image-minus",
+    "title": "Image Minus",
+    "fileName": "image-minus.js"
+  },
+  {
+    "name": "image-off",
+    "title": "Image Off",
+    "fileName": "image-off.js"
+  },
+  {
+    "name": "image-play",
+    "title": "Image Play",
+    "fileName": "image-play.js"
+  },
+  {
+    "name": "image-plus",
+    "title": "Image Plus",
+    "fileName": "image-plus.js"
+  },
+  {
+    "name": "image-up",
+    "title": "Image Up",
+    "fileName": "image-up.js"
+  },
+  {
+    "name": "image-upscale",
+    "title": "Image Upscale",
+    "fileName": "image-upscale.js"
+  },
+  {
+    "name": "images",
+    "title": "Images",
+    "fileName": "images.js"
+  },
+  {
+    "name": "import",
+    "title": "Import",
+    "fileName": "import.js"
+  },
+  {
+    "name": "inbox",
+    "title": "Inbox",
+    "fileName": "inbox.js"
+  },
+  {
+    "name": "indent",
+    "title": "Indent",
+    "fileName": "indent.js"
+  },
+  {
+    "name": "indent-decrease",
+    "title": "Indent Decrease",
+    "fileName": "indent-decrease.js"
+  },
+  {
+    "name": "indent-increase",
+    "title": "Indent Increase",
+    "fileName": "indent-increase.js"
+  },
+  {
+    "name": "index",
+    "title": "Index",
+    "fileName": "index.js"
+  },
+  {
+    "name": "indian-rupee",
+    "title": "Indian Rupee",
+    "fileName": "indian-rupee.js"
+  },
+  {
+    "name": "infinity",
+    "title": "Infinity",
+    "fileName": "infinity.js"
+  },
+  {
+    "name": "info",
+    "title": "Info",
+    "fileName": "info.js"
+  },
+  {
+    "name": "inspect",
+    "title": "Inspect",
+    "fileName": "inspect.js"
+  },
+  {
+    "name": "inspection-panel",
+    "title": "Inspection Panel",
+    "fileName": "inspection-panel.js"
+  },
+  {
+    "name": "instagram",
+    "title": "Instagram",
+    "fileName": "instagram.js"
+  },
+  {
+    "name": "italic",
+    "title": "Italic",
+    "fileName": "italic.js"
+  },
+  {
+    "name": "iteration-ccw",
+    "title": "Iteration Ccw",
+    "fileName": "iteration-ccw.js"
+  },
+  {
+    "name": "iteration-cw",
+    "title": "Iteration Cw",
+    "fileName": "iteration-cw.js"
+  },
+  {
+    "name": "japanese-yen",
+    "title": "Japanese Yen",
+    "fileName": "japanese-yen.js"
+  },
+  {
+    "name": "joystick",
+    "title": "Joystick",
+    "fileName": "joystick.js"
+  },
+  {
+    "name": "kanban",
+    "title": "Kanban",
+    "fileName": "kanban.js"
+  },
+  {
+    "name": "kanban-square",
+    "title": "Kanban Square",
+    "fileName": "kanban-square.js"
+  },
+  {
+    "name": "kanban-square-dashed",
+    "title": "Kanban Square Dashed",
+    "fileName": "kanban-square-dashed.js"
+  },
+  {
+    "name": "key",
+    "title": "Key",
+    "fileName": "key.js"
+  },
+  {
+    "name": "key-round",
+    "title": "Key Round",
+    "fileName": "key-round.js"
+  },
+  {
+    "name": "key-square",
+    "title": "Key Square",
+    "fileName": "key-square.js"
+  },
+  {
+    "name": "keyboard",
+    "title": "Keyboard",
+    "fileName": "keyboard.js"
+  },
+  {
+    "name": "keyboard-music",
+    "title": "Keyboard Music",
+    "fileName": "keyboard-music.js"
+  },
+  {
+    "name": "keyboard-off",
+    "title": "Keyboard Off",
+    "fileName": "keyboard-off.js"
+  },
+  {
+    "name": "lamp",
+    "title": "Lamp",
+    "fileName": "lamp.js"
+  },
+  {
+    "name": "lamp-ceiling",
+    "title": "Lamp Ceiling",
+    "fileName": "lamp-ceiling.js"
+  },
+  {
+    "name": "lamp-desk",
+    "title": "Lamp Desk",
+    "fileName": "lamp-desk.js"
+  },
+  {
+    "name": "lamp-floor",
+    "title": "Lamp Floor",
+    "fileName": "lamp-floor.js"
+  },
+  {
+    "name": "lamp-wall-down",
+    "title": "Lamp Wall Down",
+    "fileName": "lamp-wall-down.js"
+  },
+  {
+    "name": "lamp-wall-up",
+    "title": "Lamp Wall Up",
+    "fileName": "lamp-wall-up.js"
+  },
+  {
+    "name": "land-plot",
+    "title": "Land Plot",
+    "fileName": "land-plot.js"
+  },
+  {
+    "name": "landmark",
+    "title": "Landmark",
+    "fileName": "landmark.js"
+  },
+  {
+    "name": "languages",
+    "title": "Languages",
+    "fileName": "languages.js"
+  },
+  {
+    "name": "laptop",
+    "title": "Laptop",
+    "fileName": "laptop.js"
+  },
+  {
+    "name": "laptop-2",
+    "title": "Laptop 2",
+    "fileName": "laptop-2.js"
+  },
+  {
+    "name": "laptop-minimal",
+    "title": "Laptop Minimal",
+    "fileName": "laptop-minimal.js"
+  },
+  {
+    "name": "laptop-minimal-check",
+    "title": "Laptop Minimal Check",
+    "fileName": "laptop-minimal-check.js"
+  },
+  {
+    "name": "lasso",
+    "title": "Lasso",
+    "fileName": "lasso.js"
+  },
+  {
+    "name": "lasso-select",
+    "title": "Lasso Select",
+    "fileName": "lasso-select.js"
+  },
+  {
+    "name": "laugh",
+    "title": "Laugh",
+    "fileName": "laugh.js"
+  },
+  {
+    "name": "layers",
+    "title": "Layers",
+    "fileName": "layers.js"
+  },
+  {
+    "name": "layers-2",
+    "title": "Layers 2",
+    "fileName": "layers-2.js"
+  },
+  {
+    "name": "layers-3",
+    "title": "Layers 3",
+    "fileName": "layers-3.js"
+  },
+  {
+    "name": "layout",
+    "title": "Layout",
+    "fileName": "layout.js"
+  },
+  {
+    "name": "layout-dashboard",
+    "title": "Layout Dashboard",
+    "fileName": "layout-dashboard.js"
+  },
+  {
+    "name": "layout-grid",
+    "title": "Layout Grid",
+    "fileName": "layout-grid.js"
+  },
+  {
+    "name": "layout-list",
+    "title": "Layout List",
+    "fileName": "layout-list.js"
+  },
+  {
+    "name": "layout-panel-left",
+    "title": "Layout Panel Left",
+    "fileName": "layout-panel-left.js"
+  },
+  {
+    "name": "layout-panel-top",
+    "title": "Layout Panel Top",
+    "fileName": "layout-panel-top.js"
+  },
+  {
+    "name": "layout-template",
+    "title": "Layout Template",
+    "fileName": "layout-template.js"
+  },
+  {
+    "name": "leaf",
+    "title": "Leaf",
+    "fileName": "leaf.js"
+  },
+  {
+    "name": "leafy-green",
+    "title": "Leafy Green",
+    "fileName": "leafy-green.js"
+  },
+  {
+    "name": "lectern",
+    "title": "Lectern",
+    "fileName": "lectern.js"
+  },
+  {
+    "name": "letter-text",
+    "title": "Letter Text",
+    "fileName": "letter-text.js"
+  },
+  {
+    "name": "library",
+    "title": "Library",
+    "fileName": "library.js"
+  },
+  {
+    "name": "library-big",
+    "title": "Library Big",
+    "fileName": "library-big.js"
+  },
+  {
+    "name": "library-square",
+    "title": "Library Square",
+    "fileName": "library-square.js"
+  },
+  {
+    "name": "life-buoy",
+    "title": "Life Buoy",
+    "fileName": "life-buoy.js"
+  },
+  {
+    "name": "ligature",
+    "title": "Ligature",
+    "fileName": "ligature.js"
+  },
+  {
+    "name": "lightbulb",
+    "title": "Lightbulb",
+    "fileName": "lightbulb.js"
+  },
+  {
+    "name": "lightbulb-off",
+    "title": "Lightbulb Off",
+    "fileName": "lightbulb-off.js"
+  },
+  {
+    "name": "line-chart",
+    "title": "Line Chart",
+    "fileName": "line-chart.js"
+  },
+  {
+    "name": "link",
+    "title": "Link",
+    "fileName": "link.js"
+  },
+  {
+    "name": "link-2",
+    "title": "Link 2",
+    "fileName": "link-2.js"
+  },
+  {
+    "name": "link-2-off",
+    "title": "Link 2 Off",
+    "fileName": "link-2-off.js"
+  },
+  {
+    "name": "linkedin",
+    "title": "Linkedin",
+    "fileName": "linkedin.js"
+  },
+  {
+    "name": "list",
+    "title": "List",
+    "fileName": "list.js"
+  },
+  {
+    "name": "list-check",
+    "title": "List Check",
+    "fileName": "list-check.js"
+  },
+  {
+    "name": "list-checks",
+    "title": "List Checks",
+    "fileName": "list-checks.js"
+  },
+  {
+    "name": "list-collapse",
+    "title": "List Collapse",
+    "fileName": "list-collapse.js"
+  },
+  {
+    "name": "list-end",
+    "title": "List End",
+    "fileName": "list-end.js"
+  },
+  {
+    "name": "list-filter",
+    "title": "List Filter",
+    "fileName": "list-filter.js"
+  },
+  {
+    "name": "list-filter-plus",
+    "title": "List Filter Plus",
+    "fileName": "list-filter-plus.js"
+  },
+  {
+    "name": "list-minus",
+    "title": "List Minus",
+    "fileName": "list-minus.js"
+  },
+  {
+    "name": "list-music",
+    "title": "List Music",
+    "fileName": "list-music.js"
+  },
+  {
+    "name": "list-ordered",
+    "title": "List Ordered",
+    "fileName": "list-ordered.js"
+  },
+  {
+    "name": "list-plus",
+    "title": "List Plus",
+    "fileName": "list-plus.js"
+  },
+  {
+    "name": "list-restart",
+    "title": "List Restart",
+    "fileName": "list-restart.js"
+  },
+  {
+    "name": "list-start",
+    "title": "List Start",
+    "fileName": "list-start.js"
+  },
+  {
+    "name": "list-todo",
+    "title": "List Todo",
+    "fileName": "list-todo.js"
+  },
+  {
+    "name": "list-tree",
+    "title": "List Tree",
+    "fileName": "list-tree.js"
+  },
+  {
+    "name": "list-video",
+    "title": "List Video",
+    "fileName": "list-video.js"
+  },
+  {
+    "name": "list-x",
+    "title": "List X",
+    "fileName": "list-x.js"
+  },
+  {
+    "name": "loader",
+    "title": "Loader",
+    "fileName": "loader.js"
+  },
+  {
+    "name": "loader-2",
+    "title": "Loader 2",
+    "fileName": "loader-2.js"
+  },
+  {
+    "name": "loader-circle",
+    "title": "Loader Circle",
+    "fileName": "loader-circle.js"
+  },
+  {
+    "name": "loader-pinwheel",
+    "title": "Loader Pinwheel",
+    "fileName": "loader-pinwheel.js"
+  },
+  {
+    "name": "locate",
+    "title": "Locate",
+    "fileName": "locate.js"
+  },
+  {
+    "name": "locate-fixed",
+    "title": "Locate Fixed",
+    "fileName": "locate-fixed.js"
+  },
+  {
+    "name": "locate-off",
+    "title": "Locate Off",
+    "fileName": "locate-off.js"
+  },
+  {
+    "name": "lock",
+    "title": "Lock",
+    "fileName": "lock.js"
+  },
+  {
+    "name": "lock-keyhole",
+    "title": "Lock Keyhole",
+    "fileName": "lock-keyhole.js"
+  },
+  {
+    "name": "lock-keyhole-open",
+    "title": "Lock Keyhole Open",
+    "fileName": "lock-keyhole-open.js"
+  },
+  {
+    "name": "lock-open",
+    "title": "Lock Open",
+    "fileName": "lock-open.js"
+  },
+  {
+    "name": "log-in",
+    "title": "Log In",
+    "fileName": "log-in.js"
+  },
+  {
+    "name": "log-out",
+    "title": "Log Out",
+    "fileName": "log-out.js"
+  },
+  {
+    "name": "logs",
+    "title": "Logs",
+    "fileName": "logs.js"
+  },
+  {
+    "name": "lollipop",
+    "title": "Lollipop",
+    "fileName": "lollipop.js"
+  },
+  {
+    "name": "luggage",
+    "title": "Luggage",
+    "fileName": "luggage.js"
+  },
+  {
+    "name": "m-square",
+    "title": "M Square",
+    "fileName": "m-square.js"
+  },
+  {
+    "name": "magnet",
+    "title": "Magnet",
+    "fileName": "magnet.js"
+  },
+  {
+    "name": "mail",
+    "title": "Mail",
+    "fileName": "mail.js"
+  },
+  {
+    "name": "mail-check",
+    "title": "Mail Check",
+    "fileName": "mail-check.js"
+  },
+  {
+    "name": "mail-minus",
+    "title": "Mail Minus",
+    "fileName": "mail-minus.js"
+  },
+  {
+    "name": "mail-open",
+    "title": "Mail Open",
+    "fileName": "mail-open.js"
+  },
+  {
+    "name": "mail-plus",
+    "title": "Mail Plus",
+    "fileName": "mail-plus.js"
+  },
+  {
+    "name": "mail-question",
+    "title": "Mail Question",
+    "fileName": "mail-question.js"
+  },
+  {
+    "name": "mail-search",
+    "title": "Mail Search",
+    "fileName": "mail-search.js"
+  },
+  {
+    "name": "mail-warning",
+    "title": "Mail Warning",
+    "fileName": "mail-warning.js"
+  },
+  {
+    "name": "mail-x",
+    "title": "Mail X",
+    "fileName": "mail-x.js"
+  },
+  {
+    "name": "mailbox",
+    "title": "Mailbox",
+    "fileName": "mailbox.js"
+  },
+  {
+    "name": "mails",
+    "title": "Mails",
+    "fileName": "mails.js"
+  },
+  {
+    "name": "map",
+    "title": "Map",
+    "fileName": "map.js"
+  },
+  {
+    "name": "map-pin",
+    "title": "Map Pin",
+    "fileName": "map-pin.js"
+  },
+  {
+    "name": "map-pin-check",
+    "title": "Map Pin Check",
+    "fileName": "map-pin-check.js"
+  },
+  {
+    "name": "map-pin-check-inside",
+    "title": "Map Pin Check Inside",
+    "fileName": "map-pin-check-inside.js"
+  },
+  {
+    "name": "map-pin-house",
+    "title": "Map Pin House",
+    "fileName": "map-pin-house.js"
+  },
+  {
+    "name": "map-pin-minus",
+    "title": "Map Pin Minus",
+    "fileName": "map-pin-minus.js"
+  },
+  {
+    "name": "map-pin-minus-inside",
+    "title": "Map Pin Minus Inside",
+    "fileName": "map-pin-minus-inside.js"
+  },
+  {
+    "name": "map-pin-off",
+    "title": "Map Pin Off",
+    "fileName": "map-pin-off.js"
+  },
+  {
+    "name": "map-pin-plus",
+    "title": "Map Pin Plus",
+    "fileName": "map-pin-plus.js"
+  },
+  {
+    "name": "map-pin-plus-inside",
+    "title": "Map Pin Plus Inside",
+    "fileName": "map-pin-plus-inside.js"
+  },
+  {
+    "name": "map-pin-x",
+    "title": "Map Pin X",
+    "fileName": "map-pin-x.js"
+  },
+  {
+    "name": "map-pin-x-inside",
+    "title": "Map Pin X Inside",
+    "fileName": "map-pin-x-inside.js"
+  },
+  {
+    "name": "map-pinned",
+    "title": "Map Pinned",
+    "fileName": "map-pinned.js"
+  },
+  {
+    "name": "map-plus",
+    "title": "Map Plus",
+    "fileName": "map-plus.js"
+  },
+  {
+    "name": "mars",
+    "title": "Mars",
+    "fileName": "mars.js"
+  },
+  {
+    "name": "mars-stroke",
+    "title": "Mars Stroke",
+    "fileName": "mars-stroke.js"
+  },
+  {
+    "name": "martini",
+    "title": "Martini",
+    "fileName": "martini.js"
+  },
+  {
+    "name": "maximize",
+    "title": "Maximize",
+    "fileName": "maximize.js"
+  },
+  {
+    "name": "maximize-2",
+    "title": "Maximize 2",
+    "fileName": "maximize-2.js"
+  },
+  {
+    "name": "medal",
+    "title": "Medal",
+    "fileName": "medal.js"
+  },
+  {
+    "name": "megaphone",
+    "title": "Megaphone",
+    "fileName": "megaphone.js"
+  },
+  {
+    "name": "megaphone-off",
+    "title": "Megaphone Off",
+    "fileName": "megaphone-off.js"
+  },
+  {
+    "name": "meh",
+    "title": "Meh",
+    "fileName": "meh.js"
+  },
+  {
+    "name": "memory-stick",
+    "title": "Memory Stick",
+    "fileName": "memory-stick.js"
+  },
+  {
+    "name": "menu",
+    "title": "Menu",
+    "fileName": "menu.js"
+  },
+  {
+    "name": "menu-square",
+    "title": "Menu Square",
+    "fileName": "menu-square.js"
+  },
+  {
+    "name": "merge",
+    "title": "Merge",
+    "fileName": "merge.js"
+  },
+  {
+    "name": "message-circle",
+    "title": "Message Circle",
+    "fileName": "message-circle.js"
+  },
+  {
+    "name": "message-circle-code",
+    "title": "Message Circle Code",
+    "fileName": "message-circle-code.js"
+  },
+  {
+    "name": "message-circle-dashed",
+    "title": "Message Circle Dashed",
+    "fileName": "message-circle-dashed.js"
+  },
+  {
+    "name": "message-circle-heart",
+    "title": "Message Circle Heart",
+    "fileName": "message-circle-heart.js"
+  },
+  {
+    "name": "message-circle-more",
+    "title": "Message Circle More",
+    "fileName": "message-circle-more.js"
+  },
+  {
+    "name": "message-circle-off",
+    "title": "Message Circle Off",
+    "fileName": "message-circle-off.js"
+  },
+  {
+    "name": "message-circle-plus",
+    "title": "Message Circle Plus",
+    "fileName": "message-circle-plus.js"
+  },
+  {
+    "name": "message-circle-question",
+    "title": "Message Circle Question",
+    "fileName": "message-circle-question.js"
+  },
+  {
+    "name": "message-circle-reply",
+    "title": "Message Circle Reply",
+    "fileName": "message-circle-reply.js"
+  },
+  {
+    "name": "message-circle-warning",
+    "title": "Message Circle Warning",
+    "fileName": "message-circle-warning.js"
+  },
+  {
+    "name": "message-circle-x",
+    "title": "Message Circle X",
+    "fileName": "message-circle-x.js"
+  },
+  {
+    "name": "message-square",
+    "title": "Message Square",
+    "fileName": "message-square.js"
+  },
+  {
+    "name": "message-square-code",
+    "title": "Message Square Code",
+    "fileName": "message-square-code.js"
+  },
+  {
+    "name": "message-square-dashed",
+    "title": "Message Square Dashed",
+    "fileName": "message-square-dashed.js"
+  },
+  {
+    "name": "message-square-diff",
+    "title": "Message Square Diff",
+    "fileName": "message-square-diff.js"
+  },
+  {
+    "name": "message-square-dot",
+    "title": "Message Square Dot",
+    "fileName": "message-square-dot.js"
+  },
+  {
+    "name": "message-square-heart",
+    "title": "Message Square Heart",
+    "fileName": "message-square-heart.js"
+  },
+  {
+    "name": "message-square-lock",
+    "title": "Message Square Lock",
+    "fileName": "message-square-lock.js"
+  },
+  {
+    "name": "message-square-more",
+    "title": "Message Square More",
+    "fileName": "message-square-more.js"
+  },
+  {
+    "name": "message-square-off",
+    "title": "Message Square Off",
+    "fileName": "message-square-off.js"
+  },
+  {
+    "name": "message-square-plus",
+    "title": "Message Square Plus",
+    "fileName": "message-square-plus.js"
+  },
+  {
+    "name": "message-square-quote",
+    "title": "Message Square Quote",
+    "fileName": "message-square-quote.js"
+  },
+  {
+    "name": "message-square-reply",
+    "title": "Message Square Reply",
+    "fileName": "message-square-reply.js"
+  },
+  {
+    "name": "message-square-share",
+    "title": "Message Square Share",
+    "fileName": "message-square-share.js"
+  },
+  {
+    "name": "message-square-text",
+    "title": "Message Square Text",
+    "fileName": "message-square-text.js"
+  },
+  {
+    "name": "message-square-warning",
+    "title": "Message Square Warning",
+    "fileName": "message-square-warning.js"
+  },
+  {
+    "name": "message-square-x",
+    "title": "Message Square X",
+    "fileName": "message-square-x.js"
+  },
+  {
+    "name": "messages-square",
+    "title": "Messages Square",
+    "fileName": "messages-square.js"
+  },
+  {
+    "name": "mic",
+    "title": "Mic",
+    "fileName": "mic.js"
+  },
+  {
+    "name": "mic-2",
+    "title": "Mic 2",
+    "fileName": "mic-2.js"
+  },
+  {
+    "name": "mic-off",
+    "title": "Mic Off",
+    "fileName": "mic-off.js"
+  },
+  {
+    "name": "mic-vocal",
+    "title": "Mic Vocal",
+    "fileName": "mic-vocal.js"
+  },
+  {
+    "name": "microchip",
+    "title": "Microchip",
+    "fileName": "microchip.js"
+  },
+  {
+    "name": "microscope",
+    "title": "Microscope",
+    "fileName": "microscope.js"
+  },
+  {
+    "name": "microwave",
+    "title": "Microwave",
+    "fileName": "microwave.js"
+  },
+  {
+    "name": "milestone",
+    "title": "Milestone",
+    "fileName": "milestone.js"
+  },
+  {
+    "name": "milk",
+    "title": "Milk",
+    "fileName": "milk.js"
+  },
+  {
+    "name": "milk-off",
+    "title": "Milk Off",
+    "fileName": "milk-off.js"
+  },
+  {
+    "name": "minimize",
+    "title": "Minimize",
+    "fileName": "minimize.js"
+  },
+  {
+    "name": "minimize-2",
+    "title": "Minimize 2",
+    "fileName": "minimize-2.js"
+  },
+  {
+    "name": "minus",
+    "title": "Minus",
+    "fileName": "minus.js"
+  },
+  {
+    "name": "minus-circle",
+    "title": "Minus Circle",
+    "fileName": "minus-circle.js"
+  },
+  {
+    "name": "minus-square",
+    "title": "Minus Square",
+    "fileName": "minus-square.js"
+  },
+  {
+    "name": "monitor",
+    "title": "Monitor",
+    "fileName": "monitor.js"
+  },
+  {
+    "name": "monitor-check",
+    "title": "Monitor Check",
+    "fileName": "monitor-check.js"
+  },
+  {
+    "name": "monitor-cog",
+    "title": "Monitor Cog",
+    "fileName": "monitor-cog.js"
+  },
+  {
+    "name": "monitor-dot",
+    "title": "Monitor Dot",
+    "fileName": "monitor-dot.js"
+  },
+  {
+    "name": "monitor-down",
+    "title": "Monitor Down",
+    "fileName": "monitor-down.js"
+  },
+  {
+    "name": "monitor-off",
+    "title": "Monitor Off",
+    "fileName": "monitor-off.js"
+  },
+  {
+    "name": "monitor-pause",
+    "title": "Monitor Pause",
+    "fileName": "monitor-pause.js"
+  },
+  {
+    "name": "monitor-play",
+    "title": "Monitor Play",
+    "fileName": "monitor-play.js"
+  },
+  {
+    "name": "monitor-smartphone",
+    "title": "Monitor Smartphone",
+    "fileName": "monitor-smartphone.js"
+  },
+  {
+    "name": "monitor-speaker",
+    "title": "Monitor Speaker",
+    "fileName": "monitor-speaker.js"
+  },
+  {
+    "name": "monitor-stop",
+    "title": "Monitor Stop",
+    "fileName": "monitor-stop.js"
+  },
+  {
+    "name": "monitor-up",
+    "title": "Monitor Up",
+    "fileName": "monitor-up.js"
+  },
+  {
+    "name": "monitor-x",
+    "title": "Monitor X",
+    "fileName": "monitor-x.js"
+  },
+  {
+    "name": "moon",
+    "title": "Moon",
+    "fileName": "moon.js"
+  },
+  {
+    "name": "moon-star",
+    "title": "Moon Star",
+    "fileName": "moon-star.js"
+  },
+  {
+    "name": "more-horizontal",
+    "title": "More Horizontal",
+    "fileName": "more-horizontal.js"
+  },
+  {
+    "name": "more-vertical",
+    "title": "More Vertical",
+    "fileName": "more-vertical.js"
+  },
+  {
+    "name": "mountain",
+    "title": "Mountain",
+    "fileName": "mountain.js"
+  },
+  {
+    "name": "mountain-snow",
+    "title": "Mountain Snow",
+    "fileName": "mountain-snow.js"
+  },
+  {
+    "name": "mouse",
+    "title": "Mouse",
+    "fileName": "mouse.js"
+  },
+  {
+    "name": "mouse-off",
+    "title": "Mouse Off",
+    "fileName": "mouse-off.js"
+  },
+  {
+    "name": "mouse-pointer",
+    "title": "Mouse Pointer",
+    "fileName": "mouse-pointer.js"
+  },
+  {
+    "name": "mouse-pointer-2",
+    "title": "Mouse Pointer 2",
+    "fileName": "mouse-pointer-2.js"
+  },
+  {
+    "name": "mouse-pointer-ban",
+    "title": "Mouse Pointer Ban",
+    "fileName": "mouse-pointer-ban.js"
+  },
+  {
+    "name": "mouse-pointer-click",
+    "title": "Mouse Pointer Click",
+    "fileName": "mouse-pointer-click.js"
+  },
+  {
+    "name": "mouse-pointer-square-dashed",
+    "title": "Mouse Pointer Square Dashed",
+    "fileName": "mouse-pointer-square-dashed.js"
+  },
+  {
+    "name": "move",
+    "title": "Move",
+    "fileName": "move.js"
+  },
+  {
+    "name": "move-3-d",
+    "title": "Move 3 D",
+    "fileName": "move-3-d.js"
+  },
+  {
+    "name": "move-3d",
+    "title": "Move 3d",
+    "fileName": "move-3d.js"
+  },
+  {
+    "name": "move-diagonal",
+    "title": "Move Diagonal",
+    "fileName": "move-diagonal.js"
+  },
+  {
+    "name": "move-diagonal-2",
+    "title": "Move Diagonal 2",
+    "fileName": "move-diagonal-2.js"
+  },
+  {
+    "name": "move-down",
+    "title": "Move Down",
+    "fileName": "move-down.js"
+  },
+  {
+    "name": "move-down-left",
+    "title": "Move Down Left",
+    "fileName": "move-down-left.js"
+  },
+  {
+    "name": "move-down-right",
+    "title": "Move Down Right",
+    "fileName": "move-down-right.js"
+  },
+  {
+    "name": "move-horizontal",
+    "title": "Move Horizontal",
+    "fileName": "move-horizontal.js"
+  },
+  {
+    "name": "move-left",
+    "title": "Move Left",
+    "fileName": "move-left.js"
+  },
+  {
+    "name": "move-right",
+    "title": "Move Right",
+    "fileName": "move-right.js"
+  },
+  {
+    "name": "move-up",
+    "title": "Move Up",
+    "fileName": "move-up.js"
+  },
+  {
+    "name": "move-up-left",
+    "title": "Move Up Left",
+    "fileName": "move-up-left.js"
+  },
+  {
+    "name": "move-up-right",
+    "title": "Move Up Right",
+    "fileName": "move-up-right.js"
+  },
+  {
+    "name": "move-vertical",
+    "title": "Move Vertical",
+    "fileName": "move-vertical.js"
+  },
+  {
+    "name": "music",
+    "title": "Music",
+    "fileName": "music.js"
+  },
+  {
+    "name": "music-2",
+    "title": "Music 2",
+    "fileName": "music-2.js"
+  },
+  {
+    "name": "music-3",
+    "title": "Music 3",
+    "fileName": "music-3.js"
+  },
+  {
+    "name": "music-4",
+    "title": "Music 4",
+    "fileName": "music-4.js"
+  },
+  {
+    "name": "navigation",
+    "title": "Navigation",
+    "fileName": "navigation.js"
+  },
+  {
+    "name": "navigation-2",
+    "title": "Navigation 2",
+    "fileName": "navigation-2.js"
+  },
+  {
+    "name": "navigation-2-off",
+    "title": "Navigation 2 Off",
+    "fileName": "navigation-2-off.js"
+  },
+  {
+    "name": "navigation-off",
+    "title": "Navigation Off",
+    "fileName": "navigation-off.js"
+  },
+  {
+    "name": "network",
+    "title": "Network",
+    "fileName": "network.js"
+  },
+  {
+    "name": "newspaper",
+    "title": "Newspaper",
+    "fileName": "newspaper.js"
+  },
+  {
+    "name": "nfc",
+    "title": "Nfc",
+    "fileName": "nfc.js"
+  },
+  {
+    "name": "non-binary",
+    "title": "Non Binary",
+    "fileName": "non-binary.js"
+  },
+  {
+    "name": "notebook",
+    "title": "Notebook",
+    "fileName": "notebook.js"
+  },
+  {
+    "name": "notebook-pen",
+    "title": "Notebook Pen",
+    "fileName": "notebook-pen.js"
+  },
+  {
+    "name": "notebook-tabs",
+    "title": "Notebook Tabs",
+    "fileName": "notebook-tabs.js"
+  },
+  {
+    "name": "notebook-text",
+    "title": "Notebook Text",
+    "fileName": "notebook-text.js"
+  },
+  {
+    "name": "notepad-text",
+    "title": "Notepad Text",
+    "fileName": "notepad-text.js"
+  },
+  {
+    "name": "notepad-text-dashed",
+    "title": "Notepad Text Dashed",
+    "fileName": "notepad-text-dashed.js"
+  },
+  {
+    "name": "nut",
+    "title": "Nut",
+    "fileName": "nut.js"
+  },
+  {
+    "name": "nut-off",
+    "title": "Nut Off",
+    "fileName": "nut-off.js"
+  },
+  {
+    "name": "octagon",
+    "title": "Octagon",
+    "fileName": "octagon.js"
+  },
+  {
+    "name": "octagon-alert",
+    "title": "Octagon Alert",
+    "fileName": "octagon-alert.js"
+  },
+  {
+    "name": "octagon-minus",
+    "title": "Octagon Minus",
+    "fileName": "octagon-minus.js"
+  },
+  {
+    "name": "octagon-pause",
+    "title": "Octagon Pause",
+    "fileName": "octagon-pause.js"
+  },
+  {
+    "name": "octagon-x",
+    "title": "Octagon X",
+    "fileName": "octagon-x.js"
+  },
+  {
+    "name": "omega",
+    "title": "Omega",
+    "fileName": "omega.js"
+  },
+  {
+    "name": "option",
+    "title": "Option",
+    "fileName": "option.js"
+  },
+  {
+    "name": "orbit",
+    "title": "Orbit",
+    "fileName": "orbit.js"
+  },
+  {
+    "name": "origami",
+    "title": "Origami",
+    "fileName": "origami.js"
+  },
+  {
+    "name": "outdent",
+    "title": "Outdent",
+    "fileName": "outdent.js"
+  },
+  {
+    "name": "package",
+    "title": "Package",
+    "fileName": "package.js"
+  },
+  {
+    "name": "package-2",
+    "title": "Package 2",
+    "fileName": "package-2.js"
+  },
+  {
+    "name": "package-check",
+    "title": "Package Check",
+    "fileName": "package-check.js"
+  },
+  {
+    "name": "package-minus",
+    "title": "Package Minus",
+    "fileName": "package-minus.js"
+  },
+  {
+    "name": "package-open",
+    "title": "Package Open",
+    "fileName": "package-open.js"
+  },
+  {
+    "name": "package-plus",
+    "title": "Package Plus",
+    "fileName": "package-plus.js"
+  },
+  {
+    "name": "package-search",
+    "title": "Package Search",
+    "fileName": "package-search.js"
+  },
+  {
+    "name": "package-x",
+    "title": "Package X",
+    "fileName": "package-x.js"
+  },
+  {
+    "name": "paint-bucket",
+    "title": "Paint Bucket",
+    "fileName": "paint-bucket.js"
+  },
+  {
+    "name": "paint-roller",
+    "title": "Paint Roller",
+    "fileName": "paint-roller.js"
+  },
+  {
+    "name": "paintbrush",
+    "title": "Paintbrush",
+    "fileName": "paintbrush.js"
+  },
+  {
+    "name": "paintbrush-2",
+    "title": "Paintbrush 2",
+    "fileName": "paintbrush-2.js"
+  },
+  {
+    "name": "paintbrush-vertical",
+    "title": "Paintbrush Vertical",
+    "fileName": "paintbrush-vertical.js"
+  },
+  {
+    "name": "palette",
+    "title": "Palette",
+    "fileName": "palette.js"
+  },
+  {
+    "name": "palmtree",
+    "title": "Palmtree",
+    "fileName": "palmtree.js"
+  },
+  {
+    "name": "panel-bottom",
+    "title": "Panel Bottom",
+    "fileName": "panel-bottom.js"
+  },
+  {
+    "name": "panel-bottom-close",
+    "title": "Panel Bottom Close",
+    "fileName": "panel-bottom-close.js"
+  },
+  {
+    "name": "panel-bottom-dashed",
+    "title": "Panel Bottom Dashed",
+    "fileName": "panel-bottom-dashed.js"
+  },
+  {
+    "name": "panel-bottom-inactive",
+    "title": "Panel Bottom Inactive",
+    "fileName": "panel-bottom-inactive.js"
+  },
+  {
+    "name": "panel-bottom-open",
+    "title": "Panel Bottom Open",
+    "fileName": "panel-bottom-open.js"
+  },
+  {
+    "name": "panel-left",
+    "title": "Panel Left",
+    "fileName": "panel-left.js"
+  },
+  {
+    "name": "panel-left-close",
+    "title": "Panel Left Close",
+    "fileName": "panel-left-close.js"
+  },
+  {
+    "name": "panel-left-dashed",
+    "title": "Panel Left Dashed",
+    "fileName": "panel-left-dashed.js"
+  },
+  {
+    "name": "panel-left-inactive",
+    "title": "Panel Left Inactive",
+    "fileName": "panel-left-inactive.js"
+  },
+  {
+    "name": "panel-left-open",
+    "title": "Panel Left Open",
+    "fileName": "panel-left-open.js"
+  },
+  {
+    "name": "panel-right",
+    "title": "Panel Right",
+    "fileName": "panel-right.js"
+  },
+  {
+    "name": "panel-right-close",
+    "title": "Panel Right Close",
+    "fileName": "panel-right-close.js"
+  },
+  {
+    "name": "panel-right-dashed",
+    "title": "Panel Right Dashed",
+    "fileName": "panel-right-dashed.js"
+  },
+  {
+    "name": "panel-right-inactive",
+    "title": "Panel Right Inactive",
+    "fileName": "panel-right-inactive.js"
+  },
+  {
+    "name": "panel-right-open",
+    "title": "Panel Right Open",
+    "fileName": "panel-right-open.js"
+  },
+  {
+    "name": "panel-top",
+    "title": "Panel Top",
+    "fileName": "panel-top.js"
+  },
+  {
+    "name": "panel-top-close",
+    "title": "Panel Top Close",
+    "fileName": "panel-top-close.js"
+  },
+  {
+    "name": "panel-top-dashed",
+    "title": "Panel Top Dashed",
+    "fileName": "panel-top-dashed.js"
+  },
+  {
+    "name": "panel-top-inactive",
+    "title": "Panel Top Inactive",
+    "fileName": "panel-top-inactive.js"
+  },
+  {
+    "name": "panel-top-open",
+    "title": "Panel Top Open",
+    "fileName": "panel-top-open.js"
+  },
+  {
+    "name": "panels-left-bottom",
+    "title": "Panels Left Bottom",
+    "fileName": "panels-left-bottom.js"
+  },
+  {
+    "name": "panels-left-right",
+    "title": "Panels Left Right",
+    "fileName": "panels-left-right.js"
+  },
+  {
+    "name": "panels-right-bottom",
+    "title": "Panels Right Bottom",
+    "fileName": "panels-right-bottom.js"
+  },
+  {
+    "name": "panels-top-bottom",
+    "title": "Panels Top Bottom",
+    "fileName": "panels-top-bottom.js"
+  },
+  {
+    "name": "panels-top-left",
+    "title": "Panels Top Left",
+    "fileName": "panels-top-left.js"
+  },
+  {
+    "name": "paperclip",
+    "title": "Paperclip",
+    "fileName": "paperclip.js"
+  },
+  {
+    "name": "parentheses",
+    "title": "Parentheses",
+    "fileName": "parentheses.js"
+  },
+  {
+    "name": "parking-circle",
+    "title": "Parking Circle",
+    "fileName": "parking-circle.js"
+  },
+  {
+    "name": "parking-circle-off",
+    "title": "Parking Circle Off",
+    "fileName": "parking-circle-off.js"
+  },
+  {
+    "name": "parking-meter",
+    "title": "Parking Meter",
+    "fileName": "parking-meter.js"
+  },
+  {
+    "name": "parking-square",
+    "title": "Parking Square",
+    "fileName": "parking-square.js"
+  },
+  {
+    "name": "parking-square-off",
+    "title": "Parking Square Off",
+    "fileName": "parking-square-off.js"
+  },
+  {
+    "name": "party-popper",
+    "title": "Party Popper",
+    "fileName": "party-popper.js"
+  },
+  {
+    "name": "pause",
+    "title": "Pause",
+    "fileName": "pause.js"
+  },
+  {
+    "name": "pause-circle",
+    "title": "Pause Circle",
+    "fileName": "pause-circle.js"
+  },
+  {
+    "name": "pause-octagon",
+    "title": "Pause Octagon",
+    "fileName": "pause-octagon.js"
+  },
+  {
+    "name": "paw-print",
+    "title": "Paw Print",
+    "fileName": "paw-print.js"
+  },
+  {
+    "name": "pc-case",
+    "title": "Pc Case",
+    "fileName": "pc-case.js"
+  },
+  {
+    "name": "pen",
+    "title": "Pen",
+    "fileName": "pen.js"
+  },
+  {
+    "name": "pen-box",
+    "title": "Pen Box",
+    "fileName": "pen-box.js"
+  },
+  {
+    "name": "pen-line",
+    "title": "Pen Line",
+    "fileName": "pen-line.js"
+  },
+  {
+    "name": "pen-off",
+    "title": "Pen Off",
+    "fileName": "pen-off.js"
+  },
+  {
+    "name": "pen-square",
+    "title": "Pen Square",
+    "fileName": "pen-square.js"
+  },
+  {
+    "name": "pen-tool",
+    "title": "Pen Tool",
+    "fileName": "pen-tool.js"
+  },
+  {
+    "name": "pencil",
+    "title": "Pencil",
+    "fileName": "pencil.js"
+  },
+  {
+    "name": "pencil-line",
+    "title": "Pencil Line",
+    "fileName": "pencil-line.js"
+  },
+  {
+    "name": "pencil-off",
+    "title": "Pencil Off",
+    "fileName": "pencil-off.js"
+  },
+  {
+    "name": "pencil-ruler",
+    "title": "Pencil Ruler",
+    "fileName": "pencil-ruler.js"
+  },
+  {
+    "name": "pentagon",
+    "title": "Pentagon",
+    "fileName": "pentagon.js"
+  },
+  {
+    "name": "percent",
+    "title": "Percent",
+    "fileName": "percent.js"
+  },
+  {
+    "name": "percent-circle",
+    "title": "Percent Circle",
+    "fileName": "percent-circle.js"
+  },
+  {
+    "name": "percent-diamond",
+    "title": "Percent Diamond",
+    "fileName": "percent-diamond.js"
+  },
+  {
+    "name": "percent-square",
+    "title": "Percent Square",
+    "fileName": "percent-square.js"
+  },
+  {
+    "name": "person-standing",
+    "title": "Person Standing",
+    "fileName": "person-standing.js"
+  },
+  {
+    "name": "philippine-peso",
+    "title": "Philippine Peso",
+    "fileName": "philippine-peso.js"
+  },
+  {
+    "name": "phone",
+    "title": "Phone",
+    "fileName": "phone.js"
+  },
+  {
+    "name": "phone-call",
+    "title": "Phone Call",
+    "fileName": "phone-call.js"
+  },
+  {
+    "name": "phone-forwarded",
+    "title": "Phone Forwarded",
+    "fileName": "phone-forwarded.js"
+  },
+  {
+    "name": "phone-incoming",
+    "title": "Phone Incoming",
+    "fileName": "phone-incoming.js"
+  },
+  {
+    "name": "phone-missed",
+    "title": "Phone Missed",
+    "fileName": "phone-missed.js"
+  },
+  {
+    "name": "phone-off",
+    "title": "Phone Off",
+    "fileName": "phone-off.js"
+  },
+  {
+    "name": "phone-outgoing",
+    "title": "Phone Outgoing",
+    "fileName": "phone-outgoing.js"
+  },
+  {
+    "name": "pi",
+    "title": "Pi",
+    "fileName": "pi.js"
+  },
+  {
+    "name": "pi-square",
+    "title": "Pi Square",
+    "fileName": "pi-square.js"
+  },
+  {
+    "name": "piano",
+    "title": "Piano",
+    "fileName": "piano.js"
+  },
+  {
+    "name": "pickaxe",
+    "title": "Pickaxe",
+    "fileName": "pickaxe.js"
+  },
+  {
+    "name": "picture-in-picture",
+    "title": "Picture In Picture",
+    "fileName": "picture-in-picture.js"
+  },
+  {
+    "name": "picture-in-picture-2",
+    "title": "Picture In Picture 2",
+    "fileName": "picture-in-picture-2.js"
+  },
+  {
+    "name": "pie-chart",
+    "title": "Pie Chart",
+    "fileName": "pie-chart.js"
+  },
+  {
+    "name": "piggy-bank",
+    "title": "Piggy Bank",
+    "fileName": "piggy-bank.js"
+  },
+  {
+    "name": "pilcrow",
+    "title": "Pilcrow",
+    "fileName": "pilcrow.js"
+  },
+  {
+    "name": "pilcrow-left",
+    "title": "Pilcrow Left",
+    "fileName": "pilcrow-left.js"
+  },
+  {
+    "name": "pilcrow-right",
+    "title": "Pilcrow Right",
+    "fileName": "pilcrow-right.js"
+  },
+  {
+    "name": "pilcrow-square",
+    "title": "Pilcrow Square",
+    "fileName": "pilcrow-square.js"
+  },
+  {
+    "name": "pill",
+    "title": "Pill",
+    "fileName": "pill.js"
+  },
+  {
+    "name": "pill-bottle",
+    "title": "Pill Bottle",
+    "fileName": "pill-bottle.js"
+  },
+  {
+    "name": "pin",
+    "title": "Pin",
+    "fileName": "pin.js"
+  },
+  {
+    "name": "pin-off",
+    "title": "Pin Off",
+    "fileName": "pin-off.js"
+  },
+  {
+    "name": "pipette",
+    "title": "Pipette",
+    "fileName": "pipette.js"
+  },
+  {
+    "name": "pizza",
+    "title": "Pizza",
+    "fileName": "pizza.js"
+  },
+  {
+    "name": "plane",
+    "title": "Plane",
+    "fileName": "plane.js"
+  },
+  {
+    "name": "plane-landing",
+    "title": "Plane Landing",
+    "fileName": "plane-landing.js"
+  },
+  {
+    "name": "plane-takeoff",
+    "title": "Plane Takeoff",
+    "fileName": "plane-takeoff.js"
+  },
+  {
+    "name": "play",
+    "title": "Play",
+    "fileName": "play.js"
+  },
+  {
+    "name": "play-circle",
+    "title": "Play Circle",
+    "fileName": "play-circle.js"
+  },
+  {
+    "name": "play-square",
+    "title": "Play Square",
+    "fileName": "play-square.js"
+  },
+  {
+    "name": "plug",
+    "title": "Plug",
+    "fileName": "plug.js"
+  },
+  {
+    "name": "plug-2",
+    "title": "Plug 2",
+    "fileName": "plug-2.js"
+  },
+  {
+    "name": "plug-zap",
+    "title": "Plug Zap",
+    "fileName": "plug-zap.js"
+  },
+  {
+    "name": "plug-zap-2",
+    "title": "Plug Zap 2",
+    "fileName": "plug-zap-2.js"
+  },
+  {
+    "name": "plus",
+    "title": "Plus",
+    "fileName": "plus.js"
+  },
+  {
+    "name": "plus-circle",
+    "title": "Plus Circle",
+    "fileName": "plus-circle.js"
+  },
+  {
+    "name": "plus-square",
+    "title": "Plus Square",
+    "fileName": "plus-square.js"
+  },
+  {
+    "name": "pocket",
+    "title": "Pocket",
+    "fileName": "pocket.js"
+  },
+  {
+    "name": "pocket-knife",
+    "title": "Pocket Knife",
+    "fileName": "pocket-knife.js"
+  },
+  {
+    "name": "podcast",
+    "title": "Podcast",
+    "fileName": "podcast.js"
+  },
+  {
+    "name": "pointer",
+    "title": "Pointer",
+    "fileName": "pointer.js"
+  },
+  {
+    "name": "pointer-off",
+    "title": "Pointer Off",
+    "fileName": "pointer-off.js"
+  },
+  {
+    "name": "popcorn",
+    "title": "Popcorn",
+    "fileName": "popcorn.js"
+  },
+  {
+    "name": "popsicle",
+    "title": "Popsicle",
+    "fileName": "popsicle.js"
+  },
+  {
+    "name": "pound-sterling",
+    "title": "Pound Sterling",
+    "fileName": "pound-sterling.js"
+  },
+  {
+    "name": "power",
+    "title": "Power",
+    "fileName": "power.js"
+  },
+  {
+    "name": "power-circle",
+    "title": "Power Circle",
+    "fileName": "power-circle.js"
+  },
+  {
+    "name": "power-off",
+    "title": "Power Off",
+    "fileName": "power-off.js"
+  },
+  {
+    "name": "power-square",
+    "title": "Power Square",
+    "fileName": "power-square.js"
+  },
+  {
+    "name": "presentation",
+    "title": "Presentation",
+    "fileName": "presentation.js"
+  },
+  {
+    "name": "printer",
+    "title": "Printer",
+    "fileName": "printer.js"
+  },
+  {
+    "name": "printer-check",
+    "title": "Printer Check",
+    "fileName": "printer-check.js"
+  },
+  {
+    "name": "projector",
+    "title": "Projector",
+    "fileName": "projector.js"
+  },
+  {
+    "name": "proportions",
+    "title": "Proportions",
+    "fileName": "proportions.js"
+  },
+  {
+    "name": "puzzle",
+    "title": "Puzzle",
+    "fileName": "puzzle.js"
+  },
+  {
+    "name": "pyramid",
+    "title": "Pyramid",
+    "fileName": "pyramid.js"
+  },
+  {
+    "name": "qr-code",
+    "title": "Qr Code",
+    "fileName": "qr-code.js"
+  },
+  {
+    "name": "quote",
+    "title": "Quote",
+    "fileName": "quote.js"
+  },
+  {
+    "name": "rabbit",
+    "title": "Rabbit",
+    "fileName": "rabbit.js"
+  },
+  {
+    "name": "radar",
+    "title": "Radar",
+    "fileName": "radar.js"
+  },
+  {
+    "name": "radiation",
+    "title": "Radiation",
+    "fileName": "radiation.js"
+  },
+  {
+    "name": "radical",
+    "title": "Radical",
+    "fileName": "radical.js"
+  },
+  {
+    "name": "radio",
+    "title": "Radio",
+    "fileName": "radio.js"
+  },
+  {
+    "name": "radio-receiver",
+    "title": "Radio Receiver",
+    "fileName": "radio-receiver.js"
+  },
+  {
+    "name": "radio-tower",
+    "title": "Radio Tower",
+    "fileName": "radio-tower.js"
+  },
+  {
+    "name": "radius",
+    "title": "Radius",
+    "fileName": "radius.js"
+  },
+  {
+    "name": "rail-symbol",
+    "title": "Rail Symbol",
+    "fileName": "rail-symbol.js"
+  },
+  {
+    "name": "rainbow",
+    "title": "Rainbow",
+    "fileName": "rainbow.js"
+  },
+  {
+    "name": "rat",
+    "title": "Rat",
+    "fileName": "rat.js"
+  },
+  {
+    "name": "ratio",
+    "title": "Ratio",
+    "fileName": "ratio.js"
+  },
+  {
+    "name": "receipt",
+    "title": "Receipt",
+    "fileName": "receipt.js"
+  },
+  {
+    "name": "receipt-cent",
+    "title": "Receipt Cent",
+    "fileName": "receipt-cent.js"
+  },
+  {
+    "name": "receipt-euro",
+    "title": "Receipt Euro",
+    "fileName": "receipt-euro.js"
+  },
+  {
+    "name": "receipt-indian-rupee",
+    "title": "Receipt Indian Rupee",
+    "fileName": "receipt-indian-rupee.js"
+  },
+  {
+    "name": "receipt-japanese-yen",
+    "title": "Receipt Japanese Yen",
+    "fileName": "receipt-japanese-yen.js"
+  },
+  {
+    "name": "receipt-pound-sterling",
+    "title": "Receipt Pound Sterling",
+    "fileName": "receipt-pound-sterling.js"
+  },
+  {
+    "name": "receipt-russian-ruble",
+    "title": "Receipt Russian Ruble",
+    "fileName": "receipt-russian-ruble.js"
+  },
+  {
+    "name": "receipt-swiss-franc",
+    "title": "Receipt Swiss Franc",
+    "fileName": "receipt-swiss-franc.js"
+  },
+  {
+    "name": "receipt-text",
+    "title": "Receipt Text",
+    "fileName": "receipt-text.js"
+  },
+  {
+    "name": "rectangle-ellipsis",
+    "title": "Rectangle Ellipsis",
+    "fileName": "rectangle-ellipsis.js"
+  },
+  {
+    "name": "rectangle-horizontal",
+    "title": "Rectangle Horizontal",
+    "fileName": "rectangle-horizontal.js"
+  },
+  {
+    "name": "rectangle-vertical",
+    "title": "Rectangle Vertical",
+    "fileName": "rectangle-vertical.js"
+  },
+  {
+    "name": "recycle",
+    "title": "Recycle",
+    "fileName": "recycle.js"
+  },
+  {
+    "name": "redo",
+    "title": "Redo",
+    "fileName": "redo.js"
+  },
+  {
+    "name": "redo-2",
+    "title": "Redo 2",
+    "fileName": "redo-2.js"
+  },
+  {
+    "name": "redo-dot",
+    "title": "Redo Dot",
+    "fileName": "redo-dot.js"
+  },
+  {
+    "name": "refresh-ccw",
+    "title": "Refresh Ccw",
+    "fileName": "refresh-ccw.js"
+  },
+  {
+    "name": "refresh-ccw-dot",
+    "title": "Refresh Ccw Dot",
+    "fileName": "refresh-ccw-dot.js"
+  },
+  {
+    "name": "refresh-cw",
+    "title": "Refresh Cw",
+    "fileName": "refresh-cw.js"
+  },
+  {
+    "name": "refresh-cw-off",
+    "title": "Refresh Cw Off",
+    "fileName": "refresh-cw-off.js"
+  },
+  {
+    "name": "refrigerator",
+    "title": "Refrigerator",
+    "fileName": "refrigerator.js"
+  },
+  {
+    "name": "regex",
+    "title": "Regex",
+    "fileName": "regex.js"
+  },
+  {
+    "name": "remove-formatting",
+    "title": "Remove Formatting",
+    "fileName": "remove-formatting.js"
+  },
+  {
+    "name": "repeat",
+    "title": "Repeat",
+    "fileName": "repeat.js"
+  },
+  {
+    "name": "repeat-1",
+    "title": "Repeat 1",
+    "fileName": "repeat-1.js"
+  },
+  {
+    "name": "repeat-2",
+    "title": "Repeat 2",
+    "fileName": "repeat-2.js"
+  },
+  {
+    "name": "replace",
+    "title": "Replace",
+    "fileName": "replace.js"
+  },
+  {
+    "name": "replace-all",
+    "title": "Replace All",
+    "fileName": "replace-all.js"
+  },
+  {
+    "name": "reply",
+    "title": "Reply",
+    "fileName": "reply.js"
+  },
+  {
+    "name": "reply-all",
+    "title": "Reply All",
+    "fileName": "reply-all.js"
+  },
+  {
+    "name": "rewind",
+    "title": "Rewind",
+    "fileName": "rewind.js"
+  },
+  {
+    "name": "ribbon",
+    "title": "Ribbon",
+    "fileName": "ribbon.js"
+  },
+  {
+    "name": "rocket",
+    "title": "Rocket",
+    "fileName": "rocket.js"
+  },
+  {
+    "name": "rocking-chair",
+    "title": "Rocking Chair",
+    "fileName": "rocking-chair.js"
+  },
+  {
+    "name": "roller-coaster",
+    "title": "Roller Coaster",
+    "fileName": "roller-coaster.js"
+  },
+  {
+    "name": "rotate-3-d",
+    "title": "Rotate 3 D",
+    "fileName": "rotate-3-d.js"
+  },
+  {
+    "name": "rotate-3d",
+    "title": "Rotate 3d",
+    "fileName": "rotate-3d.js"
+  },
+  {
+    "name": "rotate-ccw",
+    "title": "Rotate Ccw",
+    "fileName": "rotate-ccw.js"
+  },
+  {
+    "name": "rotate-ccw-square",
+    "title": "Rotate Ccw Square",
+    "fileName": "rotate-ccw-square.js"
+  },
+  {
+    "name": "rotate-cw",
+    "title": "Rotate Cw",
+    "fileName": "rotate-cw.js"
+  },
+  {
+    "name": "rotate-cw-square",
+    "title": "Rotate Cw Square",
+    "fileName": "rotate-cw-square.js"
+  },
+  {
+    "name": "route",
+    "title": "Route",
+    "fileName": "route.js"
+  },
+  {
+    "name": "route-off",
+    "title": "Route Off",
+    "fileName": "route-off.js"
+  },
+  {
+    "name": "router",
+    "title": "Router",
+    "fileName": "router.js"
+  },
+  {
+    "name": "rows",
+    "title": "Rows",
+    "fileName": "rows.js"
+  },
+  {
+    "name": "rows-2",
+    "title": "Rows 2",
+    "fileName": "rows-2.js"
+  },
+  {
+    "name": "rows-3",
+    "title": "Rows 3",
+    "fileName": "rows-3.js"
+  },
+  {
+    "name": "rows-4",
+    "title": "Rows 4",
+    "fileName": "rows-4.js"
+  },
+  {
+    "name": "rss",
+    "title": "Rss",
+    "fileName": "rss.js"
+  },
+  {
+    "name": "ruler",
+    "title": "Ruler",
+    "fileName": "ruler.js"
+  },
+  {
+    "name": "russian-ruble",
+    "title": "Russian Ruble",
+    "fileName": "russian-ruble.js"
+  },
+  {
+    "name": "sailboat",
+    "title": "Sailboat",
+    "fileName": "sailboat.js"
+  },
+  {
+    "name": "salad",
+    "title": "Salad",
+    "fileName": "salad.js"
+  },
+  {
+    "name": "sandwich",
+    "title": "Sandwich",
+    "fileName": "sandwich.js"
+  },
+  {
+    "name": "satellite",
+    "title": "Satellite",
+    "fileName": "satellite.js"
+  },
+  {
+    "name": "satellite-dish",
+    "title": "Satellite Dish",
+    "fileName": "satellite-dish.js"
+  },
+  {
+    "name": "save",
+    "title": "Save",
+    "fileName": "save.js"
+  },
+  {
+    "name": "save-all",
+    "title": "Save All",
+    "fileName": "save-all.js"
+  },
+  {
+    "name": "save-off",
+    "title": "Save Off",
+    "fileName": "save-off.js"
+  },
+  {
+    "name": "scale",
+    "title": "Scale",
+    "fileName": "scale.js"
+  },
+  {
+    "name": "scale-3-d",
+    "title": "Scale 3 D",
+    "fileName": "scale-3-d.js"
+  },
+  {
+    "name": "scale-3d",
+    "title": "Scale 3d",
+    "fileName": "scale-3d.js"
+  },
+  {
+    "name": "scaling",
+    "title": "Scaling",
+    "fileName": "scaling.js"
+  },
+  {
+    "name": "scan",
+    "title": "Scan",
+    "fileName": "scan.js"
+  },
+  {
+    "name": "scan-barcode",
+    "title": "Scan Barcode",
+    "fileName": "scan-barcode.js"
+  },
+  {
+    "name": "scan-eye",
+    "title": "Scan Eye",
+    "fileName": "scan-eye.js"
+  },
+  {
+    "name": "scan-face",
+    "title": "Scan Face",
+    "fileName": "scan-face.js"
+  },
+  {
+    "name": "scan-heart",
+    "title": "Scan Heart",
+    "fileName": "scan-heart.js"
+  },
+  {
+    "name": "scan-line",
+    "title": "Scan Line",
+    "fileName": "scan-line.js"
+  },
+  {
+    "name": "scan-qr-code",
+    "title": "Scan Qr Code",
+    "fileName": "scan-qr-code.js"
+  },
+  {
+    "name": "scan-search",
+    "title": "Scan Search",
+    "fileName": "scan-search.js"
+  },
+  {
+    "name": "scan-text",
+    "title": "Scan Text",
+    "fileName": "scan-text.js"
+  },
+  {
+    "name": "scatter-chart",
+    "title": "Scatter Chart",
+    "fileName": "scatter-chart.js"
+  },
+  {
+    "name": "school",
+    "title": "School",
+    "fileName": "school.js"
+  },
+  {
+    "name": "school-2",
+    "title": "School 2",
+    "fileName": "school-2.js"
+  },
+  {
+    "name": "scissors",
+    "title": "Scissors",
+    "fileName": "scissors.js"
+  },
+  {
+    "name": "scissors-line-dashed",
+    "title": "Scissors Line Dashed",
+    "fileName": "scissors-line-dashed.js"
+  },
+  {
+    "name": "scissors-square",
+    "title": "Scissors Square",
+    "fileName": "scissors-square.js"
+  },
+  {
+    "name": "scissors-square-dashed-bottom",
+    "title": "Scissors Square Dashed Bottom",
+    "fileName": "scissors-square-dashed-bottom.js"
+  },
+  {
+    "name": "screen-share",
+    "title": "Screen Share",
+    "fileName": "screen-share.js"
+  },
+  {
+    "name": "screen-share-off",
+    "title": "Screen Share Off",
+    "fileName": "screen-share-off.js"
+  },
+  {
+    "name": "scroll",
+    "title": "Scroll",
+    "fileName": "scroll.js"
+  },
+  {
+    "name": "scroll-text",
+    "title": "Scroll Text",
+    "fileName": "scroll-text.js"
+  },
+  {
+    "name": "search",
+    "title": "Search",
+    "fileName": "search.js"
+  },
+  {
+    "name": "search-check",
+    "title": "Search Check",
+    "fileName": "search-check.js"
+  },
+  {
+    "name": "search-code",
+    "title": "Search Code",
+    "fileName": "search-code.js"
+  },
+  {
+    "name": "search-slash",
+    "title": "Search Slash",
+    "fileName": "search-slash.js"
+  },
+  {
+    "name": "search-x",
+    "title": "Search X",
+    "fileName": "search-x.js"
+  },
+  {
+    "name": "section",
+    "title": "Section",
+    "fileName": "section.js"
+  },
+  {
+    "name": "send",
+    "title": "Send",
+    "fileName": "send.js"
+  },
+  {
+    "name": "send-horizonal",
+    "title": "Send Horizonal",
+    "fileName": "send-horizonal.js"
+  },
+  {
+    "name": "send-horizontal",
+    "title": "Send Horizontal",
+    "fileName": "send-horizontal.js"
+  },
+  {
+    "name": "send-to-back",
+    "title": "Send To Back",
+    "fileName": "send-to-back.js"
+  },
+  {
+    "name": "separator-horizontal",
+    "title": "Separator Horizontal",
+    "fileName": "separator-horizontal.js"
+  },
+  {
+    "name": "separator-vertical",
+    "title": "Separator Vertical",
+    "fileName": "separator-vertical.js"
+  },
+  {
+    "name": "server",
+    "title": "Server",
+    "fileName": "server.js"
+  },
+  {
+    "name": "server-cog",
+    "title": "Server Cog",
+    "fileName": "server-cog.js"
+  },
+  {
+    "name": "server-crash",
+    "title": "Server Crash",
+    "fileName": "server-crash.js"
+  },
+  {
+    "name": "server-off",
+    "title": "Server Off",
+    "fileName": "server-off.js"
+  },
+  {
+    "name": "settings",
+    "title": "Settings",
+    "fileName": "settings.js"
+  },
+  {
+    "name": "settings-2",
+    "title": "Settings 2",
+    "fileName": "settings-2.js"
+  },
+  {
+    "name": "shapes",
+    "title": "Shapes",
+    "fileName": "shapes.js"
+  },
+  {
+    "name": "share",
+    "title": "Share",
+    "fileName": "share.js"
+  },
+  {
+    "name": "share-2",
+    "title": "Share 2",
+    "fileName": "share-2.js"
+  },
+  {
+    "name": "sheet",
+    "title": "Sheet",
+    "fileName": "sheet.js"
+  },
+  {
+    "name": "shell",
+    "title": "Shell",
+    "fileName": "shell.js"
+  },
+  {
+    "name": "shield",
+    "title": "Shield",
+    "fileName": "shield.js"
+  },
+  {
+    "name": "shield-alert",
+    "title": "Shield Alert",
+    "fileName": "shield-alert.js"
+  },
+  {
+    "name": "shield-ban",
+    "title": "Shield Ban",
+    "fileName": "shield-ban.js"
+  },
+  {
+    "name": "shield-check",
+    "title": "Shield Check",
+    "fileName": "shield-check.js"
+  },
+  {
+    "name": "shield-close",
+    "title": "Shield Close",
+    "fileName": "shield-close.js"
+  },
+  {
+    "name": "shield-ellipsis",
+    "title": "Shield Ellipsis",
+    "fileName": "shield-ellipsis.js"
+  },
+  {
+    "name": "shield-half",
+    "title": "Shield Half",
+    "fileName": "shield-half.js"
+  },
+  {
+    "name": "shield-minus",
+    "title": "Shield Minus",
+    "fileName": "shield-minus.js"
+  },
+  {
+    "name": "shield-off",
+    "title": "Shield Off",
+    "fileName": "shield-off.js"
+  },
+  {
+    "name": "shield-plus",
+    "title": "Shield Plus",
+    "fileName": "shield-plus.js"
+  },
+  {
+    "name": "shield-question",
+    "title": "Shield Question",
+    "fileName": "shield-question.js"
+  },
+  {
+    "name": "shield-user",
+    "title": "Shield User",
+    "fileName": "shield-user.js"
+  },
+  {
+    "name": "shield-x",
+    "title": "Shield X",
+    "fileName": "shield-x.js"
+  },
+  {
+    "name": "ship",
+    "title": "Ship",
+    "fileName": "ship.js"
+  },
+  {
+    "name": "ship-wheel",
+    "title": "Ship Wheel",
+    "fileName": "ship-wheel.js"
+  },
+  {
+    "name": "shirt",
+    "title": "Shirt",
+    "fileName": "shirt.js"
+  },
+  {
+    "name": "shopping-bag",
+    "title": "Shopping Bag",
+    "fileName": "shopping-bag.js"
+  },
+  {
+    "name": "shopping-basket",
+    "title": "Shopping Basket",
+    "fileName": "shopping-basket.js"
+  },
+  {
+    "name": "shopping-cart",
+    "title": "Shopping Cart",
+    "fileName": "shopping-cart.js"
+  },
+  {
+    "name": "shovel",
+    "title": "Shovel",
+    "fileName": "shovel.js"
+  },
+  {
+    "name": "shower-head",
+    "title": "Shower Head",
+    "fileName": "shower-head.js"
+  },
+  {
+    "name": "shrink",
+    "title": "Shrink",
+    "fileName": "shrink.js"
+  },
+  {
+    "name": "shrub",
+    "title": "Shrub",
+    "fileName": "shrub.js"
+  },
+  {
+    "name": "shuffle",
+    "title": "Shuffle",
+    "fileName": "shuffle.js"
+  },
+  {
+    "name": "sidebar",
+    "title": "Sidebar",
+    "fileName": "sidebar.js"
+  },
+  {
+    "name": "sidebar-close",
+    "title": "Sidebar Close",
+    "fileName": "sidebar-close.js"
+  },
+  {
+    "name": "sidebar-open",
+    "title": "Sidebar Open",
+    "fileName": "sidebar-open.js"
+  },
+  {
+    "name": "sigma",
+    "title": "Sigma",
+    "fileName": "sigma.js"
+  },
+  {
+    "name": "sigma-square",
+    "title": "Sigma Square",
+    "fileName": "sigma-square.js"
+  },
+  {
+    "name": "signal",
+    "title": "Signal",
+    "fileName": "signal.js"
+  },
+  {
+    "name": "signal-high",
+    "title": "Signal High",
+    "fileName": "signal-high.js"
+  },
+  {
+    "name": "signal-low",
+    "title": "Signal Low",
+    "fileName": "signal-low.js"
+  },
+  {
+    "name": "signal-medium",
+    "title": "Signal Medium",
+    "fileName": "signal-medium.js"
+  },
+  {
+    "name": "signal-zero",
+    "title": "Signal Zero",
+    "fileName": "signal-zero.js"
+  },
+  {
+    "name": "signature",
+    "title": "Signature",
+    "fileName": "signature.js"
+  },
+  {
+    "name": "signpost",
+    "title": "Signpost",
+    "fileName": "signpost.js"
+  },
+  {
+    "name": "signpost-big",
+    "title": "Signpost Big",
+    "fileName": "signpost-big.js"
+  },
+  {
+    "name": "siren",
+    "title": "Siren",
+    "fileName": "siren.js"
+  },
+  {
+    "name": "skip-back",
+    "title": "Skip Back",
+    "fileName": "skip-back.js"
+  },
+  {
+    "name": "skip-forward",
+    "title": "Skip Forward",
+    "fileName": "skip-forward.js"
+  },
+  {
+    "name": "skull",
+    "title": "Skull",
+    "fileName": "skull.js"
+  },
+  {
+    "name": "slack",
+    "title": "Slack",
+    "fileName": "slack.js"
+  },
+  {
+    "name": "slash",
+    "title": "Slash",
+    "fileName": "slash.js"
+  },
+  {
+    "name": "slash-square",
+    "title": "Slash Square",
+    "fileName": "slash-square.js"
+  },
+  {
+    "name": "slice",
+    "title": "Slice",
+    "fileName": "slice.js"
+  },
+  {
+    "name": "sliders",
+    "title": "Sliders",
+    "fileName": "sliders.js"
+  },
+  {
+    "name": "sliders-horizontal",
+    "title": "Sliders Horizontal",
+    "fileName": "sliders-horizontal.js"
+  },
+  {
+    "name": "sliders-vertical",
+    "title": "Sliders Vertical",
+    "fileName": "sliders-vertical.js"
+  },
+  {
+    "name": "smartphone",
+    "title": "Smartphone",
+    "fileName": "smartphone.js"
+  },
+  {
+    "name": "smartphone-charging",
+    "title": "Smartphone Charging",
+    "fileName": "smartphone-charging.js"
+  },
+  {
+    "name": "smartphone-nfc",
+    "title": "Smartphone Nfc",
+    "fileName": "smartphone-nfc.js"
+  },
+  {
+    "name": "smile",
+    "title": "Smile",
+    "fileName": "smile.js"
+  },
+  {
+    "name": "smile-plus",
+    "title": "Smile Plus",
+    "fileName": "smile-plus.js"
+  },
+  {
+    "name": "snail",
+    "title": "Snail",
+    "fileName": "snail.js"
+  },
+  {
+    "name": "snowflake",
+    "title": "Snowflake",
+    "fileName": "snowflake.js"
+  },
+  {
+    "name": "sofa",
+    "title": "Sofa",
+    "fileName": "sofa.js"
+  },
+  {
+    "name": "sort-asc",
+    "title": "Sort Asc",
+    "fileName": "sort-asc.js"
+  },
+  {
+    "name": "sort-desc",
+    "title": "Sort Desc",
+    "fileName": "sort-desc.js"
+  },
+  {
+    "name": "soup",
+    "title": "Soup",
+    "fileName": "soup.js"
+  },
+  {
+    "name": "space",
+    "title": "Space",
+    "fileName": "space.js"
+  },
+  {
+    "name": "spade",
+    "title": "Spade",
+    "fileName": "spade.js"
+  },
+  {
+    "name": "sparkle",
+    "title": "Sparkle",
+    "fileName": "sparkle.js"
+  },
+  {
+    "name": "sparkles",
+    "title": "Sparkles",
+    "fileName": "sparkles.js"
+  },
+  {
+    "name": "speaker",
+    "title": "Speaker",
+    "fileName": "speaker.js"
+  },
+  {
+    "name": "speech",
+    "title": "Speech",
+    "fileName": "speech.js"
+  },
+  {
+    "name": "spell-check",
+    "title": "Spell Check",
+    "fileName": "spell-check.js"
+  },
+  {
+    "name": "spell-check-2",
+    "title": "Spell Check 2",
+    "fileName": "spell-check-2.js"
+  },
+  {
+    "name": "spline",
+    "title": "Spline",
+    "fileName": "spline.js"
+  },
+  {
+    "name": "split",
+    "title": "Split",
+    "fileName": "split.js"
+  },
+  {
+    "name": "split-square-horizontal",
+    "title": "Split Square Horizontal",
+    "fileName": "split-square-horizontal.js"
+  },
+  {
+    "name": "split-square-vertical",
+    "title": "Split Square Vertical",
+    "fileName": "split-square-vertical.js"
+  },
+  {
+    "name": "spray-can",
+    "title": "Spray Can",
+    "fileName": "spray-can.js"
+  },
+  {
+    "name": "sprout",
+    "title": "Sprout",
+    "fileName": "sprout.js"
+  },
+  {
+    "name": "square",
+    "title": "Square",
+    "fileName": "square.js"
+  },
+  {
+    "name": "square-activity",
+    "title": "Square Activity",
+    "fileName": "square-activity.js"
+  },
+  {
+    "name": "square-arrow-down",
+    "title": "Square Arrow Down",
+    "fileName": "square-arrow-down.js"
+  },
+  {
+    "name": "square-arrow-down-left",
+    "title": "Square Arrow Down Left",
+    "fileName": "square-arrow-down-left.js"
+  },
+  {
+    "name": "square-arrow-down-right",
+    "title": "Square Arrow Down Right",
+    "fileName": "square-arrow-down-right.js"
+  },
+  {
+    "name": "square-arrow-left",
+    "title": "Square Arrow Left",
+    "fileName": "square-arrow-left.js"
+  },
+  {
+    "name": "square-arrow-out-down-left",
+    "title": "Square Arrow Out Down Left",
+    "fileName": "square-arrow-out-down-left.js"
+  },
+  {
+    "name": "square-arrow-out-down-right",
+    "title": "Square Arrow Out Down Right",
+    "fileName": "square-arrow-out-down-right.js"
+  },
+  {
+    "name": "square-arrow-out-up-left",
+    "title": "Square Arrow Out Up Left",
+    "fileName": "square-arrow-out-up-left.js"
+  },
+  {
+    "name": "square-arrow-out-up-right",
+    "title": "Square Arrow Out Up Right",
+    "fileName": "square-arrow-out-up-right.js"
+  },
+  {
+    "name": "square-arrow-right",
+    "title": "Square Arrow Right",
+    "fileName": "square-arrow-right.js"
+  },
+  {
+    "name": "square-arrow-up",
+    "title": "Square Arrow Up",
+    "fileName": "square-arrow-up.js"
+  },
+  {
+    "name": "square-arrow-up-left",
+    "title": "Square Arrow Up Left",
+    "fileName": "square-arrow-up-left.js"
+  },
+  {
+    "name": "square-arrow-up-right",
+    "title": "Square Arrow Up Right",
+    "fileName": "square-arrow-up-right.js"
+  },
+  {
+    "name": "square-asterisk",
+    "title": "Square Asterisk",
+    "fileName": "square-asterisk.js"
+  },
+  {
+    "name": "square-bottom-dashed-scissors",
+    "title": "Square Bottom Dashed Scissors",
+    "fileName": "square-bottom-dashed-scissors.js"
+  },
+  {
+    "name": "square-chart-gantt",
+    "title": "Square Chart Gantt",
+    "fileName": "square-chart-gantt.js"
+  },
+  {
+    "name": "square-check",
+    "title": "Square Check",
+    "fileName": "square-check.js"
+  },
+  {
+    "name": "square-check-big",
+    "title": "Square Check Big",
+    "fileName": "square-check-big.js"
+  },
+  {
+    "name": "square-chevron-down",
+    "title": "Square Chevron Down",
+    "fileName": "square-chevron-down.js"
+  },
+  {
+    "name": "square-chevron-left",
+    "title": "Square Chevron Left",
+    "fileName": "square-chevron-left.js"
+  },
+  {
+    "name": "square-chevron-right",
+    "title": "Square Chevron Right",
+    "fileName": "square-chevron-right.js"
+  },
+  {
+    "name": "square-chevron-up",
+    "title": "Square Chevron Up",
+    "fileName": "square-chevron-up.js"
+  },
+  {
+    "name": "square-code",
+    "title": "Square Code",
+    "fileName": "square-code.js"
+  },
+  {
+    "name": "square-dashed",
+    "title": "Square Dashed",
+    "fileName": "square-dashed.js"
+  },
+  {
+    "name": "square-dashed-bottom",
+    "title": "Square Dashed Bottom",
+    "fileName": "square-dashed-bottom.js"
+  },
+  {
+    "name": "square-dashed-bottom-code",
+    "title": "Square Dashed Bottom Code",
+    "fileName": "square-dashed-bottom-code.js"
+  },
+  {
+    "name": "square-dashed-kanban",
+    "title": "Square Dashed Kanban",
+    "fileName": "square-dashed-kanban.js"
+  },
+  {
+    "name": "square-dashed-mouse-pointer",
+    "title": "Square Dashed Mouse Pointer",
+    "fileName": "square-dashed-mouse-pointer.js"
+  },
+  {
+    "name": "square-divide",
+    "title": "Square Divide",
+    "fileName": "square-divide.js"
+  },
+  {
+    "name": "square-dot",
+    "title": "Square Dot",
+    "fileName": "square-dot.js"
+  },
+  {
+    "name": "square-equal",
+    "title": "Square Equal",
+    "fileName": "square-equal.js"
+  },
+  {
+    "name": "square-function",
+    "title": "Square Function",
+    "fileName": "square-function.js"
+  },
+  {
+    "name": "square-gantt-chart",
+    "title": "Square Gantt Chart",
+    "fileName": "square-gantt-chart.js"
+  },
+  {
+    "name": "square-kanban",
+    "title": "Square Kanban",
+    "fileName": "square-kanban.js"
+  },
+  {
+    "name": "square-library",
+    "title": "Square Library",
+    "fileName": "square-library.js"
+  },
+  {
+    "name": "square-m",
+    "title": "Square M",
+    "fileName": "square-m.js"
+  },
+  {
+    "name": "square-menu",
+    "title": "Square Menu",
+    "fileName": "square-menu.js"
+  },
+  {
+    "name": "square-minus",
+    "title": "Square Minus",
+    "fileName": "square-minus.js"
+  },
+  {
+    "name": "square-mouse-pointer",
+    "title": "Square Mouse Pointer",
+    "fileName": "square-mouse-pointer.js"
+  },
+  {
+    "name": "square-parking",
+    "title": "Square Parking",
+    "fileName": "square-parking.js"
+  },
+  {
+    "name": "square-parking-off",
+    "title": "Square Parking Off",
+    "fileName": "square-parking-off.js"
+  },
+  {
+    "name": "square-pen",
+    "title": "Square Pen",
+    "fileName": "square-pen.js"
+  },
+  {
+    "name": "square-percent",
+    "title": "Square Percent",
+    "fileName": "square-percent.js"
+  },
+  {
+    "name": "square-pi",
+    "title": "Square Pi",
+    "fileName": "square-pi.js"
+  },
+  {
+    "name": "square-pilcrow",
+    "title": "Square Pilcrow",
+    "fileName": "square-pilcrow.js"
+  },
+  {
+    "name": "square-play",
+    "title": "Square Play",
+    "fileName": "square-play.js"
+  },
+  {
+    "name": "square-plus",
+    "title": "Square Plus",
+    "fileName": "square-plus.js"
+  },
+  {
+    "name": "square-power",
+    "title": "Square Power",
+    "fileName": "square-power.js"
+  },
+  {
+    "name": "square-radical",
+    "title": "Square Radical",
+    "fileName": "square-radical.js"
+  },
+  {
+    "name": "square-scissors",
+    "title": "Square Scissors",
+    "fileName": "square-scissors.js"
+  },
+  {
+    "name": "square-sigma",
+    "title": "Square Sigma",
+    "fileName": "square-sigma.js"
+  },
+  {
+    "name": "square-slash",
+    "title": "Square Slash",
+    "fileName": "square-slash.js"
+  },
+  {
+    "name": "square-split-horizontal",
+    "title": "Square Split Horizontal",
+    "fileName": "square-split-horizontal.js"
+  },
+  {
+    "name": "square-split-vertical",
+    "title": "Square Split Vertical",
+    "fileName": "square-split-vertical.js"
+  },
+  {
+    "name": "square-square",
+    "title": "Square Square",
+    "fileName": "square-square.js"
+  },
+  {
+    "name": "square-stack",
+    "title": "Square Stack",
+    "fileName": "square-stack.js"
+  },
+  {
+    "name": "square-terminal",
+    "title": "Square Terminal",
+    "fileName": "square-terminal.js"
+  },
+  {
+    "name": "square-user",
+    "title": "Square User",
+    "fileName": "square-user.js"
+  },
+  {
+    "name": "square-user-round",
+    "title": "Square User Round",
+    "fileName": "square-user-round.js"
+  },
+  {
+    "name": "square-x",
+    "title": "Square X",
+    "fileName": "square-x.js"
+  },
+  {
+    "name": "squircle",
+    "title": "Squircle",
+    "fileName": "squircle.js"
+  },
+  {
+    "name": "squirrel",
+    "title": "Squirrel",
+    "fileName": "squirrel.js"
+  },
+  {
+    "name": "stamp",
+    "title": "Stamp",
+    "fileName": "stamp.js"
+  },
+  {
+    "name": "star",
+    "title": "Star",
+    "fileName": "star.js"
+  },
+  {
+    "name": "star-half",
+    "title": "Star Half",
+    "fileName": "star-half.js"
+  },
+  {
+    "name": "star-off",
+    "title": "Star Off",
+    "fileName": "star-off.js"
+  },
+  {
+    "name": "stars",
+    "title": "Stars",
+    "fileName": "stars.js"
+  },
+  {
+    "name": "step-back",
+    "title": "Step Back",
+    "fileName": "step-back.js"
+  },
+  {
+    "name": "step-forward",
+    "title": "Step Forward",
+    "fileName": "step-forward.js"
+  },
+  {
+    "name": "stethoscope",
+    "title": "Stethoscope",
+    "fileName": "stethoscope.js"
+  },
+  {
+    "name": "sticker",
+    "title": "Sticker",
+    "fileName": "sticker.js"
+  },
+  {
+    "name": "sticky-note",
+    "title": "Sticky Note",
+    "fileName": "sticky-note.js"
+  },
+  {
+    "name": "stop-circle",
+    "title": "Stop Circle",
+    "fileName": "stop-circle.js"
+  },
+  {
+    "name": "store",
+    "title": "Store",
+    "fileName": "store.js"
+  },
+  {
+    "name": "stretch-horizontal",
+    "title": "Stretch Horizontal",
+    "fileName": "stretch-horizontal.js"
+  },
+  {
+    "name": "stretch-vertical",
+    "title": "Stretch Vertical",
+    "fileName": "stretch-vertical.js"
+  },
+  {
+    "name": "strikethrough",
+    "title": "Strikethrough",
+    "fileName": "strikethrough.js"
+  },
+  {
+    "name": "subscript",
+    "title": "Subscript",
+    "fileName": "subscript.js"
+  },
+  {
+    "name": "subtitles",
+    "title": "Subtitles",
+    "fileName": "subtitles.js"
+  },
+  {
+    "name": "sun",
+    "title": "Sun",
+    "fileName": "sun.js"
+  },
+  {
+    "name": "sun-dim",
+    "title": "Sun Dim",
+    "fileName": "sun-dim.js"
+  },
+  {
+    "name": "sun-medium",
+    "title": "Sun Medium",
+    "fileName": "sun-medium.js"
+  },
+  {
+    "name": "sun-moon",
+    "title": "Sun Moon",
+    "fileName": "sun-moon.js"
+  },
+  {
+    "name": "sun-snow",
+    "title": "Sun Snow",
+    "fileName": "sun-snow.js"
+  },
+  {
+    "name": "sunrise",
+    "title": "Sunrise",
+    "fileName": "sunrise.js"
+  },
+  {
+    "name": "sunset",
+    "title": "Sunset",
+    "fileName": "sunset.js"
+  },
+  {
+    "name": "superscript",
+    "title": "Superscript",
+    "fileName": "superscript.js"
+  },
+  {
+    "name": "swatch-book",
+    "title": "Swatch Book",
+    "fileName": "swatch-book.js"
+  },
+  {
+    "name": "swiss-franc",
+    "title": "Swiss Franc",
+    "fileName": "swiss-franc.js"
+  },
+  {
+    "name": "switch-camera",
+    "title": "Switch Camera",
+    "fileName": "switch-camera.js"
+  },
+  {
+    "name": "sword",
+    "title": "Sword",
+    "fileName": "sword.js"
+  },
+  {
+    "name": "swords",
+    "title": "Swords",
+    "fileName": "swords.js"
+  },
+  {
+    "name": "syringe",
+    "title": "Syringe",
+    "fileName": "syringe.js"
+  },
+  {
+    "name": "table",
+    "title": "Table",
+    "fileName": "table.js"
+  },
+  {
+    "name": "table-2",
+    "title": "Table 2",
+    "fileName": "table-2.js"
+  },
+  {
+    "name": "table-cells-merge",
+    "title": "Table Cells Merge",
+    "fileName": "table-cells-merge.js"
+  },
+  {
+    "name": "table-cells-split",
+    "title": "Table Cells Split",
+    "fileName": "table-cells-split.js"
+  },
+  {
+    "name": "table-columns-split",
+    "title": "Table Columns Split",
+    "fileName": "table-columns-split.js"
+  },
+  {
+    "name": "table-of-contents",
+    "title": "Table Of Contents",
+    "fileName": "table-of-contents.js"
+  },
+  {
+    "name": "table-properties",
+    "title": "Table Properties",
+    "fileName": "table-properties.js"
+  },
+  {
+    "name": "table-rows-split",
+    "title": "Table Rows Split",
+    "fileName": "table-rows-split.js"
+  },
+  {
+    "name": "tablet",
+    "title": "Tablet",
+    "fileName": "tablet.js"
+  },
+  {
+    "name": "tablet-smartphone",
+    "title": "Tablet Smartphone",
+    "fileName": "tablet-smartphone.js"
+  },
+  {
+    "name": "tablets",
+    "title": "Tablets",
+    "fileName": "tablets.js"
+  },
+  {
+    "name": "tag",
+    "title": "Tag",
+    "fileName": "tag.js"
+  },
+  {
+    "name": "tags",
+    "title": "Tags",
+    "fileName": "tags.js"
+  },
+  {
+    "name": "tally-1",
+    "title": "Tally 1",
+    "fileName": "tally-1.js"
+  },
+  {
+    "name": "tally-2",
+    "title": "Tally 2",
+    "fileName": "tally-2.js"
+  },
+  {
+    "name": "tally-3",
+    "title": "Tally 3",
+    "fileName": "tally-3.js"
+  },
+  {
+    "name": "tally-4",
+    "title": "Tally 4",
+    "fileName": "tally-4.js"
+  },
+  {
+    "name": "tally-5",
+    "title": "Tally 5",
+    "fileName": "tally-5.js"
+  },
+  {
+    "name": "tangent",
+    "title": "Tangent",
+    "fileName": "tangent.js"
+  },
+  {
+    "name": "target",
+    "title": "Target",
+    "fileName": "target.js"
+  },
+  {
+    "name": "telescope",
+    "title": "Telescope",
+    "fileName": "telescope.js"
+  },
+  {
+    "name": "tent",
+    "title": "Tent",
+    "fileName": "tent.js"
+  },
+  {
+    "name": "tent-tree",
+    "title": "Tent Tree",
+    "fileName": "tent-tree.js"
+  },
+  {
+    "name": "terminal",
+    "title": "Terminal",
+    "fileName": "terminal.js"
+  },
+  {
+    "name": "terminal-square",
+    "title": "Terminal Square",
+    "fileName": "terminal-square.js"
+  },
+  {
+    "name": "test-tube",
+    "title": "Test Tube",
+    "fileName": "test-tube.js"
+  },
+  {
+    "name": "test-tube-2",
+    "title": "Test Tube 2",
+    "fileName": "test-tube-2.js"
+  },
+  {
+    "name": "test-tube-diagonal",
+    "title": "Test Tube Diagonal",
+    "fileName": "test-tube-diagonal.js"
+  },
+  {
+    "name": "test-tubes",
+    "title": "Test Tubes",
+    "fileName": "test-tubes.js"
+  },
+  {
+    "name": "text",
+    "title": "Text",
+    "fileName": "text.js"
+  },
+  {
+    "name": "text-cursor",
+    "title": "Text Cursor",
+    "fileName": "text-cursor.js"
+  },
+  {
+    "name": "text-cursor-input",
+    "title": "Text Cursor Input",
+    "fileName": "text-cursor-input.js"
+  },
+  {
+    "name": "text-quote",
+    "title": "Text Quote",
+    "fileName": "text-quote.js"
+  },
+  {
+    "name": "text-search",
+    "title": "Text Search",
+    "fileName": "text-search.js"
+  },
+  {
+    "name": "text-select",
+    "title": "Text Select",
+    "fileName": "text-select.js"
+  },
+  {
+    "name": "text-selection",
+    "title": "Text Selection",
+    "fileName": "text-selection.js"
+  },
+  {
+    "name": "theater",
+    "title": "Theater",
+    "fileName": "theater.js"
+  },
+  {
+    "name": "thermometer",
+    "title": "Thermometer",
+    "fileName": "thermometer.js"
+  },
+  {
+    "name": "thermometer-snowflake",
+    "title": "Thermometer Snowflake",
+    "fileName": "thermometer-snowflake.js"
+  },
+  {
+    "name": "thermometer-sun",
+    "title": "Thermometer Sun",
+    "fileName": "thermometer-sun.js"
+  },
+  {
+    "name": "thumbs-down",
+    "title": "Thumbs Down",
+    "fileName": "thumbs-down.js"
+  },
+  {
+    "name": "thumbs-up",
+    "title": "Thumbs Up",
+    "fileName": "thumbs-up.js"
+  },
+  {
+    "name": "ticket",
+    "title": "Ticket",
+    "fileName": "ticket.js"
+  },
+  {
+    "name": "ticket-check",
+    "title": "Ticket Check",
+    "fileName": "ticket-check.js"
+  },
+  {
+    "name": "ticket-minus",
+    "title": "Ticket Minus",
+    "fileName": "ticket-minus.js"
+  },
+  {
+    "name": "ticket-percent",
+    "title": "Ticket Percent",
+    "fileName": "ticket-percent.js"
+  },
+  {
+    "name": "ticket-plus",
+    "title": "Ticket Plus",
+    "fileName": "ticket-plus.js"
+  },
+  {
+    "name": "ticket-slash",
+    "title": "Ticket Slash",
+    "fileName": "ticket-slash.js"
+  },
+  {
+    "name": "ticket-x",
+    "title": "Ticket X",
+    "fileName": "ticket-x.js"
+  },
+  {
+    "name": "tickets",
+    "title": "Tickets",
+    "fileName": "tickets.js"
+  },
+  {
+    "name": "tickets-plane",
+    "title": "Tickets Plane",
+    "fileName": "tickets-plane.js"
+  },
+  {
+    "name": "timer",
+    "title": "Timer",
+    "fileName": "timer.js"
+  },
+  {
+    "name": "timer-off",
+    "title": "Timer Off",
+    "fileName": "timer-off.js"
+  },
+  {
+    "name": "timer-reset",
+    "title": "Timer Reset",
+    "fileName": "timer-reset.js"
+  },
+  {
+    "name": "toggle-left",
+    "title": "Toggle Left",
+    "fileName": "toggle-left.js"
+  },
+  {
+    "name": "toggle-right",
+    "title": "Toggle Right",
+    "fileName": "toggle-right.js"
+  },
+  {
+    "name": "toilet",
+    "title": "Toilet",
+    "fileName": "toilet.js"
+  },
+  {
+    "name": "tornado",
+    "title": "Tornado",
+    "fileName": "tornado.js"
+  },
+  {
+    "name": "torus",
+    "title": "Torus",
+    "fileName": "torus.js"
+  },
+  {
+    "name": "touchpad",
+    "title": "Touchpad",
+    "fileName": "touchpad.js"
+  },
+  {
+    "name": "touchpad-off",
+    "title": "Touchpad Off",
+    "fileName": "touchpad-off.js"
+  },
+  {
+    "name": "tower-control",
+    "title": "Tower Control",
+    "fileName": "tower-control.js"
+  },
+  {
+    "name": "toy-brick",
+    "title": "Toy Brick",
+    "fileName": "toy-brick.js"
+  },
+  {
+    "name": "tractor",
+    "title": "Tractor",
+    "fileName": "tractor.js"
+  },
+  {
+    "name": "traffic-cone",
+    "title": "Traffic Cone",
+    "fileName": "traffic-cone.js"
+  },
+  {
+    "name": "train",
+    "title": "Train",
+    "fileName": "train.js"
+  },
+  {
+    "name": "train-front",
+    "title": "Train Front",
+    "fileName": "train-front.js"
+  },
+  {
+    "name": "train-front-tunnel",
+    "title": "Train Front Tunnel",
+    "fileName": "train-front-tunnel.js"
+  },
+  {
+    "name": "train-track",
+    "title": "Train Track",
+    "fileName": "train-track.js"
+  },
+  {
+    "name": "tram-front",
+    "title": "Tram Front",
+    "fileName": "tram-front.js"
+  },
+  {
+    "name": "transgender",
+    "title": "Transgender",
+    "fileName": "transgender.js"
+  },
+  {
+    "name": "trash",
+    "title": "Trash",
+    "fileName": "trash.js"
+  },
+  {
+    "name": "trash-2",
+    "title": "Trash 2",
+    "fileName": "trash-2.js"
+  },
+  {
+    "name": "tree-deciduous",
+    "title": "Tree Deciduous",
+    "fileName": "tree-deciduous.js"
+  },
+  {
+    "name": "tree-palm",
+    "title": "Tree Palm",
+    "fileName": "tree-palm.js"
+  },
+  {
+    "name": "tree-pine",
+    "title": "Tree Pine",
+    "fileName": "tree-pine.js"
+  },
+  {
+    "name": "trees",
+    "title": "Trees",
+    "fileName": "trees.js"
+  },
+  {
+    "name": "trello",
+    "title": "Trello",
+    "fileName": "trello.js"
+  },
+  {
+    "name": "trending-down",
+    "title": "Trending Down",
+    "fileName": "trending-down.js"
+  },
+  {
+    "name": "trending-up",
+    "title": "Trending Up",
+    "fileName": "trending-up.js"
+  },
+  {
+    "name": "trending-up-down",
+    "title": "Trending Up Down",
+    "fileName": "trending-up-down.js"
+  },
+  {
+    "name": "triangle",
+    "title": "Triangle",
+    "fileName": "triangle.js"
+  },
+  {
+    "name": "triangle-alert",
+    "title": "Triangle Alert",
+    "fileName": "triangle-alert.js"
+  },
+  {
+    "name": "triangle-dashed",
+    "title": "Triangle Dashed",
+    "fileName": "triangle-dashed.js"
+  },
+  {
+    "name": "triangle-right",
+    "title": "Triangle Right",
+    "fileName": "triangle-right.js"
+  },
+  {
+    "name": "trophy",
+    "title": "Trophy",
+    "fileName": "trophy.js"
+  },
+  {
+    "name": "truck",
+    "title": "Truck",
+    "fileName": "truck.js"
+  },
+  {
+    "name": "turtle",
+    "title": "Turtle",
+    "fileName": "turtle.js"
+  },
+  {
+    "name": "tv",
+    "title": "Tv",
+    "fileName": "tv.js"
+  },
+  {
+    "name": "tv-2",
+    "title": "Tv 2",
+    "fileName": "tv-2.js"
+  },
+  {
+    "name": "tv-minimal",
+    "title": "Tv Minimal",
+    "fileName": "tv-minimal.js"
+  },
+  {
+    "name": "tv-minimal-play",
+    "title": "Tv Minimal Play",
+    "fileName": "tv-minimal-play.js"
+  },
+  {
+    "name": "twitch",
+    "title": "Twitch",
+    "fileName": "twitch.js"
+  },
+  {
+    "name": "twitter",
+    "title": "Twitter",
+    "fileName": "twitter.js"
+  },
+  {
+    "name": "type",
+    "title": "Type",
+    "fileName": "type.js"
+  },
+  {
+    "name": "type-outline",
+    "title": "Type Outline",
+    "fileName": "type-outline.js"
+  },
+  {
+    "name": "umbrella",
+    "title": "Umbrella",
+    "fileName": "umbrella.js"
+  },
+  {
+    "name": "umbrella-off",
+    "title": "Umbrella Off",
+    "fileName": "umbrella-off.js"
+  },
+  {
+    "name": "underline",
+    "title": "Underline",
+    "fileName": "underline.js"
+  },
+  {
+    "name": "undo",
+    "title": "Undo",
+    "fileName": "undo.js"
+  },
+  {
+    "name": "undo-2",
+    "title": "Undo 2",
+    "fileName": "undo-2.js"
+  },
+  {
+    "name": "undo-dot",
+    "title": "Undo Dot",
+    "fileName": "undo-dot.js"
+  },
+  {
+    "name": "unfold-horizontal",
+    "title": "Unfold Horizontal",
+    "fileName": "unfold-horizontal.js"
+  },
+  {
+    "name": "unfold-vertical",
+    "title": "Unfold Vertical",
+    "fileName": "unfold-vertical.js"
+  },
+  {
+    "name": "ungroup",
+    "title": "Ungroup",
+    "fileName": "ungroup.js"
+  },
+  {
+    "name": "university",
+    "title": "University",
+    "fileName": "university.js"
+  },
+  {
+    "name": "unlink",
+    "title": "Unlink",
+    "fileName": "unlink.js"
+  },
+  {
+    "name": "unlink-2",
+    "title": "Unlink 2",
+    "fileName": "unlink-2.js"
+  },
+  {
+    "name": "unlock",
+    "title": "Unlock",
+    "fileName": "unlock.js"
+  },
+  {
+    "name": "unlock-keyhole",
+    "title": "Unlock Keyhole",
+    "fileName": "unlock-keyhole.js"
+  },
+  {
+    "name": "unplug",
+    "title": "Unplug",
+    "fileName": "unplug.js"
+  },
+  {
+    "name": "upload",
+    "title": "Upload",
+    "fileName": "upload.js"
+  },
+  {
+    "name": "upload-cloud",
+    "title": "Upload Cloud",
+    "fileName": "upload-cloud.js"
+  },
+  {
+    "name": "usb",
+    "title": "Usb",
+    "fileName": "usb.js"
+  },
+  {
+    "name": "user",
+    "title": "User",
+    "fileName": "user.js"
+  },
+  {
+    "name": "user-2",
+    "title": "User 2",
+    "fileName": "user-2.js"
+  },
+  {
+    "name": "user-check",
+    "title": "User Check",
+    "fileName": "user-check.js"
+  },
+  {
+    "name": "user-check-2",
+    "title": "User Check 2",
+    "fileName": "user-check-2.js"
+  },
+  {
+    "name": "user-circle",
+    "title": "User Circle",
+    "fileName": "user-circle.js"
+  },
+  {
+    "name": "user-circle-2",
+    "title": "User Circle 2",
+    "fileName": "user-circle-2.js"
+  },
+  {
+    "name": "user-cog",
+    "title": "User Cog",
+    "fileName": "user-cog.js"
+  },
+  {
+    "name": "user-cog-2",
+    "title": "User Cog 2",
+    "fileName": "user-cog-2.js"
+  },
+  {
+    "name": "user-minus",
+    "title": "User Minus",
+    "fileName": "user-minus.js"
+  },
+  {
+    "name": "user-minus-2",
+    "title": "User Minus 2",
+    "fileName": "user-minus-2.js"
+  },
+  {
+    "name": "user-pen",
+    "title": "User Pen",
+    "fileName": "user-pen.js"
+  },
+  {
+    "name": "user-plus",
+    "title": "User Plus",
+    "fileName": "user-plus.js"
+  },
+  {
+    "name": "user-plus-2",
+    "title": "User Plus 2",
+    "fileName": "user-plus-2.js"
+  },
+  {
+    "name": "user-round",
+    "title": "User Round",
+    "fileName": "user-round.js"
+  },
+  {
+    "name": "user-round-check",
+    "title": "User Round Check",
+    "fileName": "user-round-check.js"
+  },
+  {
+    "name": "user-round-cog",
+    "title": "User Round Cog",
+    "fileName": "user-round-cog.js"
+  },
+  {
+    "name": "user-round-minus",
+    "title": "User Round Minus",
+    "fileName": "user-round-minus.js"
+  },
+  {
+    "name": "user-round-pen",
+    "title": "User Round Pen",
+    "fileName": "user-round-pen.js"
+  },
+  {
+    "name": "user-round-plus",
+    "title": "User Round Plus",
+    "fileName": "user-round-plus.js"
+  },
+  {
+    "name": "user-round-search",
+    "title": "User Round Search",
+    "fileName": "user-round-search.js"
+  },
+  {
+    "name": "user-round-x",
+    "title": "User Round X",
+    "fileName": "user-round-x.js"
+  },
+  {
+    "name": "user-search",
+    "title": "User Search",
+    "fileName": "user-search.js"
+  },
+  {
+    "name": "user-square",
+    "title": "User Square",
+    "fileName": "user-square.js"
+  },
+  {
+    "name": "user-square-2",
+    "title": "User Square 2",
+    "fileName": "user-square-2.js"
+  },
+  {
+    "name": "user-x",
+    "title": "User X",
+    "fileName": "user-x.js"
+  },
+  {
+    "name": "user-x-2",
+    "title": "User X 2",
+    "fileName": "user-x-2.js"
+  },
+  {
+    "name": "users",
+    "title": "Users",
+    "fileName": "users.js"
+  },
+  {
+    "name": "users-2",
+    "title": "Users 2",
+    "fileName": "users-2.js"
+  },
+  {
+    "name": "users-round",
+    "title": "Users Round",
+    "fileName": "users-round.js"
+  },
+  {
+    "name": "utensils",
+    "title": "Utensils",
+    "fileName": "utensils.js"
+  },
+  {
+    "name": "utensils-crossed",
+    "title": "Utensils Crossed",
+    "fileName": "utensils-crossed.js"
+  },
+  {
+    "name": "utility-pole",
+    "title": "Utility Pole",
+    "fileName": "utility-pole.js"
+  },
+  {
+    "name": "variable",
+    "title": "Variable",
+    "fileName": "variable.js"
+  },
+  {
+    "name": "vault",
+    "title": "Vault",
+    "fileName": "vault.js"
+  },
+  {
+    "name": "vegan",
+    "title": "Vegan",
+    "fileName": "vegan.js"
+  },
+  {
+    "name": "venetian-mask",
+    "title": "Venetian Mask",
+    "fileName": "venetian-mask.js"
+  },
+  {
+    "name": "venus",
+    "title": "Venus",
+    "fileName": "venus.js"
+  },
+  {
+    "name": "venus-and-mars",
+    "title": "Venus And Mars",
+    "fileName": "venus-and-mars.js"
+  },
+  {
+    "name": "verified",
+    "title": "Verified",
+    "fileName": "verified.js"
+  },
+  {
+    "name": "vibrate",
+    "title": "Vibrate",
+    "fileName": "vibrate.js"
+  },
+  {
+    "name": "vibrate-off",
+    "title": "Vibrate Off",
+    "fileName": "vibrate-off.js"
+  },
+  {
+    "name": "video",
+    "title": "Video",
+    "fileName": "video.js"
+  },
+  {
+    "name": "video-off",
+    "title": "Video Off",
+    "fileName": "video-off.js"
+  },
+  {
+    "name": "videotape",
+    "title": "Videotape",
+    "fileName": "videotape.js"
+  },
+  {
+    "name": "view",
+    "title": "View",
+    "fileName": "view.js"
+  },
+  {
+    "name": "voicemail",
+    "title": "Voicemail",
+    "fileName": "voicemail.js"
+  },
+  {
+    "name": "volleyball",
+    "title": "Volleyball",
+    "fileName": "volleyball.js"
+  },
+  {
+    "name": "volume",
+    "title": "Volume",
+    "fileName": "volume.js"
+  },
+  {
+    "name": "volume-1",
+    "title": "Volume 1",
+    "fileName": "volume-1.js"
+  },
+  {
+    "name": "volume-2",
+    "title": "Volume 2",
+    "fileName": "volume-2.js"
+  },
+  {
+    "name": "volume-off",
+    "title": "Volume Off",
+    "fileName": "volume-off.js"
+  },
+  {
+    "name": "volume-x",
+    "title": "Volume X",
+    "fileName": "volume-x.js"
+  },
+  {
+    "name": "vote",
+    "title": "Vote",
+    "fileName": "vote.js"
+  },
+  {
+    "name": "wallet",
+    "title": "Wallet",
+    "fileName": "wallet.js"
+  },
+  {
+    "name": "wallet-2",
+    "title": "Wallet 2",
+    "fileName": "wallet-2.js"
+  },
+  {
+    "name": "wallet-cards",
+    "title": "Wallet Cards",
+    "fileName": "wallet-cards.js"
+  },
+  {
+    "name": "wallet-minimal",
+    "title": "Wallet Minimal",
+    "fileName": "wallet-minimal.js"
+  },
+  {
+    "name": "wallpaper",
+    "title": "Wallpaper",
+    "fileName": "wallpaper.js"
+  },
+  {
+    "name": "wand",
+    "title": "Wand",
+    "fileName": "wand.js"
+  },
+  {
+    "name": "wand-2",
+    "title": "Wand 2",
+    "fileName": "wand-2.js"
+  },
+  {
+    "name": "wand-sparkles",
+    "title": "Wand Sparkles",
+    "fileName": "wand-sparkles.js"
+  },
+  {
+    "name": "warehouse",
+    "title": "Warehouse",
+    "fileName": "warehouse.js"
+  },
+  {
+    "name": "washing-machine",
+    "title": "Washing Machine",
+    "fileName": "washing-machine.js"
+  },
+  {
+    "name": "watch",
+    "title": "Watch",
+    "fileName": "watch.js"
+  },
+  {
+    "name": "waves",
+    "title": "Waves",
+    "fileName": "waves.js"
+  },
+  {
+    "name": "waves-ladder",
+    "title": "Waves Ladder",
+    "fileName": "waves-ladder.js"
+  },
+  {
+    "name": "waypoints",
+    "title": "Waypoints",
+    "fileName": "waypoints.js"
+  },
+  {
+    "name": "webcam",
+    "title": "Webcam",
+    "fileName": "webcam.js"
+  },
+  {
+    "name": "webhook",
+    "title": "Webhook",
+    "fileName": "webhook.js"
+  },
+  {
+    "name": "webhook-off",
+    "title": "Webhook Off",
+    "fileName": "webhook-off.js"
+  },
+  {
+    "name": "weight",
+    "title": "Weight",
+    "fileName": "weight.js"
+  },
+  {
+    "name": "wheat",
+    "title": "Wheat",
+    "fileName": "wheat.js"
+  },
+  {
+    "name": "wheat-off",
+    "title": "Wheat Off",
+    "fileName": "wheat-off.js"
+  },
+  {
+    "name": "whole-word",
+    "title": "Whole Word",
+    "fileName": "whole-word.js"
+  },
+  {
+    "name": "wifi",
+    "title": "Wifi",
+    "fileName": "wifi.js"
+  },
+  {
+    "name": "wifi-high",
+    "title": "Wifi High",
+    "fileName": "wifi-high.js"
+  },
+  {
+    "name": "wifi-low",
+    "title": "Wifi Low",
+    "fileName": "wifi-low.js"
+  },
+  {
+    "name": "wifi-off",
+    "title": "Wifi Off",
+    "fileName": "wifi-off.js"
+  },
+  {
+    "name": "wifi-zero",
+    "title": "Wifi Zero",
+    "fileName": "wifi-zero.js"
+  },
+  {
+    "name": "wind",
+    "title": "Wind",
+    "fileName": "wind.js"
+  },
+  {
+    "name": "wind-arrow-down",
+    "title": "Wind Arrow Down",
+    "fileName": "wind-arrow-down.js"
+  },
+  {
+    "name": "wine",
+    "title": "Wine",
+    "fileName": "wine.js"
+  },
+  {
+    "name": "wine-off",
+    "title": "Wine Off",
+    "fileName": "wine-off.js"
+  },
+  {
+    "name": "workflow",
+    "title": "Workflow",
+    "fileName": "workflow.js"
+  },
+  {
+    "name": "worm",
+    "title": "Worm",
+    "fileName": "worm.js"
+  },
+  {
+    "name": "wrap-text",
+    "title": "Wrap Text",
+    "fileName": "wrap-text.js"
+  },
+  {
+    "name": "wrench",
+    "title": "Wrench",
+    "fileName": "wrench.js"
+  },
+  {
+    "name": "x",
+    "title": "X",
+    "fileName": "x.js"
+  },
+  {
+    "name": "x-circle",
+    "title": "X Circle",
+    "fileName": "x-circle.js"
+  },
+  {
+    "name": "x-octagon",
+    "title": "X Octagon",
+    "fileName": "x-octagon.js"
+  },
+  {
+    "name": "x-square",
+    "title": "X Square",
+    "fileName": "x-square.js"
+  },
+  {
+    "name": "youtube",
+    "title": "Youtube",
+    "fileName": "youtube.js"
+  },
+  {
+    "name": "zap",
+    "title": "Zap",
+    "fileName": "zap.js"
+  },
+  {
+    "name": "zap-off",
+    "title": "Zap Off",
+    "fileName": "zap-off.js"
+  },
+  {
+    "name": "zoom-in",
+    "title": "Zoom In",
+    "fileName": "zoom-in.js"
+  },
+  {
+    "name": "zoom-out",
+    "title": "Zoom Out",
+    "fileName": "zoom-out.js"
+  }
+]

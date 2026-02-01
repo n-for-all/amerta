@@ -1,0 +1,480 @@
+@import '~@payloadcms/ui/scss';
+
+
+$bg-surface: #ffffff;
+$bg-subdued: #f1f2f3;
+$border-color: #e1e3e5;
+$text-primary: #202223;
+$text-secondary: #6d7175;
+$primary-action: #008060;
+$chart-blue: #3b82f6;
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.dashboardContainer {
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    color: $text-primary;
+
+    background: #f8f8f8;
+    border-top: 1px solid #eaeaea;
+    height: 100%;
+}
+
+.dashboardContainerInner {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+    }
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+
+    .controlBtn {
+        background: $bg-surface;
+        border: 1px solid #babfc3;
+        border-radius: 4px;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-primary;
+        cursor: pointer;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: #f6f6f7;
+        }
+
+        .icon {
+            font-size: 14px;
+        }
+    }
+}
+
+.iconSmall {
+    width: 1rem;
+    height: 1rem;
+}
+
+.iconTiny {
+    width: 0.8rem;
+    height: 0.8rem;
+    opacity: 0.5;
+    margin-left: auto;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    background: $bg-surface;
+    border: 1px solid $border-color;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+
+    >.statCard {
+        border: none;
+        border-right: 1px solid $border-color;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+}
+
+.statCard {
+    padding: 20px;
+    background: $bg-surface;
+    border: 1px solid $border-color;
+
+    .cardHeader {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        .cardTitle {
+            font-size: 13px;
+            font-weight: 600;
+            color: $text-primary;
+            border-bottom: 1px dotted $text-secondary;
+            cursor: help;
+        }
+
+        .editIcon {
+            color: $text-secondary;
+            opacity: 0;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    }
+
+    &:hover .editIcon {
+        opacity: 1;
+    }
+
+    .cardValue {
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .trendNeutral {
+        font-size: 13px;
+        color: $text-secondary;
+        font-weight: 400;
+    }
+
+    .trendDown {
+        font-size: 13px;
+        color: #d82c0d;
+        font-weight: 400;
+    }
+
+    .subMetricsContainer {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--theme-elevation-100);
+    }
+
+    .subMetric {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subLabel {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        color: var(--theme-text-secondary);
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .subValue {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--theme-text-primary);
+    }
+
+    .separator {
+        margin: 0 0.5rem;
+        color: var(--theme-text-secondary);
+    }
+}
+
+.dropdownWrapper {
+    position: relative;
+}
+
+.dropdownPopup {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    z-index: 50;
+    background: var(--theme-elevation-0);
+    border: 1px solid var(--theme-elevation-150);
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.channelList {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.channelOption {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--theme-text-primary);
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background: var(--theme-elevation-50);
+    }
+
+    &.active {
+        background: var(--theme-elevation-100);
+        font-weight: 500;
+    }
+}
+
+.chartContainer {
+    background: $bg-surface;
+    border: 1px solid $border-color;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 24px;
+    min-height: 300px;
+}
+
+
+.spinner {
+    width: 1rem;
+    height: 1rem;
+    animation: spin 1s linear infinite;
+    color: var(--theme-elevation-500);
+}
+
+.chartLegend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: $text-secondary;
+
+    .legendItem {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dotCurrent {
+        background-color: $chart-blue;
+    }
+
+    .dotPrevious {
+        background-color: #e1e3e5;
+        background: repeating-linear-gradient(90deg,
+                #8C9196,
+                #8C9196 2px,
+                transparent 2px,
+                transparent 4px);
+    }
+}
+
+.controlBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--theme-elevation-0);
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--theme-text-primary);
+    transition: all 0.2s;
+
+    &:hover:not(:disabled) {
+        background: var(--theme-elevation-50);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.datePickerWrapper {
+    position: relative;
+}
+
+.datePickerPopup {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    z-index: 50;
+    background: var(--theme-elevation-0);
+    border: 1px solid var(--theme-elevation-150);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.dateInput {
+    padding: 4px 8px;
+    border: 1px solid var(--theme-elevation-200);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background: var(--theme-input-bg);
+    color: var(--theme-text-primary);
+}
+
+.dateSeparator {
+    color: var(--theme-text-secondary);
+}
+
+
+
+.secondaryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+
+
+    .iconTiny {
+        width: 1rem;
+        height: 1rem;
+        color: var(--theme-elevation-400);
+    }
+
+
+    .productList {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .productRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--theme-elevation-100);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .productInfo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        overflow: hidden;
+    }
+
+    .rank {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--theme-elevation-400);
+        background: var(--theme-elevation-100);
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .productName {
+        font-size: 0.875rem;
+        color: var(--theme-text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+    }
+
+    .productStats {
+        text-align: right;
+    }
+
+    .productRevenue {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--theme-text-primary);
+    }
+
+    .productQty {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--theme-text-secondary);
+    }
+
+    .emptyState {
+        text-align: center;
+        color: var(--theme-text-secondary);
+        font-size: 0.875rem;
+        padding: 1rem;
+    }
+
+
+    .growthContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 120px;
+    }
+
+    .growthValue {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--theme-text-primary);
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+
+    .growthLabel {
+        font-size: 0.875rem;
+        color: var(--theme-text-secondary);
+        font-weight: 400;
+    }
+
+    .sparkline {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .statsGrid {
+        grid-template-columns: 1fr 1fr;
+
+        >.statCard {
+            border-right: 1px solid $border-color;
+            border-bottom: 1px solid $border-color;
+
+            &:nth-child(2n) {
+                border-right: none;
+            }
+
+            &:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+        }
+    }
+}

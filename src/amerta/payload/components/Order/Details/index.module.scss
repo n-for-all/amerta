@@ -1,0 +1,119 @@
+@import '~@payloadcms/ui/scss';
+
+.wrapper {
+    margin-bottom: 2rem;
+}
+
+.heading {
+    margin: 0 0 0.25rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.subHeading {
+    margin: 0 0 1.25rem;
+    font-size: 1rem;
+    color: var(--theme-elevation-500);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.freeShippingTag {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    background-color: #16a34a;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr; // adjust ratios if you want
+    gap: 2rem;
+}
+
+.column {
+    font-size: 1rem;
+}
+
+.columnTitle {
+    margin: 0 0 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.row {
+    margin-bottom: 0.75rem;
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--theme-elevation-500);
+    margin-bottom: 0.15rem;
+}
+
+.value {
+    margin: 0 0 0.2rem;
+    color: var(--theme-elevation-800);
+    font-weight: 500;
+}
+
+.valueMuted {
+    margin: 0 0 0.2rem;
+    color: var(--theme-elevation-500);
+}
+
+.inlineLabel {
+    margin-top: 0.6rem;
+    margin-bottom: 0.05rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--theme-elevation-500);
+}
+
+.orderNoteSection {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--theme-elevation-150);
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.05rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.2rem;
+}
+
+.badgeAccount {
+    color: white;
+    background-color: #2563eb; /* Blue for accounts */
+}
+
+.badgeGuest {
+    color: white;
+    background-color: #9333ea; /* Purple for guests */
+}
+
+.customerLink {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+}

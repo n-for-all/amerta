@@ -1,0 +1,1 @@
+export const Separator = ({ className }: { className?: string }) => <div className={`bg-zinc-300 h-[1px] w-full dark:bg-zinc-800 ${className}`} />;

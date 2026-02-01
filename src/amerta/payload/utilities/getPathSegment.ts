@@ -1,0 +1,89 @@
+import { CollectionSlug } from "payload";
+
+export type DocType =
+  | "page"
+  | "pages"
+  | "post"
+  | "posts"
+  | "category"
+  | "products"
+  | "product-tags"
+  | "collection"
+  | "create-account"
+  | "login"
+  | "recover-password"
+  | "resend-verification-email"
+  | "reset-password"
+  | "verify-email"
+  | "account"
+  | "addresses"
+  | "orders"
+  | "profile"
+  | "blog"
+  | "collections"
+  | "products-page"
+  | "brands"
+  | "product-brands"
+  | "categories"
+  | "cart"
+  | "checkout"
+  | "tags"
+  | "logout";
+export const getPathSegment = (type: CollectionSlug | DocType): string => {
+  switch (type) {
+    case "post":
+    case "posts":
+      return "/blog/article";
+    case "category":
+      return "/blog/categories";
+    case "products":
+      return "/product";
+    case "collection":
+      return "/collections";
+    case "brands":
+    case "product-brands":
+      return "/brands";
+    case "product-tags":
+      return "/tags";
+    case "create-account":
+      return "/create-account";
+    case "login":
+      return "/login";
+    case "recover-password":
+      return "/recover-password";
+    case "resend-verification-email":
+      return "/resend-verification-email";
+    case "reset-password":
+      return "/reset-password";
+    case "verify-email":
+      return "/verify-email";
+    case "account":
+      return "/account";
+    case "addresses":
+      return "/account/addresses";
+    case "orders":
+      return "/account/orders";
+    case "profile":
+      return "/account/profile";
+    case "blog":
+      return "/blog";
+    case "collections":
+      return "/collections";
+    case "products-page":
+      return "/products";
+    case "categories":
+      return "/blog/categories";
+    case "cart":
+      return "/cart";
+    case "checkout":
+      return "/checkout";
+    case "tags":
+      return "/blog/tags";
+    case "logout":
+      return "/logout";
+    case "page":
+    case "pages":
+    default:
+      return "";
+  }
+};

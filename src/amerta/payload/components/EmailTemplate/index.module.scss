@@ -1,0 +1,183 @@
+$border-light: #e4e4e7;
+$border-dark: #3f3f46;
+$bg-light: #ffffff;
+$bg-dark: #000000;
+$text-subtle-light: #52525b;
+$text-subtle-dark: #a1a1aa;
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 500px;
+    background-color: $bg-light;
+    border: 1px solid $border-light;
+    overflow: hidden;
+}
+
+.editorPane {
+    position: relative;
+    flex-shrink: 0;
+    width: 50%;
+    border-right: 1px solid $border-light;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid $border-light;
+    background-color: $bg-light;
+}
+
+.headerTitle {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+
+.editButton {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: #2563eb;
+    }
+
+    &:active {
+        background-color: #1d4ed8;
+    }
+}
+
+.editorScrollArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+
+    .spinner {
+        margin: 0 auto 8px auto;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+        color: #3b82f6;
+    }
+
+    p {
+        font-size: 14px;
+        color: $text-subtle-light;
+    }
+}
+
+.previewPane {
+    flex: 1;
+    overflow: auto;
+    background-color: #f4f4f5;
+
+    .iframeWrapper {
+        height: 100%;
+        width: 100%;
+        background-color: $bg-light;
+        border: none;
+    }
+}
+
+.previewPaneFullWidth {
+    flex: 1;
+    overflow: auto;
+    background-color: #fff;
+
+    .iframeWrapper {
+        height: 100%;
+        width: 100%;
+        background-color: $bg-light;
+        border: none;
+    }
+}
+
+.drawerContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.editorDrawer {
+    .drawer__content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0;
+    }
+}
+
+.highlighted-line {
+    background-color: rgba(255, 215, 0, 0.2) !important;
+    border-bottom: 2px solid #eab308 !important;
+}
+
+.highlighted-glyph {
+    background: #eab308 !important;
+    width: 5px !important;
+    margin-left: 5px;
+}
+
+
+[data-theme='dark'] .highlighted-line {
+    background-color: rgba(255, 215, 0, 0.15) !important;
+}
+
+
+
+[data-theme='dark'] {
+    .container {
+        background-color: #18181b;
+        border-color: $border-dark;
+    }
+
+    .editorPane {
+        border-right-color: $border-dark;
+    }
+
+    .loadingContainer p {
+        color: $text-subtle-dark;
+    }
+
+    .previewPane {
+        background-color: #000000;
+
+        .iframeWrapper {
+            background-color: #18181b;
+        }
+    }
+}

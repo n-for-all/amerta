@@ -1,0 +1,17 @@
+build
+dist
+/media
+/data
+node_modules
+.DS_Store
+.history
+.env
+.env.*
+.next
+.vercel
+amerta-publish/
+public/
+dump/
+docs/
+*.zip
+_test

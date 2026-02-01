@@ -1,0 +1,136 @@
+.icon-field {
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    &__selected {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    &__error {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        color: #dc2626;
+    }
+
+    &__drawer {
+        padding: 1rem;
+    }
+
+    &__loading {
+        text-align: center;
+        padding: 2rem 0;
+
+        p {
+            margin-top: 0.5rem;
+        }
+    }
+
+    &__spinner {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid transparent;
+        border-bottom: 2px solid #2563eb;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    &__error-state {
+        text-align: center;
+        padding: 2rem 0;
+        color: #dc2626;
+    }
+
+    &__retry {
+        margin-top: 0.5rem;
+    }
+
+    &__grid {
+        display: flex;
+        gap: 0.5rem;
+        overflow-y: auto;
+        flex-wrap: wrap;
+        margin: 16px 0;
+        justify-content: space-between;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px;
+        text-align: left;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 37px;
+        position: relative;
+
+
+        flex-direction: column;
+
+        &:hover {
+            background-color: #eff6ff;
+        }
+
+        &--selected {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        >div {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background-color: #111827;
+            color: white;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+            text-align: center;
+        }
+
+        &:hover >div {
+            display: block;
+        }
+    }
+
+    &__item-title {
+        font-weight: 500;
+    }
+
+    &__item-name {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    &__item-badge {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #2563eb;
+    }
+
+    &__empty {
+        text-align: center;
+        padding: 2rem 0;
+        color: #6b7280;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

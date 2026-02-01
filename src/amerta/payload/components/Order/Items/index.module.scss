@@ -1,0 +1,189 @@
+@import '~@payloadcms/ui/scss';
+
+.wrapper {
+    border-top: 1px solid var(--theme-elevation-150);
+    padding: 1.25rem 0 .5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 120px 60px 140px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--theme-elevation-500);
+    border-bottom: 1px solid var(--theme-elevation-150);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+
+.headerPrice {
+    text-align: right;
+}
+
+.headerQty {
+    text-align: center;
+}
+
+.headerTotal {
+    text-align: right;
+}
+
+.line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 120px 60px 140px;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--theme-elevation-100);
+}
+
+.lineMain {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.productInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.productTitle {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.productSubTitle {
+    font-size: 0.9rem;
+}
+
+.metaRow {
+    font-size: 0.9rem;
+    color: var(--theme-elevation-600);
+}
+
+.metaLabel {
+    font-weight: 600;
+}
+
+.linePrice,
+.lineTotal {
+    text-align: right;
+    font-size: 1rem;
+}
+
+.lineQty {
+    text-align: center;
+}
+
+.shippingRow {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) 140px;
+    align-items: center;
+    padding: 0.75rem 0 1.25rem;
+    border-bottom: 1px solid var(--theme-elevation-150);
+}
+
+.shippingIcon {
+    font-size: 1.25rem;
+}
+
+.shippingInfo {
+    font-size: 1.2rem;
+}
+
+.shippingTitle {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.shippingAmount {
+    text-align: right;
+}
+
+.totals {
+    margin-top: 1.25rem;
+    margin-left: auto;
+    max-width: 260px;
+    font-size: 1rem;
+}
+
+.totalsRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.divider {
+    margin: 0.7rem 0;
+    border: 0;
+    border-top: 1px solid var(--theme-elevation-200);
+}
+
+.paymentNote {
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    color: var(--theme-elevation-600);
+}
+
+.lockNotice {
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--theme-elevation-150);
+    font-size: 1rem;
+    color: var(--theme-elevation-700);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.lockIcon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--theme-elevation-500);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+.freeTag {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    background-color: #16a34a;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    color: var(--theme-elevation-400);
+    margin-right: 0.25rem;
+}
+
+.freeText {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.discount {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.couponCode {
+    font-size: 0.85rem;
+    color: var(--theme-elevation-600);
+    font-weight: normal;
+}
