@@ -6,7 +6,7 @@ node_modules
 .DS_Store
 .history
 .env
-.env.*
+.env.development.local
 .next
 .vercel
 amerta-publish/
