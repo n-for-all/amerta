@@ -10,7 +10,7 @@
     "stripe:webhooks": "stripe listen --forward-to localhost:3000/api/payments/stripe/webhook",
     "seed:products": "cross-env NODE_ENV=development tsx data/seed-products.ts",
     "build:next": "cross-env NODE_OPTIONS=--no-deprecation next build --turbo",
-    "build": "cross-env NODE_ENV=production npm run build:next  && npm run copyfiles",
+    "build": "cross-env NODE_ENV=production npm run build:next && npm run copyfiles",
     "build:local": "cross-env NEXT_PUBLIC_SERVER_URL='http://localhost:3000' NODE_ALLOW_SOURCE_MAPS=true NODE_ENV=production npm run build:next  && npm run copyfiles",
     "eject": "npm remove next react react-dom @next/eslint-plugin-next && ts-node eject.ts",
     "copyfiles": "copyfiles -u 1 \".next/static/**/*\" \".next/standalone/.next/\"",
@@ -64,7 +64,6 @@
     "@vis.gl/react-google-maps": "^1.7.1",
     "@wojtekmaj/react-daterange-picker": "^7.0.0",
     "arctic": "^3.7.0",
-    "build": "^0.1.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
@@ -79,7 +78,7 @@
     "escape-html": "^1.0.3",
     "eslint-config-next": "^16.1.4",
     "fast-printf": "^1.6.10",
-    "fast-xml-parser": "^5.3.3",
+    "fast-xml-parser": "^5.3.4",
     "graphql": "^16.10.0",
     "headless-tooltip": "^1.2.0",
     "i18next-browser-languagedetector": "^8.0.4",
@@ -124,8 +123,6 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^16.0.7",
     "@next/eslint-plugin-next": "^16.1.4",
-    "@payloadcms/eslint-config": "^3.9.0",
-    "@payloadcms/graphql": "^3.63.0",
     "@swc/core": "1.11.1",
     "@types/escape-html": "^1.0.4",
     "@types/express": "^5.0.0",
@@ -135,7 +132,6 @@
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
     "autoprefixer": "^10.4.20",
-    "copyfiles": "^2.4.1",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -148,6 +144,7 @@
     "i18next": "^25.8.0",
     "postcss": "^8.5.3",
     "prettier": "^3.5.2",
+    "shx": "^0.4.0",
     "slate": "0.112.0",
     "speed-measure-webpack-plugin": "^1.5.0",
     "tailwindcss": "^4.1.17",
@@ -158,5 +155,8 @@
   },
   "ts-node": {
     "esm": true
+  },
+  "overrides": {
+    "fast-xml-parser": "^5.3.4"
   }
 }
