@@ -97,7 +97,7 @@ export default async function CollectionsPage({ params, searchParams }: Props) {
                     </div>
                   );
                 })}
-                <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog`, locale)} />
+                <Pagination locale={locale} currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/collections`, locale)} />
               </div>
             </>
           )}

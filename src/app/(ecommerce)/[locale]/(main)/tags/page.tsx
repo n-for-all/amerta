@@ -97,7 +97,7 @@ export default async function ProductsTagsPage({ params, searchParams }: Props) 
                     </div>
                   );
                 })}
-                <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/tags`, locale)} />
+                <Pagination locale={locale} currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/tags`, locale)} />
               </div>
             </>
           )}

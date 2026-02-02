@@ -134,7 +134,7 @@ export default async function ProductsTagPage({ params, searchParams }: { params
                   return <ProductCard key={product.id} product={product} locale={locale} options={allOptions} />;
                 })}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/tags/${slug}`, locale)} />
+              <Pagination locale={locale} currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/tags/${slug}`, locale)} />
             </section>
           )}
         </div>
