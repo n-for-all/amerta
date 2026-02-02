@@ -16,5 +16,5 @@ export const getSalesChannel = async (isDefault: boolean = true, enabledOnly: bo
     return salesChannels.docs[0]!;
   }
 
-  throw new Error("Sales channel not found");
+  throw new Error("Default Sales channel not found, please add a default sales channel in the admin panel.");
 };

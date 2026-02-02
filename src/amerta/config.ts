@@ -146,12 +146,10 @@ const isPlainObject = (item: any) => {
   );
 };
 
-export function withAmerta(config: Config) {
+export function withAmerta(config: Config): Config {
   const UserCollectionOverrides = config.collections?.find((col) => col.slug === Users.slug);
   let FinalUsersCollection = Users;
   if (UserCollectionOverrides) {
-    // ✅ FIX: Order swapped. deepmerge(Default, Overrides).
-    // Now your custom fields will properly overwrite/append to the defaults.
     FinalUsersCollection = deepmerge(Users, UserCollectionOverrides, {
       arrayMerge,
       isMergeableObject: isPlainObject,
@@ -474,7 +472,7 @@ export function withAmerta(config: Config) {
 
   const mergedConfig = {
     ...configWithoutOnInit,
-    collections: filteredConfigCollections,
+    collections: filteredConfigCollections
   };
 
   if (!config.admin?.user) {
@@ -484,5 +482,5 @@ export function withAmerta(config: Config) {
     };
   }
 
-  return deepmerge(amertaConfig, mergedConfig, { arrayMerge, isMergeableObject: isPlainObject });
+  return deepmerge(amertaConfig, mergedConfig, { arrayMerge, isMergeableObject: isPlainObject }) as Config;
 }
