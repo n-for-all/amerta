@@ -159,8 +159,9 @@ export function withAmerta(config: Config) {
   }
 
   const adminPath = getAdminPath();
+  const { onInit: configOnInit, ...configWithoutOnInit } = config;
 
-  const amertaConfig = {
+  const amertaConfig: Omit<Config, "secret"> = {
     admin: {
       components: {
         beforeNavLinks: ["@/amerta/components/DashboardLink"],
@@ -204,7 +205,7 @@ export function withAmerta(config: Config) {
     }),
     localization: {
       defaultLocale: DEFAULT_LOCALE,
-      locales: LOCALES as any[],
+      locales: LOCALES as any,
       filterAvailableLocales: filterAvailableLocales,
     },
     plugins: [
@@ -303,6 +304,10 @@ export function withAmerta(config: Config) {
         await createStoreData(payload, "USD");
       } catch (error) {
         console.error("Error during onInit data seeding:", error);
+      }
+
+      if (configOnInit) {
+        await configOnInit(payload);
       }
     },
     endpoints: [
@@ -457,7 +462,7 @@ export function withAmerta(config: Config) {
   });
 
   const mergedConfig = {
-    ...config,
+    ...configWithoutOnInit,
     collections: filteredConfigCollections,
   };
 

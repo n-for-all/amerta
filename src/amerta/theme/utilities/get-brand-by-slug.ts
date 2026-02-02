@@ -1,3 +1,4 @@
+import { LocaleCode } from "@/amerta/localization/locales";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 
@@ -10,7 +11,7 @@ export const getBrandBySlug = async (slug, locale, enabled: boolean = true) => {
       slug: { equals: slug },
       ...(enabled ? { _status: { equals: "published" } } : {}),
     },
-    locale: locale as any,
+    locale: locale as LocaleCode,
     limit: 1,
   });
 

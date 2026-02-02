@@ -13,6 +13,7 @@ import { ThemeShopMediaBlock } from "@/amerta/theme/blocks/general/MediaBlock/Co
 import { ThemeShopCodeBlock, ThemeShopCodeBlockProps } from "@/amerta/theme/blocks/general/Code/Component";
 import { ThemeShopBannerBlock } from "@/amerta/theme/blocks/general/Banner/Component";
 import { getLinkUrl } from "@/amerta/utilities/getURL";
+import { CollectionSlug } from "payload";
 
 type NodeTypes = DefaultNodeTypes | SerializedBlockNode<ThemeShopMediaBlockProps | BannerBlockProps | ThemeShopCodeBlockProps>;
 
@@ -35,7 +36,7 @@ export default function RichText(props: Props) {
       const url = getLinkUrl({
         type: linkNode.fields.linkType == "internal" ? "reference" : "custom",
         reference: {
-          relationTo: relationTo as any,
+          relationTo: relationTo as CollectionSlug,
           value: value as any,
         },
         locale,

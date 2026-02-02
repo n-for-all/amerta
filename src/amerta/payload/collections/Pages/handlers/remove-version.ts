@@ -20,7 +20,7 @@ export const removeVersion = async (req: PayloadRequest) => {
     const db = req.payload.db;
 
     await db.deleteVersions({
-      collection: "pages" as any,
+      collection: "pages",
       req,
       where: {
         id: {

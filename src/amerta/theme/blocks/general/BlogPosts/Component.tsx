@@ -21,11 +21,9 @@ export const ThemeShopBlogPostsBlock: React.FC<Props> = async ({ buttonPrimary, 
   }
   switch (type) {
     case "latest":
-      //by default we are fetching latest posts, so no additional filter needed
       break;
     case "featured":
-      // Assuming there's a 'featured' field in posts to filter by
-      (where as any).featured = { equals: true };
+      where.featured = { equals: true };
       break;
     default:
       break;

@@ -40,7 +40,7 @@ export const ImageMedia: React.FC<{
   priority?: boolean;
   resource?: MediaProps["resource"];
   size?: string;
-  src?: StaticImageData | string;
+  src?: StaticImageData | string | null;
   loading?: "lazy" | "eager";
   width?: number;
   height?: number;

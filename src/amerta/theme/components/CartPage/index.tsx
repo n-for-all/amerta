@@ -161,7 +161,7 @@ export default function CartPage() {
                           <div className="mt-1.5 flex gap-2 text-sm">
                             {item.variantOptions.map((variant, idx) => (
                               <div key={idx} className="flex gap-1">
-                                <p className="uppercase text-zinc-500 text-sm/6">{typeof variant.option === "string" ? variant.option : (variant.option as any)?.label || "Option"}</p>
+                                <p className="uppercase text-zinc-500 text-sm/6">{typeof variant.option === "string" ? variant.option : variant.option?.label || ""}</p>
                                 {idx < (item.variantOptions || []).length - 1 && <p className="uppercase text-zinc-300 text-sm/6">/</p>}
                                 <p className="uppercase text-zinc-500 text-sm/6">{variant.value}</p>
                               </div>

@@ -2,7 +2,7 @@ import { Payload } from "payload";
 import currencies from "../data/currencies.json";
 import countries from "../data/countries.json";
 import emailTemplates from "../data/email-templates.json";
-import { ProductOption } from "@/payload-types";
+import { EmailTemplate, ProductOption } from "@/payload-types";
 
 export const importBaseData = async (payload: Payload) => {
   const logs: string[] = [];
@@ -29,7 +29,7 @@ export const importBaseData = async (payload: Payload) => {
             rounding: currency.rounding,
             name: currency.name,
             enabled: "1", // Enable all initially so they show in dropdown
-          } as any,
+          },
         });
         currCount++;
       }
@@ -55,8 +55,8 @@ export const importBaseData = async (payload: Payload) => {
             iso_3: country.iso_3,
             num_code: country.num_code,
             display_name: country.display_name,
-            active: country.active,
-          } as any,
+            active: country.active ? "1" : "0",
+          },
         });
         countryCount++;
       }
@@ -79,7 +79,7 @@ export const importBaseData = async (payload: Payload) => {
           data: {
             body: emailTemplate.body,
             subject: emailTemplate.subject,
-            type: emailTemplate.type as any,
+            type: emailTemplate.type as EmailTemplate["type"],
           },
         });
         emailTemplateCount++;
@@ -105,7 +105,7 @@ export const createStoreData = async (payload: Payload, currencyCode: string) =>
     // 1. Get Selected Currency ID
     const targetCurr = await payload.find({
       collection: "currency",
-      where: { code: { equals: currencyCode } },
+      where: { code: { equals: currencyCode.toLowerCase() } },
     });
 
     if (targetCurr.totalDocs === 0) throw new Error("Selected currency not found in DB.");
@@ -113,7 +113,11 @@ export const createStoreData = async (payload: Payload, currencyCode: string) =>
     // 2. Create Defaults
     const channel = await payload.create({
       collection: "sales-channel",
-      data: { name: "Default Sales Channel", enabled: "1" } as any,
+      data: {
+        name: "Default Sales Channel",
+        enabled: "1",
+        currencies: [{ id: targetCurr.docs[0]!.id, isDefault: true }],
+      },
     });
     log("Created Sales Channel.");
 
@@ -123,9 +127,7 @@ export const createStoreData = async (payload: Payload, currencyCode: string) =>
         name: "Default Store",
         defaultSalesChannelId: channel.id,
         enabled: "1",
-        isOnline: true,
-        currencies: [{ id: targetCurr.docs[0]!.id, isDefault: true }],
-      } as any,
+      },
     });
     log("Created Store.");
 

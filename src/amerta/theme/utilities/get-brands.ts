@@ -1,3 +1,4 @@
+import { LocaleCode } from "@/amerta/localization/locales";
 import { SalesChannel } from "@/payload-types";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
@@ -13,7 +14,7 @@ export const getBrands = async ({ page, locale, limit = 10 }, salesChannel: Sale
     },
     limit: limit,
     page: page,
-    locale: locale as any,
+    locale: locale as LocaleCode,
   });
 
   return result;

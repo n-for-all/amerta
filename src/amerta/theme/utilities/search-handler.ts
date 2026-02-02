@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
+import { DEFAULT_LOCALE, LocaleCode } from "@/amerta/localization/locales";
 import { ProductMedia } from "@/payload-types";
 import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
@@ -23,7 +23,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
         _status: { equals: "published" },
       },
       limit: 10,
-      locale: locale as any,
+      locale: locale as LocaleCode,
     }),
     req.payload.find({
       collection: "collections",
@@ -33,7 +33,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
         _status: { equals: "published" },
       },
       limit: 10,
-      locale: locale as any,
+      locale: locale as LocaleCode,
     }),
     req.payload.find({
       collection: "posts",
@@ -42,7 +42,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
         _status: { equals: "published" },
       },
       limit: 5,
-      locale: locale as any,
+      locale: locale as LocaleCode,
     }),
     req.payload.find({
       collection: "categories",
@@ -51,7 +51,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
         _status: { equals: "published" },
       },
       limit: 5,
-      locale: locale as any,
+      locale: locale as LocaleCode,
     }),
   ]);
 

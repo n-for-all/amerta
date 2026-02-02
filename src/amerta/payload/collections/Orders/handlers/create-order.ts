@@ -12,6 +12,7 @@ import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
 import { isInStock } from "@/amerta/theme/utilities/is-in-stock";
 import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
+import { cookies } from "next/headers";
 
 export const createOrder = async (req: PayloadRequest) => {
   try {
@@ -90,8 +91,9 @@ export const createOrder = async (req: PayloadRequest) => {
       if (!customer) {
         return NextResponse.json({ error: "You must be logged in to place an order." }, { status: 401 });
       }
-      customerId = customer.id;
-      if ((req.user as any).collection === "customers") {
+
+      if (customer && customer.collection === "customers") {
+        customerId = customer.id;
         // Get the address from customer's saved addresses
         const customerData = await payload.findByID({
           collection: "customers",
@@ -149,8 +151,8 @@ export const createOrder = async (req: PayloadRequest) => {
         return NextResponse.json({ error: "You session has expired, please reload the page to create a new session." }, { status: 401 });
       }
     }
-    // Get the cart
-    const cartId = (req as any).cookies.get("cartId");
+    const cookiesInstance = await cookies();
+    const cartId = cookiesInstance.get("cartId");
     if (!cartId) {
       return NextResponse.json({ error: "Your cart is empty" }, { status: 400 });
     }
@@ -215,17 +217,21 @@ export const createOrder = async (req: PayloadRequest) => {
 
     const items = cart.items
       .map((item) => {
-        const product = productsMap[item.product.id];
+        const populatedProduct = typeof item.product === "string" ? null : item.product;
+        if (!populatedProduct || populatedProduct._status !== "published") {
+          return null;
+        }
+        const product = productsMap[populatedProduct.id];
         if (!product || !isInStock(product, item.variantOptions, item.quantity || 1)) {
           return null;
         }
         const image = product.images && product.images.length > 0 ? (product.images[0] as ProductMedia).id : null;
         return {
-          product: item.product.id,
+          product: populatedProduct.id,
           variantOptions: item.variantOptions || null,
           image,
           quantity: item.quantity || 1,
-          price: typeof item.product === "object" ? item.product.price : 0,
+          price: populatedProduct.price || 0,
           metaData: item.variantOptions || null,
         };
       })
@@ -234,12 +240,12 @@ export const createOrder = async (req: PayloadRequest) => {
     if (cart.items.length !== items.length) {
       const unavailableProducts = cart.items
         .filter((item) => {
-          const product = productsMap[item.product.id];
+          const product = productsMap[(item.product as Product).id];
           console.log("Checking product:", product?.title, "with variant options:", item.variantOptions, "and quantity:", item.quantity, "In stock:", product ? isInStock(product, item.variantOptions, item.quantity || 1) : "Product not found");
           return !product || !isInStock(product, item.variantOptions, item.quantity || 1);
         })
         .map((item) => {
-          const product = productsMap[item.product.id];
+          const product = productsMap[(item.product as Product).id];
           return product ? product.title : "Unknown Product";
         })
         .join(", ");

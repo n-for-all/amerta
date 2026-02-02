@@ -115,18 +115,18 @@ export const OrderDetails: React.FC = () => {
   };
 
   const countryVal = addr.countryName;
-  const countryLabel = countryVal && typeof countryVal === "object" && "name" in countryVal ? countryVal.name : ((countryVal as any) ?? "");
+  const countryLabel = countryVal && typeof countryVal === "object" && "name" in countryVal ? countryVal.name : ((countryVal as string) ?? "");
 
   const billingCountryVal = billingAddr.countryName;
-  const billingCountryLabel = billingCountryVal && typeof billingCountryVal === "object" && "name" in billingCountryVal ? billingCountryVal.name : ((billingCountryVal as any) ?? "");
+  const billingCountryLabel = billingCountryVal && typeof billingCountryVal === "object" && "name" in billingCountryVal ? billingCountryVal.name : ((billingCountryVal as string) ?? "");
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.heading}>Order #{order.orderId} details</h2>
 
       <p className={styles.subHeading}>
-        Payment via {(order as any).paymentMethodName || "Card"} • Shipping via {(order as any).shippingMethodName || "Standard"}
-        {(order as any).isFreeShipping && <span className={styles.freeShippingTag}>FREE SHIPPING</span>}
+        Payment via {order.paymentMethodName || "---"} • Shipping via {order.shippingMethodName || "---"}
+        {order.isFreeShipping && <span className={styles.freeShippingTag}>FREE SHIPPING</span>}
       </p>
 
       <div className={styles.columns}>

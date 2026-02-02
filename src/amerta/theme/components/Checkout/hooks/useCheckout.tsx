@@ -55,7 +55,7 @@ export const CheckoutContext = createContext<{
   loadingDeliveryMethods: boolean;
   locale: string;
   paymentMethodRef: React.MutableRefObject<PaymentHandle | null>;
-}>(null as any);
+} | null>(null);
 
 interface UseCheckoutProps {
   cart: CartWithCalculations | null;
@@ -99,7 +99,7 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
   const watchCity = form.watch("city");
   const watchDeliveryMethod = form.watch("deliveryMethodId");
   const watchPaymentMethodId = form.watch("paymentMethodId");
-  const watchAddressId = form.watch("addressId" as any);
+  const watchAddressId = form.watch("addressId");
 
   const deliveryMethodRef = useRef(watchDeliveryMethod);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Collection, Currency, ProductBrand, ProductOption } from "@/payload-types";
+import { Collection, Currency, ProductBrand, ProductMedia, ProductOption } from "@/payload-types";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Checkbox } from "@/amerta/theme/ui/checkbox";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
@@ -20,12 +20,12 @@ type CollectionFiltersProps = {
   options: ProductOption[];
 };
 
-function PriceFilterDropdown({ min, max, currency, onApply }: { min: string; max: string; currency: Currency; onApply: (min: string, max: string) => void }) {
+function PriceFilterDropdown({ min, label, buttonLabel, max, currency, onApply }: { min: string; label: string; buttonLabel: string; max: string; currency: Currency; onApply: (min: string, max: string) => void }) {
   const [localMin, setLocalMin] = useState(min);
   const [localMax, setLocalMax] = useState(max);
 
   return (
-    <FilterDropdown label="Price" count={(min ? 1 : 0) + (max ? 1 : 0)}>
+    <FilterDropdown label={label} count={(min ? 1 : 0) + (max ? 1 : 0)}>
       <div className="w-64 p-4 space-y-4">
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -39,7 +39,7 @@ function PriceFilterDropdown({ min, max, currency, onApply }: { min: string; max
           </div>
         </div>
         <Button onClick={() => onApply(localMin, localMax)} className="w-full py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-zinc-800 dark:bg-white dark:text-black">
-          Apply
+          {buttonLabel}
         </Button>
       </div>
     </FilterDropdown>
@@ -129,13 +129,15 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
 
       <div className="ml-auto">
         <Button className="inline-flex items-center sm:hidden">
-          <span className="text-sm font-medium uppercase text-zinc-700 dark:text-zinc-300">Filters</span>
+          <span className="text-sm font-medium uppercase text-zinc-700 dark:text-zinc-300">{__("Filters")}</span>
           <Filter className="flex-shrink-0 w-4 h-4" />
         </Button>
 
         {/* Desktop Filters */}
         <div className="hidden sm:flex sm:items-baseline sm:space-x-2">
           <PriceFilterDropdown
+            label={__("Price")}
+            buttonLabel={__("Apply")}
             min={searchParams.get("minPrice") || ""}
             max={searchParams.get("maxPrice") || ""}
             currency={currency}
@@ -176,19 +178,31 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
               case "radio":
                 return (
                   <FilterDropdown key={option.id} label={option.name} count={searchParams.getAll(`opt_${option.id}`).length}>
-                    <div className="p-4 space-y-2 min-w-[150px]">{option.options?.map((opt) => <FilterCheckbox key={opt.id} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.option)} onChange={() => updateFilter(`opt_${option.id}`, opt.option)} />)}</div>
+                    <div className="p-4 space-y-2 min-w-[150px]">
+                      {option.options?.map((opt) => (
+                        <FilterCheckbox key={opt.id} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.option)} onChange={() => updateFilter(`opt_${option.id}`, opt.option)} />
+                      ))}
+                    </div>
                   </FilterDropdown>
                 );
               case "color":
                 return (
                   <FilterDropdown key={option.id} label={option.name} count={searchParams.getAll(`opt_${option.id}`).length}>
-                    <div className="p-4 grid grid-cols-1 gap-2 min-w-[200px]">{option.colors?.map((opt) => <ColorSwatch key={opt.id} color={opt.color || "#000000"} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.color)} onChange={() => updateFilter(`opt_${option.id}`, opt.color)} />)}</div>
+                    <div className="p-4 grid grid-cols-1 gap-2 min-w-[200px]">
+                      {option.colors?.map((opt) => (
+                        <ColorSwatch key={opt.id} color={opt.color || "#000000"} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.color)} onChange={() => updateFilter(`opt_${option.id}`, opt.color)} />
+                      ))}
+                    </div>
                   </FilterDropdown>
                 );
               case "image":
                 return (
                   <FilterDropdown key={option.id} label={option.name} count={searchParams.getAll(`opt_${option.id}`).length}>
-                    <div className="p-4 grid grid-cols-4 gap-2 min-w-[200px]">{option.images?.map((opt) => <ImageSwatch key={opt.id} image={(opt.image as any)?.url || ""} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.id || "")} onChange={() => updateFilter(`opt_${option.id}`, opt.id || "")} />)}</div>
+                    <div className="p-4 grid grid-cols-4 gap-2 min-w-[200px]">
+                      {option.images?.map((opt) => (
+                        <ImageSwatch key={opt.id} noImageLabel={__("No image")} image={(opt.image as ProductMedia)?.url || ""} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.id || "")} onChange={() => updateFilter(`opt_${option.id}`, opt.id || "")} />
+                      ))}
+                    </div>
                   </FilterDropdown>
                 );
             }
@@ -235,10 +249,12 @@ function ColorSwatch({ color, label, checked, onChange }: { color: string; label
     </button>
   );
 }
-function ImageSwatch({ image, label, checked, onChange }: { image: string; label: string; checked: boolean; onChange: () => void }) {
+function ImageSwatch({ image, label, noImageLabel, checked, onChange }: { image: string; label: string; noImageLabel: string; checked: boolean; onChange: () => void }) {
   return (
     <button type="button" onClick={onChange} className="relative flex flex-col items-center gap-1 group" title={label}>
-      <div className={`w-12 h-12 rounded-md border-2 transition-all overflow-hidden bg-zinc-100 dark:bg-zinc-800 ${checked ? "border-zinc-900 dark:border-white ring-2 ring-offset-2 ring-zinc-900 dark:ring-white" : "border-zinc-300 dark:border-zinc-700 group-hover:border-zinc-400"}`}>{image ? <ImageMedia src={image} alt={label} width={48} height={48} imgClassName="object-cover w-full h-full" /> : <div className="flex items-center justify-center w-full h-full text-xs text-zinc-400">No img</div>}</div>
+      <div className={`w-12 h-12 rounded-md border-2 transition-all overflow-hidden bg-zinc-100 dark:bg-zinc-800 ${checked ? "border-zinc-900 dark:border-white ring-2 ring-offset-2 ring-zinc-900 dark:ring-white" : "border-zinc-300 dark:border-zinc-700 group-hover:border-zinc-400"}`}>
+        {image ? <ImageMedia src={image} alt={label} width={48} height={48} imgClassName="object-cover w-full h-full" /> : <div className="flex items-center justify-center w-full h-full text-xs text-zinc-400">{noImageLabel}</div>}
+      </div>
       <span className="text-xs text-zinc-600 dark:text-zinc-400 truncate max-w-[48px]">{label}</span>
     </button>
   );

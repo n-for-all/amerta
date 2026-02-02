@@ -1,6 +1,6 @@
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
-import { Post } from "@/payload-types";
+import { Category, Post } from "@/payload-types";
 import { LocaleCode } from "@/amerta/localization/locales";
 
 /**
@@ -130,7 +130,7 @@ export async function getRelatedPosts(postId: string, limit = 4, locale?: string
     locale: locale as LocaleCode,
   });
 
-  const categoryIds = currentPost?.categories ? (currentPost.categories as any[]).map((cat) => (typeof cat === "object" ? cat.id : cat)) : [];
+  const categoryIds = currentPost?.categories ? (currentPost.categories as Category[]).map((cat) => (typeof cat === "object" ? cat.id : cat)) : [];
 
   let candidates: Post[] = [];
 

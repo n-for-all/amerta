@@ -85,7 +85,7 @@ export function validateGuestOrder(data: unknown): GuestOrderValidationResult {
     if (error instanceof z.ZodError) {
       const errors = mapZodIssues(error.issues);
 
-      let messageSet = new Set<string>();
+      const messageSet = new Set<string>();
       Object.values(errors).forEach((msgs) => {
         messageSet.add(msgs);
       });

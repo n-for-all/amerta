@@ -52,7 +52,7 @@ export async function addToCart(product: { id: string; title: string; price: num
  * @example
  * const res = await removeFromCart("123");
  */
-export async function removeFromCart(productId: string, variantOptions?: Array<{ option: string | ProductOption; value: string }>): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function removeFromCart(productId: string, variantOptions?: Array<{ option: string | ProductOption; value: string }> | null): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/remove", {
       method: "POST",
@@ -91,7 +91,7 @@ export async function removeFromCart(productId: string, variantOptions?: Array<{
  * @example
  * const res = await updateQuantity("123", 3);
  */
-export async function updateQuantity(productId: string, quantity: number, variantOptions?: Array<{ option: string | ProductOption; value: string }>): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function updateQuantity(productId: string, quantity: number, variantOptions?: Array<{ option: string | ProductOption; value: string }> | null): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/update-quantity", {
       method: "POST",

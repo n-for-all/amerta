@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import type { Order, Payment, Currency } from "@/payload-types";
+import type { Order, Payment, Currency, Country } from "@/payload-types";
 import { formatPrice } from "@/amerta/theme/utilities/format-price";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 import { printf } from "fast-printf";
@@ -30,7 +30,7 @@ export const OrderDetails: React.FC<{ order: Order; locale: string; payment?: Pa
   };
 
   const countryVal = addr.countryName;
-  const countryLabel = countryVal && typeof countryVal === "object" && "name" in countryVal ? (countryVal as any).name : ((countryVal as any) ?? "");
+  const countryLabel = countryVal && typeof countryVal === "object" && "name" in countryVal ? (countryVal as Country).name : ((countryVal as string) ?? "");
   const exchangeRate = order.exchangeRate || 1;
 
   return (
@@ -38,8 +38,8 @@ export const OrderDetails: React.FC<{ order: Order; locale: string; payment?: Pa
       <h2 className="mb-1 text-xl font-semibold">{printf(__("Order #%s details"), order.orderId)}</h2>
 
       <p className="flex flex-wrap items-center gap-2 mb-5 text-base text-zinc-500">
-        {printf(__("Payment via %s"), (order as any).paymentMethodName || __("Card"))} • {printf(__("Shipping via %s"), (order as any).shippingMethodName || __("Standard"))}
-        {(order as any).isFreeShipping && <span className="inline-block px-2 py-1 text-xs font-semibold tracking-wider text-white uppercase bg-green-600 rounded">FREE SHIPPING</span>}
+        {printf(__("Payment via %s"), order.paymentMethodName || "")} • {printf(__("Shipping via %s"), order.shippingMethodName || "")} •
+        {order.isFreeShipping && <span className="inline-block px-2 py-1 text-xs font-semibold tracking-wider text-white uppercase bg-green-600 rounded">{__("FREE SHIPPING")}</span>}
       </p>
 
       <div className="grid grid-cols-3 gap-8">

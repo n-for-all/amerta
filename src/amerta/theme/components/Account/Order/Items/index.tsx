@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import type { Currency, Order, Payment, Product } from "@/payload-types";
+import type { Currency, Order, Payment, Product, ProductMedia } from "@/payload-types";
 import Link from "next/link";
 import { formatPrice } from "@/amerta/theme/utilities/format-price";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
@@ -36,7 +36,7 @@ export const OrderItems: React.FC<{ currency?: Currency; order: Order; locale: s
         const metaData = item.metaData && typeof item.metaData === "object" ? item.metaData : {};
 
         // Get product image
-        const productImage = product?.images && product.images.length > 0 ? (product.images[0]! as any).url : null;
+        const productImage = product?.images && product.images.length > 0 ? (product.images[0]! as ProductMedia).url : null;
 
         // Get product slug for link
         const productSlug = product?.slug || null;

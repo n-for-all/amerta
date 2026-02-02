@@ -1,3 +1,5 @@
+import { Cart } from "@/payload-types";
+
 export interface AppliedCoupon {
   id: string;
   code: string;
@@ -76,7 +78,7 @@ export interface PaymentMethod {
   type: any;
   publicDescription?: string;
   icons?: {
-    id?: string;
+    id?: string | null;
     image: string | Media;
   }[];
 

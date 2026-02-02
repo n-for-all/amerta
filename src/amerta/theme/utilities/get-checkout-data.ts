@@ -75,7 +75,16 @@ export async function getCheckoutData(): Promise<CheckoutData> {
 
     return {
       countries: Array.from(countriesMap.values()),
-      paymentMethods: paymentMethodsData.docs as any,
+      paymentMethods: (paymentMethodsData.docs || []).map((pm) => ({
+        id: pm.id || "",
+        name: pm.name,
+        label: pm.label,
+        type: pm.type,
+        publicDescription: pm.publicDescription || "",
+        icons: pm.icons || [],
+        createdAt: pm.createdAt,
+        updatedAt: pm.updatedAt,
+      })),
     };
   } catch (error) {
     console.error("Error fetching checkout data:", error);
