@@ -9,6 +9,7 @@ export const getSalesChannel = async (isDefault: boolean = true, enabledOnly: bo
       isDefault: { equals: isDefault ? true : false },
       ...(enabledOnly ? { enabled: { equals: "1" } } : {}),
     },
+    depth: 4,
     limit: 1,
   });
 

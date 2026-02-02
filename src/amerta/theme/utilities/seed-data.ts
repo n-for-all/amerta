@@ -116,7 +116,7 @@ export const createStoreData = async (payload: Payload, currencyCode: string) =>
       data: {
         name: "Default Sales Channel",
         enabled: "1",
-        currencies: [{ id: targetCurr.docs[0]!.id, isDefault: true }],
+        currencies: [{ currency: targetCurr.docs[0]!.id, isDefault: true }],
         isDefault: true,
       },
     });
