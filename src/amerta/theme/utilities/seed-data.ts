@@ -136,8 +136,8 @@ export const createStoreData = async (payload: Payload, currencyCode: string) =>
       collection: "product-options",
     });
     if (productOptions && productOptions.docs && productOptions.docs.length > 0) {
-      console.log("Default Product Options already exist");
-      return;
+      log("Default Product Options already exist");
+      return { success: true, logs };
     }
 
     const data: Omit<ProductOption, "id" | "createdAt" | "updatedAt"> = {
@@ -167,7 +167,7 @@ export const createStoreData = async (payload: Payload, currencyCode: string) =>
       overrideAccess: true,
       data,
     });
-    console.log("Added Color Option: ", colorOption.id);
+    log("Added Color Option: " + colorOption.id);
     const dataSize: Omit<ProductOption, "id" | "createdAt" | "updatedAt"> = {
       label: "Size",
       name: "size",

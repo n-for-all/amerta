@@ -300,8 +300,19 @@ export function withAmerta(config: Config) {
     ],
     onInit: async (payload) => {
       try {
-        await importBaseData(payload);
-        await createStoreData(payload, "USD");
+        const { logs, error } = await importBaseData(payload);
+        if (error) {
+          console.error("Error importing base data on init:", error);
+        } else {
+          (logs || []).forEach((log) => console.log(log));
+        }
+
+        const { logs: storeLogs, error: storeError } = await createStoreData(payload, "USD");
+        if (storeError) {
+          console.error("Error creating store data on init:", storeError);
+        } else {
+          (storeLogs || []).forEach((log) => console.log(log));
+        }
       } catch (error) {
         console.error("Error during onInit data seeding:", error);
       }
