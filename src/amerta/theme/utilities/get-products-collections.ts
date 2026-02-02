@@ -44,6 +44,7 @@ export const getProductsCollections = async (collectionId?: string, isDraftMode?
       id: {
         in: allCollectionIds,
       },
+      _status: { equals: "published" },
     },
   });
 

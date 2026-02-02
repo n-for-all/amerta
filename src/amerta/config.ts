@@ -297,6 +297,14 @@ export function withAmerta(config: Config) {
         },
       }),
     ],
+    onInit: async (payload) => {
+      try {
+        await importBaseData(payload);
+        await createStoreData(payload, "USD");
+      } catch (error) {
+        console.error("Error during onInit data seeding:", error);
+      }
+    },
     endpoints: [
       {
         path: "/checkout/data",
@@ -453,7 +461,7 @@ export function withAmerta(config: Config) {
     collections: filteredConfigCollections,
   };
 
-  if(!config.admin?.user){
+  if (!config.admin?.user) {
     mergedConfig.admin = {
       ...(mergedConfig.admin || {}),
       user: FinalUsersCollection.slug,

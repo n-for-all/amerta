@@ -9,7 +9,7 @@ export const getCollections = async ({ page, locale, limit = 10 }, salesChannel:
     collection: "collections",
     where: {
       salesChannels: { equals: salesChannel.id },
-      enabled: { equals: "1" },
+      _status: { equals: "published" },
     },
     limit: limit,
     page: page,

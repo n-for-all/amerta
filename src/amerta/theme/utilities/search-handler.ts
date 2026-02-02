@@ -20,6 +20,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
       where: {
         or: [{ title: { like: query } }],
         salesChannels: { equals: salesChannel!.id },
+        _status: { equals: "published" },
       },
       limit: 10,
       locale: locale as any,
@@ -29,6 +30,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
       where: {
         or: [{ title: { like: query } }],
         salesChannels: { equals: salesChannel!.id },
+        _status: { equals: "published" },
       },
       limit: 10,
       locale: locale as any,
@@ -37,6 +39,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
       collection: "posts",
       where: {
         title: { like: query },
+        _status: { equals: "published" },
       },
       limit: 5,
       locale: locale as any,
@@ -45,6 +48,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
       collection: "categories",
       where: {
         title: { like: query },
+        _status: { equals: "published" },
       },
       limit: 5,
       locale: locale as any,
