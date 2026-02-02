@@ -22,10 +22,16 @@ export default async function Order({ params }: { params: Promise<{ id: string; 
         Authorization: `JWT ${token}`,
       },
     })?.then(async (res) => {
-      if (!res.ok) notFound();
+      if (!res.ok) {
+        throw new Error(`Failed to fetch order with id ${id}`);
+      }
       const json = await res.json();
-      if ("error" in json && json.error) notFound();
-      if ("errors" in json && json.errors) notFound();
+      if ("error" in json && json.error) {
+        throw new Error(json.error);
+      }
+      if ("errors" in json && json.errors) {
+        throw new Error(json.errors.join(", "));
+      }
       return json;
     });
   } catch (error) {
@@ -33,7 +39,7 @@ export default async function Order({ params }: { params: Promise<{ id: string; 
   }
 
   if (!order) {
-    notFound();
+    return notFound();
   }
 
   return (

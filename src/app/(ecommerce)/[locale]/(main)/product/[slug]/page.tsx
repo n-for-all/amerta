@@ -25,7 +25,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   }
 
   if (!product) {
-    notFound();
+    return notFound();
   }
 
   const options = await getAllProductOptions(locale);
