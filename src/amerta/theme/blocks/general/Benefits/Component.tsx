@@ -16,12 +16,12 @@ export const ThemeShopBenefitsBlock: React.FC<Props> = ({ items, className }) =>
         const displayIndex = index + 1;
         return (
           <div key={item.id || index} className={cn("flex-col gap-2 border border-zinc-100 px-4 py-5 sm:px-8 sm:py-10 bg-white dark:bg-zinc-900 dark:border-zinc-800", "border-l-transparent", index === 0 ? "border-l-zinc-100 dark:border-l-zinc-800" : "")}>
-            <p className="uppercase text-zinc-500 dark:text-zinc-500 text-sm/6">({displayIndex})</p>
-            <p className="mt-2 font-medium uppercase text-sm/6 text-zinc-900 dark:text-white">{item.title}</p>
+            <p className="text-zinc-500 dark:text-zinc-500 text-sm/6">({displayIndex})</p>
+            <p className="mt-2 font-medium text-sm/6 text-zinc-900 dark:text-white">{item.title}</p>
             <div className="mt-10 text-zinc-700 sm:mt-14 dark:text-zinc-300 [&>svg]:w-10 [&>svg]:h-10 [&>svg]:stroke-[1]">
               <DynamicIcon className="text-zinc-900 dark:text-white" name={item.icon || ""} />
             </div>
-            <p className="mt-4 uppercase text-zinc-500 dark:text-zinc-400 text-sm/6">{item.description}</p>
+            <p className="mt-4 text-zinc-500 dark:text-zinc-400 text-sm/6">{item.description}</p>
           </div>
         );
       })}

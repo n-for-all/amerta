@@ -51,7 +51,7 @@ const PostCard: FC<Props> = ({ className = "h-full", post, locale, timeToRead })
 
       <div className="max-w-xl">
         <div className="group">
-          <h3 className="mt-6 text-base font-semibold uppercase text-zinc-900 group-hover:text-zinc-600 dark:text-zinc-100 dark:group-hover:text-zinc-300">
+          <h3 className="mt-6 text-base font-semibold text-zinc-900 group-hover:text-zinc-600 dark:text-zinc-100 dark:group-hover:text-zinc-300">
             <Link href={getURL(`/blog/article/${slug}`, locale)}>
               <span className="absolute inset-0"></span>
               <span dangerouslySetInnerHTML={{ __html: title }} />

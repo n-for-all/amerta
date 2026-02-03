@@ -7,8 +7,8 @@ import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 
 type FeatureItem = {
   id?: string | null;
-  title: string;
-  description: any;
+  title?: string;
+  description?: any;
 };
 
 export const FeaturesAccordion = ({ items }: { items: FeatureItem[] }) => {

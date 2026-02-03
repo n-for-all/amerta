@@ -27,21 +27,6 @@ export const ThemeShopHeroBlock: React.FC<Props> = ({ params, topTitle, title, s
       <div className="container flex">
         <div className="self-end w-3/5 py-16 pr-6 rtl:pl-6 rtl:pr-0 xl:pb-20">
           <div className="max-w-2xl">
-            {/* Icon */}
-            <div>
-              <svg width="48" height="48" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_3045_1353)">
-                  <path d="M16.5 0C16.5 0 17.9497 8.10256 21.4236 11.5764C24.8974 15.0503 33 16.5 33 16.5C33 16.5 24.8974 17.9497 21.4236 21.4236C17.9497 24.8974 16.5 33 16.5 33C16.5 33 15.0503 24.8974 11.5764 21.4236C8.10256 17.9497 0 16.5 0 16.5C0 16.5 8.10256 15.0503 11.5764 11.5764C15.0503 8.10256 16.5 0 16.5 0Z" fill="black"></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_3045_1353">
-                    <rect width="33" height="33" fill="white"></rect>
-                  </clipPath>
-                </defs>
-              </svg>
-            </div>
-
-            {/* Title */}
             {topTitle && <h3 dangerouslySetInnerHTML={{ __html: topTitle }} className="mt-4 text-lg/tight md:text-2xl/tight lg:text-lg/tight" />}
             {title && <h2 dangerouslySetInnerHTML={{ __html: title }} className="mt-8 font-semibold text-5xl/tight md:text-6xl/tight lg:text-7xl/tight" />}
 
