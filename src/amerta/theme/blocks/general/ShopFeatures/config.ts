@@ -9,7 +9,6 @@ export const ThemeShopFeaturesBlock: Block = {
       name: "image",
       type: "upload",
       relationTo: "media",
-      required: true,
       admin: {
         description: "Image displayed on the left side. Recommended aspect ratio: 1:1 or 4:5.",
       },
@@ -18,7 +17,6 @@ export const ThemeShopFeaturesBlock: Block = {
       name: "headline",
       type: "richText",
       localized: true,
-      required: true,
       editor: lexicalEditor({
         features: ({ defaultFeatures }) => [...defaultFeatures.filter((feature) => ["bold", "italic"].includes(feature.key)), FixedToolbarFeature(), InlineToolbarFeature()],
       }),
@@ -37,13 +35,11 @@ export const ThemeShopFeaturesBlock: Block = {
           name: "title",
           type: "text",
           localized: true,
-          required: true,
         },
         {
           name: "description",
           type: "richText",
           localized: true,
-          required: true,
           editor: lexicalEditor({
             features: ({ rootFeatures }) => {
               return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];

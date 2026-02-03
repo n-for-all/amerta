@@ -8,16 +8,16 @@ import { authenticated } from "../../access/authenticated";
 import { formatAdminURL } from "payload/shared";
 import config from "@payload-config";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
+import fs from "fs";
+import path from "path";
 
 function generateFilePathOrURL({ collectionSlug, config, filename, relative, serverURL, urlOrPath }) {
   if (urlOrPath) {
     if (!urlOrPath.startsWith("/") && !urlOrPath.startsWith(serverURL || "")) {
-      // external url
       return urlOrPath;
     }
   }
   if (filename) {
-    // local file url
     return formatAdminURL({
       apiRoute: config.routes?.api || "",
       path: `/${collectionSlug}/file/${encodeURIComponent(filename)}`,
@@ -46,19 +46,46 @@ export const ProductMedia: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
+  hooks: {
+    afterDelete: [
+      ({ doc }) => {
+        const staticDir = path.resolve(process.cwd(), "public/products");
 
+        const deleteFile = (filename: string) => {
+          const filePath = path.join(staticDir, filename);
+          try {
+            if (fs.existsSync(filePath)) {
+              fs.unlinkSync(filePath);
+            }
+          } catch (e) {
+            console.error(`Error deleting file: ${filePath}`, e);
+          }
+        };
+
+        if (doc.filename) {
+          deleteFile(doc.filename);
+        }
+
+        if (doc.sizes) {
+          Object.values(doc.sizes).forEach((size: any) => {
+            if (size.filename) {
+              deleteFile(size.filename);
+            }
+          });
+        }
+      },
+    ],
+  },
   fields: [
     {
       name: "title",
       type: "text",
       localized: true,
-      //required: true,
     },
     {
       name: "alt",
       type: "text",
       localized: true,
-      //required: true,
     },
     {
       name: "caption",
@@ -72,7 +99,6 @@ export const ProductMedia: CollectionConfig = {
     },
   ],
   upload: {
-    // Upload to the public/products directory in Next.js making them publicly accessible even outside of Payload
     staticDir: "public/products",
     adminThumbnail: (originalDoc: any) => {
       let size = "medium";
@@ -80,7 +106,7 @@ export const ProductMedia: CollectionConfig = {
         size = "thumbnail";
       }
 
-      if(!originalDoc.sizes?.[size]) {
+      if (!originalDoc.sizes?.[size]) {
         return null;
       }
 

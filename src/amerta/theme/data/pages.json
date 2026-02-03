@@ -1,0 +1,1211 @@
+[
+  {
+    "layout": [
+      {
+        "blockType": "themeShopHero",
+        "backgroundColor": "#f4f4f5",
+        "image": null,
+        "logoLink": {
+          "type": "reference",
+          "size": "default",
+          "appearance": "default",
+          "reference": null,
+          "label": ""
+        },
+        "logo": null,
+        "topTitle": "Timeless elegance for the modern day.",
+        "title": "The Summer Collection",
+        "buttonPrimary": {
+          "type": "custom",
+          "size": "default",
+          "appearance": "default",
+          "url": "/products",
+          "label": "Shop New Arrivals"
+        },
+        "buttonSecondary": {
+          "type": "reference",
+          "size": "default",
+          "appearance": "default"
+        },
+        "subtitle": "Breathable fabrics, sustainable cuts, and a vibrant palette designed to elevate your everyday wardrobe."
+      },
+      {
+        "blockType": "themeShopCollectionShowcase",
+        "title": "Curated Collections",
+        "subtitle": "Discover the latest trends in urban fashion.",
+        "collections": []
+      },
+      {
+        "blockType": "themeShopCtaFeature",
+        "title": "Sustainable & Chic.",
+        "description": "We believe fashion should feel good and do good. Our materials are ethically sourced and crafted with the planet in mind. Experience the comfort of organic cotton and the luxury of recycled silk.",
+        "link": {
+          "type": "custom",
+          "size": "default",
+          "appearance": "default",
+          "url": "/products",
+          "label": "Read Our Story"
+        },
+        "leftImage": null,
+        "rightImage": null,
+        "backgroundColor": "white"
+      },
+      {
+        "blockType": "themeShopGridShowcase",
+        "leftTitle": "Urban Essentials",
+        "leftDescription": "Minimalist designs for the maximum impact.",
+        "leftImage": null,
+        "leftBackgroundColor": "#e4e4e7",
+        "centerImage": null,
+        "rightTopImage": null,
+        "rightBottomTitle": "Accessories",
+        "rightBottomDescription": "Complete your look with handcrafted details.",
+        "link": {
+          "type": "custom",
+          "size": "default",
+          "appearance": "default",
+          "url": "/products",
+          "label": "View Lookbook"
+        }
+      },
+      {
+        "blockType": "themeShopCollectionArchive",
+        "collectionObj": null,
+        "buttonPrimary": {
+          "type": "reference",
+          "size": "default",
+          "appearance": "default"
+        },
+        "title": {
+          "root": {
+            "children": [
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Explore ",
+                    "type": "text",
+                    "version": 1
+                  },
+                  {
+                    "detail": 0,
+                    "format": 2,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "New Arrivals",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "paragraph",
+                "version": 1,
+                "textFormat": 0,
+                "textStyle": ""
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "root",
+            "version": 1
+          }
+        },
+        "description": "From casual streetwear to evening elegance—find the pieces that define you.",
+        "limit": 8
+      },
+      {
+        "blockType": "themeShopFeaturesBlock",
+        "image": null,
+        "headline": {
+          "root": {
+            "children": [
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Why shop with us?",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "paragraph",
+                "version": 1,
+                "textFormat": 0,
+                "textStyle": ""
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "root",
+            "version": 1
+          }
+        },
+        "features": [
+          {
+            "title": "Premium Materials",
+            "description": {
+              "root": {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "We source only the finest fabrics from around the globe to ensure your garments last a lifetime.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "root",
+                "version": 1
+              }
+            }
+          },
+          {
+            "title": "Ethical Manufacturing",
+            "description": {
+              "root": {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Fair wages and safe working conditions are non-negotiable. We know exactly who makes your clothes.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "root",
+                "version": 1
+              }
+            }
+          },
+          {
+            "title": "Timeless Design",
+            "description": {
+              "root": {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Trends fade, but style is forever. Our pieces are designed to be staples in your wardrobe for years to come.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "root",
+                "version": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "blockType": "themeShopBenefitsBlock",
+        "items": [
+          {
+            "title": "Free Shipping",
+            "description": "Complimentary shipping on all global orders over $150.",
+            "icon": "truck"
+          },
+          {
+            "title": "Easy Returns",
+            "description": "Risk-free shopping with our 30-day return policy.",
+            "icon": "refresh-cw"
+          },
+          {
+            "title": "Secure Payment",
+            "description": "Your data is protected with 256-bit encryption.",
+            "icon": "shield"
+          },
+          {
+            "title": "24/7 Support",
+            "description": "Our dedicated stylist team is here to help anytime.",
+            "icon": "message-circle"
+          },
+          {
+            "title": "Free Shipping",
+            "description": "Complimentary shipping on all global orders over $150.",
+            "icon": "truck"
+          }
+        ]
+      },
+      {
+        "blockType": "themeShopBlogPosts",
+        "type": "latest",
+        "buttonPrimary": {
+          "type": "custom",
+          "size": "default",
+          "appearance": "default",
+          "url": "/blog",
+          "label": "Read Journal"
+        },
+        "title": {
+          "root": {
+            "children": [
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "The Style ",
+                    "type": "text",
+                    "version": 1
+                  },
+                  {
+                    "detail": 0,
+                    "format": 2,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Journal",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "paragraph",
+                "version": 1,
+                "textFormat": 0,
+                "textStyle": ""
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "root",
+            "version": 1
+          }
+        },
+        "description": "Style tips, care guides, and behind-the-scenes stories from our design studio.",
+        "limit": 4
+      },
+      {
+        "blockType": "themeShopNewsletterBlock",
+        "headline": {
+          "root": {
+            "children": [
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Get 15% off ",
+                    "type": "text",
+                    "version": 1
+                  },
+                  {
+                    "detail": 0,
+                    "format": 2,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "your first order",
+                    "type": "text",
+                    "version": 1
+                  },
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": ". Sign up now.",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "paragraph",
+                "version": 1,
+                "textFormat": 0,
+                "textStyle": ""
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "root",
+            "version": 1
+          }
+        },
+        "baseForm": {
+          "form": null,
+          "title": "Join our community"
+        },
+        "formText": {
+          "root": {
+            "children": [
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "We respect your privacy. Read our privacy policy",
+                    "type": "text",
+                    "version": 1
+                  },
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": ".",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": "ltr",
+                "format": "",
+                "indent": 0,
+                "type": "paragraph",
+                "version": 1,
+                "textFormat": 0,
+                "textStyle": ""
+              }
+            ],
+            "direction": "ltr",
+            "format": "",
+            "indent": 0,
+            "type": "root",
+            "version": 1
+          }
+        }
+      }
+    ],
+    "slugLock": true,
+    "meta": {},
+    "_status": "published",
+    "isFrontPage": true,
+    "publishedOn": "2026-01-14T15:37:58.108Z",
+    "slug": "homepage",
+    "title": "Homepage"
+  },
+  {
+    "slugLock": true,
+    "meta": {},
+    "_status": "published",
+    "layout": [
+      {
+        "blockType": "themeShopContactUs",
+        "titlePrefix": "Contact",
+        "titleSuffix": "Us",
+        "image": null,
+        "contactDetails": {
+          "email": "hello@fashion-sample.com",
+          "phone": "+1 (555) 012-3456",
+          "address": "123 Fashion Avenue, New York, NY"
+        },
+        "socialLinks": [
+          {
+            "platform": "instagram",
+            "url": "https://www.instagram.com/"
+          }
+        ],
+        "form": null
+      }
+    ],
+    "slug": "contact-us",
+    "title": "Contact Us"
+  },
+  {
+    "meta": {},
+    "_status": "published",
+    "layout": [
+      {
+        "blockType": "themeShopImageBlock",
+        "image": null,
+        "enableParallax": true,
+        "height": "medium",
+        "contentSettings": {
+          "text": {
+            "root": {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "detail": 0,
+                      "format": 0,
+                      "mode": "normal",
+                      "style": "",
+                      "text": "Privacy Policy",
+                      "type": "text",
+                      "version": 1
+                    }
+                  ],
+                  "direction": null,
+                  "format": "",
+                  "indent": 0,
+                  "type": "heading",
+                  "version": 1,
+                  "tag": "h1"
+                }
+              ],
+              "direction": null,
+              "format": "",
+              "indent": 0,
+              "type": "root",
+              "version": 1
+            }
+          },
+          "position": "center",
+          "overlayOpacity": "20"
+        }
+      },
+      {
+        "blockType": "themeShopSpacerBlock",
+        "size": "small",
+        "responsive": {
+          "tabletSize": "small",
+          "mobileSize": "small"
+        }
+      },
+      {
+        "blockType": "themeShopContentBlock",
+        "columns": [
+          {
+            "size": "2",
+            "link": {
+              "type": "reference",
+              "size": "default",
+              "appearance": "default"
+            }
+          },
+          {
+            "size": "8",
+            "richText": {
+              "root": {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "1. INFORMATION COLLECTION",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "When you purchase something from our fashion store, as part of the buying and selling process, we collect the personal information you give us such as your name, address and email address.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "2. CONSENT",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "How do you get my consent? When you provide us with personal information to complete a transaction, verify your credit card, place an order, arrange for a delivery or return a purchase, we imply that you consent to our collecting it and using it for that specific reason only.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "3. QUESTIONS AND CONTACT INFORMATION",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "If you would like to: access, correct, amend or delete any personal information we have about you, contact our Privacy Compliance Officer at ",
+                        "type": "text",
+                        "version": 1
+                      },
+                      {
+                        "children": [
+                          {
+                            "detail": 0,
+                            "format": 0,
+                            "mode": "normal",
+                            "style": "",
+                            "text": "privacy@fashion-sample.com",
+                            "type": "text",
+                            "version": 1
+                          }
+                        ],
+                        "direction": null,
+                        "format": "",
+                        "indent": 0,
+                        "type": "link",
+                        "version": 3,
+                        "fields": {
+                          "url": "mailto:privacy@fashion-sample.com",
+                          "newTab": false,
+                          "linkType": "custom"
+                        }
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "root",
+                "version": 1
+              }
+            }
+          },
+          {
+            "size": "2",
+            "link": {
+              "type": "reference",
+              "size": "default",
+              "appearance": "default"
+            }
+          }
+        ]
+      }
+    ],
+    "publishedOn": "2026-01-29T10:58:32.290Z",
+    "slug": "privacy-policy",
+    "title": "Privacy Policy"
+  },
+  {
+    "title": "Refund Policy",
+    "publishedOn": "2026-01-29T12:18:39.626Z",
+    "layout": [
+      {
+        "blockType": "themeShopImageBlock",
+        "image": null,
+        "enableParallax": true,
+        "height": "medium",
+        "contentSettings": {
+          "text": {
+            "root": {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "detail": 0,
+                      "format": 0,
+                      "mode": "normal",
+                      "style": "",
+                      "text": "Refund Policy",
+                      "type": "text",
+                      "version": 1
+                    }
+                  ],
+                  "direction": null,
+                  "format": "",
+                  "indent": 0,
+                  "type": "heading",
+                  "version": 1,
+                  "tag": "h1"
+                }
+              ],
+              "direction": null,
+              "format": "",
+              "indent": 0,
+              "type": "root",
+              "version": 1
+            }
+          },
+          "position": "center",
+          "overlayOpacity": "20"
+        }
+      },
+      {
+        "blockType": "themeShopSpacerBlock",
+        "size": "small",
+        "responsive": {
+          "tabletSize": "small",
+          "mobileSize": "small"
+        }
+      },
+      {
+        "blockType": "themeShopContentBlock",
+        "columns": [
+          {
+            "size": "2",
+            "link": {
+              "type": "reference",
+              "size": "default",
+              "appearance": "default"
+            }
+          },
+          {
+            "size": "8",
+            "richText": {
+              "root": {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 1,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Returns & Cancellations",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h2"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "We want you to love your purchase. If you are not satisfied, we accept returns on unworn items with tags attached within 14 days of delivery.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 1,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Right of withdrawal",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h2"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "You have the right to withdraw from this contract within fourteen days without giving a reason. To exercise your right, please email us at ",
+                        "type": "text",
+                        "version": 1
+                      },
+                      {
+                        "children": [
+                          {
+                            "detail": 0,
+                            "format": 0,
+                            "mode": "normal",
+                            "style": "",
+                            "text": "returns@fashion-sample.com",
+                            "type": "text",
+                            "version": 1
+                          }
+                        ],
+                        "direction": null,
+                        "format": "",
+                        "indent": 0,
+                        "type": "link",
+                        "version": 3,
+                        "fields": {
+                          "url": "mailto:returns@fashion-sample.com",
+                          "linkType": "custom"
+                        }
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 1,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Refund Process",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h2"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. We will also notify you of the approval or rejection of your refund. If approved, your refund will be processed to your original method of payment.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Please note: Intimate apparel and final sale items cannot be returned.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "root",
+                "version": 1
+              }
+            }
+          },
+          {
+            "size": "2",
+            "link": {
+              "type": "reference",
+              "size": "default",
+              "appearance": "default"
+            }
+          }
+        ]
+      }
+    ],
+    "slug": "refund-policy",
+    "slugLock": false,
+    "isFrontPage": false,
+    "meta": {},
+    "_status": "published"
+  },
+  {
+    "title": "Terms of Service",
+    "publishedOn": "2026-01-29T12:22:05.712Z",
+    "layout": [
+      {
+        "blockType": "themeShopImageBlock",
+        "image": null,
+        "enableParallax": true,
+        "height": "medium",
+        "contentSettings": {
+          "text": {
+            "root": {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "detail": 0,
+                      "format": 0,
+                      "mode": "normal",
+                      "style": "",
+                      "text": "Terms of Service",
+                      "type": "text",
+                      "version": 1
+                    }
+                  ],
+                  "direction": null,
+                  "format": "",
+                  "indent": 0,
+                  "type": "heading",
+                  "version": 1,
+                  "tag": "h1"
+                }
+              ],
+              "direction": null,
+              "format": "",
+              "indent": 0,
+              "type": "root",
+              "version": 1
+            }
+          },
+          "position": "center",
+          "overlayOpacity": "20"
+        }
+      },
+      {
+        "blockType": "themeShopSpacerBlock",
+        "size": "small",
+        "responsive": {
+          "tabletSize": "small",
+          "mobileSize": "small"
+        }
+      },
+      {
+        "blockType": "themeShopContentBlock",
+        "columns": [
+          {
+            "size": "2",
+            "link": {
+              "type": "reference",
+              "size": "default",
+              "appearance": "default"
+            }
+          },
+          {
+            "size": "8",
+            "richText": {
+              "root": {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "1. Scope of application",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "The following terms and conditions apply to all orders via our online fashion shop.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "2. Contracting party",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "The presentation of the apparel in the online shop is not a legally binding offer, but a non-binding online catalog. By clicking the order button, you place a binding order of the goods contained in the shopping basket.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "3. Payment Methods",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "We accept major Credit Cards (Visa, Mastercard) and PayPal. Payment is due immediately upon ordering.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "4. Delivery",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "start",
+                    "indent": 0,
+                    "type": "heading",
+                    "version": 1,
+                    "tag": "h3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "",
+                        "text": "Shipping costs are calculated at checkout. We ship internationally to most major regions.",
+                        "type": "text",
+                        "version": 1
+                      }
+                    ],
+                    "direction": null,
+                    "format": "",
+                    "indent": 0,
+                    "type": "paragraph",
+                    "version": 1,
+                    "textFormat": 0,
+                    "textStyle": ""
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "root",
+                "version": 1
+              }
+            }
+          },
+          {
+            "size": "2",
+            "link": {
+              "type": "reference",
+              "size": "default",
+              "appearance": "default"
+            }
+          }
+        ]
+      }
+    ],
+    "slug": "terms-of-service",
+    "slugLock": false,
+    "isFrontPage": false,
+    "meta": {},
+    "_status": "published"
+  }
+]

@@ -6,6 +6,8 @@ export const ImageOrPlaceholder = ({
   image,
   alt: titleAlt,
   className,
+  loading,
+  onLoad,
 }: {
   image?:
     | string
@@ -16,7 +18,9 @@ export const ImageOrPlaceholder = ({
       }
     | null;
   className?: string;
+  loading?: "lazy" | "eager";
   alt?: string;
+  onLoad?: () => void;
 }) => {
   let src = placeholder.src;
   let alt = "";
@@ -31,5 +35,5 @@ export const ImageOrPlaceholder = ({
     alt = titleAlt;
   }
 
-  return <ImageMedia src={src} alt={alt} imgClassName={className} fill />;
+  return <ImageMedia src={src} alt={alt} imgClassName={className} fill onLoad={onLoad} loading={loading ? loading : "eager"} />;
 };

@@ -363,15 +363,16 @@ export interface Product {
   } | null;
   variants?:
     | {
-        variant:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
+        /**
+         * Map of Option IDs to selected values
+         */
+        variant: {
+          [k: string]: {
+            name: string;
+            value: string;
+            [k: string]: unknown;
+          };
+        };
         price: number;
         salePrice?: number | null;
         sku?: string | null;
@@ -1683,7 +1684,7 @@ export interface ThemeShopCollectionArchiveBlock {
   /**
    * Select the collection to display products from
    */
-  collectionObj: string | Collection;
+  collectionObj?: (string | null) | Collection;
   buttonPrimary?: {
     type?: ('reference' | 'custom') | null;
     /**
@@ -1729,7 +1730,7 @@ export interface ThemeShopCollectionArchiveBlock {
   /**
    * Use Bold for 'Dimmed' text and Italic for 'Serif' text.
    */
-  title: {
+  title?: {
     root: {
       type: string;
       children: {
@@ -1743,7 +1744,7 @@ export interface ThemeShopCollectionArchiveBlock {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   description?: string | null;
   /**
    * Number of products to show
@@ -1761,11 +1762,11 @@ export interface ThemeShopFeaturesBlock {
   /**
    * Image displayed on the left side. Recommended aspect ratio: 1:1 or 4:5.
    */
-  image: string | Media;
+  image?: (string | null) | Media;
   /**
    * Use Bold for 'Dimmed' text and Italic for 'Serif' text.
    */
-  headline: {
+  headline?: {
     root: {
       type: string;
       children: {
@@ -1779,10 +1780,10 @@ export interface ThemeShopFeaturesBlock {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   features: {
-    title: string;
-    description: {
+    title?: string | null;
+    description?: {
       root: {
         type: string;
         children: {
@@ -1796,7 +1797,7 @@ export interface ThemeShopFeaturesBlock {
         version: number;
       };
       [k: string]: unknown;
-    };
+    } | null;
     id?: string | null;
   }[];
   id?: string | null;
@@ -1909,7 +1910,7 @@ export interface ThemeShopBlogPostsBlock {
 export interface ThemeShopContactUsBlock {
   titlePrefix: string;
   titleSuffix: string;
-  image: string | Media;
+  image?: (string | null) | Media;
   contactDetails?: {
     email?: string | null;
     phone?: string | null;
@@ -1925,7 +1926,7 @@ export interface ThemeShopContactUsBlock {
   /**
    * Select the form to display in the contact section
    */
-  form: string | Form;
+  form?: (string | null) | Form;
   id?: string | null;
   blockName?: string | null;
   blockType: 'themeShopContactUs';
@@ -2013,7 +2014,7 @@ export interface ThemeShopContentBlock {
  * via the `definition` "ThemeShopImageBlock".
  */
 export interface ThemeShopImageBlock {
-  image: string | Media;
+  image?: (string | null) | Media;
   enableParallax?: boolean | null;
   height?: ('small' | 'medium' | 'large' | 'screen') | null;
   contentSettings?: {
@@ -5543,17 +5544,9 @@ export interface Settings {
     [k: string]: unknown;
   } | null;
   /**
-   * Configure which locales are enabled on your site. These locales are loaded from your payload.config.ts file.
+   * Simple list of variant values
    */
-  locales?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  locales?: string[];
   /**
    * Enable email notifications when product reviews are submitted
    */

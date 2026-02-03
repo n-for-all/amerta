@@ -38,7 +38,7 @@ export const ImportProductsClient = () => {
 
   return (
     <div>
-      <h1 style={{ marginBottom: "20px" }}>Import Woocommerce Products</h1>
+      <h1 style={{ marginBottom: "20px" }}>Woocommerce Products (CSV)</h1>
       <p style={{ marginBottom: "40px", maxWidth: "600px", color: "#888" }}>Upload a CSV file from Woocommerce to bulk import products into your store.</p>
 
       <input type="file" accept=".csv" onChange={handleUpload} style={{ display: "none" }} id="file-upload" disabled={loading} />
@@ -48,11 +48,13 @@ export const ImportProductsClient = () => {
         </Button>
       </label>
 
-      <div style={{ marginTop: "20px", background: "#111", padding: "15px", borderRadius: "8px", height: "300px", overflowY: "auto", fontFamily: "monospace", fontSize: "12px", color: "#ccc" }}>
-        {logs.map((l, i) => (
-          <div key={i}>{l}</div>
-        ))}
-      </div>
+      {logs && logs.length ? (
+        <div style={{ marginTop: "20px", background: "#111", padding: "15px", height: "300px", overflowY: "auto", fontFamily: "monospace", fontSize: "12px", color: "#ccc" }}>
+          {logs.map((l, i) => (
+            <div key={i}>{l}</div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };

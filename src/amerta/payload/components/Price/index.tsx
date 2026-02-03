@@ -8,7 +8,7 @@ import { Currency, SalesChannel } from "@/payload-types";
 
 const Price = (props) => {
   const { label, required = false } = props.field;
-  const [{ data, isError, isLoading }] = usePayloadAPI("/api/sales-channel?where[isDefault][equals]=true&where[isEnabled][equals]=1&limit=1&depth=2");
+  const [{ data, isError, isLoading }] = usePayloadAPI("/api/sales-channel?where[isDefault][equals]=true&where[enabled][equals]=1&limit=1&depth=2");
   const [value, setValue] = useState(props.field.value || "");
 
   if (isLoading) {

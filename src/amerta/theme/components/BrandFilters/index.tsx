@@ -134,7 +134,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
         </Button>
 
         {/* Desktop Filters */}
-        <div className="hidden sm:flex sm:items-baseline sm:space-x-2">
+        <div className="hidden sm:flex sm:items-baseline sm:space-x-1">
           <PriceFilterDropdown
             label={__("Price")}
             buttonLabel={__("Apply")}

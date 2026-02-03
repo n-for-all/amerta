@@ -5,13 +5,24 @@ import { usePathname } from "next/navigation";
 import { NavGroup } from "@payloadcms/ui";
 import { useTranslation } from "@payloadcms/ui";
 import { getTranslation } from "@payloadcms/translations";
+import { getAdminURL } from "@/amerta/utilities/getAdminURL";
 
 const baseClass = "nav";
 const entities = [
   {
+    slug: "import-sample-data",
+    type: "import-sample-data",
+    label: "Sample Data",
+  },
+  {
     slug: "import-wp",
     type: "import-wp",
-    label: "Import Wordpress",
+    label: "WooCommerce",
+  },
+  {
+    slug: "import-shopify",
+    type: "import-shopify",
+    label: "Shopify",
   },
 ];
 export const ImportsNav = ({ navPreferences, label }) => {
@@ -21,11 +32,10 @@ export const ImportsNav = ({ navPreferences, label }) => {
     <>
       <NavGroup isOpen={navPreferences?.groups?.[label]?.open} label={getTranslation("Imports", i18n)}>
         {entities.map(({ slug, label }, i) => {
-          const href: string = "/import-wp";
+          const href: string = "/" + slug;
           const id = `nav-import-wp-${slug}`;
 
-          const isActive = pathname.endsWith(href) && ["/", undefined].includes(pathname[href.length]);
-
+          const isActive = pathname.endsWith(href);
           const Label = (
             <>
               {isActive && <div className={`${baseClass}__link-indicator`} />}
@@ -34,7 +44,7 @@ export const ImportsNav = ({ navPreferences, label }) => {
           );
 
           return (
-            <Link className={`${baseClass}__link`} href={href} id={id} key={i} prefetch={false}>
+            <Link className={`${baseClass}__link`} href={getAdminURL(href)} id={id} key={i} prefetch={false}>
               {Label}
             </Link>
           );

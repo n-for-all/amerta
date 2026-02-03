@@ -65,7 +65,7 @@ export const ImportBlogs = () => {
 
   return (
     <div>
-      <h1 style={{ marginBottom: "20px" }}>Import WordPress XML</h1>
+      <h1 style={{ marginBottom: "20px" }}>WordPress Posts (XML)</h1>
       <p style={{ marginBottom: "40px", maxWidth: "600px", color: "#888" }}>Upload a standard WordPress XML export file. This will import Categories first, then Posts, linking them together.</p>
 
       <input type="file" accept=".xml" onChange={handleUpload} style={{ display: "none" }} id="wp-file-upload" disabled={loading} />
@@ -97,7 +97,6 @@ export const ImportBlogs = () => {
                 width: "100%",
                 height: "8px",
                 background: "#333",
-                borderRadius: "4px",
                 overflow: "hidden",
               }}
             >
@@ -114,26 +113,28 @@ export const ImportBlogs = () => {
         )}
       </div>
 
-      <div
-        style={{
-          marginTop: "20px",
-          background: "#111",
-          padding: "15px",
-          borderRadius: "8px",
-          height: "400px",
-          overflowY: "auto",
-          fontFamily: "monospace",
-          fontSize: "12px",
-          color: "#0f0", // Matrix green for logs
-          whiteSpace: "pre-wrap",
-        }}
-      >
-        {logs.map((l, i) => (
-          <div key={i} style={{ marginBottom: "4px", borderBottom: "1px solid #222" }}>
-            {l}
-          </div>
-        ))}
-      </div>
+      {logs && logs.length ? (
+        <div
+          style={{
+            marginTop: "20px",
+            background: "#111",
+            padding: "15px",
+            borderRadius: "8px",
+            height: "400px",
+            overflowY: "auto",
+            fontFamily: "monospace",
+            fontSize: "12px",
+            color: "#0f0", // Matrix green for logs
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {logs.map((l, i) => (
+            <div key={i} style={{ marginBottom: "4px", borderBottom: "1px solid #222" }}>
+              {l}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };

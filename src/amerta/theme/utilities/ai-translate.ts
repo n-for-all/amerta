@@ -8,7 +8,7 @@ import configPromise from "@payload-config";
  * @example
  * const settings = await getAiSettings();
  */
-const getAiSettings = async () => {
+export const getAiSettings = async () => {
   const payload = await getPayload({ config: configPromise });
   const settings = await payload.findGlobal({
     slug: "settings",

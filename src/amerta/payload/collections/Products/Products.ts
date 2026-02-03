@@ -111,6 +111,22 @@ export const Products: CollectionConfig = {
                           Field: "@/amerta/components/VariantField/",
                         },
                       },
+                      jsonSchema: {
+                        uri: "a://variant-schema.json",
+                        fileMatch: ["*"], 
+                        schema: {
+                          type: "object",
+                          description: "Map of Option IDs to selected values",
+                          additionalProperties: {
+                            type: "object",
+                            required: ["name", "value"],
+                            properties: {
+                              name: { type: "string" },
+                              value: { type: "string" },
+                            },
+                          },
+                        },
+                      },
                     },
                     {
                       label: "Regular Price",

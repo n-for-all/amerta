@@ -33,7 +33,6 @@ export const ThemeShopContactUsBlock: Block = {
       name: "image",
       type: "upload",
       relationTo: "media",
-      required: true,
       label: "Feature Image",
     },
     {
@@ -90,7 +89,6 @@ export const ThemeShopContactUsBlock: Block = {
       label: "Select Form",
       type: "relationship",
       relationTo: "forms",
-      required: true,
       admin: {
         description: "Select the form to display in the contact section",
       },

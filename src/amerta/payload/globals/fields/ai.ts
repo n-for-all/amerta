@@ -35,7 +35,7 @@ export const AIFields: Field[] = [
   {
     name: "geminiTranslateApiKey",
     type: "text",
-    label: "Gemini Translate API Key",
+    label: "Gemini API Key",
     admin: {
       description: "API key for the selected AI service",
     },

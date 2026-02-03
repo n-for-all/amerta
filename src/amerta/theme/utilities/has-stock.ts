@@ -1,25 +1,21 @@
 import { Product } from "@/payload-types";
 
-export const hasStock = (product: Product, quantity: number = 1): boolean => {
-  // For simple products
+export const hasStock = (product: Product, qty: number = 1): boolean => {
   if (product.type === "simple") {
-    // If tracking inventory, check quantity
     if (product.trackInventory) {
-      return product.quantity ? product.quantity >= quantity : false;
+      return product.quantity ? product.quantity >= qty : false;
     }
-    // If not tracking inventory, assume in stock
+
     return true;
   }
 
-  // For variant products
   if (product.type === "variant") {
     if (!product.variants || product.variants.length === 0) return false;
     let hasAvailableVariant = product.variants.some(({ quantity, trackInventory }) => {
-      // Check if variant tracks inventory
       if (trackInventory) {
-        return quantity && quantity >= quantity;
+        return quantity && quantity >= qty;
       }
-      // If not tracking, assume in stock
+
       return true;
     });
     return hasAvailableVariant;

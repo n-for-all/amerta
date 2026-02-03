@@ -5,10 +5,27 @@ import { getProductPricing } from "@/amerta/theme/utilities/get-product-pricing"
 import { formatPrice } from "@/amerta/theme/utilities/format-price";
 
 
-export const ProductListingPrice = ({ product }: { product: Product }) => {
+export const ProductListingPrice = ({ product, selectedVariant }: { product: Product; selectedVariant?: NonNullable<Product["variants"]>[number] | null }) => {
   const { currency, exchangeRate } = useEcommerce();
   const pricing = getProductPricing(product, currency);
   if (!pricing) return null;
+
+  if(selectedVariant) {
+    const hasDiscount = selectedVariant.salePrice && selectedVariant.salePrice < selectedVariant.price;
+
+    return (
+      <div className="flex items-baseline gap-2">
+        {hasDiscount ? (
+          <>
+            <span className="text-lg font-semibold text-zinc-900 dark:text-white">{formatPrice(selectedVariant.salePrice || 0, pricing.currency!, exchangeRate!)}</span>
+            <span className="text-sm text-red-500 line-through dark:text-red-400">{formatPrice(selectedVariant.price, pricing.currency!, exchangeRate!)}</span>
+          </>
+        ) : (
+          <span className="text-lg font-semibold text-zinc-900 dark:text-white">{formatPrice(selectedVariant.price, pricing.currency!, exchangeRate!)}</span>
+        )}
+      </div>
+    );
+  }
 
   // For simple products
   if (pricing.type === "simple") {

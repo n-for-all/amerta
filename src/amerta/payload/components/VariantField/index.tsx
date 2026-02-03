@@ -6,8 +6,17 @@ import "./index.css";
 import { ProductOption } from "@/payload-types";
 import { Option } from "@payloadcms/ui/elements/ReactSelect";
 
+export type VariantValue = {
+  name: string;        
+  value: string;
+};
+
+export interface VariantSelection {
+  [productOptionId: string]: VariantValue;
+}
+
 const VariantField = ({ field: { label, required = false }, path }: { field: { label: string; required?: boolean }; path: string }) => {
-  const { value, setValue } = useField<any>({ path });
+  const { value, setValue } = useField<VariantSelection>({ path });
 
   const [{ data, isError, isLoading }, { setParams }] = usePayloadAPI("/api/product-options");
 
@@ -45,7 +54,7 @@ const VariantField = ({ field: { label, required = false }, path }: { field: { l
                   };
                   setValue(newValue);
                 }}
-                value={value && value[item.id] ? value[item.id].value || "" : ""}
+                value={item.id && value && value[item.id] ? value[item.id]!.value || "" : ""}
               />
             </div>
           );
@@ -73,7 +82,7 @@ const VariantField = ({ field: { label, required = false }, path }: { field: { l
                   };
                   setValue(newValue);
                 }}
-                value={value && value[item.id] ? value[item.id].value || "" : ""}
+                value={item.id && value && value[item.id] ? value[item.id]!.value || "" : ""}
               />
             </div>
           );
@@ -94,7 +103,7 @@ const VariantField = ({ field: { label, required = false }, path }: { field: { l
                   };
                   setValue(newValue);
                 }}
-                value={value && value[item.id] ? value[item.id].value || "" : ""}
+                value={item.id && value && value[item.id] ? value[item.id]!.value || "" : ""}
               />
             </div>
           );

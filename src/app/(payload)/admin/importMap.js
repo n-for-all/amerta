@@ -37,7 +37,7 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugComponent as SlugComponent_6856789cec373e2140f714702910988e } from '@/amerta/fields/slug/SlugComponent'
 import { default as default_8632f4bd9476e2343e3e4d85c87cc9e6 } from '@/amerta/components/ColorPicker/'
 import { UnsplashImportProductMedia as UnsplashImportProductMedia_87eec4ae3a925586386d06209c58fdaa } from '@/amerta/components/UnsplashImport'
-import { AITranslatePagesButton as AITranslatePagesButton_5d66a79a85229af10a5ec1b2ddd5cacb } from '@/amerta/fields/translate/AITranslatePagesButton'
+import { AIAgentButton as AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b } from '@/amerta/fields/translate/AIAgentButton'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { AITranslateButton as AITranslateButton_6b5e411106171f4df368bdf10bad55f2 } from '@/amerta/fields/translate/AITranslateButton'
 import { OrderAdmin as OrderAdmin_18a50d419bd44b124c382b13f5e7610d } from '@/amerta/components/Order'
@@ -55,10 +55,11 @@ import { Logo as Logo_46634ccd9d720bf8ed75cdbe749851ad } from '@/amerta/theme/ad
 import { default as default_98f051e3cd759a61574cdf9728f35fef } from '@/amerta/components/Imports/index'
 import { default as default_79d3346fbd10228dede0f2b504e327b1 } from '@/amerta/components/BeforeLogin'
 import { default as default_c3bc619fc6ea9a58b3c734facecbaf67 } from '@/amerta/components/DashboardLink'
-import { SetupGuardProvider as SetupGuardProvider_e4f3bc3a72c73f9026179e92f1750b01 } from '@/amerta/theme/components/Onboarding/providers/Guard'
 import { default as default_1adc9c57051681d25f140e20110aee95 } from '@/amerta/components/Dashboard'
 import { PageVersions as PageVersions_5a815c3a6134f53dd529f87e979e076c } from '@/amerta/components/Versions/Pages/PageVersions'
 import { ImportView as ImportView_78d45beff5565c48bd6068642c03a030 } from '@/amerta/components/Imports/ImportView'
+import { ImportSampleData as ImportSampleData_860412cd692c06c6c62c55a738e6a64f } from '@/amerta/components/Imports/ImportSampleData'
+import { ImportShopifyData as ImportShopifyData_361417f9da6060fadef2ba6a85278576 } from '@/amerta/components/Imports/ImportShopifyData'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -101,7 +102,7 @@ export const importMap = {
   "@/amerta/fields/slug/SlugComponent#SlugComponent": SlugComponent_6856789cec373e2140f714702910988e,
   "@/amerta/components/ColorPicker/#default": default_8632f4bd9476e2343e3e4d85c87cc9e6,
   "@/amerta/components/UnsplashImport#UnsplashImportProductMedia": UnsplashImportProductMedia_87eec4ae3a925586386d06209c58fdaa,
-  "@/amerta/fields/translate/AITranslatePagesButton#AITranslatePagesButton": AITranslatePagesButton_5d66a79a85229af10a5ec1b2ddd5cacb,
+  "@/amerta/fields/translate/AIAgentButton#AIAgentButton": AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/amerta/fields/translate/AITranslateButton#AITranslateButton": AITranslateButton_6b5e411106171f4df368bdf10bad55f2,
   "@/amerta/components/Order#OrderAdmin": OrderAdmin_18a50d419bd44b124c382b13f5e7610d,
@@ -119,9 +120,10 @@ export const importMap = {
   "@/amerta/components/Imports/index#default": default_98f051e3cd759a61574cdf9728f35fef,
   "@/amerta/components/BeforeLogin#default": default_79d3346fbd10228dede0f2b504e327b1,
   "@/amerta/components/DashboardLink#default": default_c3bc619fc6ea9a58b3c734facecbaf67,
-  "@/amerta/theme/components/Onboarding/providers/Guard#SetupGuardProvider": SetupGuardProvider_e4f3bc3a72c73f9026179e92f1750b01,
   "@/amerta/components/Dashboard#default": default_1adc9c57051681d25f140e20110aee95,
   "@/amerta/components/Versions/Pages/PageVersions#PageVersions": PageVersions_5a815c3a6134f53dd529f87e979e076c,
   "@/amerta/components/Imports/ImportView#ImportView": ImportView_78d45beff5565c48bd6068642c03a030,
+  "@/amerta/components/Imports/ImportSampleData#ImportSampleData": ImportSampleData_860412cd692c06c6c62c55a738e6a64f,
+  "@/amerta/components/Imports/ImportShopifyData#ImportShopifyData": ImportShopifyData_361417f9da6060fadef2ba6a85278576,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

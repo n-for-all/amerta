@@ -1,13 +1,11 @@
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
-export const getStore = async (isOnline: boolean = true) => {
+export const getStore = async (enabledOnly: boolean = true) => {
   const payload = await getPayload({ config: configPromise });
   const stores = await payload.find({
     collection: "store",
-    where: {
-      isOnline: { equals: isOnline ? true : false },
-    },
+    where: enabledOnly ? { enabled: { equals: "1" } } : undefined,
     limit: 1,
   });
 

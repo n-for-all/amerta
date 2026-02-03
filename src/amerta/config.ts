@@ -38,8 +38,8 @@ import { Shipping } from "@/amerta/collections/Shipping";
 import { getCheckoutData } from "@/amerta/theme/utilities/get-checkout-data";
 import PaymentsConfig from "@/amerta/collections/Payment";
 import { createStoreData, importBaseData } from "@/amerta/theme/utilities/seed-data";
-import { importWooProductsHandler } from "@/amerta/theme/utilities/import-woo-products";
-import { importWpXmlHandler } from "@/amerta/theme/utilities/import-wp-xml";
+import { importWooProductsHandler } from "@/amerta/theme/data/imports/import-woo-products";
+import { importWpXmlHandler } from "@/amerta/theme/data/imports/import-wp-xml";
 import { DEFAULT_LOCALE, LOCALES } from "@/amerta/localization/locales";
 import { Translations } from "@/amerta/collections/Translations";
 import { searchHandler } from "@/amerta/theme/utilities/search-handler";
@@ -60,6 +60,10 @@ import { Page, Post } from "@/payload-types";
 import { getAdminPath } from "./payload/utilities/getAdminURL";
 import { checkRole } from "./payload/access/checkRole";
 import { EcommerceSettings } from "./payload/globals/EcommerceSettings";
+import { importSampleDataHandler } from "./theme/data/imports/import-sample-data";
+import { importShopifyDataHandler } from "./theme/data/imports/import-shopify-data";
+import { importPagesHandler } from "./theme/data/imports/import-sample-pages";
+import { importBlogsHandler } from "./theme/data/imports/import-sample-blogs";
 
 export const withGuard = (handler: PayloadHandler): PayloadHandler => {
   return async (req) => {
@@ -182,8 +186,16 @@ export function withAmerta(config: Config): Config {
             Component: "@/amerta/components/Imports/ImportView#ImportView",
             path: "/import-wp",
           },
+          CustomSampleDataPage: {
+            Component: "@/amerta/components/Imports/ImportSampleData#ImportSampleData",
+            path: "/import-sample-data",
+          },
+          CustomShopifyDataPage: {
+            Component: "@/amerta/components/Imports/ImportShopifyData#ImportShopifyData",
+            path: "/import-shopify-data",
+          },
         },
-        providers: ["@/amerta/theme/components/Onboarding/providers/Guard#SetupGuardProvider"],
+        // providers: ["@/amerta/theme/components/Onboarding/providers/Guard#SetupGuardProvider"],
       },
     },
     hooks: {
@@ -298,6 +310,15 @@ export function withAmerta(config: Config): Config {
     ],
     onInit: async (payload) => {
       try {
+        const stores = await payload.find({
+          collection: "store",
+          limit: 1,
+        });
+        if (stores.totalDocs > 0) {
+          return;
+        }
+
+        console.log("✓ Amerta initialization started.");
         const { logs, error } = await importBaseData(payload);
         if (error) {
           console.error("Error importing base data on init:", error);
@@ -315,6 +336,7 @@ export function withAmerta(config: Config): Config {
         console.error("Error during onInit data seeding:", error);
       }
 
+      console.log("✓ Amerta initialization complete.");
       if (configOnInit) {
         await configOnInit(payload);
       }
@@ -424,6 +446,26 @@ export function withAmerta(config: Config): Config {
         handler: withGuard(importWpXmlHandler),
       },
       {
+        path: `/${adminPath}/import-sample-data`,
+        method: "post",
+        handler: withGuard(importSampleDataHandler),
+      },
+      {
+        path: `/${adminPath}/import-shopify-data`,
+        method: "post",
+        handler: withGuard(importShopifyDataHandler),
+      },
+      {
+        path: `/${adminPath}/import-pages`,
+        method: "post",
+        handler: withGuard(importPagesHandler),
+      },
+      {
+        path: `/${adminPath}/import-blogs`,
+        method: "post",
+        handler: withGuard(importBlogsHandler),
+      },
+      {
         path: "/live-search",
         method: "get",
         handler: searchHandler,
@@ -472,7 +514,7 @@ export function withAmerta(config: Config): Config {
 
   const mergedConfig = {
     ...configWithoutOnInit,
-    collections: filteredConfigCollections
+    collections: filteredConfigCollections,
   };
 
   if (!config.admin?.user) {

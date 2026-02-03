@@ -11,5 +11,16 @@ export const LocalizationFields: Field[] = [
         Field: "@/amerta/fields/localeSelector/index#LocaleSelector",
       },
     },
+    jsonSchema: {
+      uri: "a://variant-schema.json",
+      fileMatch: ["*"],
+      schema: {
+        type: "array",
+        description: "Simple list of variant values",
+        items: {
+          type: "string",
+        },
+      },
+    },
   },
 ];

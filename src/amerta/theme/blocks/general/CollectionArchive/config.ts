@@ -9,8 +9,7 @@ export const ThemeShopCollectionArchive: Block = {
     {
       name: "collectionObj",
       type: "relationship",
-      relationTo: "collections", // Assuming your collection slug is 'collections' or 'categories'
-      required: true,
+      relationTo: "collections",
       admin: {
         description: "Select the collection to display products from",
       },
@@ -28,7 +27,6 @@ export const ThemeShopCollectionArchive: Block = {
     {
       name: "title",
       type: "richText",
-      required: true,
       localized: true,
       editor: lexicalEditor({
         features: ({ defaultFeatures }) => [...defaultFeatures.filter((feature) => ["bold", "italic"].includes(feature.key)), FixedToolbarFeature(), InlineToolbarFeature()],
@@ -41,14 +39,12 @@ export const ThemeShopCollectionArchive: Block = {
       name: "description",
       type: "textarea",
       localized: true,
-      required: false,
       defaultValue: "",
     },
     {
       name: "limit",
       type: "number",
       defaultValue: 8,
-      required: false,
       admin: {
         description: "Number of products to show",
       },

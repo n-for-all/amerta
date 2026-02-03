@@ -46,7 +46,7 @@ export const Posts: CollectionConfig<"posts"> = {
     useAsTitle: "title",
     components: {
       edit: {
-        beforeDocumentControls: ["@/amerta/fields/translate/AITranslateButton#AITranslateButton"],
+        beforeDocumentControls: ["@/amerta/fields/translate/AIAgentButton#AIAgentButton"],
       },
     },
   },

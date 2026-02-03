@@ -1,4 +1,5 @@
 .variant-field-items{
     display: flex;
     gap: 16px;
+    flex-wrap: wrap;
 }

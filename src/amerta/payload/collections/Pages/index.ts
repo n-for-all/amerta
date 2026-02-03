@@ -22,7 +22,7 @@ export const Pages: CollectionConfig = {
     },
     components: {
       edit: {
-        beforeDocumentControls: ["@/amerta/fields/translate/AITranslatePagesButton#AITranslatePagesButton"],
+        beforeDocumentControls: ["@/amerta/fields/translate/AIAgentButton#AIAgentButton"],
       },
     },
   },

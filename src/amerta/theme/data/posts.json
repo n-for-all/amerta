@@ -1,0 +1,791 @@
+[
+  {
+    "title": "Three reasons to choose sustainable fabrics",
+    "excerpt": "For many style enthusiasts, a well-curated wardrobe begins with conscious choices. It is the second most important aspect of personal expression, topped only by personality itself.",
+    "featured": false,
+    "content": {
+      "root": {
+        "children": [
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "For many style enthusiasts, a well-curated wardrobe begins with conscious choices. It is the second most important aspect of personal expression, topped only by personality itself. For an industry that is so vast, it is typical that there would be environmental concerns about how garments are made. Research has shown that much of the fast fashion flying around today contains synthetic microfibers and harsh dyes. Accumulation of these textiles in landfills leads to toxicity in the environment. The obvious solution is going sustainable. Organic cotton and linen are cultivated without harmful pesticides or synthetic fertilizers. If you have not switched yet, here are three reasons why you should start.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Skin Health",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Chemicals used in the production of synthetic fabrics can lead to skin irritation and allergies. Various studies have shown that formaldehyde and heavy metals used in dyeing can be absorbed by the skin. By wearing organic fabrics, you limit your risk of exposure to these harsh chemicals while enjoying breathable materials that are gentle on your skin.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Protecting the environment",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "The use of synthetic dyes is not only harmful to humans; water bodies are also affected. When factories wash these chemicals away, the residues are deposited in rivers, posing a huge threat to aquatic life. Organic manufacturing shuns these chemicals, and you play your part in conserving the environment by choosing sustainable fashion.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Supporting the artisans",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "An overwhelming majority of brands that use organic materials are fair trade compliant. Buying their pieces means you are supporting the cause of fair wages. Furthermore, workers handling natural fibers are at lower risk of health issues compared to those in chemical-heavy factories. By insisting on sustainable fashion, you give the industry an incentive to make better choices.",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "type": "horizontalrule",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          }
+        ],
+        "direction": null,
+        "format": "",
+        "indent": 0,
+        "type": "root",
+        "version": 1
+      }
+    },
+
+    "publishedAt": "2026-05-07T13:24:29.000Z",
+    "tags": [],
+    "slug": "three-reasons-to-choose-sustainable-fabrics",
+    "slugLock": true,
+    "_status": "published",
+    "heroImage": null
+  },
+  {
+    "title": "Benefits of a Capsule Wardrobe",
+    "excerpt": "A capsule wardrobe is curated without the clutter of fast fashion. The entire concept focuses on versatility, starting from essentials to statement pieces, all without the excess.",
+    "featured": false,
+    "content": {
+      "root": {
+        "children": [
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 1,
+                "mode": "normal",
+                "style": "",
+                "text": "A Capsule Wardrobe",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": " is curated without the clutter of fast fashion. The entire concept focuses on versatility, starting from essentials to statement pieces, all without the excess.",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "type": "linebreak",
+                "version": 1
+              },
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Most of us wear only 20% of our clothes 80% of the time. Adopting a minimalist approach minimizes the stress of dressing up and reduces textile waste. Thus, a curated collection is better for your mind and the planet.",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "type": "linebreak",
+                "version": 1
+              },
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "One of the main benefits is eco-friendliness. The methods of slow fashion work to maintain quality over quantity. Another huge benefit not to be overlooked is that high-quality garments last longer. When you buy pieces certified as 100% organic cotton or wool, they provide lasting comfort.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Investing in clothes that are full of character can protect your wallet from the damage of constant replacement. The bottom line is that if you want to stay stylish and look put-together, then our collection belongs in your closet. Our fabrics are full of life because they are crafted with care.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "type": "linebreak",
+                "version": 1
+              },
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Minimalist fashion does contain variety, just as regular fashion does, but it is in a pure form because there are no impulse buys involved. If you are looking to dress better, then it is imperative that you choose quality.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Many methods of fast fashion production involve exploitation, which is harmful to the global community. Our manufacturing processes use ethical labor, which supports communities in a natural way. If you are a conscious consumer, it will be much more beneficial to your conscience to wear clothes that are certified as ethical.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "type": "horizontalrule",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          }
+        ],
+        "direction": null,
+        "format": "",
+        "indent": 0,
+        "type": "root",
+        "version": 1
+      }
+    },
+
+    "tags": [],
+    "slug": "benefits-of-a-capsule-wardrobe",
+    "slugLock": true,
+    "_status": "published",
+    "heroImage": null
+  },
+  {
+    "title": "The Art of Accessories",
+    "excerpt": "Did you know that scarves have been used to elevate outfits for centuries? Today, fashion aficionados demand versatility from their favorite looks.",
+    "featured": false,
+    "content": {
+      "root": {
+        "children": [
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Did you know that scarves have been used to elevate outfits for centuries? Today, fashion aficionados demand versatility from their favorite looks. Our accessories have been developed to satisfy your style needs. As such, our Silk Collection is one of the most loved of all the exotic accessory lines. For fashion lovers who seek new textures and crave variety, this gourmet selection offers some of the brightest and richest colors of all. Handbag detailing, just like all the accents added to our outfits, is usually added to the design right after the leather has been tanned. High-quality leather is able to absorb any color it comes into contact with. So if they are exposed to natural dyes, any standard bag will soon take on an added depth to produce a new and unique look. As a style lover, you are always after new pieces to add spice to your wardrobe. New trends are being added to fashion weeks all the time and a quick Google search brings up literally hundreds of online companies selling accessories. Some are not natural at all. Other organic producers will add organic dyes, which are a somewhat healthy alternative.",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "type": "horizontalrule",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          }
+        ],
+        "direction": null,
+        "format": "",
+        "indent": 0,
+        "type": "root",
+        "version": 1
+      }
+    },
+
+    "tags": [],
+    "slug": "the-art-of-accessories",
+    "slugLock": true,
+    "_status": "published",
+    "populatedAuthors": []
+  },
+  {
+    "title": "Your Style and Your Confidence!",
+    "excerpt": "Fashion is enjoyed by millions of people all over the world and it is one of the most extensively researched components of psychology. New studies are regularly being added.",
+    "featured": false,
+    "content": {
+      "root": {
+        "children": [
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Fashion is enjoyed by millions of people all over the world and it is one of the most extensively researched components of psychology. New studies are regularly being added to the already large body of scientific research. Research indicates that dressing well, known as 'enclothed cognition', fits well with a healthy balanced mind and an active lifestyle. This conclusion stems from the findings of many studies that have looked into clothing's potential relationship with mental and physical performance. This article provides a summary on various fashion and confidence aspects. Many people simply cannot imagine life without style. Whether you are taking a little time for yourself or enjoying yourself in good company: a beautiful outfit is perfect at any time of the day. Our Collection does not only look good – it is also a confidence booster. After dressing up, you feel more alert and less tired. It also contributes towards the recommended daily intake of self-esteem.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Our Organic Cotton is Specifically Prepared For a Healthier You",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Both within and outside our company, we continuously check all components that could potentially cause harm to people in order to guarantee safety. This way, you can enjoy your daily look without having to worry!",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "type": "horizontalrule",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          }
+        ],
+        "direction": null,
+        "format": "",
+        "indent": 0,
+        "type": "root",
+        "version": 1
+      }
+    },
+
+    "tags": [],
+    "slug": "style-and-confidence",
+    "slugLock": true,
+    "_status": "published",
+    "heroImage": null
+  },
+  {
+    "title": "Why Vintage Fashion?",
+    "excerpt": "Vintage fashion offers some of the best styles in the market today. Clothing isn't just fabric, like all jeans are not the same, the same thing can be said about vintage.",
+    "featured": false,
+    "content": {
+      "root": {
+        "children": [
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Vintage fashion offers some of the best styles in the market today. Clothing isn't just fabric, like all jeans are not the same, the same thing can be said about vintage. Since this specific type of clothing wasn't mass-produced using modern shortcuts, you get a great looking, pure and unique item. There are so many eras to choose from: 70s, 80s, 90s etc. and now is a great time to be a vintage lover. A vintage jacket is the best way to start your outfit. Most people can't function if they don't have their signature look. Vintage is becoming very popular which is a good and bad thing. The demand for this specific type of style is on the rise. The market is now saturated with claims of selling \"vintage style\". On the other hand if the proper steps are taken to ensure the items are really vintage, history will continue to be preserved which means the environment will benefit as well. If you've never worn true vintage you are really missing out because it is unique, with a great history, your wardrobe will thank you.",
+                "type": "text",
+                "version": 1
+              },
+              {
+                "type": "horizontalrule",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          }
+        ],
+        "direction": null,
+        "format": "",
+        "indent": 0,
+        "type": "root",
+        "version": 1
+      }
+    },
+
+    "tags": [],
+    "slug": "why-choose-vintage-fashion",
+    "slugLock": true,
+    "_status": "published",
+    "heroImage": null,
+    "populatedAuthors": []
+  },
+  {
+    "title": "Why Slow Fashion Matters",
+    "excerpt": "Everyone loves all things organic, from fresh produce to organic supermarket items but did you know that fashion is one of the most chemically drenched industries in the world?",
+    "featured": false,
+    "content": {
+      "root": {
+        "children": [
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Everyone loves all things organic, from fresh produce to organic supermarket items but did you know that fashion is one of the most chemically drenched industries in the world? This is why we only use organically grown cotton from reputable producers throughout the world. The chemicals used in growing the fiber does not only mess with our bodies and our health but impact ecosystems and the future of the industry as a whole. The reason why our Organic Collection matters is: Sustainability, It's great feel and the health factor.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Sustainability",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "This is a word thrown around all the time which is a good thing, but what does it really mean? According to the dictionary, Sustainability is the ”avoidance of the depletion of natural resources in order to maintain an ecological balance.” Basically, crops that use chemicals will mess up the environment, polluting waterways, habitats and poisoning the very soil that plants live in. Seems like a pretty counterproductive idea. On the other hand, organic cotton plantations ensure that the ecosystem is preserved and that plants have very little impact on their surrounding environment.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Touch and Feel!",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "It’s a no brainer really that organic cotton feels better. What would you rather have, chemicals in your shirt, or the natural softness of organic fibers against your skin? Natural fibers are breathable, so they regulate temperature better than synthetics. Comfy! Because organic processing is gentle, the fibers are even stronger.",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "Ethical Factors",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "heading",
+            "version": 1,
+            "tag": "h3"
+          },
+          {
+            "children": [
+              {
+                "detail": 0,
+                "format": 0,
+                "mode": "normal",
+                "style": "",
+                "text": "And considering long term implications, let’s look at how fast fashion can impact the world. Chemicals used in production can potentially cause cancer and irritate eyes, skin and upset workers' health. When you think of how many clothes the average person buys a year, it’s a pretty substantial issue. On the other hand, Organic Fashion is bursting with benefits that have been proven to reduce environmental damage. It can also reduce the likelihood of:",
+                "type": "text",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Water pollution",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "listitem",
+                "version": 1,
+                "value": 1
+              },
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Soil degradation",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "listitem",
+                "version": 1,
+                "value": 2
+              },
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Unfair labor practices",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "listitem",
+                "version": 1,
+                "value": 3
+              },
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Textile waste",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "listitem",
+                "version": 1,
+                "value": 4
+              },
+              {
+                "children": [
+                  {
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "text": "Pretty impressive stuff!",
+                    "type": "text",
+                    "version": 1
+                  }
+                ],
+                "direction": null,
+                "format": "",
+                "indent": 0,
+                "type": "listitem",
+                "version": 1,
+                "value": 5
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "list",
+            "version": 1,
+            "listType": "bullet",
+            "start": 1,
+            "tag": "ul"
+          },
+          {
+            "children": [
+              {
+                "type": "horizontalrule",
+                "version": 1
+              }
+            ],
+            "direction": null,
+            "format": "",
+            "indent": 0,
+            "type": "paragraph",
+            "version": 1,
+            "textFormat": 0,
+            "textStyle": ""
+          }
+        ],
+        "direction": null,
+        "format": "",
+        "indent": 0,
+        "type": "root",
+        "version": 1
+      }
+    },
+
+    "tags": [],
+    "slug": "why-slow-fashion-matters",
+    "slugLock": true,
+    "_status": "published",
+    "heroImage": null
+  }
+]

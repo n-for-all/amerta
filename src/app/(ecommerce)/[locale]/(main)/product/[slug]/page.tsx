@@ -73,6 +73,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     slug,
   });
 
+  if(!product) {
+    return {};
+  }
+
   const price = await getProductPricing(product!, currency);
 
   return generateMeta({ doc: product, type: "products", locale, ogType: "product", price: { amount: price?.minPrice, currencyCode: currency?.code } });

@@ -44,8 +44,9 @@ export const ImageMedia: React.FC<{
   loading?: "lazy" | "eager";
   width?: number;
   height?: number;
+  onLoad?: () => void;
 }> = (props) => {
-  const { alt: altFromProps, fill, imgClassName, priority, resource, size: sizeFromProps, src: srcFromProps, loading: loadingFromProps, width: widthFromProps, height: heightFromProps } = props;
+  const { alt: altFromProps, fill, onLoad, imgClassName, priority, resource, size: sizeFromProps, src: srcFromProps, loading: loadingFromProps, width: widthFromProps, height: heightFromProps } = props;
 
   let width: number | undefined = widthFromProps;
   let height: number | undefined = heightFromProps;
@@ -78,5 +79,20 @@ export const ImageMedia: React.FC<{
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(", ");
 
-  return <NextImage alt={alt || ""} className={imgClassName} fill={fill} height={!fill ? height : undefined} priority={priority} quality={100} loading={loading} sizes={sizes} src={formatImageSrc(imageUrl)} width={!fill ? width : undefined} style={{ aspectRatio: aspectRatio ? aspectRatio : undefined }} />;
+  return (
+    <NextImage
+      alt={alt || ""}
+      className={imgClassName}
+      fill={fill}
+      height={!fill ? height : undefined}
+      priority={priority}
+      quality={100}
+      loading={loading}
+      sizes={sizes}
+      src={formatImageSrc(imageUrl)}
+      width={!fill ? width : undefined}
+      style={{ aspectRatio: aspectRatio ? aspectRatio : undefined }}
+      onLoad={onLoad}
+    />
+  );
 };

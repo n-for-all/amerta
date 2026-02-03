@@ -8,8 +8,7 @@ export const ThemeShopImageBlock: Block = {
     {
       name: "image",
       type: "upload",
-      relationTo: "media", // Adjust if your media collection is named differently
-      required: true,
+      relationTo: "media",
     },
     {
       type: "row",

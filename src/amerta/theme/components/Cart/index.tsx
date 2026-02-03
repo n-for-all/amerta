@@ -202,100 +202,101 @@ export default function Cart({ onClose }: CartProps) {
                               </div>
                             ) : (
                               <ul role="list" className="my-1 divide-y divide-zinc-900/10 dark:divide-white/10">
-                                {cart.items?.map(
-                                  (item) => {
-                                    const product = item.product as Product;
-                                    const price = item.salePrice && item.salePrice > 0 && item.salePrice < item.price ? item.salePrice : item.price;
-                                    return (
-                                      <li key={product.id} className="flex py-4">
-                                        {/* Product Image */}
-                                        <div className="relative w-24 h-32 overflow-hidden rounded-md shrink-0">
-                                          {(product.images?.[0] as ProductMedia)?.url ? (
-                                            <ImageMedia alt={(product.images?.[0] as ProductMedia)?.alt || product.title} src={(product.images?.[0] as ProductMedia)?.url} fill imgClassName="object-contain w-full h-full" />
-                                          ) : (
-                                            <div className="w-full h-full bg-zinc-200 dark:bg-zinc-700" />
-                                          )}
+                                {cart.items?.map((item, index) => {
+                                  const product = item.product as Product;
+                                  const price = item.price;
+                                  const salePrice = item.salePrice && item.salePrice > 0 && item.salePrice < item.price ? item.salePrice : item.price;
+                                  return (
+                                    <li key={`${product.id}-${index}`} className="flex py-4">
+                                      <div className="relative w-24 h-32 overflow-hidden rounded-md shrink-0">
+                                        {(product.images?.[0] as ProductMedia)?.url ? (
+                                          <ImageMedia alt={(product.images?.[0] as ProductMedia)?.alt || product.title} src={(product.images?.[0] as ProductMedia)?.url} fill imgClassName="object-contain w-full h-full" />
+                                        ) : (
+                                          <div className="w-full h-full bg-zinc-200 dark:bg-zinc-700" />
+                                        )}
+                                      </div>
+
+                                      <div className="flex flex-col flex-1 ms-4">
+                                        {/* Product Name and Price */}
+                                        <div className="flex justify-between font-medium">
+                                          <h3 className="leading-tight">
+                                            <Link href={`/en/products/${product.id}`} className="uppercase text-sm/6 text-zinc-900 dark:text-white">
+                                              {product.title}
+                                            </Link>
+                                          </h3>
+                                          <p className="uppercase whitespace-nowrap ms-4 text-sm/6 text-zinc-900 dark:text-white">{formatPrice(price, currency, exchangeRate)}</p>
                                         </div>
 
-                                        <div className="flex flex-col flex-1 ms-4">
-                                          {/* Product Name and Price */}
-                                          <div className="flex justify-between font-medium">
-                                            <h3 className="leading-tight">
-                                              <Link href={`/en/products/${product.id}`} className="uppercase text-sm/6 text-zinc-900 dark:text-white">
-                                                {product.title}
-                                              </Link>
-                                            </h3>
-                                            <p className="uppercase whitespace-nowrap ms-4 text-sm/6 text-zinc-900 dark:text-white">{formatPrice(price, currency, exchangeRate)}</p>
+                                        {/* Variant Options */}
+                                        {item.variantOptions && item.variantOptions.length > 0 && (
+                                          <div className="mt-1 flex gap-1.5 text-xs text-zinc-500">
+                                            {item.variantOptions.map((variant, idx) => (
+                                              <div className="flex gap-1" key={`${variant.option}-${variant.value}`}>
+                                                <p className="uppercase text-sm/6">
+                                                  {typeof variant.option === "string" ? variant.option : variant.option.name}: {variant.value}
+                                                </p>
+                                                {idx < item.variantOptions!.length - 1 && <p className="uppercase opacity-30 text-sm/6">/</p>}
+                                              </div>
+                                            ))}
                                           </div>
+                                        )}
 
-                                          {/* Variant Options */}
-                                          {item.variantOptions && item.variantOptions.length > 0 && (
-                                            <div className="mt-1 flex gap-1.5 text-xs text-zinc-500">
-                                              {item.variantOptions.map((variant, idx) => (
-                                                <div className="flex gap-1" key={`${variant.option}-${variant.value}`}>
-                                                  <p className="uppercase text-sm/6">
-                                                    {typeof variant.option === "string" ? variant.option : variant.option.name}: {variant.value}
-                                                  </p>
-                                                  {idx < item.variantOptions!.length - 1 && <p className="uppercase opacity-30 text-sm/6">/</p>}
-                                                </div>
-                                              ))}
-                                            </div>
-                                          )}
-
-                                          <p className="mt-1 text-xs uppercase text-zinc-500 text-sm/6">{formatPrice(price * item.quantity, currency, exchangeRate)}</p>
-                                          {!isInStock(product, item.variantOptions) && <p className="mt-1 text-xs text-red-600">{__("This item is out of stock.")}</p>}
-                                          <div className="flex items-center justify-between pt-2 mt-1 text-sm">
-                                            <div className="inline-grid w-full grid-cols-1 max-w-16">
-                                              <select
-                                                value={item.quantity}
-                                                onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-                                                disabled={updatingItemId === product.id}
-                                                className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-0.5 ps-3 pe-8 text-xs/6 outline-1 -outline-offset-1 outline-zinc-900/10 focus:outline-1 dark:bg-zinc-800 dark:text-white dark:outline-white/10 disabled:opacity-50"
-                                              >
-                                                {[1, 2, 3, 4, 5, 6, 7, 8].map((qty) => (
-                                                  <option key={qty} value={qty}>
-                                                    {qty}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                              {updatingItemId === product.id ? (
-                                                <Loader2 className="self-center col-start-1 row-start-1 pointer-events-none me-2 size-4 justify-self-end text-zinc-500 animate-spin" />
-                                              ) : (
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="self-center col-start-1 row-start-1 pointer-events-none me-2 size-4 justify-self-end text-zinc-500">
-                                                  <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                                                </svg>
-                                              )}
-                                            </div>
-
-                                            <button
-                                              type="button"
-                                              onClick={() => handleRemoveItem(product.id)}
+                                        <p className="mt-1 text-xs uppercase text-zinc-500 text-sm/6">
+                                          {salePrice < price ? <span className="mr-1 text-red-400 line-through rtl:ml-1 rtl:mr-0">{formatPrice(price * item.quantity, currency, exchangeRate)}</span> : null}
+                                          {formatPrice(salePrice * item.quantity, currency, exchangeRate)}
+                                        </p>
+                                        {!isInStock(product, item.variantOptions) && <p className="mt-1 text-xs text-red-600">{__("This item is out of stock.")}</p>}
+                                        <div className="flex items-center justify-between pt-2 mt-1 text-sm">
+                                          <div className="inline-grid w-full grid-cols-1 max-w-16">
+                                            <select
+                                              value={item.quantity}
+                                              onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
                                               disabled={updatingItemId === product.id}
-                                              className="p-2 -m-2 font-medium cursor-pointer text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white disabled:opacity-50"
-                                              title={__("Remove item from cart")}
+                                              className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-0.5 ps-3 pe-8 text-xs/6 outline-1 -outline-offset-1 outline-zinc-900/10 focus:outline-1 dark:bg-zinc-800 dark:text-white dark:outline-white/10 disabled:opacity-50"
                                             >
-                                              <span className="sr-only">{__("Remove")}</span>
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                                <path
-                                                  d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                                <path
-                                                  d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                                <path d="M9.5 16.5L9.5 10.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                <path d="M14.5 16.5L14.5 10.5" strokeLinecap="round" strokeLinejoin="round" />
+                                              {[1, 2, 3, 4, 5, 6, 7, 8].map((qty) => (
+                                                <option key={qty} value={qty}>
+                                                  {qty}
+                                                </option>
+                                              ))}
+                                            </select>
+                                            {updatingItemId === product.id ? (
+                                              <Loader2 className="self-center col-start-1 row-start-1 pointer-events-none me-2 size-4 justify-self-end text-zinc-500 animate-spin" />
+                                            ) : (
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="self-center col-start-1 row-start-1 pointer-events-none me-2 size-4 justify-self-end text-zinc-500">
+                                                <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
                                               </svg>
-                                            </button>
+                                            )}
                                           </div>
+
+                                          <button
+                                            type="button"
+                                            onClick={() => handleRemoveItem(product.id)}
+                                            disabled={updatingItemId === product.id}
+                                            className="p-2 -m-2 font-medium cursor-pointer text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white disabled:opacity-50"
+                                            title={__("Remove item from cart")}
+                                          >
+                                            <span className="sr-only">{__("Remove")}</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                              <path
+                                                d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              />
+                                              <path
+                                                d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              />
+                                              <path d="M9.5 16.5L9.5 10.5" strokeLinecap="round" strokeLinejoin="round" />
+                                              <path d="M14.5 16.5L14.5 10.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                          </button>
                                         </div>
-                                      </li>
-                                    );
-                                  },
-                                )}
+                                      </div>
+                                    </li>
+                                  );
+                                })}
                               </ul>
                             )}
                           </div>

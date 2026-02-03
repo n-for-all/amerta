@@ -53,7 +53,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
           {activeTab === "about" && (
             <div className="flex flex-col-reverse justify-between gap-14 lg:flex-row lg:gap-12 xl:gap-20 2xl:gap-32">
               <div className="relative flex flex-3/7" style={{ height: "530px" }}>
-                <ImageOrPlaceholder alt={product.title} image={product.images && product.images[0] ? product.images[0] : undefined} className="object-cover w-full h-full" />
+                <ImageOrPlaceholder alt={product.title} image={product.images && product.images[0] ? product.images[0] : undefined} className="object-contain w-full h-full" />
               </div>
               <div className="flex flex-col gap-5 flex-4/7 lg:gap-10 2xl:gap-14">
                 <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">
@@ -108,7 +108,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
           {activeTab === "benefits" && product.showBenefits && product.benefits && product.benefits.length > 0 ? (
             <div className="flex flex-col-reverse justify-between gap-14 lg:flex-row lg:gap-12 xl:gap-20 2xl:gap-32">
               <div className="relative flex flex-3/7" style={{ height: "530px" }}>
-                <ImageOrPlaceholder image={null} className="object-cover w-full h-full" />
+                <ImageOrPlaceholder image={null} className="object-contain w-full h-full" />
               </div>
               <div className="flex flex-col gap-5 flex-4/7 lg:gap-10 2xl:gap-14">
                 <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">
@@ -137,7 +137,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
           {activeTab === "faqs" && product.showFAQs && product.faqs && product.faqs.length > 0 ? (
             <div className="flex flex-col-reverse justify-between gap-14 lg:flex-row lg:gap-12 xl:gap-20 2xl:gap-32">
               <div className="relative flex flex-3/7" style={{ height: "530px" }}>
-                <ImageOrPlaceholder image={null} className="object-cover w-full h-full" />
+                <ImageOrPlaceholder image={null} className="object-contain w-full h-full" />
               </div>
               <div className="flex flex-col gap-5 flex-4/7 lg:gap-10 2xl:gap-14">
                 <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">

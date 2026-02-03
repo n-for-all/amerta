@@ -14,7 +14,7 @@ export const GTagFields: Field[] = [
     name: "gtagConsentEnabled",
     type: "checkbox",
     label: "Enable Consent Mode",
-    defaultValue: true,
+    defaultValue: false,
     admin: {
       description: "Enable Google Consent Mode for GDPR compliance",
     },
