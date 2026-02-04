@@ -61,7 +61,7 @@ export async function Footer({ locale }: { locale?: string }) {
           </div>
 
           {/* Menu Sections */}
-          <div className="grid grid-cols-2 gap-8 mt-16 xl:col-span-2 xl:mt-0">
+          <div className="grid gap-8 mt-16 md:grid-cols-2 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               {/* Solutions Column */}
               {footerMenus && footerMenus[0] && (
@@ -112,8 +112,6 @@ export async function Footer({ locale }: { locale?: string }) {
                   </ul>
                 </div>
               )}
-
-              {/* Footer Form Section (if enabled) */}
               {hasForm && (
                 <div className="flex flex-col items-start col-span-1 mb-4 md:col-span-1 md:mb-0 lg:col-span-2">
                   <p className="font-medium uppercase text-sm/6">{footerForm.title}</p>
@@ -125,13 +123,9 @@ export async function Footer({ locale }: { locale?: string }) {
             </div>
           </div>
         </div>
-
-        {/* Bottom Section with Social and Copyright */}
-        <div className="pt-8 mt-10 border-t border-zinc-900/10 dark:border-white/10 md:flex md:items-center md:justify-between">
-          {/* Social Icons */}
-
+        <div className="flex flex-col gap-4 pt-8 mt-10 border-t border-zinc-900/10 dark:border-white/10 md:flex-row md:items-center md:justify-between">
           {socialMedia && socialMedia.length > 0 ? (
-            <div className="flex justify-end flex-1 gap-x-6 md:order-3">
+            <div className="flex justify-center flex-1 md:justify-end gap-x-6 md:order-3">
               {socialMedia.map((social, idx) => (
                 <a key={idx} className="text-zinc-600 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200" href={social.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit our ${social.platform} page`}>
                   <span className="sr-only">{social.platform}</span>
@@ -177,7 +171,7 @@ export async function Footer({ locale }: { locale?: string }) {
             </ul>
           ) : null}
 
-          <p className="flex-1 mt-8 uppercase text-sm/6 text-zinc-600 md:order-1 md:mt-0 dark:text-zinc-400">{copyright || ""}</p>
+          <p className="flex-1 pb-16 mt-0 text-center uppercase md:text-left rtl:md:text-right md:pb-0 text-sm/6 text-zinc-600 md:order-1 md:mt-0 dark:text-zinc-400">{copyright || ""}</p>
         </div>
       </div>
     </footer>

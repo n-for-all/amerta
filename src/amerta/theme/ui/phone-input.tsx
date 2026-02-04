@@ -2,60 +2,8 @@ import React, { useState, useMemo } from "react";
 import { Input } from "./input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./select";
 import { Search } from "lucide-react";
-
-// Country codes data
-const COUNTRIES = [
-  { code: "+1", name: "United States", flag: "🇺🇸" },
-  { code: "+1", name: "Canada", flag: "🇨🇦" },
-  { code: "+44", name: "United Kingdom", flag: "🇬🇧" },
-  { code: "+61", name: "Australia", flag: "🇦🇺" },
-  { code: "+91", name: "India", flag: "🇮🇳" },
-  { code: "+86", name: "China", flag: "🇨🇳" },
-  { code: "+81", name: "Japan", flag: "🇯🇵" },
-  { code: "+82", name: "South Korea", flag: "🇰🇷" },
-  { code: "+33", name: "France", flag: "🇫🇷" },
-  { code: "+49", name: "Germany", flag: "🇩🇪" },
-  { code: "+39", name: "Italy", flag: "🇮🇹" },
-  { code: "+34", name: "Spain", flag: "🇪🇸" },
-  { code: "+31", name: "Netherlands", flag: "🇳🇱" },
-  { code: "+46", name: "Sweden", flag: "🇸🇪" },
-  { code: "+41", name: "Switzerland", flag: "🇨🇭" },
-  { code: "+43", name: "Austria", flag: "🇦🇹" },
-  { code: "+47", name: "Norway", flag: "🇳🇴" },
-  { code: "+45", name: "Denmark", flag: "🇩🇰" },
-  { code: "+358", name: "Finland", flag: "🇫🇮" },
-  { code: "+48", name: "Poland", flag: "🇵🇱" },
-  { code: "+421", name: "Slovakia", flag: "🇸🇰" },
-  { code: "+385", name: "Croatia", flag: "🇭🇷" },
-  { code: "+36", name: "Hungary", flag: "🇭🇺" },
-  { code: "+40", name: "Romania", flag: "🇷🇴" },
-  { code: "+359", name: "Bulgaria", flag: "🇧🇬" },
-  { code: "+30", name: "Greece", flag: "🇬🇷" },
-  { code: "+213", name: "Algeria", flag: "🇩🇿" },
-  { code: "+20", name: "Egypt", flag: "🇪🇬" },
-  { code: "+27", name: "South Africa", flag: "🇿🇦" },
-  { code: "+55", name: "Brazil", flag: "🇧🇷" },
-  { code: "+57", name: "Colombia", flag: "🇨🇴" },
-  { code: "+56", name: "Chile", flag: "🇨🇱" },
-  { code: "+54", name: "Argentina", flag: "🇦🇷" },
-  { code: "+51", name: "Peru", flag: "🇵🇪" },
-  { code: "+52", name: "Mexico", flag: "🇲🇽" },
-  { code: "+506", name: "Costa Rica", flag: "🇨🇷" },
-  { code: "+966", name: "Saudi Arabia", flag: "🇸🇦" },
-  { code: "+971", name: "United Arab Emirates", flag: "🇦🇪" },
-  { code: "+974", name: "Qatar", flag: "🇶🇦" },
-  { code: "+965", name: "Kuwait", flag: "🇰🇼" },
-  { code: "+968", name: "Oman", flag: "🇴🇲" },
-  { code: "+92", name: "Pakistan", flag: "🇵🇰" },
-  { code: "+880", name: "Bangladesh", flag: "🇧🇩" },
-  { code: "+66", name: "Thailand", flag: "🇹🇭" },
-  { code: "+60", name: "Malaysia", flag: "🇲🇾" },
-  { code: "+65", name: "Singapore", flag: "🇸🇬" },
-  { code: "+63", name: "Philippines", flag: "🇵🇭" },
-  { code: "+84", name: "Vietnam", flag: "🇻🇳" },
-  { code: "+62", name: "Indonesia", flag: "🇮🇩" },
-  { code: "+64", name: "New Zealand", flag: "🇳🇿" },
-];
+import { COUNTRIES } from "@/amerta/constants";
+import { useEcommerce } from "../providers/EcommerceProvider";
 
 interface PhoneInputProps {
   value?: {
@@ -73,7 +21,8 @@ interface PhoneInputProps {
 
 export const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(({ showName, value, onChange, onCountryCodeChange, placeholder = "Enter phone number", disabled = false, className = "", required = false }, ref) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCountryCode, setSelectedCountryCode] = useState(value?.phoneCountryCode || "+1");
+  const { defaultPhoneCountryCode } = useEcommerce();
+  const [selectedCountryCode, setSelectedCountryCode] = useState(value?.phoneCountryCode || defaultPhoneCountryCode || "+1");
   const [phoneNumber, setPhoneNumber] = useState(value?.phone || "");
 
   const uniqueCountriesByCode = useMemo(() => {
@@ -135,7 +84,14 @@ export const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(({
           <div className="sticky top-0 z-10 p-2 bg-white border-b border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-zinc-500" />
-              <input type="text" placeholder="Search countries..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full py-2 pl-8 pr-3 text-sm border rounded-md outline-none border-zinc-200 focus:border-zinc-400 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white" onClick={(e) => e.stopPropagation()} />
+              <input
+                type="text"
+                placeholder="Search countries..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full py-2 pl-8 pr-3 text-sm border rounded-md outline-none border-zinc-200 focus:border-zinc-400 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white"
+                onClick={(e) => e.stopPropagation()}
+              />
             </div>
           </div>
 
@@ -157,8 +113,6 @@ export const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(({
           </div>
         </SelectContent>
       </Select>
-
-      {/* Phone Number Input */}
       <Input ref={ref} type="number" required={required} placeholder={placeholder} value={phoneNumber} onChange={handlePhoneChange} disabled={disabled} className="flex-1" />
     </div>
   );

@@ -31,7 +31,7 @@ export const CollectionArchiveCarousel = ({ products, options, locale }: { produ
       </div>
 
       {/* Carousel */}
-      <div className="w-full mt-16 embla" ref={emblaRef}>
+      <div className="w-full mt-4 md:mt-16 embla" ref={emblaRef}>
         <div className="flex -ms-5 embla__container">
           {products.map((product) => (
             <div key={product.id} className="embla__slide basis-[86%] ps-5 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4">

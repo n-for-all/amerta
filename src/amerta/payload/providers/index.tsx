@@ -13,8 +13,8 @@ export const Providers: React.FC<{
     <>
       <ThemeProvider>
         <AuthProvider>{children}</AuthProvider>
+        <ProgressBar height="2px" color="#0088E9ee" options={{ showSpinner: true }} shallowRouting />
       </ThemeProvider>
-      <ProgressBar height="2px" color="#0088E9ee" options={{ showSpinner: true }} shallowRouting />
     </>
   );
 };

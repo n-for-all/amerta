@@ -116,7 +116,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
                   return <ProductCard key={product.id} product={product} locale={locale} options={allOptions} />;
                 })}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/products`, locale)} />
+              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/products`, locale)} locale={locale} />
             </section>
           )}
         </div>

@@ -72,7 +72,7 @@ export const ProductCard = ({ product, cartIcon, options, locale, className, ver
           </a>
         </div>
         <div className="flex flex-col gap-2">
-          <CartForm noDefaults product={product} icon={cartIcon} compact options={options} buttonClassName="absolute top-3 right-14" />
+          <CartForm noDefaults product={product} icon={cartIcon} compact options={options} buttonClassName="absolute top-3 right-14 z-20" />
         </div>
         <p className={`text-xs text-sm/6 uppercase ${stockAvailable ? "text-green-500 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{stockAvailable ? "In Stock" : "Out of Stock"}</p>
       </div>

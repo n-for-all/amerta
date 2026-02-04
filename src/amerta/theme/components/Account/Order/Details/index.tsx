@@ -42,7 +42,7 @@ export const OrderDetails: React.FC<{ order: Order; locale: string; payment?: Pa
         {order.isFreeShipping && <span className="inline-block px-2 py-1 text-xs font-semibold tracking-wider text-white uppercase bg-green-600 rounded">{__("FREE SHIPPING")}</span>}
       </p>
 
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid gap-8 md:grid-cols-3">
         
         <div className="text-base">
           <h3 className="mb-3 text-xl font-semibold">{__("General")}</h3>

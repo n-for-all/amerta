@@ -39,11 +39,13 @@ export function LanguageSwitcher({ locale, locales = [] }: LanguageSwitcherProps
   if (locales.length === 1) return null;
 
   const displayText = locales.find((l) => l.code === locale)?.label || locale;
+  const displayMobileText = displayText.substring(0, 2).toUpperCase();
 
   return (
     <Popover className="relative">
       <PopoverButton className="flex items-center gap-1 px-3 py-2 text-sm font-medium uppercase transition duration-200 border rounded opacity-60 hover:opacity-100 text-zinc-900 hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:focus-visible:outline-white">
-        <span>{displayText}</span>
+        <span className="hidden md:block">{displayText}</span>
+        <span className="block md:hidden">{displayMobileText}</span>
         <ChevronDown className="w-4 h-4 transition-transform ui-open:rotate-180" />
       </PopoverButton>
 

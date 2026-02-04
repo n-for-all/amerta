@@ -20,12 +20,11 @@ import { LanguageSwitcher } from "@/amerta/theme/components/LanguageSwitcher";
 import { SearchModal } from "@/amerta/theme/components/SearchModal";
 import { cn } from "@/amerta/utilities/ui";
 
-const ToggleTheme = ({ className }: { className?: string }) => {
+const ToggleTheme = ({ className, label }: { className?: string; label: string }) => {
   const { theme, setTheme } = useTheme();
   return (
     <button
       onClick={() => {
-        console.log("Current theme:", theme);
         setTheme(theme === "dark" ? "light" : "dark");
       }}
       className={className}
@@ -46,14 +45,14 @@ const ToggleTheme = ({ className }: { className?: string }) => {
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M12 1.992a10 10 0 1 0 9.236 13.838c.341 -.82 -.476 -1.644 -1.298 -1.31a6.5 6.5 0 0 1 -6.864 -10.787l.077 -.08c.551 -.63 .113 -1.653 -.758 -1.653h-.266l-.068 -.006l-.06 -.002z" />
       </svg>
-      <span className="sr-only">Toggle theme</span>
+      <span className="ml-2 uppercase md:hidden">{label}</span>
     </button>
   );
 };
 
 const HeaderLogo = ({ logoLight, logoDark, logoClassName, locale }: { logoLight?: HeaderProps["logoLight"]; logoDark?: HeaderProps["logoDark"]; logoClassName?: string | null; locale: string }) => {
   return (
-    <Link href={getURL(`/`, locale)} className={cn("relative block w-full ", logoClassName || "h-8 md:h-10")}>
+    <Link href={getURL(`/`, locale)} className={cn("relative block w-full min-w-32", "h-8 md:h-10", logoClassName)}>
       {logoLight && (
         <div className="block dark:hidden">
           <Media resource={logoLight} fill={true} htmlElement={null} imgClassName="w-auto!" />
@@ -107,7 +106,7 @@ export const Header: React.FC<HeaderComponentProps> = ({ menu, currencies, local
   const { setTheme } = useTheme();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const pathname = usePathname();
-  const { locale } = useEcommerce();
+  const { locale, __ } = useEcommerce();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Add keyboard shortcut listener
@@ -144,75 +143,94 @@ export const Header: React.FC<HeaderComponentProps> = ({ menu, currencies, local
     buttonUrl = getLinkUrl({ ...buttonLink, locale });
   }
 
+  const menuItems = (
+    <div className="flex flex-col gap-4 md:flex-row md:gap-8">
+      {(menu as Menu)?.navItems?.map((menuItem, i) => (
+        <div key={i} className="relative">
+          <CMSLink className="uppercase transition duration-200 text-sm/6 text-zinc-900 hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300" {...menuItem.link} appearance={undefined} locale={locale} />
+        </div>
+      ))}
+    </div>
+  );
+
+  const popovers = (
+    <>
+      <CurrencyPopover currentCurrency={currentCurrency} currencies={currencies} />
+      <LanguageSwitcher locale={locale} locales={locales} />
+    </>
+  );
+
   return (
     <>
       <header className={"relative z-30 w-full group border-b border-zinc-950/10 dark:border-white/10 " + (className ? ` ${className}` : "")}>
         <nav aria-label="Global" className="container">
           <div className="flex items-center justify-between py-6">
             {/* Logo */}
-            <div className="flex lg:flex-1">
-              <HeaderLogo logoLight={logoLight} logoDark={logoDark} logoClassName={logoClassName} locale={locale} />
+            <div className="flex flex-shrink-0 lg:flex-1">
+              <HeaderLogo logoLight={logoLight} logoDark={logoDark} logoClassName={cn("flex-shrink-0", logoClassName)} locale={locale} />
             </div>
 
             {/* Desktop Menu Links */}
-            <div className="hidden lg:flex lg:gap-x-8">
-              {(menu as Menu)?.navItems?.map((menuItem, i) => (
-                <div key={i} className="relative">
-                  <CMSLink className="uppercase transition duration-200 text-sm/6 text-zinc-900 hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300" {...menuItem.link} appearance={undefined} locale={locale} />
-                </div>
-              ))}
-            </div>
+            <div className="hidden md:block">{menuItems}</div>
 
             {/* Right Section - Currency, Search, User, Cart */}
-            <div className="flex flex-1 justify-end gap-x-2.5 md:gap-x-4 xl:gap-x-5">
-              {/* Mobile Menu Button */}
-              <button type="button" onClick={() => setShowMobileMenu(!showMobileMenu)} className="-m-2.5 inline-flex cursor-pointer items-center justify-center rounded-md p-2.5 lg:hidden">
-                <span className="sr-only">Open main menu</span>
-                <MenuIcon className="size-6" />
-              </button>
+            <div className="flex justify-end flex-1 gap-1 md:gap-x-4 xl:gap-x-5">
+              <div className="hidden gap-1 lg:flex">{popovers}</div>
 
-              {/* Currency Popover */}
-              <CurrencyPopover currentCurrency={currentCurrency} currencies={currencies} />
-              <LanguageSwitcher locale={locale} locales={locales} />
-
-              {enableThemeSwitch ? <ToggleTheme className="flex items-center justify-center px-2 -mr-2 hover:bg-zinc-50 dark:hover:bg-zinc-800" /> : null}
+              {enableThemeSwitch ? <ToggleTheme label={__("Toggle theme")} className="items-center justify-center hidden px-2 -mr-2 md:flex hover:bg-zinc-50 dark:hover:bg-zinc-800" /> : null}
               {/* Search Button */}
-              <button onClick={() => setIsSearchOpen(true)} className="-m-2.5 flex cursor-pointer items-center justify-center rounded-md p-2.5 focus-visible:outline-0" type="button">
+              <button onClick={() => setIsSearchOpen(true)} className="md:-m-2.5 flex cursor-pointer items-center justify-center rounded-md p-1 md:p-2.5 focus-visible:outline-0" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" color="currentColor" strokeWidth={1} stroke="currentColor">
                   <path d="M17 17L21 21" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
                   <path d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
                 </svg>
               </button>
               {/* User/Account Button */}
-              <Link href={getURL("/account", locale)} className="-m-2.5 flex cursor-pointer items-center justify-center p-2.5 focus-visible:outline-0" type="button">
+              <Link href={getURL("/account", locale)} className="md:-m-2.5 hidden md:flex cursor-pointer items-center justify-center p-1 md:p-2.5 focus-visible:outline-0" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" color="currentColor" strokeWidth={1} stroke="currentColor">
                   <path d="M15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12C13.6569 12 15 10.6569 15 9Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
                   <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
                   <path d="M17 17C17 14.2386 14.7614 12 12 12C9.23858 12 7 14.2386 7 17" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
                 </svg>
               </Link>
-              <Wishlist className="-m-2.5 hover:bg-zinc-50 dark:hover:bg-zinc-800" />
+              <Wishlist className="md:-m-2.5 hover:bg-zinc-50 dark:hover:bg-zinc-800" />
               <Cart />
               {buttonUrl ? (
                 <CMSLink className="hidden px-4 py-2 text-sm font-medium text-white rounded-full md:inline-block bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100" {...buttonLink} appearance={undefined} locale={locale}>
                   {buttonLink?.label}
                 </CMSLink>
               ) : null}
+              <button type="button" onClick={() => setShowMobileMenu(!showMobileMenu)} className="md:-m-2.5 inline-flex cursor-pointer items-center justify-center rounded-md p-1 md:p-2.5 lg:hidden">
+                <span className="sr-only">Open main menu</span>
+                <MenuIcon className="size-6" />
+              </button>
             </div>
           </div>
         </nav>
 
         {/* Mobile Menu */}
         {showMobileMenu && (
-          <div className="absolute right-0 z-50 flex flex-col w-full transition-all divide-y shadow-lg bg-zinc-50 top-full dark:bg-zinc-900">
-            {typeof menu == "object" &&
-              menu?.navItems?.map((menuItem, i) => {
-                return (
-                  <CMSLink locale={locale} className="flex items-center justify-between px-4 py-2 font-medium transition duration-200 text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-300" key={i} {...menuItem.link} appearance={undefined}>
-                    <ArrowRight className="inline ml-2 size-4" />
-                  </CMSLink>
-                );
-              })}
+          <div className="absolute right-0 z-50 flex flex-col w-full gap-4 px-4 pb-4 text-sm uppercase bg-white shadow dark:bg-black top-full rtl:left-0 rtl:right-auto md:hiddens">
+            {menuItems}
+            <div className="h-px bg-zinc-900/10 dark:bg-zinc-50/20" />
+            <Link href={getURL("/account", locale)} className="md:-m-2.5 flex cursor-pointer items-center p-1 md:p-2.5 focus-visible:outline-0" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" color="currentColor" strokeWidth={1} stroke="currentColor">
+                <path d="M15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12C13.6569 12 15 10.6569 15 9Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
+                <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
+                <path d="M17 17C17 14.2386 14.7614 12 12 12C9.23858 12 7 14.2386 7 17" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} />
+              </svg>
+              <span className="ml-2">{__("Account")}</span>
+            </Link>
+
+            {buttonUrl ? (
+              <CMSLink className="hidden px-4 py-2 text-sm font-medium text-white rounded-full md:inline-block bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100" {...buttonLink} appearance={undefined} locale={locale}>
+                {buttonLink?.label}
+              </CMSLink>
+            ) : null}
+            <div className="flex justify-between gap-4">
+              {enableThemeSwitch ? <ToggleTheme label={__("Toggle Theme")} className="flex items-center px-2 -mr-2 hover:bg-zinc-50 dark:hover:bg-zinc-800" /> : null}
+              {popovers}
+            </div>
           </div>
         )}
       </header>

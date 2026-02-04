@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { Block, CollectionConfig } from "payload";
 
 import { admins } from "@/amerta/access/admins";
 import { slugField } from "@/amerta/fields/slug";
@@ -9,6 +9,33 @@ import ThemeShopBlocks from "@/amerta/theme/blocks";
 import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
 import { removeVersion } from "./handlers/remove-version";
 import { ensureUniqueHomepage } from "./hooks/ensure-unique-homepage";
+
+const blocksWithHide: Block[] = ThemeShopBlocks.map((block) => {
+  return {
+    ...block,
+    admin: {
+      ...block.admin,
+      components: {
+        ...block.admin?.components,
+        // ✅ This is valid on the Field level
+        Label: "@/amerta/collections/Pages/Label#Label",
+      },
+    },
+    fields: [
+      {
+        name: "hideOnFrontend",
+        label: "Hide from Frontend",
+        type: "checkbox",
+        defaultValue: false,
+        admin: {
+          position: "sidebar",
+          description: "Toggle to hide this section from the live website.",
+        },
+      },
+      ...block.fields,
+    ],
+  };
+});
 
 export const Pages: CollectionConfig = {
   slug: "pages",
@@ -91,7 +118,7 @@ export const Pages: CollectionConfig = {
       label: "Sections",
       type: "blocks",
       required: false,
-      blocks: [...ThemeShopBlocks],
+      blocks: blocksWithHide,
     },
     ...slugField(undefined, {
       slugHooksOverrides: {

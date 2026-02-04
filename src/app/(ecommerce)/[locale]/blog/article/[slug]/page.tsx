@@ -113,8 +113,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <h2 className="text-3xl font-semibold">{__("Related posts")}</h2>
 
           <div className="grid gap-6 mt-10 sm:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4">
-            {relatedPosts.map((post) => (
-              <PostCard size="sm" locale={locale} key={post.id} post={post} />
+            {relatedPosts.map((post, index) => (
+              <PostCard size="sm" locale={locale} key={`${post.id}-${index}`} post={post} />
             ))}
           </div>
         </div>
@@ -157,10 +157,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug, locale } = await params;
   const post = await getBlogPostByHandle(slug, locale);
   if (!post) {
-    return {
-      title: "Blog",
-      description: "Stay up-to-date with the latest industry news as our marketing teams finds new ways to re-purpose old CSS tricks articles.",
-    };
+    return {};
   }
   return await generateMeta({ doc: post, type: "post", locale });
 }

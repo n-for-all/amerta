@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { User, Customer } from "@/payload-types"; // Ensure you import Customer type if available
 import { getErrorMessage } from "@/amerta/theme/utilities/get-error-message";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
+import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";
 
 type UserWithVerified = (User & { verified: boolean }) | (Customer & { verified: boolean });
 type ResetPassword = (args: { password: string; passwordConfirm: string; token: string }) => Promise<void>;
@@ -151,7 +152,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!res.ok) {
         throw new Error("Failed to send reset email");
       }
-      // Note: We do NOT setUser here. The user is not logged in yet.
     } catch (e) {
       console.error(e);
       throw new Error("An error occurred while attempting to forgot password.");
@@ -197,16 +197,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           headers: {
             "Content-Type": "application/json",
           },
+          cache: "no-store",
         });
 
         if (res.ok) {
           const data = await res.json();
-          // REST 'me' endpoint returns { user: ... } or { user: null }
-          const meUser = data.user;
+          const meUser = data.customer;
           setUser(meUser || null);
           setStatus(meUser ? "loggedIn" : "loggedOut");
         } else {
-          // If 401/403, just clear user
           setUser(null);
           setStatus("loggedOut");
         }

@@ -24,7 +24,7 @@ export const RelatedProducts = ({ products, options, locale, title, description,
       <div className="flex flex-wrap items-center justify-between gap-6">
         <div className="relative flex flex-col gap-1">
           {title ? <h2 className="text-xl font-medium leading-none sm:text-4xl xl:text-4xl text">{title}</h2> : null}
-          {description ? <p className="max-w-xs uppercase lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p> : null}
+          {description ? <p className="max-w-xs lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p> : null}
         </div>
 
         <div className="flex gap-2 ms-auto xl:ms-0">
@@ -39,7 +39,7 @@ export const RelatedProducts = ({ products, options, locale, title, description,
         </div>
 
         {/* Carousel */}
-        <div className="w-full mt-16 embla" ref={emblaRef}>
+        <div className="w-full mt-4 md:mt-16 embla" ref={emblaRef}>
           <div className="flex -ms-5 embla__container">
             {products.map((product) => (
               <div key={product.id} className="embla__slide basis-[86%] ps-5 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4">

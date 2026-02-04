@@ -495,6 +495,13 @@ export function withAmerta(config: Config): Config {
         method: "get",
         handler: withGuard(getDashboardStats),
       },
+      {
+        path: "/404",
+        method: "get",
+        handler: () => {
+          return new Response(null, { status: 404 });
+        },
+      },
     ],
     experimental: {
       localizeStatus: true,

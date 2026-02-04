@@ -52,7 +52,7 @@ export const Label = (props: any) => {
             color: "#fff",
           }}
         >
-          Link Missing
+          Not Set
         </span>
       );
     }
@@ -60,9 +60,11 @@ export const Label = (props: any) => {
     return "";
   };
 
+  let fieldLabel = field.fields[0]?.label || field.fields[0]?.name || "Link";
+
   return (
     <span style={{ fontWeight: "600" }}>
-      {label && String(label).trim() != "" ? String(label) : path} {getDynamicLabel()}
+      {label && String(label).trim() != "" ? String(label) : fieldLabel} {getDynamicLabel()}
       {linkType && (
         <span
           style={{
@@ -74,7 +76,7 @@ export const Label = (props: any) => {
             color: "#333",
           }}
         >
-          {linkType === "custom" ? "Custom" : "Reference"}
+          {linkType === "custom" ? "Custom" : "Reference"} Type
         </span>
       )}
     </span>

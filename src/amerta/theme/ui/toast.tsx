@@ -258,7 +258,7 @@ export const Toaster = () => {
                   <div
                     className="h-full transition-all duration-100 ease-linear bg-white/80"
                     style={{
-                      width: `${progressStates[toast.id]?.progress ?? 100}%`,
+                      width: `${100 - (progressStates[toast.id]?.progress ?? 100)}%`,
                     }}
                   />
                 </div>

@@ -54,11 +54,11 @@ export default async function BlogCategoryPage({ searchParams, params }: Args) {
         </div>
       </div>
       <div className="grid grid-cols-1 mt-5 gap-x-8 gap-y-16 md:grid-cols-2 lg:mx-0 xl:grid-cols-3">
-        {blogPosts.map((post) => (
-          <PostCard size="sm" locale={locale} key={post.id} post={post} />
+        {blogPosts.map((post, index) => (
+          <PostCard size="sm"  locale={locale} key={`${post.id}-${index}`} post={post} />
         ))}
       </div>
-      <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog/categories/${slug.join("/")}/`, locale)} />
+      <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog/categories/${slug.join("/")}/`, locale)} locale={locale} />
     </div>
   );
 }

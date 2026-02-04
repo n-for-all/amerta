@@ -30,10 +30,10 @@ export const BlogPostsCarousel = ({ posts, locale }: { posts: Post[]; locale?: s
       </div>
 
       {/* Carousel */}
-      <div className="w-full mt-16 embla" ref={emblaRef}>
+      <div className="w-full mt-4 md:mt-16 embla" ref={emblaRef}>
         <div className="flex -ms-5 embla__container">
-          {posts.map((post) => (
-            <div key={post.id} className="embla__slide basis-[86%] ps-5 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4">
+          {posts.map((post, index) => (
+            <div key={`${post.id}-${index}`} className="embla__slide basis-[86%] ps-5 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4">
               <PostCard post={post} locale={locale!} />
             </div>
           ))}

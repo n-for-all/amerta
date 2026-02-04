@@ -110,10 +110,6 @@ const ProfileForm: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user === null) {
-      router.push(getURL(`/login`, locale) + `?error=${encodeURIComponent("You must be logged in to view this page.")}&redirect=${encodeURIComponent(getURL(`/account`, locale))}`);
-    }
-
     if (user) {
       form.reset({
         email: user.email,
@@ -129,7 +125,7 @@ const ProfileForm: React.FC = () => {
 
   return (
     <>
-      <main className="flex-1 pl-8">
+      <main className="flex-1 md:pl-8">
         <div className="space-y-6">
           <div>
             <h1 className="mb-2 text-3xl font-bold">{__("Account Details")}</h1>

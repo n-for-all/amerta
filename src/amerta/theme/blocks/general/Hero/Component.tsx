@@ -25,7 +25,7 @@ export const ThemeShopHeroBlock: React.FC<Props> = ({ params, topTitle, title, s
     <section className={"flex min-h-[calc(100vh-5rem)] relative flex-col justify-between sm:flex-row" + (className ? ` ${className}` : "")} style={{ backgroundColor: bgColor }}>
       {/* Left Content */}
       <div className="container flex">
-        <div className="self-end w-3/5 py-16 pr-6 rtl:pl-6 rtl:pr-0 xl:pb-20">
+        <div className="self-center w-3/5 py-16 pr-6 rtl:pl-6 rtl:pr-0 xl:pb-20">
           <div className="max-w-2xl">
             {topTitle && <h3 dangerouslySetInnerHTML={{ __html: topTitle }} className="mt-4 text-lg/tight md:text-2xl/tight lg:text-lg/tight" />}
             {title && <h2 dangerouslySetInnerHTML={{ __html: title }} className="mt-8 font-semibold text-5xl/tight md:text-6xl/tight lg:text-7xl/tight" />}

@@ -24,15 +24,15 @@ export default async function BlogPage({ searchParams, params }: { searchParams:
           <br />
           <span className="font-serif italic underline">Journal.</span>
         </h1>
-        <div className="max-w-xl mt-5 uppercase text-sm/6">{__("Stay up-to-date with the latest industry news as our marketing teams finds new ways to re-purpose old CSS tricks articles.")}</div>
+        <div className="max-w-xl mt-5 uppercase text-sm/6">{__("Stay up-to-date with the latest news and insights.")}</div>
       </div>
       <div className="grid grid-cols-1 mt-5 gap-x-8 gap-y-16 md:grid-cols-2 lg:mx-0 xl:grid-cols-3">
-        {blogPosts.map((post) => {
+        {blogPosts.map((post, index) => {
           const timeToRead = getTimeToRead(post.content);
-          return <PostCard size="sm" locale={locale} key={post.id} post={post} timeToRead={timeToRead ? printf(__(`%s min read`), `${timeToRead}`) : undefined} />;
+          return <PostCard size="sm" locale={locale} key={`${post.id}-${index}`} post={post} timeToRead={timeToRead ? printf(__(`%s min read`), `${timeToRead}`) : undefined} />;
         })}
       </div>
-      <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog`, locale)} />
+      <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog`, locale)} locale={locale} />
     </div>
   );
 }

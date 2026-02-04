@@ -1,6 +1,7 @@
 import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";
 import { DEFAULT_LOCALE, LocaleCode, LOCALES } from "@/amerta/localization/locales";
 import { getURL } from "@/amerta/utilities/getURL";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -60,7 +61,7 @@ export function proxy(request: NextRequest) {
         response.cookies.delete("payload-token");
         return response;
       }
-    } catch {
+    } catch(e) {
       const response = NextResponse.redirect(new URL(`/${ADMIN_PATH}/login`, request.url));
       response.cookies.delete("payload-token");
       return response;

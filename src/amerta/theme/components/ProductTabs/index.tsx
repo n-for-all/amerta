@@ -37,7 +37,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
   });
   return (
     <>
-      <div className="flex justify-center w-full gap-4 p-1 rounded-full bg-zinc-50">
+      <div className="flex justify-center w-auto max-w-4xl gap-4 p-1 mx-auto rounded-full bg-zinc-50">
         {tabs.map((tab) => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`w-full rounded-full focus-visible:outline-none transition-colors ${activeTab === tab.id ? "bg-zinc-900 text-white" : "text-zinc-900 hover:bg-zinc-100"}`}>
             <p data-slot="text" className="py-4 uppercase text-sm/6">

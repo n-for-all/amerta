@@ -1,10 +1,15 @@
 import { PayloadRequest } from "payload";
 import jwt from "jsonwebtoken";
+import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";
+import { cookies } from "next/headers";
 
 export const getMeHandler = async (req: PayloadRequest) => {
   try {
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader ? authHeader.replace("JWT ", "").trim() : null;
+    let token: string | null = null;
+    const cookieHeader = await cookies();
+    if (cookieHeader) {
+      token = cookieHeader.get(CUSTOMER_AUTH_TOKEN)?.value || null;
+    }
 
     if (!token) {
       return Response.json({ message: "No token provided" }, { status: 401 });

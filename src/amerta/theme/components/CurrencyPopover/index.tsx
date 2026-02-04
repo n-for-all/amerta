@@ -31,7 +31,7 @@ export function CurrencyPopover({ currentCurrency, currencies = [] }: CurrencyPo
 
   if (currencies.length === 1) return null;
 
-  const displayText = currentCurrency ? (currentCurrency.symbol?.toLowerCase() == currentCurrency.code?.toLowerCase() ? ` ${currentCurrency.code}` : `${currentCurrency.symbol} ${currentCurrency.code}`) : "N/A";
+  const displayText = currentCurrency ? (currentCurrency.symbol?.toLowerCase() == currentCurrency.code?.toLowerCase() ? ` ${currentCurrency.code}` : `${currentCurrency.symbol} ${currentCurrency.code}`) : "--";
 
   return (
     <Popover className="relative">

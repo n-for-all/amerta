@@ -17,6 +17,9 @@ export default buildConfig(
       importMap: {
         baseDir: path.resolve(dirname),
       },
+      autoLogin: {
+        prefillOnly: true,
+      },
     },
     routes: {
       admin: process.env.PAYLOAD_ADMIN_ROUTE || "/admin",

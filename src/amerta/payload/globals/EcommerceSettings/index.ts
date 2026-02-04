@@ -1,5 +1,7 @@
 import { revalidatePath } from "next/cache";
 import { GlobalConfig } from "payload";
+import { link } from "@/amerta/fields/link/link";
+import { socialLinksField } from "@/amerta/fields/socialLinks";
 
 export const EcommerceSettings: GlobalConfig = {
   slug: "ecommerce-settings",
@@ -70,18 +72,106 @@ export const EcommerceSettings: GlobalConfig = {
               admin: {
                 description: "Allow customers to add notes to their orders",
               },
-            },
-            {
-              name: "autoConfirmOrders",
-              type: "checkbox",
-              label: "Auto-Confirm Orders",
-              defaultValue: false,
-              admin: {
-                description: "Automatically confirm orders after successful payment",
-              },
             }
           ],
-        }
+        },
+        {
+          label: "Announcement Bar",
+          name: "announcementBar",
+          fields: [
+            {
+              type: "row",
+              fields: [
+                {
+                  name: "enabled",
+                  label: "Enable Announcement Bar",
+                  type: "checkbox",
+                  defaultValue: true,
+                },
+              ],
+            },
+            {
+              type: "row",
+              fields: [
+                {
+                  name: "showButtons",
+                  label: "Show Carousel Buttons",
+                  type: "checkbox",
+                  defaultValue: true,
+                },
+                {
+                  name: "showSocial",
+                  label: "Show Social Icons",
+                  type: "checkbox",
+                  defaultValue: false,
+                },
+                {
+                  name: "autoRotate",
+                  label: "Auto Rotate Messages",
+                  type: "checkbox",
+                  defaultValue: true,
+                },
+              ],
+            },
+            {
+              type: "row",
+              fields: [
+                {
+                  name: "direction",
+                  label: "Animation Direction",
+                  type: "select",
+                  defaultValue: "scrollTop",
+                  options: [
+                    { label: "Scroll Up (Vertical)", value: "scrollTop" },
+                    { label: "Scroll Left (Horizontal)", value: "scrollLeft" },
+                  ],
+                },
+                {
+                  name: "speed",
+                  label: "Rotation Speed (Seconds)",
+                  type: "number",
+                  defaultValue: 5,
+                  min: 1,
+                  max: 20,
+                  admin: {
+                    condition: (_, siblingData) => siblingData.autoRotate,
+                    width: "50%",
+                  },
+                },
+              ],
+            },
+            {
+              name: "announcements",
+              label: "Messages",
+              type: "array",
+              minRows: 1,
+              labels: {
+                singular: "Message",
+                plural: "Messages",
+              },
+              fields: [
+                {
+                  name: "text",
+                  label: "Text",
+                  type: "text",
+                  required: true,
+                  localized: true,
+                },
+                link({
+                  appearances: ["default", "destructive", "ghost", "outline", "link", "secondary"],
+                  required: false,
+                  overrides: {
+                    name: "link",
+                    label: "Link",
+                  },
+                }),
+              ],
+            },
+            {
+              ...socialLinksField,
+            },
+          ],
+        },
       ],
     },
   ],

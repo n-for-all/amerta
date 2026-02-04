@@ -1,7 +1,7 @@
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { Config } from "payload";
 import React, { ReactNode } from "react";
-import type { Header as HeaderProps, Settings } from "@/payload-types";
+import type { EcommerceSettings, Header as HeaderProps, Settings } from "@/payload-types";
 import { Header } from "./blocks/common/Header/Component";
 import { Footer } from "./blocks/common/Footer/Component";
 import { EcommerceProvider } from "./providers/EcommerceProvider";
@@ -11,6 +11,7 @@ import { LOCALES } from "@/amerta/localization/locales";
 import { getDictionary } from "./utilities/translation";
 import { getCurrentCurrency } from "./utilities/get-current-currency";
 import { getCurrencies } from "./utilities/get-currencies";
+import { AnnouncementBar } from "./blocks/common/AnnouncementBar";
 
 interface Props {
   children: ReactNode;
@@ -32,6 +33,7 @@ const WhatsappChat = ({ url }) => {
 const ThemeShopLayout: React.FC<Props> = async ({ children, header, locale }) => {
   const headerData: HeaderProps = await getCachedGlobal("header" as keyof Config["globals"], 1, locale)();
   const settingsData: Settings = await getCachedGlobal("settings" as keyof Config["globals"], 1, locale)();
+  const ecommerceSettings: EcommerceSettings = await getCachedGlobal("ecommerce-settings" as keyof Config["globals"], 1, locale)();
   const salesChannel = await getSalesChannel();
 
   if (!salesChannel) {
@@ -49,9 +51,15 @@ const ThemeShopLayout: React.FC<Props> = async ({ children, header, locale }) =>
   const dictionary = await getDictionary(locale);
   const enableWhatsappChat = settingsData.enableWhatsappChat || false;
 
+  let announcementBar: React.ReactNode | null = null;
+  if (ecommerceSettings.announcementBar && ecommerceSettings.announcementBar.enabled) {
+    announcementBar = <AnnouncementBar {...ecommerceSettings.announcementBar} locale={locale} />
+  }
+
   return (
-    <EcommerceProvider locale={locale} currency={currency} salesChannel={salesChannel} dictionary={dictionary}>
+    <EcommerceProvider locale={locale} currency={currency} salesChannel={salesChannel} dictionary={dictionary} defaultPhoneCountryCode={settingsData.defaultPhoneCountryCode || "+1"}>
       <div>
+        {announcementBar}
         <div className="relative sticky top-0 z-30 text-black bg-white dark:bg-black lg:block dark:text-white">{header ? header : <Header {...headerData} currencies={currencies} currentCurrency={currency} locales={enabledLocalesArray} />}</div>
         {children}
         <Footer locale={locale} />

@@ -121,7 +121,7 @@ export default async function BrandPage({ params, searchParams }: { params: Prom
                   return <ProductCard key={product.id} product={product} locale={locale} options={allOptions} />;
                 })}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/brands/${slug}`, locale)} />
+              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/brands/${slug}`, locale)} locale={locale} />
             </section>
           )}
         </div>

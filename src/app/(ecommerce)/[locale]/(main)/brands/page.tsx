@@ -83,7 +83,7 @@ export default async function BrandsPage({ params, searchParams }: Props) {
                     </div>
                   );
                 })}
-                <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog`, locale)} />
+                <Pagination currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/blog`, locale)} locale={locale} />
               </div>
             </>
           )}

@@ -126,9 +126,21 @@ export function ProductLightbox({ images, productName, isOpen, onClose, initialI
                     <div className="w-8 h-8 border-4 border-gray-300 rounded-full border-t-blue-600 animate-spin"></div>
                   </div>
                 </div>
-                <div className={`transition-all h-full duration-300 ease-in-out ${isImageLoading ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}>
-                  <ImageOrPlaceholder loading="eager" alt={`${productName} - Image ${currentIndex + 1}`} className="object-contain w-full h-full transition-transform duration-300 ease-in-out" image={imageUrl} onLoad={() => setIsImageLoading(false)} />
-                </div>
+                <Transition
+                  key={currentIndex}
+                  show={!isImageLoading}
+                  as={React.Fragment}
+                  enter="transition-opacity duration-300 ease-in-out"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-200 ease-in-out"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="h-full">
+                    <ImageOrPlaceholder loading="eager" alt={`${productName} - Image ${currentIndex + 1}`} className="object-contain w-full h-full transition-transform duration-300 ease-in-out" image={imageUrl} onLoad={() => setIsImageLoading(false)} />
+                  </div>
+                </Transition>
               </div>
 
               {/* Image counter */}

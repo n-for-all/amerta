@@ -403,6 +403,7 @@ export interface Product {
   layout?:
     | (
         | ThemeShopHeroBlock
+        | ThemeShopHeroVideoBlock
         | ThemeShopCollectionShowcaseBlock
         | ThemeShopCTAFeatureBlock
         | ThemeShopGridShowcaseBlock
@@ -568,6 +569,10 @@ export interface ProductMedia {
  * via the `definition` "ThemeShopHeroBlock".
  */
 export interface ThemeShopHeroBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   /**
    * HEX color code (e.g., #ECFF9F)
    */
@@ -821,6 +826,7 @@ export interface Page {
   layout?:
     | (
         | ThemeShopHeroBlock
+        | ThemeShopHeroVideoBlock
         | ThemeShopCollectionShowcaseBlock
         | ThemeShopCTAFeatureBlock
         | ThemeShopGridShowcaseBlock
@@ -857,205 +863,170 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ThemeShopCollectionShowcaseBlock".
+ * via the `definition` "ThemeShopHeroVideoBlock".
  */
-export interface ThemeShopCollectionShowcaseBlock {
+export interface ThemeShopHeroVideoBlock {
   /**
-   * Main heading for the collections showcase section
+   * Toggle to hide this section from the live website.
    */
-  title?: string | null;
+  hideOnFrontend?: boolean | null;
+  alignment?: ('left' | 'center' | 'right') | null;
+  direction?: ('left' | 'center' | 'right') | null;
+  spacing?:
+    | ('gap-0' | 'gap-1' | 'gap-2' | 'gap-3' | 'gap-4' | 'gap-5' | 'gap-6' | 'gap-7' | 'gap-8' | 'gap-9' | 'gap-10')
+    | null;
+  blur?: number | null;
+  bgVideoType?: ('upload' | 'url') | null;
+  bgVideo?: (string | null) | Media;
   /**
-   * Subtitle/description text displayed below title
+   * Direct link to .mp4 file recommended.
    */
-  subtitle?: string | null;
-  /**
-   * Select product collections to display in the carousel
-   */
-  collections?: (string | Collection)[] | null;
-  /**
-   * Additional CSS classes for custom styling
-   */
-  className?: string | null;
+  bgVideoUrl?: string | null;
+  bgImage?: (string | null) | Media;
+  bgOverlay?:
+    | (
+        | 'after:bg-transparent'
+        | 'after:bg-black/5'
+        | 'after:bg-black/10'
+        | 'after:bg-black/15'
+        | 'after:bg-black/20'
+        | 'after:bg-black/25'
+        | 'after:bg-black/30'
+        | 'after:bg-black/35'
+        | 'after:bg-black/40'
+        | 'after:bg-black/45'
+        | 'after:bg-black/50'
+        | 'after:bg-black/55'
+        | 'after:bg-black/60'
+        | 'after:bg-black/65'
+        | 'after:bg-black/70'
+        | 'after:bg-black/75'
+        | 'after:bg-black/80'
+        | 'after:bg-black/85'
+        | 'after:bg-black/90'
+        | 'after:bg-black/95'
+        | 'after:bg-black'
+        | 'after:bg-white/5'
+        | 'after:bg-white/10'
+        | 'after:bg-white/15'
+        | 'after:bg-white/20'
+        | 'after:bg-white/25'
+        | 'after:bg-white/30'
+        | 'after:bg-white/35'
+        | 'after:bg-white/40'
+        | 'after:bg-white/45'
+        | 'after:bg-white/50'
+        | 'after:bg-white/55'
+        | 'after:bg-white/60'
+        | 'after:bg-white/65'
+        | 'after:bg-white/70'
+        | 'after:bg-white/75'
+        | 'after:bg-white/80'
+        | 'after:bg-white/85'
+        | 'after:bg-white/90'
+        | 'after:bg-white/95'
+        | 'after:bg-white'
+      )
+    | null;
+  videoType?: ('upload' | 'url') | null;
+  video?: (string | null) | Media;
+  videoUrl?: string | null;
+  image?: (string | null) | Media;
+  blocks?:
+    | (
+        | {
+            text?: string | null;
+            fontWeight?: ('font-normal' | 'font-medium' | 'font-bold' | 'font-extrabold' | 'font-black') | null;
+            fontSize?: ('text-2xl' | 'text-xl' | 'text-lg' | 'text-base' | 'text-sm') | null;
+            leading?: ('leading-relaxed' | 'leading-normal' | 'leading-snug' | 'leading-tight' | 'leading-none') | null;
+            marginTop?: ('' | 'md:mt-1' | 'mt-1 md:mt-2' | 'mt-2 md:mt-4' | 'mt-3 md:mt-6') | null;
+            marginBottom?: ('' | 'md:mb-1' | 'mb-1 md:mb-2' | 'mb-2 md:mb-4' | 'mb-3 md:mb-6') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            text?: string | null;
+            type?: ('h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') | null;
+            /**
+             * Choose a color for this text
+             */
+            textColor?: string | null;
+            strokeText?: boolean | null;
+            /**
+             * Choose a color for this stroke
+             */
+            strokeColor?: string | null;
+            fontWeight?: ('font-normal' | 'font-medium' | 'font-bold' | 'font-extrabold' | 'font-black') | null;
+            fontSize?:
+              | (
+                  | 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
+                  | 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'
+                  | 'text-xl sm:text-2xl md:text-3xl lg:text-4xl'
+                  | 'text-lg sm:text-xl md:text-2xl lg:text-3xl'
+                  | 'text-base sm:text-lg md:text-xl lg:text-2xl'
+                )
+              | null;
+            leading?: ('leading-relaxed' | 'leading-normal' | 'leading-snug' | 'leading-tight' | 'leading-none') | null;
+            marginTop?: ('' | 'md:mt-1' | 'mt-1 md:mt-2' | 'mt-2 md:mt-4' | 'mt-3 md:mt-6') | null;
+            marginBottom?: ('' | 'md:mb-1' | 'mb-1 md:mb-2' | 'mb-2 md:mb-4' | 'mb-3 md:mb-6') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'heading';
+          }
+        | {
+            link?: {
+              type?: ('reference' | 'custom') | null;
+              /**
+               * Choose how the link size.
+               */
+              size?: ('xs' | 'sm' | 'default' | 'lg') | null;
+              /**
+               * Choose how the link should be rendered.
+               */
+              appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
+              reference?:
+                | ({
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null)
+                | ({
+                    relationTo: 'posts';
+                    value: string | Post;
+                  } | null)
+                | ({
+                    relationTo: 'categories';
+                    value: string | Category;
+                  } | null)
+                | ({
+                    relationTo: 'products';
+                    value: string | Product;
+                  } | null)
+                | ({
+                    relationTo: 'collections';
+                    value: string | Collection;
+                  } | null)
+                | ({
+                    relationTo: 'product-brands';
+                    value: string | ProductBrand;
+                  } | null);
+              /**
+               * use {locale} to insert the current locale code into the URL
+               */
+              url?: string | null;
+              newTab?: boolean | null;
+              label?: string | null;
+            };
+            casing?: ('' | 'uppercase' | 'lowercase' | 'capitalize') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'buttons';
+          }
+      )[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'themeShopCollectionShowcase';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collections".
- */
-export interface Collection {
-  id: string;
-  title: string;
-  image?: (string | null) | ProductMedia;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  publishedOn?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  /**
-   * This collection will only be available in the selected sales channels.
-   */
-  salesChannels: (string | SalesChannel)[];
-  parent?: (string | null) | Collection;
-  createdAt: string;
-  updatedAt: string;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  breadcrumbs?:
-    | {
-        doc?: (string | null) | Collection;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sales-channel".
- */
-export interface SalesChannel {
-  id: string;
-  name: string;
-  enabled: '1' | '0';
-  currencies: {
-    currency?: (string | null) | Currency;
-    /**
-     * Exchange rate relative to USD (Important), it will automatically convert the price in the frontend. E.g., 1 USD = 0.85 EUR, so for EUR enter 0.85, for USD enter 1, for AED enter 3.67 etc...
-     */
-    exchangeRate?: number | null;
-    isDefault?: boolean | null;
-    id?: string | null;
-  }[];
-  description?: string | null;
-  /**
-   * Only one sales channel can be marked as default
-   */
-  isDefault?: boolean | null;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "currency".
- */
-export interface Currency {
-  id: string;
-  name?: string | null;
-  code?: string | null;
-  symbol?: string | null;
-  symbolNative?: string | null;
-  decimalDigits?: number | null;
-  rounding?: number | null;
-  raw_rounding?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Use {{amount}} as a placeholder for the amount. E.g. {{amount}} USD
-   */
-  format?: string | null;
-  enabled: '1' | '0';
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ThemeShopCTAFeatureBlock".
- */
-export interface ThemeShopCTAFeatureBlock {
-  /**
-   * Main headline for the CTA section
-   */
-  title?: string | null;
-  /**
-   * Detailed description text
-   */
-  description?: string | null;
-  link?: {
-    type?: ('reference' | 'custom') | null;
-    /**
-     * Choose how the link size.
-     */
-    size?: ('xs' | 'sm' | 'default' | 'lg') | null;
-    /**
-     * Choose how the link should be rendered.
-     */
-    appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: string | Post;
-        } | null)
-      | ({
-          relationTo: 'categories';
-          value: string | Category;
-        } | null)
-      | ({
-          relationTo: 'products';
-          value: string | Product;
-        } | null)
-      | ({
-          relationTo: 'collections';
-          value: string | Collection;
-        } | null)
-      | ({
-          relationTo: 'product-brands';
-          value: string | ProductBrand;
-        } | null);
-    /**
-     * use {locale} to insert the current locale code into the URL
-     */
-    url?: string | null;
-    newTab?: boolean | null;
-    label?: string | null;
-  };
-  /**
-   * Main feature image on left side (recommended: 325x335px or similar 3:4 ratio)
-   */
-  leftImage?: (string | null) | Media;
-  /**
-   * Large feature image on right side (recommended: 495x530px)
-   */
-  rightImage?: (string | null) | Media;
-  /**
-   * Additional Tailwind classes for custom styling
-   */
-  className?: string | null;
-  backgroundColor?: ('white' | 'off-white' | 'light-gray') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'themeShopCtaFeature';
+  blockType: 'themeShopHeroVideo';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1228,6 +1199,111 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections".
+ */
+export interface Collection {
+  id: string;
+  title: string;
+  image?: (string | null) | ProductMedia;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  publishedOn?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  /**
+   * This collection will only be available in the selected sales channels.
+   */
+  salesChannels: (string | SalesChannel)[];
+  parent?: (string | null) | Collection;
+  createdAt: string;
+  updatedAt: string;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  breadcrumbs?:
+    | {
+        doc?: (string | null) | Collection;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-channel".
+ */
+export interface SalesChannel {
+  id: string;
+  name: string;
+  enabled: '1' | '0';
+  currencies: {
+    currency?: (string | null) | Currency;
+    /**
+     * Exchange rate relative to USD (Important), it will automatically convert the price in the frontend. E.g., 1 USD = 0.85 EUR, so for EUR enter 0.85, for USD enter 1, for AED enter 3.67 etc...
+     */
+    exchangeRate?: number | null;
+    isDefault?: boolean | null;
+    id?: string | null;
+  }[];
+  description?: string | null;
+  /**
+   * Only one sales channel can be marked as default
+   */
+  isDefault?: boolean | null;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "currency".
+ */
+export interface Currency {
+  id: string;
+  name?: string | null;
+  code?: string | null;
+  symbol?: string | null;
+  symbolNative?: string | null;
+  decimalDigits?: number | null;
+  rounding?: number | null;
+  raw_rounding?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Use {{amount}} as a placeholder for the amount. E.g. {{amount}} USD
+   */
+  format?: string | null;
+  enabled: '1' | '0';
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product-brands".
  */
 export interface ProductBrand {
@@ -1247,9 +1323,118 @@ export interface ProductBrand {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopCollectionShowcaseBlock".
+ */
+export interface ThemeShopCollectionShowcaseBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
+  /**
+   * Main heading for the collections showcase section
+   */
+  title?: string | null;
+  /**
+   * Subtitle/description text displayed below title
+   */
+  subtitle?: string | null;
+  /**
+   * Select product collections to display in the carousel
+   */
+  collections?: (string | Collection)[] | null;
+  /**
+   * Additional CSS classes for custom styling
+   */
+  className?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'themeShopCollectionShowcase';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopCTAFeatureBlock".
+ */
+export interface ThemeShopCTAFeatureBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
+  /**
+   * Main headline for the CTA section
+   */
+  title?: string | null;
+  /**
+   * Detailed description text
+   */
+  description?: string | null;
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    /**
+     * Choose how the link size.
+     */
+    size?: ('xs' | 'sm' | 'default' | 'lg') | null;
+    /**
+     * Choose how the link should be rendered.
+     */
+    appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'categories';
+          value: string | Category;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: string | Product;
+        } | null)
+      | ({
+          relationTo: 'collections';
+          value: string | Collection;
+        } | null)
+      | ({
+          relationTo: 'product-brands';
+          value: string | ProductBrand;
+        } | null);
+    /**
+     * use {locale} to insert the current locale code into the URL
+     */
+    url?: string | null;
+    newTab?: boolean | null;
+    label?: string | null;
+  };
+  /**
+   * Main feature image on left side (recommended: 325x335px or similar 3:4 ratio)
+   */
+  leftImage?: (string | null) | Media;
+  /**
+   * Large feature image on right side (recommended: 495x530px)
+   */
+  rightImage?: (string | null) | Media;
+  /**
+   * Additional Tailwind classes for custom styling
+   */
+  className?: string | null;
+  backgroundColor?: ('white' | 'off-white' | 'light-gray') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'themeShopCtaFeature';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ThemeShopGridShowcaseBlock".
  */
 export interface ThemeShopGridShowcaseBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   /**
    * Main title for the left section
    */
@@ -1387,6 +1572,10 @@ export interface ThemeShopCodeBlock {
  * via the `definition` "ThemeShopCallToActionTextBlock".
  */
 export interface ThemeShopCallToActionTextBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   richText?: {
     root: {
       type: string;
@@ -1458,6 +1647,10 @@ export interface ThemeShopCallToActionTextBlock {
  * via the `definition` "ThemeShopNewsletterBlock".
  */
 export interface ThemeShopNewsletterBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   headline: {
     root: {
       type: string;
@@ -1682,6 +1875,10 @@ export interface Form {
  */
 export interface ThemeShopCollectionArchiveBlock {
   /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
+  /**
    * Select the collection to display products from
    */
   collectionObj?: (string | null) | Collection;
@@ -1760,6 +1957,10 @@ export interface ThemeShopCollectionArchiveBlock {
  */
 export interface ThemeShopFeaturesBlock {
   /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
+  /**
    * Image displayed on the left side. Recommended aspect ratio: 1:1 or 4:5.
    */
   image?: (string | null) | Media;
@@ -1809,6 +2010,10 @@ export interface ThemeShopFeaturesBlock {
  * via the `definition` "ThemeShopBenefitsBlock".
  */
 export interface ThemeShopBenefitsBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   items?:
     | {
         title: string;
@@ -1826,6 +2031,10 @@ export interface ThemeShopBenefitsBlock {
  * via the `definition` "ThemeShopBlogPostsBlock".
  */
 export interface ThemeShopBlogPostsBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   /**
    * Select the category to limit posts from
    */
@@ -1908,6 +2117,10 @@ export interface ThemeShopBlogPostsBlock {
  * via the `definition` "ThemeShopContactUsBlock".
  */
 export interface ThemeShopContactUsBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   titlePrefix: string;
   titleSuffix: string;
   image?: (string | null) | Media;
@@ -1936,6 +2149,10 @@ export interface ThemeShopContactUsBlock {
  * via the `definition` "ThemeShopContentBlock".
  */
 export interface ThemeShopContentBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   columns?:
     | {
         size?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | 'full' | 'twoThirds') | null;
@@ -2014,6 +2231,10 @@ export interface ThemeShopContentBlock {
  * via the `definition` "ThemeShopImageBlock".
  */
 export interface ThemeShopImageBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   image?: (string | null) | Media;
   enableParallax?: boolean | null;
   height?: ('small' | 'medium' | 'large' | 'screen') | null;
@@ -2045,6 +2266,10 @@ export interface ThemeShopImageBlock {
  * via the `definition` "ThemeShopSpacerBlock".
  */
 export interface ThemeShopSpacerBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
   size: 'small' | 'medium' | 'large' | 'xlarge';
   /**
    * Leave blank to inherit the Desktop Size behavior.
@@ -3410,6 +3635,7 @@ export interface ProductsSelect<T extends boolean = true> {
     | T
     | {
         themeShopHero?: T | ThemeShopHeroBlockSelect<T>;
+        themeShopHeroVideo?: T | ThemeShopHeroVideoBlockSelect<T>;
         themeShopCollectionShowcase?: T | ThemeShopCollectionShowcaseBlockSelect<T>;
         themeShopCtaFeature?: T | ThemeShopCTAFeatureBlockSelect<T>;
         themeShopGridShowcase?: T | ThemeShopGridShowcaseBlockSelect<T>;
@@ -3490,6 +3716,7 @@ export interface ProductsSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopHeroBlock_select".
  */
 export interface ThemeShopHeroBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   backgroundColor?: T;
   image?: T;
   logoLink?:
@@ -3535,9 +3762,82 @@ export interface ThemeShopHeroBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopHeroVideoBlock_select".
+ */
+export interface ThemeShopHeroVideoBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
+  alignment?: T;
+  direction?: T;
+  spacing?: T;
+  blur?: T;
+  bgVideoType?: T;
+  bgVideo?: T;
+  bgVideoUrl?: T;
+  bgImage?: T;
+  bgOverlay?: T;
+  videoType?: T;
+  video?: T;
+  videoUrl?: T;
+  image?: T;
+  blocks?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              text?: T;
+              fontWeight?: T;
+              fontSize?: T;
+              leading?: T;
+              marginTop?: T;
+              marginBottom?: T;
+              id?: T;
+              blockName?: T;
+            };
+        heading?:
+          | T
+          | {
+              text?: T;
+              type?: T;
+              textColor?: T;
+              strokeText?: T;
+              strokeColor?: T;
+              fontWeight?: T;
+              fontSize?: T;
+              leading?: T;
+              marginTop?: T;
+              marginBottom?: T;
+              id?: T;
+              blockName?: T;
+            };
+        buttons?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    size?: T;
+                    appearance?: T;
+                    reference?: T;
+                    url?: T;
+                    newTab?: T;
+                    label?: T;
+                  };
+              casing?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ThemeShopCollectionShowcaseBlock_select".
  */
 export interface ThemeShopCollectionShowcaseBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   title?: T;
   subtitle?: T;
   collections?: T;
@@ -3550,6 +3850,7 @@ export interface ThemeShopCollectionShowcaseBlockSelect<T extends boolean = true
  * via the `definition` "ThemeShopCTAFeatureBlock_select".
  */
 export interface ThemeShopCTAFeatureBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   title?: T;
   description?: T;
   link?:
@@ -3575,6 +3876,7 @@ export interface ThemeShopCTAFeatureBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopGridShowcaseBlock_select".
  */
 export interface ThemeShopGridShowcaseBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   leftTitle?: T;
   leftDescription?: T;
   leftImage?: T;
@@ -3603,6 +3905,7 @@ export interface ThemeShopGridShowcaseBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopMediaBlock_select".
  */
 export interface ThemeShopMediaBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   media?: T;
   position?: T;
   id?: T;
@@ -3613,6 +3916,7 @@ export interface ThemeShopMediaBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopBannerBlock_select".
  */
 export interface ThemeShopBannerBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   style?: T;
   content?: T;
   id?: T;
@@ -3623,6 +3927,7 @@ export interface ThemeShopBannerBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopCodeBlock_select".
  */
 export interface ThemeShopCodeBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   language?: T;
   code?: T;
   id?: T;
@@ -3633,6 +3938,7 @@ export interface ThemeShopCodeBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopCallToActionTextBlock_select".
  */
 export interface ThemeShopCallToActionTextBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   richText?: T;
   links?:
     | T
@@ -3658,6 +3964,7 @@ export interface ThemeShopCallToActionTextBlockSelect<T extends boolean = true> 
  * via the `definition` "ThemeShopNewsletterBlock_select".
  */
 export interface ThemeShopNewsletterBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   headline?: T;
   baseForm?:
     | T
@@ -3675,6 +3982,7 @@ export interface ThemeShopNewsletterBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopCollectionArchiveBlock_select".
  */
 export interface ThemeShopCollectionArchiveBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   collectionObj?: T;
   buttonPrimary?:
     | T
@@ -3698,6 +4006,7 @@ export interface ThemeShopCollectionArchiveBlockSelect<T extends boolean = true>
  * via the `definition` "ThemeShopFeaturesBlock_select".
  */
 export interface ThemeShopFeaturesBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   image?: T;
   headline?: T;
   features?:
@@ -3715,6 +4024,7 @@ export interface ThemeShopFeaturesBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopBenefitsBlock_select".
  */
 export interface ThemeShopBenefitsBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   items?:
     | T
     | {
@@ -3731,6 +4041,7 @@ export interface ThemeShopBenefitsBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopBlogPostsBlock_select".
  */
 export interface ThemeShopBlogPostsBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   category?: T;
   type?: T;
   buttonPrimary?:
@@ -3755,6 +4066,7 @@ export interface ThemeShopBlogPostsBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopContactUsBlock_select".
  */
 export interface ThemeShopContactUsBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   titlePrefix?: T;
   titleSuffix?: T;
   image?: T;
@@ -3781,6 +4093,7 @@ export interface ThemeShopContactUsBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopContentBlock_select".
  */
 export interface ThemeShopContentBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   columns?:
     | T
     | {
@@ -3810,6 +4123,7 @@ export interface ThemeShopContentBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopImageBlock_select".
  */
 export interface ThemeShopImageBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   image?: T;
   enableParallax?: T;
   height?: T;
@@ -3828,6 +4142,7 @@ export interface ThemeShopImageBlockSelect<T extends boolean = true> {
  * via the `definition` "ThemeShopSpacerBlock_select".
  */
 export interface ThemeShopSpacerBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
   size?: T;
   responsive?:
     | T
@@ -4037,6 +4352,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         themeShopHero?: T | ThemeShopHeroBlockSelect<T>;
+        themeShopHeroVideo?: T | ThemeShopHeroVideoBlockSelect<T>;
         themeShopCollectionShowcase?: T | ThemeShopCollectionShowcaseBlockSelect<T>;
         themeShopCtaFeature?: T | ThemeShopCTAFeatureBlockSelect<T>;
         themeShopGridShowcase?: T | ThemeShopGridShowcaseBlockSelect<T>;
@@ -5046,10 +5362,69 @@ export interface EcommerceSettings {
    * Allow customers to add notes to their orders
    */
   allowOrderNotes?: boolean | null;
-  /**
-   * Automatically confirm orders after successful payment
-   */
-  autoConfirmOrders?: boolean | null;
+  announcementBar?: {
+    enabled?: boolean | null;
+    showButtons?: boolean | null;
+    showSocial?: boolean | null;
+    autoRotate?: boolean | null;
+    direction?: ('scrollTop' | 'scrollLeft') | null;
+    speed?: number | null;
+    announcements?:
+      | {
+          text: string;
+          link?: {
+            type?: ('reference' | 'custom') | null;
+            /**
+             * Choose how the link size.
+             */
+            size?: ('xs' | 'sm' | 'default' | 'lg') | null;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null)
+              | ({
+                  relationTo: 'categories';
+                  value: string | Category;
+                } | null)
+              | ({
+                  relationTo: 'products';
+                  value: string | Product;
+                } | null)
+              | ({
+                  relationTo: 'collections';
+                  value: string | Collection;
+                } | null)
+              | ({
+                  relationTo: 'product-brands';
+                  value: string | ProductBrand;
+                } | null);
+            /**
+             * use {locale} to insert the current locale code into the URL
+             */
+            url?: string | null;
+            newTab?: boolean | null;
+            label?: string | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    socialLinks?:
+      | {
+          platform: 'facebook' | 'instagram' | 'x' | 'github' | 'youtube';
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -5281,6 +5656,62 @@ export interface Settings {
    * Format for displaying dates throughout the site (e.g., 'MMM dd, yyyy')
    */
   dateFormat?: string | null;
+  /**
+   * Default country code for phone number inputs (e.g., '+1' for USA)
+   */
+  defaultPhoneCountryCode?:
+    | (
+        | '+1'
+        | '+44'
+        | '+61'
+        | '+91'
+        | '+86'
+        | '+81'
+        | '+82'
+        | '+33'
+        | '+49'
+        | '+39'
+        | '+34'
+        | '+31'
+        | '+46'
+        | '+41'
+        | '+43'
+        | '+47'
+        | '+45'
+        | '+358'
+        | '+48'
+        | '+421'
+        | '+385'
+        | '+36'
+        | '+40'
+        | '+359'
+        | '+30'
+        | '+213'
+        | '+20'
+        | '+27'
+        | '+55'
+        | '+57'
+        | '+56'
+        | '+54'
+        | '+51'
+        | '+52'
+        | '+506'
+        | '+966'
+        | '+971'
+        | '+974'
+        | '+965'
+        | '+968'
+        | '+92'
+        | '+880'
+        | '+66'
+        | '+60'
+        | '+65'
+        | '+63'
+        | '+84'
+        | '+62'
+        | '+64'
+      )
+    | null;
   /**
    * Site favicon (.ico, .png, or .svg format, 32x32 pixels recommended)
    */
@@ -5689,7 +6120,40 @@ export interface EcommerceSettingsSelect<T extends boolean = true> {
   orderIdTemplate?: T;
   startOrderIdFrom?: T;
   allowOrderNotes?: T;
-  autoConfirmOrders?: T;
+  announcementBar?:
+    | T
+    | {
+        enabled?: T;
+        showButtons?: T;
+        showSocial?: T;
+        autoRotate?: T;
+        direction?: T;
+        speed?: T;
+        announcements?:
+          | T
+          | {
+              text?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    size?: T;
+                    appearance?: T;
+                    reference?: T;
+                    url?: T;
+                    newTab?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -5785,6 +6249,7 @@ export interface SettingsSelect<T extends boolean = true> {
   siteDescription?: T;
   siteKeywords?: T;
   dateFormat?: T;
+  defaultPhoneCountryCode?: T;
   favicon?: T;
   appleTouchIcon?: T;
   androidIcon?: T;

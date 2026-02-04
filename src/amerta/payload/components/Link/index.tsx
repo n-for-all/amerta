@@ -1,4 +1,3 @@
-
 import { cn } from "@/amerta/utilities/ui";
 import Link from "next/link";
 import React from "react";
@@ -24,22 +23,33 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     type,
     reference,
     url,
-    locale
+    locale,
   });
 
-  if (!href || href == "") return null;
+  if (!href || href == "") {
+    if (label || children) {
+      return (
+        <span className={className}>
+          {label}
+          {children}
+        </span>
+      );
+    }
+
+    return null;
+  }
 
   const size = sizeFromProps;
   const newTabProps = newTab ? { rel: "noopener noreferrer", target: "_blank" } : {};
 
   const scroll = href.startsWith("#") || href.startsWith("/#") ? false : undefined;
-  const urlWithLocale = locale ? (href || url)?.replace('{locale}', locale) : href || url;
+  const urlWithLocale = locale ? (href || url)?.replace("{locale}", locale) : href || url;
   /* Ensure we don't break any styles set by richText */
   if (appearance === "inline") {
     return (
       <Link scroll={scroll} className={cn(className)} href={urlWithLocale || ""} {...newTabProps}>
-        {label && label}
-        {children && children}
+        {label}
+        {children}
       </Link>
     );
   }
@@ -47,8 +57,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   return (
     <Button asChild className={className} size={size} variant={appearance}>
       <Link scroll={scroll} className={cn(className)} href={urlWithLocale || ""} {...newTabProps}>
-        {label && label.trim()}
-        {children && children}
+        {label}
+        {children}
       </Link>
     </Button>
   );

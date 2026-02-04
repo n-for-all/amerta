@@ -15,7 +15,8 @@ import { ThemeShopContactUsBlock } from "./general/ContactUs/config";
 import { ThemeShopContentBlock } from "./general/Content/config";
 import { ThemeShopImageBlock } from "./general/Image/config";
 import { ThemeShopSpacerBlock } from "./general/Spacer/config";
+import { ThemeShopHeroVideoBlock } from "./general/HeroVideo/config";
 
-const ThemeBlocks = [ThemeShopHero, ThemeShopCollectionShowcase, ThemeShopCTAFeatureBlock, ThemeShopGridShowcaseBlock, ThemeShopMediaBlock, ThemeShopBannerBlock, ThemeShopCodeBlock, ThemeShopCallToActionTextBlock, ThemeShopNewsletterBlock, ThemeShopCollectionArchive, ThemeShopFeaturesBlock, ThemeShopBenefitsBlock, ThemeShopBlogPostsBlock, ThemeShopContactUsBlock, ThemeShopContentBlock, ThemeShopImageBlock, ThemeShopSpacerBlock];
+const ThemeBlocks = [ThemeShopHero, ThemeShopHeroVideoBlock, ThemeShopCollectionShowcase, ThemeShopCTAFeatureBlock, ThemeShopGridShowcaseBlock, ThemeShopMediaBlock, ThemeShopBannerBlock, ThemeShopCodeBlock, ThemeShopCallToActionTextBlock, ThemeShopNewsletterBlock, ThemeShopCollectionArchive, ThemeShopFeaturesBlock, ThemeShopBenefitsBlock, ThemeShopBlogPostsBlock, ThemeShopContactUsBlock, ThemeShopContentBlock, ThemeShopImageBlock, ThemeShopSpacerBlock];
 
 export default ThemeBlocks;

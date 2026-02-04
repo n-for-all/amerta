@@ -12,20 +12,16 @@ const populateNavItems = async ({ doc, req }: { doc: MenuType; req?: any }) => {
         if (navItem.link) {
           const relationTo = navItem.link?.reference?.relationTo;
           const value = navItem.link?.reference?.value;
-          // Only populate if it's a relationship and has a value (ID)
+
           if (relationTo && value) {
             try {
-              // Use Payload's findByID operation to fetch the linked document
               const populatedDoc = await req.payload.findByID({
                 collection: relationTo,
                 id: value,
-                // You can limit the fields fetched if needed
-                // select: ['slug']
               });
 
               if (!populatedDoc) return null;
 
-              // Return the navItem with the 'value' replaced by the full populated document
               return {
                 ...navItem,
                 link: {
@@ -37,7 +33,6 @@ const populateNavItems = async ({ doc, req }: { doc: MenuType; req?: any }) => {
                 },
               };
             } catch (error) {
-              // Handle case where linked doc might be missing
               console.error(`Error populating ${relationTo} with ID ${value}:`, error);
               return null;
             }
@@ -81,6 +76,7 @@ export const Menu: CollectionConfig = {
     },
     ...slugField(),
     {
+      label: "Last Published On",
       name: "publishedOn",
       type: "date",
       admin: {
@@ -92,11 +88,8 @@ export const Menu: CollectionConfig = {
       },
       hooks: {
         beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === "published" && !value) {
-              return new Date();
-            }
-            return value;
+          () => {
+            return new Date();
           },
         ],
       },

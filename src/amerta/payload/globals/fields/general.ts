@@ -1,3 +1,4 @@
+import { COUNTRIES } from "@/amerta/constants";
 import { Field } from "payload";
 
 export const GeneralFields: Field[] = [
@@ -38,6 +39,19 @@ export const GeneralFields: Field[] = [
     defaultValue: "MMM dd, yyyy",
     admin: {
       description: "Format for displaying dates throughout the site (e.g., 'MMM dd, yyyy')",
+    },
+  },
+  {
+    name: "defaultPhoneCountryCode",
+    type: "select",
+    label: "Default Phone Country Code",
+    defaultValue: "+1",
+    options: COUNTRIES.map((country) => ({
+      label: `${country.name} (${country.code})`,
+      value: country.code,
+    })),
+    admin: {
+      description: "Default country code for phone number inputs (e.g., '+1' for USA)",
     },
   },
   {

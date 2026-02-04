@@ -6,20 +6,23 @@ import { type Order } from "@/payload-types";
 import { getMeCustomer } from "@/amerta/utilities/getMeCustomer";
 import { OrderAdmin } from "@/amerta/theme/components/Account/Order";
 import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
+import { cookies } from "next/headers";
 
 export default async function Order({ params }: { params: Promise<{ id: string; locale: string }> }) {
   const { id, locale } = await params;
-  const { token } = await getMeCustomer({
+  await getMeCustomer({
     nullUserRedirect: `${getURL("/login", locale)}?redirect=${encodeURIComponent(getURL(`/account/orders/${id}`, locale))}`,
   });
 
   let order: Order | null = null;
 
   try {
+    const cookieStore = await cookies();
     order = await fetch(`${getServerSideURL()}/api/orders/${id}`, {
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `JWT ${token}`,
+        Cookie: cookieStore.toString(),
       },
     })?.then(async (res) => {
       if (!res.ok) {

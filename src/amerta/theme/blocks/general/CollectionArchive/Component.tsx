@@ -38,7 +38,7 @@ export const ThemeShopCollectionArchive: React.FC<Props> = async ({ buttonPrimar
   }
 
   return (
-    <div className={cn("container mt-44", className)}>
+    <div className={cn("container mt-16 md:mt-44", className)}>
       <div className="flex flex-wrap items-center justify-between gap-6">
         {buttonPrimary && buttonPrimaryUrl ? (
           <Link href={buttonPrimaryUrl} className="relative isolate inline-flex shrink-0 items-center justify-center gap-x-2 rounded-full border uppercase px-5 py-3.5 sm:px-6 sm:py-4 text-sm/none border-zinc-900 text-zinc-950 hover:bg-zinc-950/[2.5%] dark:border-white/40 dark:text-white dark:hover:bg-white/5 transition-colors">
@@ -50,7 +50,7 @@ export const ThemeShopCollectionArchive: React.FC<Props> = async ({ buttonPrimar
             <RichText data={title} enableProse={false} enableGutter={false} />
           </h2>
         </div>
-        <p className="max-w-xs uppercase lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p>
+        <p className="max-w-xs lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p>
         <CollectionArchiveCarousel products={products} options={allOptions} locale={locale} />
       </div>
     </div>

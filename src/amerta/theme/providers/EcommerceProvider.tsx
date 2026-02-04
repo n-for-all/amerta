@@ -14,6 +14,7 @@ export interface EcommerceContextType {
   salesChannel: SalesChannel;
   exchangeRate: number;
   dictionary: Dictionary;
+  defaultPhoneCountryCode: string;
   __: (key: string, domain?: string) => string;
 }
 
@@ -24,23 +25,20 @@ interface EcommerceProviderProps {
   currency: Currency;
   salesChannel: SalesChannel;
   locale?: string;
+  defaultPhoneCountryCode?: string;
   dictionary?: Dictionary;
 }
 
-export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, currency, salesChannel, locale = "en", dictionary = {} }) => {
-  // 1. Refs to hold the queue
+export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, currency, salesChannel, locale = "en", defaultPhoneCountryCode = "+1", dictionary = {} }) => {
+
   const reportedKeys = useRef<Set<string>>(new Set());
   const pendingReports = useRef<Array<{ key: string; domain: string }>>([]);
-
-  // Reset cache on locale change
   useEffect(() => {
     reportedKeys.current.clear();
   }, [locale]);
 
-  // 2. The Translator (Collects missing keys)
   const __ = useCallback(
     (key: string, domain: string = "default") => {
-      // Step A: Check requested domain
       const domainValue = dictionary[domain]?.[key];
       if (domainValue) return domainValue;
 
@@ -95,6 +93,7 @@ export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, 
       salesChannel,
       exchangeRate,
       dictionary,
+      defaultPhoneCountryCode,
       __,
     }),
     [currency, locale, salesChannel, exchangeRate, dictionary, __],

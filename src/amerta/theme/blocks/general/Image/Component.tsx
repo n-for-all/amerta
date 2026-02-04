@@ -18,9 +18,9 @@ export const ThemeShopImageBlock: React.FC<
 
   // 2. Define Height Classes
   const heightClass = {
-    small: "min-h-[300px]",
-    medium: "min-h-[500px]",
-    large: "min-h-[700px]",
+    small: "md:min-h-[300px] min-h-[200px]",
+    medium: "md:min-h-[500px] min-h-[300px]",
+    large: "md:min-h-[700px] min-h-[500px]",
     screen: "min-h-screen",
   }[height || "medium"];
 

@@ -37,7 +37,7 @@ export const ThemeShopBlogPostsBlock: React.FC<Props> = async ({ buttonPrimary, 
   }
 
   return (
-    <div className={cn("container mt-44", className)}>
+    <div className={cn("container mt-16 md:mt-44", className)}>
       <div className="flex flex-wrap items-center justify-between gap-6">
         <div className="relative">
           <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">
@@ -50,7 +50,7 @@ export const ThemeShopBlogPostsBlock: React.FC<Props> = async ({ buttonPrimary, 
           </Link>
         ) : null}
 
-        <p className="max-w-xs uppercase lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p>
+        <p className="max-w-xs lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p>
         <BlogPostsCarousel posts={blogPosts} locale={locale} />
       </div>
     </div>

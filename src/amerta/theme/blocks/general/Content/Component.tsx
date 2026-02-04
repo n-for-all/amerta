@@ -14,7 +14,7 @@ export const ThemeShopContentBlock: React.FC<
   const { columns, removeContainer, locale } = props;
 
   return (
-    <div className={removeContainer ? "" : "relative mx-auto prose lg:prose-xl max-w-7xl perspective-distant gap-4 lg:px-0 grid md:grid-cols-12"}>
+    <div className={removeContainer ? "" : "relative mx-auto prose lg:prose-xl max-w-7xl perspective-distant px-4 gap-4 md:px-0 grid md:grid-cols-12"}>
       {columns &&
         columns.length > 0 &&
         columns.map((col, index) => {

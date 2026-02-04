@@ -685,6 +685,9 @@ export function AddressManager({
     return country?.name || __("Unknown");
   };
 
+  if(!customerId){
+    return null;
+  }
   return (
     <div>
       <div className="">

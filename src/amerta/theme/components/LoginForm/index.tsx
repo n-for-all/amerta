@@ -204,7 +204,7 @@ const LoginForm: React.FC<{
                         <Input {...field} type="password" autoComplete="current-password" placeholder="••••••••" />
                       </FormControl>
                       <FormMessage />
-                      <Link className="block text-xs text-blue-600 hover:underline" href={getURL(`/recover-password${allParams.trim() ? `?` : ""}${allParams}`, locale)}>
+                      <Link className="block text-xs text-blue-600 dark:text-blue-400 hover:underline" href={getURL(`/recover-password${allParams.trim() ? `?` : ""}${allParams}`, locale)}>
                         {__("Forget password?")}
                       </Link>
                     </FormItem>

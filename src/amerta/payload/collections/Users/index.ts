@@ -8,6 +8,7 @@ import { ensureFirstUserIsAdmin } from "./hooks/ensureFirstUserIsAdmin";
 import { loginAfterCreate } from "./hooks/loginAfterCreate";
 import validateBeforeChange from "./hooks/validateBeforeChange";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 const Users: CollectionConfig = {
   slug: "users",

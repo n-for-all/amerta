@@ -32,11 +32,8 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-//get the host from .env if production and .env.development if development
 const url = process.env.NEXT_PUBLIC_SERVER_URL;
 const host = new URL(url).host;
-
-//make this false to disable source maps in production builds
 const allowSourceMaps = process.env.NODE_ALLOW_SOURCE_MAPS === "true";
 
 const nextConfig = (phase, { defaultConfig }) => {
@@ -46,15 +43,22 @@ const nextConfig = (phase, { defaultConfig }) => {
     withPayload(
       {
         async rewrites() {
-          return [
-            {
-              source: "/manifest.json",
-              destination: "/manifest.webmanifest",
-            },
-          ];
+          return {
+            beforeFiles: [],
+            afterFiles: [
+              {
+                source: "/((?!api/).*)\\.(ico|png|jpg|jpeg|svg|css|js|map)",
+                destination: "/api/404",
+              },
+              {
+                source: "/manifest.json",
+                destination: "/manifest.webmanifest",
+              },
+            ],
+            fallback: [],
+          };
         },
         webpack: (config, { isServer, dev }) => {
-          // Only add logger in development
           if (dev && !isServer) {
             config.plugins.push(new LogPlugin());
           }
@@ -71,8 +75,8 @@ const nextConfig = (phase, { defaultConfig }) => {
           serverActions: {
             bodySizeLimit: "5mb",
           },
-          serverSourceMaps: !isProdBuild || allowSourceMaps,
-          optimizePackageImports: ["lucide-react", "@hugeicons"],
+          serverSourceMaps: allowSourceMaps,
+          optimizePackageImports: ["lucide-react"],
         },
         env: {
           PAYLOAD_CORE_DEV: "true",

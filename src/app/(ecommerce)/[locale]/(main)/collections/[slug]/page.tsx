@@ -120,7 +120,7 @@ export default async function CollectionPage({ params, searchParams }: { params:
                   return <ProductCard key={product.id} product={product} locale={locale} options={allOptions} />;
                 })}
               </div>
-              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/collections/${slug}`, locale)} />
+              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/collections/${slug}`, locale)} locale={locale} />
             </section>
           )}
         </div>

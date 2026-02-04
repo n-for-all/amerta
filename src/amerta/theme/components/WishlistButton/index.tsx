@@ -5,6 +5,7 @@ import { Heart } from "lucide-react";
 import { Button } from "@/amerta/theme/ui/button";
 import { Product } from "@/payload-types";
 import { cn } from "@/amerta/utilities/ui";
+import { useEcommerce } from "../../providers/EcommerceProvider";
 
 interface WishlistButtonProps {
   product: Product;
@@ -17,6 +18,7 @@ interface WishlistButtonProps {
 export const WishlistButton = ({ product, variant = "ghost", className, iconClassName, showText = false }: WishlistButtonProps) => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const {__} = useEcommerce();
 
   // Check if product is in wishlist on mount
   useEffect(() => {
@@ -105,13 +107,14 @@ export const WishlistButton = ({ product, variant = "ghost", className, iconClas
       onClick={toggleWishlist}
       disabled={isLoading}
       className={cn("relative", className)}
-      title={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+      tooltip={isInWishlist ? __("Remove from wishlist") : __("Add to wishlist")}
+      title={isInWishlist ? __("Remove from wishlist") : __("Add to wishlist")}
     >
       <Heart
         strokeWidth={1.5}
         className={cn("w-4 h-4 transition-all", iconClassName, isInWishlist && "fill-current text-red-500")}
       />
-      {showText && <span className="ml-2">{isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}</span>}
+      {showText && <span className="ml-2">{isInWishlist ? __("Remove from Wishlist") : __("Add to Wishlist")}</span>}
     </Button>
   );
 };

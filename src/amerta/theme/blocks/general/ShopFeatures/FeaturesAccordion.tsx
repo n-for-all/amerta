@@ -1,17 +1,11 @@
 "use client";
 
-import React from "react";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import RichText from "@/amerta/theme/components/RichText";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { ThemeShopFeaturesBlock as FeaturesBlockProps } from "@/payload-types";
 
-type FeatureItem = {
-  id?: string | null;
-  title?: string;
-  description?: any;
-};
-
-export const FeaturesAccordion = ({ items }: { items: FeatureItem[] }) => {
+export const FeaturesAccordion = ({ items }: { items: FeaturesBlockProps["features"] }) => {
   const { locale } = useEcommerce();
   return (
     <dl className="divide-y divide-zinc-900/10 dark:divide-white/10">
@@ -36,7 +30,7 @@ export const FeaturesAccordion = ({ items }: { items: FeatureItem[] }) => {
                 </DisclosureButton>
               </dt>
               <DisclosurePanel className="mt-3">
-                <div className="max-w-sm uppercase text-zinc-600 dark:text-zinc-400 text-sm/6">
+                <div className="max-w-sm text-zinc-600 dark:text-zinc-400 text-sm/6">
                   <RichText data={item.description} enableProse={false} enableGutter={false} locale={locale} />
                 </div>
               </DisclosurePanel>

@@ -14,9 +14,9 @@ export default async function AccountLayout({ children, params }: { children: Re
     <div className="container">
       <div className="w-full">
         <h2 className="mt-8 mb-4 text-2xl font-semibold sr-only">My Account</h2>
-        <div className="flex items-start mx-auto">
+        <div className="flex flex-col items-start mx-auto md:flex-row">
           <AccountSidebar locale={locale} />
-          <main className="flex-1 py-8 pl-8 border-l border-border min-h-[500px] border-zinc-200 dark:border-zinc-800 rtl:pl-0 rtl:pr-8 rtl:border-l-0 rtl:border-r"> {children}</main>
+          <main className="flex-1 w-full md:py-8 md:pl-8 md:border-l md:border-border min-h-[500px] md:border-zinc-200 dark:md:border-zinc-800 rtl:md:pl-0 rtl:md:pr-8 rtl:md:border-l-0 rtl:md:border-r"> {children}</main>
         </div>
       </div>
     </div>

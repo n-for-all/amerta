@@ -105,11 +105,11 @@ export default function Wishlist({ className }: { className?: string }) {
 
   return (
     <Popover className="relative inline-flex items-center">
-      <PopoverButton className={cn("inline-flex cursor-pointer text-left items-center justify-center p-2.5 relative focus:outline-none focus:ring-0", className)}>
+      <PopoverButton className={cn("inline-flex cursor-pointer text-left items-center justify-center p-1 md:p-2.5 relative focus:outline-none focus:ring-0", className)}>
         <Heart className="w-6 h-6" strokeWidth={1} />
-        {!loading && itemCount > 0 && <span className="text-xs font-semibold leading-none ms-1">({itemCount})</span>}
+        {!loading && itemCount > 0 && <span className="text-xs font-semibold leading-none">({itemCount})</span>}
       </PopoverButton>
-      <PopoverPanel className="absolute right-0 z-50 mt-2 bg-white border rounded shadow-xl rtl:left-0 rtl:right-auto top-full w-96 border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700">
+      <PopoverPanel className="absolute right-0 z-50 mt-2 bg-white border rounded shadow-xl max-w-56 md:max-w-none rtl:left-0 rtl:right-auto top-full w-96 border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700">
         <div className="flex flex-col max-h-[600px]">
           {}
           {error && (

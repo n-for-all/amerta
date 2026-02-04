@@ -104,7 +104,7 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
 
   return (
     <div className="flex flex-wrap justify-between gap-4">
-      <div className="flex gap-2.5 items-center">
+      <div className="flex gap-2.5 items-center justify-center w-full sm:w-auto">
         <p className="uppercase text-zinc-500 text-sm/6">{printf(__("%s products"), currentProductCount)}</p>
         <p className="uppercase text-zinc-300 text-sm/6">/</p>
         <p className="uppercase text-zinc-500 text-sm/6">{printf(__("%s total"), totalProducts)}</p>
@@ -127,9 +127,9 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
         </FilterDropdown>
       </div>
 
-      <div className="ml-auto">
+      <div className="mx-auto md:ml-auto md:mr-0">
         <Button className="inline-flex items-center sm:hidden">
-          <span className="text-sm font-medium uppercase text-zinc-700 dark:text-zinc-300">{__("Filters")}</span>
+          {__("Filters")}
           <Filter className="flex-shrink-0 w-4 h-4" />
         </Button>
 
