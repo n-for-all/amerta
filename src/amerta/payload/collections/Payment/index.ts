@@ -2,6 +2,7 @@ import { admins } from "@/amerta/access/admins";
 import { CollectionConfig } from "payload";
 import { PaymentMethods } from "./PaymentMethods";
 import { executeWebhook } from "./PaymentMethods/handlers/execute-webhook";
+import { executePaymentMethodCallback } from "./PaymentMethods/handlers/execute-payment-method-callback";
 
 export const Payments: CollectionConfig = {
   slug: "payments",
@@ -30,7 +31,7 @@ export const Payments: CollectionConfig = {
           type: "number",
           required: true,
           admin: {
-            description: "Amount paid in the payment currency",
+            description: "Amount paid in the customer currency",
           },
         },
         {
@@ -39,7 +40,7 @@ export const Payments: CollectionConfig = {
           type: "relationship",
           required: true,
           admin: {
-            description: "Currency used for this payment",
+            description: "Customer currency used for this payment",
           },
         },
       ],
@@ -101,6 +102,11 @@ export const Payments: CollectionConfig = {
     },
   ],
   endpoints: [
+    {
+      path: "/action/:locale/:orderId/callback", 
+      method: "get",
+      handler: executePaymentMethodCallback,
+    },
     {
       path: "/:name/webhook",
       method: "post",

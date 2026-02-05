@@ -84,7 +84,7 @@ export const AnnouncementBar: React.FC<Props> = (props) => {
   if (!hasAnnouncements) return null;
 
   return (
-    <div className="relative z-50 w-full text-xs text-white bg-black dark:bg-zinc-800 md:text-sm">
+    <div className="relative z-10 w-full text-xs text-white bg-black dark:bg-zinc-800 md:text-sm">
       <div className={`w-full h-10 container mx-auto grid gap-4 items-center ${gridClass}`}>
         {hasSocials && (<div></div>)}
         <div className="relative flex items-center justify-center w-full h-full overflow-hidden">

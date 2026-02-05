@@ -1,9 +1,10 @@
 "use client";
 
+import { confirmPayment } from "../utils/confirm-payment";
 import { PaymentGatewayProps } from "./types";
 import { useImperativeHandle, useState } from "react";
 
-export function MamoPayment({ currencyCode, amount, paymentRef, method }: PaymentGatewayProps) {
+export function MamoPayment({ currencyCode, amount, paymentRef, method, locale }: PaymentGatewayProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useImperativeHandle(paymentRef, () => ({
@@ -15,33 +16,18 @@ export function MamoPayment({ currencyCode, amount, paymentRef, method }: Paymen
       return true;
     },
 
-    confirm: async (paymentMethodId, billingAddress, orderId, redirectTo) => {
+    confirm: async (orderId) => {
       setErrorMessage(null);
 
       try {
-        const response = await fetch("/api/payment-method/action", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "createPaymentLink",
-            orderId: orderId,
-            amount: amount,
-            currencyCode: currencyCode,
-            redirectTo: redirectTo,
-            paymentMethodId: paymentMethodId,
-            billingAddress: billingAddress,
-          }),
-        });
+        const { error, redirectTo } = await confirmPayment(orderId, locale);
 
-        const data = await response.json();
-
-        if (data.error) {
-          throw new Error(data.error);
+        if (error) {
+          throw new Error(error);
         }
 
-        if (data.result?.paymentUrl) {
-          window.location.href = data.result.paymentUrl;
-
+        if (redirectTo) {
+          window.location.href = redirectTo;
           return new Promise(() => {});
         } else {
           throw new Error("No payment URL returned from Mamo.");
@@ -57,7 +43,7 @@ export function MamoPayment({ currencyCode, amount, paymentRef, method }: Paymen
   return (
     <>
       {method.publicDescription ? (
-        <div className="p-4 border rounded-md bg-zinc-50 border-zinc-200">
+        <div className="p-4 border rounded-b-md bg-zinc-50 border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800">
           <div className="flex items-center gap-3">
             <div className="flex-1">
               <p className="mt-1 text-xs text-zinc-500">{method.publicDescription}</p>

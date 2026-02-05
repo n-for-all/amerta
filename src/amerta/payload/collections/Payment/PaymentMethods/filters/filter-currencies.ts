@@ -11,8 +11,6 @@ export const filterCurrencies: FilterOptions = async ({ data, req }) => {
     };
   }
 
-  console.log("Filtering currencies for sales channels:", selectedChannelIds);
-
   try {
     const channels = await req.payload.find({
       collection: "sales-channel",
@@ -22,8 +20,6 @@ export const filterCurrencies: FilterOptions = async ({ data, req }) => {
       depth: 1,
       limit: 100,
     });
-
-    console.log("Found sales channels:", channels.docs[0]);
 
     const allowedCurrencyIds = channels.docs.flatMap((doc) => {
       return doc.currencies.map((c) => (typeof c.currency === "string" ? c.currency : c.currency!.id));

@@ -19,10 +19,11 @@ interface PaymentsProps {
   onError: (msg: string) => void;
   onValid: () => void;
   countryCode?: string;
+  locale: string;
 }
 
 // 1. Wrap in forwardRef to expose the handle
-export const Payments = forwardRef<PaymentHandle, PaymentsProps>(({ control, name, paymentMethods, orderId, amount, currencyCode, onError, onValid, countryCode }, ref) => {
+export const Payments = forwardRef<PaymentHandle, PaymentsProps>(({ control, name, paymentMethods, orderId, amount, currencyCode, onError, onValid, countryCode, locale }, ref) => {
   if (!paymentMethods?.length) {
     return (
       <div className="p-4 mt-6 border border-yellow-200 rounded-lg bg-yellow-50">
@@ -42,12 +43,12 @@ export const Payments = forwardRef<PaymentHandle, PaymentsProps>(({ control, nam
               {paymentMethods.map((method) => {
                 const isSelected = field.value === method.id;
                 return (
-                  <div key={method.id} className={`border rounded-lg transition-all overflow-hidden ${isSelected ? "border-black ring-1 ring-black" : "border-zinc-200 hover:border-zinc-300"}`}>
-                    <RadioField onClick={() => field.onChange(method.id)} className="flex items-center w-full gap-4 p-4 bg-white cursor-pointer">
+                  <div key={method.id} className={`border rounded-lg transition-all overflow-hidden ${isSelected ? "border-black ring-1 ring-black dark:ring-white/20 dark:border-white/20" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700"}`}>
+                    <RadioField onClick={() => field.onChange(method.id)} className="flex items-center w-full gap-4 p-4 bg-white cursor-pointer dark:bg-zinc-900">
                       <Radio value={method.id} className="self-start w-4 h-4 mt-1 rtl:self-end" />
 
                       <div className="flex-1 text-left rtl:text-right">
-                        <span className="block text-sm font-semibold text-zinc-950">{method.label}</span>
+                        <span className="block text-sm font-semibold">{method.label}</span>
                       </div>
 
                       {method.icons && method.icons.length > 0 && (
@@ -64,7 +65,7 @@ export const Payments = forwardRef<PaymentHandle, PaymentsProps>(({ control, nam
                         </div>
                       )}
                     </RadioField>
-                    {isSelected && <PaymentMethodRenderer ref={ref} method={method} orderId={orderId} amount={amount || 0} currencyCode={currencyCode} onError={onError} countryCode={countryCode} onValid={onValid} />}
+                    {isSelected && <PaymentMethodRenderer ref={ref} method={method} orderId={orderId} amount={amount || 0} currencyCode={currencyCode} onError={onError} countryCode={countryCode} onValid={onValid} locale={locale} />}
                   </div>
                 );
               })}

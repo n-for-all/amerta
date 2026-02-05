@@ -7,6 +7,7 @@ import { saveAdapterSettings } from "./hooks/save-adapter-settings";
 import { filterCurrencies } from "./filters/filter-currencies";
 import { preventDuplicate } from "./hooks/prevent-duplicate";
 import { camelSlug } from "@/amerta/utilities/camelSlug";
+import { executePaymentMethodConfirm } from "./handlers/execute-payment-method-confirm";
 
 export const PaymentMethods: CollectionConfig = {
   slug: "payment-method",
@@ -154,6 +155,11 @@ export const PaymentMethods: CollectionConfig = {
       path: "/action",
       method: "post",
       handler: executePaymentMethodAction,
+    },
+    {
+      path: "/confirm",
+      method: "post",
+      handler: executePaymentMethodConfirm,
     },
   ],
 };

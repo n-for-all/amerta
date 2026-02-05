@@ -202,7 +202,6 @@ const Customers: CollectionConfig = {
     update: adminsAndCustomer,
     delete: admins,
     admin: () => {
-      console.log("Admin access check for Customers collection");
       return false;
     },
   },

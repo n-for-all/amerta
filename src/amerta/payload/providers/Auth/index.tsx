@@ -4,7 +4,6 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { User, Customer } from "@/payload-types"; // Ensure you import Customer type if available
 import { getErrorMessage } from "@/amerta/theme/utilities/get-error-message";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
-import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";
 
 type UserWithVerified = (User & { verified: boolean }) | (Customer & { verified: boolean });
 type ResetPassword = (args: { password: string; passwordConfirm: string; token: string }) => Promise<void>;

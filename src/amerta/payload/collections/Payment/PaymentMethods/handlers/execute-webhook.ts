@@ -17,7 +17,6 @@ export const executeWebhook = async (req: PayloadRequest) => {
   if(!adapter.handleWebhook) {
     return new Response(`Webhook handler not implemented for '${name}'`, { status: 501 });
   }
-  console.log(`Executing webhook for payment adapter: ${name}`);
 
   try {
     return await adapter.handleWebhook(req);

@@ -41,7 +41,7 @@ async function listModels() {
       .filter((m) => m.supportedGenerationMethods.includes("generateContent"))
       .map((m) => m.name.replace("models/", ""));
 
-    console.log(models.join("\n"));
+    return models;
   } catch (err) {
     console.error("Failed to fetch models:", err);
   }

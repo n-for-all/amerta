@@ -4,10 +4,10 @@ import { PaymentHandle } from "../Payment/gateways/types";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutFormValues } from ".";
 
-export const PaymentMethods = ({ form, paymentMethods, total, currency, paymentMethodRef, exchangeRate }: { form: UseFormReturn<CheckoutFormValues>; paymentMethods: PaymentMethod[]; total: number; currency: { code?: string | null }; paymentMethodRef: React.RefObject<PaymentHandle | null>; exchangeRate: number }) => {
+export const PaymentMethods = ({ form, paymentMethods, total, currency, paymentMethodRef, exchangeRate, locale }: { form: UseFormReturn<CheckoutFormValues>; paymentMethods: PaymentMethod[]; total: number; currency: { code?: string | null }; paymentMethodRef: React.RefObject<PaymentHandle | null>; exchangeRate: number; locale: string }) => {
   return (
-    <div className="pt-10 mt-10 border-t border-zinc-200">
-      <h3 className="text-2xl font-medium text-zinc-950">
+    <div className="pt-10 mt-10 border-t border-zinc-200 dark:border-zinc-800">
+      <h3 className="text-2xl font-medium">
         <span className="font-serif italic">Payment</span> method
       </h3>
       {paymentMethods && paymentMethods.length > 0 ? (
@@ -31,6 +31,7 @@ export const PaymentMethods = ({ form, paymentMethods, total, currency, paymentM
           }}
           ref={paymentMethodRef}
           countryCode={form.getValues("country")}
+          locale={locale}
         />
       ) : (
         <div className="p-4 mt-10 border border-yellow-200 rounded-lg bg-yellow-50">

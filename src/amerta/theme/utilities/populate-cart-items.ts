@@ -24,6 +24,7 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
               quantity: true,
               variants: true,
               images: true,
+              _status: true,
             },
           });
 

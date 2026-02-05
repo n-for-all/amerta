@@ -139,8 +139,6 @@ export const submitReview = async (req: PayloadRequest) => {
       console.log("⊘ Review notifications not enabled or no email addresses configured");
     }
 
-    console.log("=== FORM SUBMISSION COMPLETE ===\n");
-
     return Response.json(
       {
         success: true,

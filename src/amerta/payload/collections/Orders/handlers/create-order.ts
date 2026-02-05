@@ -3,7 +3,6 @@ import { getPaymentAdapter } from "@/amerta/payments";
 import { orderSubmissionSchema } from "@/amerta/theme/types/order-submission";
 import { calculateShippingById } from "@/amerta/theme/utilities/calculate-shipping-by-id";
 import { calculateTax } from "@/amerta/theme/utilities/calculate-tax";
-import { createOrderKey } from "@/amerta/theme/utilities/create-order-key";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { getCurrentCurrency } from "@/amerta/theme/utilities/get-current-currency";
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
@@ -173,11 +172,11 @@ export const createOrder = async (req: PayloadRequest) => {
 
     const tax = await calculateTax(address.country!, cart.total);
     const total = cart.total + tax.taxAmount + shipping.total;
-    const originalCartTotal = total;
-    const computedCartTotal = originalCartTotal * Number(exchangeRate || 1);
+    const computedCartTotal = total * Number(exchangeRate || 1);
 
-    if (originalCartTotal.toFixed(1) != validationData.cartTotal.toFixed(1)) {
-      return NextResponse.json({ error: `Cart total ${computedCartTotal.toFixed(1)} ${validationData.cartTotal.toFixed(1)} has changed, Please review your order before placing it or reload the page to update the changes.` }, { status: 400 });
+    if (total.toFixed(1) != validationData.cartTotal.toFixed(1)) {
+      console.error("Cart total mismatch. Computed total:", tax.taxAmount, shipping.total, cart.total);
+      return NextResponse.json({ error: `Cart total ${total.toFixed(1)} ${validationData.cartTotal.toFixed(1)} has changed, Please review your order before placing it or reload the page to update the changes.` }, { status: 400 });
     }
 
     if (total <= 0) {
@@ -240,9 +239,11 @@ export const createOrder = async (req: PayloadRequest) => {
     if (cart.items.length !== items.length) {
       const unavailableProducts = cart.items
         .filter((item) => {
-          const product = productsMap[(item.product as Product).id];
-          console.log("Checking product:", product?.title, "with variant options:", item.variantOptions, "and quantity:", item.quantity, "In stock:", product ? isInStock(product, item.variantOptions, item.quantity || 1) : "Product not found");
-          return !product || !isInStock(product, item.variantOptions, item.quantity || 1);
+          const populatedProduct = typeof item.product === "string" ? null : item.product;
+          if (!populatedProduct || populatedProduct._status !== "published") {
+            return true;
+          }
+          return !populatedProduct || !isInStock(populatedProduct, item.variantOptions, item.quantity || 1);
         })
         .map((item) => {
           const product = productsMap[(item.product as Product).id];
@@ -311,8 +312,7 @@ export const createOrder = async (req: PayloadRequest) => {
       },
     });
 
-    const orderKey = await createOrderKey(order);
-    return NextResponse.json({ success: true, orderKey, id: order.id, billingAddress: order.billingAddress });
+    return NextResponse.json({ success: true, id: order.id });
   } catch (error) {
     console.error("Error in /orders/create endpoint:", error);
     return NextResponse.json({ error: "An unexpected error occurred." }, { status: 500 });

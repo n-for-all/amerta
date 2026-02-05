@@ -5,6 +5,7 @@ import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { PaymentHandle } from "../types";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 import { Country } from "@/payload-types";
+import { confirmPayment } from "../../utils/confirm-payment";
 
 interface Props {
   paymentRef: React.Ref<PaymentHandle>;
@@ -14,9 +15,10 @@ interface Props {
   countryCode?: string;
   currencyCode?: string;
   amount?: number;
+  paymentMethodId: string;
 }
 
-export function CheckoutForm({ paymentRef, currencyCode, amount, countryCode, onError, clientSecret, onValid }: Props) {
+export function CheckoutForm({ paymentRef, currencyCode, amount, countryCode, onError, clientSecret, onValid, paymentMethodId }: Props) {
   const stripe = useStripe();
   const elements = useElements();
   const { locale } = useEcommerce();
@@ -35,7 +37,7 @@ export function CheckoutForm({ paymentRef, currencyCode, amount, countryCode, on
       return true;
     },
 
-    confirm: async (paymentMethodId, billingAddress, orderId: string, redirectTo: string) => {
+    confirm: async (orderId: string) => {
       if (!stripe || !elements) return;
       const paymentIntentId = clientSecret.split("_secret_")[0];
       const { error: actionError } = await fetch("/api/payment-method/action", {
@@ -48,18 +50,28 @@ export function CheckoutForm({ paymentRef, currencyCode, amount, countryCode, on
           amount: amount,
           currencyCode: currencyCode,
           paymentIntentId: paymentIntentId,
-          paymentMethodId: paymentMethodId,
+          paymentMethodId,
         }),
       }).then((res) => res.json());
 
-      console.log("Action Error:", actionError);
-      if (actionError) throw new Error("Failed to create stripe payment");
+      if (actionError) {
+        console.error("Failed to update payment intent:", actionError);
+        throw new Error("Failed to create stripe payment");
+      }
 
-      const { error } = await stripe.confirmPayment({
+      //!call the confirm payment just to get the redirect url and billing address, stripe will handle the rest in the frontend and webhook will update the order status and payment transaction.
+      const { error, redirectTo, billingAddress } = await confirmPayment(orderId, locale);
+
+      if (error) {
+        onError(error);
+        throw new Error(error);
+      }
+
+      const { error: stripeError } = await stripe.confirmPayment({
         elements,
         clientSecret,
         confirmParams: {
-          return_url: redirectTo,
+          return_url: redirectTo!,
           payment_method_data: {
             billing_details: {
               address: {
@@ -71,10 +83,12 @@ export function CheckoutForm({ paymentRef, currencyCode, amount, countryCode, on
         },
       });
 
-      if (error) {
-        onError(error.message || "Payment failed");
+      if (stripeError) {
+        onError(stripeError.message || "Payment failed");
         throw error;
       }
+
+      return new Promise(() => {});
     },
   }));
 

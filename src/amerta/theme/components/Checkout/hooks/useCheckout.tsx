@@ -55,7 +55,7 @@ export const CheckoutContext = createContext<{
   loadingDeliveryMethods: boolean;
   locale: string;
   paymentMethodRef: React.MutableRefObject<PaymentHandle | null>;
-} | null>(null);
+}>({} as any);
 
 interface UseCheckoutProps {
   cart: CartWithCalculations | null;
@@ -320,9 +320,7 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
       }
 
       if (responseData.id) {
-        await paymentMethodRef.current.confirm(watchPaymentMethodId, responseData.billingAddress, responseData.id, getURL(`/checkout/order-received/${responseData.orderKey}`, locale));
-      } else if (responseData.orderKey) {
-        router.push(getURL(`/checkout/order-received/${responseData.orderKey}`, locale));
+        await paymentMethodRef.current.confirm(responseData.id);
       } else {
         form.setError("root", { message: "Failed to create order" });
       }

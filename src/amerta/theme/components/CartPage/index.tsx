@@ -206,36 +206,36 @@ export default function CartPage() {
         </section>
 
         {/* Order Summary Section */}
-        <section aria-labelledby="summary-heading" className="px-4 py-6 mt-16 border rounded border-zinc-900/10 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 bg-zinc-50 dark:bg-zinc-900/50">
+        <section aria-labelledby="summary-heading" className="px-4 py-6 mt-16 border rounded border-zinc-900/10 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 bg-zinc-50 dark:bg-zinc-900">
           <h3 className="text-2xl font-medium">{__("Order summary")}</h3>
-          <CouponForm showLabel={false} cart={cart} onCartUpdate={setCart} currency={currency} className={"border-t border-b mt-6 border-zinc-200 py-4 bg-zinc-50 mb-0"} />
+          <CouponForm showLabel={false} cart={cart} onCartUpdate={setCart} currency={currency} className={"border-t border-b mt-6 border-zinc-200 py-4 bg-zinc-50 mb-0 dark:border-zinc-700 dark:bg-zinc-900"} />
 
           <dl className="mt-8 space-y-5">
             <div className="flex items-center justify-between">
               <dt className="text-sm font-medium uppercase text-zinc-600">{__("Subtotal")}</dt>
-              <dd className="text-sm font-medium text-zinc-900">{formatPrice(cart.subtotal || 0, currency, exchangeRate)}</dd>
+              <dd className="text-sm font-medium">{formatPrice(cart.subtotal || 0, currency, exchangeRate)}</dd>
             </div>
-            <hr className="w-full border-t border-zinc-950/10" />
+            <hr className="w-full border-t border-zinc-950/10 dark:border-zinc-700/50" />
             <>
               <div className="flex items-center justify-between text-green-600">
                 <dt className="text-sm font-medium uppercase">{__("Discount")}</dt>
                 <dd className="text-sm font-medium">-{formatPrice(cart.discount || 0, currency, exchangeRate)}</dd>
               </div>
-              <hr className="w-full border-t border-zinc-950/10" />
+              <hr className="w-full border-t border-zinc-950/10 dark:border-zinc-700/50" />
             </>
             <div className="flex items-center justify-between pt-4">
-              <dt className="text-base font-bold uppercase text-zinc-900">{__("Order total")}</dt>
-              <dd className="text-base font-bold uppercase text-zinc-900">{formatPrice(cart.total || 0, currency, exchangeRate)}</dd>
+              <dt className="text-base font-bold uppercase">{__("Order total")}</dt>
+              <dd className="text-base font-bold uppercase">{formatPrice(cart.total || 0, currency, exchangeRate)}</dd>
             </div>
           </dl>
           <div className="mt-10">
-            <Link href={getURL(`/checkout`, locale)} className="block w-full text-center font-medium rounded-full border border-zinc-900 bg-zinc-900 px-5 py-3.5 sm:px-6 sm:py-4 text-sm text-white hover:bg-zinc-800 transition-colors">
+            <Link href={getURL(`/checkout`, locale)} className="block w-full text-center font-medium rounded-full border border-zinc-900 bg-zinc-900 px-5 py-3.5 sm:px-6 sm:py-4 text-sm text-white hover:bg-zinc-800 transition-colors dark:border-white dark:bg-white dark:text-zinc-900 dark:hover:bg-white/90">
               {__("Checkout")}
             </Link>
 
-            <div className="flex justify-center mt-4 text-sm text-center text-zinc-500">
+            <div className="flex justify-center mt-4 text-sm text-center text-zinc-500 dark:text-zinc-400">
               <span className="text-xs">
-                {__("or")} <Link href={getURL(`/collections`, locale)} className="text-xs font-medium uppercase text-zinc-900 hover:underline">
+                {__("or")} <Link href={getURL(`/collections`, locale)} className="text-xs font-medium uppercase text-zinc-900 hover:underline dark:text-white">
                   {__("Continue Shopping →")}
                 </Link>
               </span>

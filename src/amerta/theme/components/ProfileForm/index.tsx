@@ -45,7 +45,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const ProfileForm: React.FC = () => {
   const { user, setUser } = useAuth();
-  const { locale, __ } = useEcommerce();
+  const { locale, __, defaultPhoneCountryCode } = useEcommerce();
   const toast = useToast();
 
   const form = useForm<FormData>({
@@ -115,7 +115,7 @@ const ProfileForm: React.FC = () => {
         email: user.email,
         firstName: (user as Customer).firstName || "",
         lastName: (user as Customer).lastName || "",
-        phoneCountryCode: (user as Customer).phoneCountryCode || "+1",
+        phoneCountryCode: (user as Customer).phoneCountryCode || defaultPhoneCountryCode || "+1",
         phone: (user as Customer).phone || undefined,
         password: "",
         passwordConfirm: "",

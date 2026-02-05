@@ -4,8 +4,9 @@ import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
 import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
 import { getOrderById } from "@/amerta/theme/utilities/get-order-by-id";
-import { getServerSideURL } from "@/amerta/utilities/getURL";
-import { createPayment } from "@/amerta/theme/utilities/create-payment";
+import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
+import { savePayment } from "@/amerta/theme/utilities/save-payment";
+import { Customer, Payment, PaymentMethod } from "@/payload-types";
 
 export const MamoPayAdapter: PaymentAdapter = {
   slug: "mamo-pay",
@@ -177,7 +178,7 @@ export const MamoPayAdapter: PaymentAdapter = {
         return new Response(JSON.stringify({ received: true, message: "Duplicate" }), { status: 200 });
       }
 
-      await createPayment({
+      await savePayment({
         orderId: orderId,
         transactionId: transactionId,
         gateway: "mamo-pay",
@@ -200,6 +201,147 @@ export const MamoPayAdapter: PaymentAdapter = {
     }
 
     return new Response(JSON.stringify({ received: true }), { status: 200 });
+  },
+
+  async callback(req: any, order: any) {
+    const { payload } = req;
+
+    // 1. Extract Data from GET Request (URL Params)
+    // We only trust the IDs here, NOT the status.
+    const url = new URL(req.url); // Assuming this is passed from the handler
+    const params = url.searchParams;
+
+    // Mamo usually sends 'chargeUID' or 'transactionId'
+    const transactionId = params.get("transactionId") || params.get("chargeUID");
+
+    if (!transactionId) {
+      console.error("Mamo Callback: Missing transaction ID");
+      return { success: false };
+    }
+
+    // ------------------------------------------------------------
+    // 2. SECURITY CHECK: Verify with Mamo API
+    // ------------------------------------------------------------
+    const paymentMethod = order.paymentMethod as PaymentMethod;
+    // Assuming you store your API Key in the payment method settings or ENV
+    const apiKey = paymentMethod.mamoPaySettings?.testMode ? paymentMethod.mamoPaySettings?.testApiKey : paymentMethod.mamoPaySettings?.liveApiKey || process.env.MAMO_API_KEY;
+    const isTestMode = paymentMethod.mamoPaySettings?.testMode;
+    const baseUrl = isTestMode ? "https://sandbox.dev.business.mamopay.com/manage_api/v1" : "https://business.mamopay.com/manage_api/v1";
+
+
+    let isVerified = false;
+    let gatewayResponse = {};
+
+    try {
+      const verifyRes = await fetch(`${baseUrl}/charges/${transactionId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("Mamo Verification HTTP Status:", verifyRes.status);
+
+      if (!verifyRes.ok) {
+        throw new Error(`Failed to verify charge: ${verifyRes.statusText}`);
+      }
+
+      const verifyData = await verifyRes.json();
+      console.log("Mamo Verification Response:", verifyData);
+      gatewayResponse = verifyData;
+
+      // CHECK THE REAL STATUS FROM THE SERVER RESPONSE
+      // Mamo's API returns the authoritative status here
+      if (verifyData.status === "captured") {
+        isVerified = true;
+      } else {
+        console.error(`Mamo Verification Failed. Expected 'captured', got '${verifyData.status}'`);
+      }
+    } catch (error) {
+      console.error("Mamo Verification Error:", error);
+      return { success: false }; // Fail safe
+    }
+
+    await savePayment({
+      transactionId: transactionId,
+      gateway: (order.paymentMethod as PaymentMethod).type,
+      amount: order.customerTotal || 0,
+      currency: order.customerCurrency,
+      status: "success",
+      orderId: order.id,
+      rawResponse: gatewayResponse,
+      paymentMethodId: (order.paymentMethod as PaymentMethod).id,
+    });
+
+    if (isVerified) {
+      if (order.status === "pending") {
+        await payload.update({
+          collection: "orders",
+          id: order.id,
+          data: {
+            status: "processing",
+            paidAt: new Date().toISOString(),
+          },
+        });
+      }
+    }
+
+    return { success: isVerified };
+  },
+
+  async confirm(orderAmount, orderCurrency, orderId, redirectUrl, locale, order) {
+    const settings = (order.paymentMethod as PaymentMethod).mamoPaySettings;
+    const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;
+    const isTestMode = settings?.testMode;
+
+    if (!apiKey) {
+      throw new Error("Mamo API Key is missing in payment method settings.");
+    }
+
+    // Determine Environment URL
+    const baseUrl = isTestMode ? "https://sandbox.dev.business.mamopay.com/manage_api/v1" : "https://business.mamopay.com/manage_api/v1";
+
+    const orderCustomer = order.orderedBy as Customer;
+    let email = orderCustomer?.email;
+    if (orderCustomer.hasAccount != "1") {
+      email = orderCustomer.contact_email!;
+    }
+
+    const payload = {
+      name: `Order #${order.orderId}`,
+      description: `Payment for Order #${order.orderId}`,
+      amount: orderAmount, // Send float (e.g. 10.50)
+      currency: orderCurrency,
+      active: true,
+      return_url: `${getServerSideURL()}/api/payments/action/${locale}/${order.id}/callback`,
+      custom_data: {
+        orderId: orderId,
+      },
+
+      first_name: order.billingAddress?.firstName || "",
+      last_name: order.billingAddress?.lastName || "",
+      email: email,
+    };
+
+    const response = await fetch(`${baseUrl}/links`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Mamo API Error: ${errorText}`);
+    }
+
+    const data = await response.json();
+    return {
+      success: true,
+      redirectUrl: data.payment_url,
+    };
   },
 
   async executeAction(actionName, actionData, method) {

@@ -58,8 +58,6 @@ export const OrderDetails: React.FC = () => {
   const liveCreatedAt = getValue("createdAt", order.createdAt);
 
   const liveOrderedByRaw = getValue("orderedBy", order.orderedBy);
-
-  console.log("liveOrderedByRaw:", liveOrderedByRaw);
   const getCustomerData = () => {
     const customer = liveCustomer || (typeof order.orderedBy === "object" ? order.orderedBy : null);
 

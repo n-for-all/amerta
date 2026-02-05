@@ -12,7 +12,7 @@ import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 export function CustomerCheckoutForm() {
   const { form, customer, checkoutState, data, paymentMethodRef } = useContext(CheckoutContext);
   const { handleCountryChange, total, useShippingAsBilling, setUseShippingAsBilling } = checkoutState;
-  const { currency, exchangeRate, __ } = useEcommerce();
+  const { currency, exchangeRate, __, locale } = useEcommerce();
 
   // Auto-select default shipping on mount
   useEffect(() => {
@@ -51,10 +51,10 @@ export function CustomerCheckoutForm() {
           }}
         />
       </div>
-      <div className="p-4 mt-10 border rounded-lg bg-zinc-50 border-zinc-200">
+      <div className="p-4 mt-10 border rounded-lg bg-zinc-50 border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800">
         <label className="flex items-center gap-3 cursor-pointer">
           <Switch checked={useShippingAsBilling} onChange={setUseShippingAsBilling} className="data-[state=checked]:bg-zinc-900" />
-          <span className="text-sm font-medium text-zinc-900">{__("Billing address is same as shipping")}</span>
+          <span className="text-sm font-medium">{__("Billing address is same as shipping")}</span>
         </label>
 
         {!useShippingAsBilling && (
@@ -67,7 +67,7 @@ export function CustomerCheckoutForm() {
       {/* 3. Delivery Method */}
       <DeliverySection />
 
-      <PaymentMethods form={form} paymentMethods={data.paymentMethods} paymentMethodRef={paymentMethodRef} total={total} currency={currency} exchangeRate={exchangeRate} />
+      <PaymentMethods locale={locale} form={form} paymentMethods={data.paymentMethods} paymentMethodRef={paymentMethodRef} total={total} currency={currency} exchangeRate={exchangeRate} />
     </div>
   );
 }

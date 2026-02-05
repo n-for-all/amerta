@@ -12,11 +12,7 @@ export default async function OrderReceivedPage({ params }: { params: Promise<{ 
   const decryptedOrderKey = decryptSignature(decodeURIComponent(orderKey));
   if (!decryptedOrderKey) return notFound();
 
-  const cookiesInstance = await cookies();
-  const cartIdCookie = cookiesInstance.get("cartId")?.value;
-  if (!cartIdCookie || !cartIdCookie.startsWith("cart_")) {
-    return Response.json({ items: [] }, { status: 200 });
-  }
+
 
   const decryptedOrderExpiry = decryptedOrderKey.split(":")[1];
   if (decryptedOrderExpiry && Date.now() > parseInt(decryptedOrderExpiry, 10)) {
@@ -72,5 +68,6 @@ export default async function OrderReceivedPage({ params }: { params: Promise<{ 
   const paymentGateway = payment?.gateway || (typeof order.paymentMethod === "object" ? order.paymentMethod.type : "");
   const isCOD = paymentGateway === "cod";
   const currency = getDefaultCurrency(salesChannel!);
+
   return <OrderReceived initialOrder={order} initialPayment={payment} customerEmail={customerEmail} customerName={customerName} locale={locale} currency={currency} isCOD={isCOD} orderKey={orderKey} />;
 }

@@ -2870,11 +2870,11 @@ export interface Payment {
   id: string;
   order: string | Order;
   /**
-   * Amount paid in the payment currency
+   * Amount paid in the customer currency
    */
   amount: number;
   /**
-   * Currency used for this payment
+   * Customer currency used for this payment
    */
   currency: string | Currency;
   /**

@@ -431,13 +431,6 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
 
       let bestMatch = { element: null as any, score: 0, line: -1 };
 
-      console.log("Searching for element:", {
-        tagName,
-        textContent: textContent.substring(0, 100),
-        normalizedText: normalizeText(textContent).substring(0, 100),
-        attributes,
-      });
-
       elementMap.forEach((mappedElement, index) => {
         if (mappedElement.tagName !== tagName) return;
 
@@ -445,7 +438,6 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
 
         if (mappedElement.normalized === normalizedClickedElement) {
           score = 1000;
-          console.log(`Exact HTML match found at index ${index}`);
         } else {
           if (clickedElementPath && mappedElement.path) {
             const pathParts = clickedElementPath.split("/").filter((p) => p);
@@ -464,7 +456,6 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
             if (pathMatches > 0) {
               const pathScore = (pathMatches / Math.max(pathParts.length, mappedParts.length)) * 100;
               score += pathScore;
-              console.log(`Path similarity score: ${pathScore} for element at index ${index}`);
             }
           }
 
@@ -511,12 +502,6 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
           if (textContent && mappedElement.content) {
             const textSimilarity = calculateTextSimilarity(textContent, mappedElement.content);
             score += textSimilarity;
-
-            if (textSimilarity > 0) {
-              console.log(`Text similarity: ${textSimilarity.toFixed(2)} for element at index ${index}`);
-              console.log(`  Clicked: "${normalizeText(textContent).substring(0, 50)}"`);
-              console.log(`  Mapped:  "${normalizeText(mappedElement.content).substring(0, 50)}"`);
-            }
           }
 
           const clickedDepth = clickedElementPath.split("/").length - 1;
@@ -530,13 +515,11 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
             score,
             line: mappedElement.startLine,
           };
-          console.log(`New best match: line ${mappedElement.startLine + 1}, score: ${score.toFixed(2)}`);
         }
       });
 
       if (bestMatch.score >= 10) {
         const targetLine = bestMatch.line;
-        console.log(`✓ Using best match: line ${targetLine + 1} (score: ${bestMatch.score.toFixed(2)})`);
 
         editorRef.current.revealLineInCenter(targetLine + 1);
         editorRef.current.setPosition({
@@ -569,9 +552,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
             decoration.clear();
           }
         }, 2000);
-      } else {
-        console.log(`No suitable match found - best score: ${bestMatch.score.toFixed(2)}`);
-      }
+      } 
     } catch (error) {
       console.error("Error finding element in editor:", error);
     }

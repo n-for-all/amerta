@@ -5,6 +5,7 @@ import { Tooltip } from "@/amerta/theme/ui/tooltip";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/amerta/theme/ui/select";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { ProductMedia } from "@/payload-types";
+import { useEcommerce } from "../../providers/EcommerceProvider";
 
 // ✅ 1. Define the specific shape of a single choice
 export interface VariantChoice {
@@ -70,6 +71,7 @@ export const VariantImageSelector = ({ choices, onSelect, compact }: SelectorUIP
 
 // --- DROPDOWN ---
 export const VariantDropdownSelector = ({ label, choices, onSelect, compact }: SelectorUIProps) => {
+  const { __ } = useEcommerce();
   if (!choices.length) return null;
 
   const selected = choices.find((c) => c.isSelected)?.value || "";
@@ -78,12 +80,12 @@ export const VariantDropdownSelector = ({ label, choices, onSelect, compact }: S
     <div className="relative w-full max-w-xs">
       <Select value={selected} onValueChange={onSelect}>
         <SelectTrigger className="text-left rtl:text-right">
-          <SelectValue placeholder={`Select ${label}`} />
+          <SelectValue placeholder={`${label}`} />
         </SelectTrigger>
         <SelectContent>
           {choices.map((c) => (
             <SelectItem key={c.value} value={c.value} disabled={!c.isAvailable}>
-              {c.label} {!c.isAvailable && "(Unavailable)"}
+              {c.label} {!c.isAvailable && __("(Unavailable)")}
             </SelectItem>
           ))}
         </SelectContent>

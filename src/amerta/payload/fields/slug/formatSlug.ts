@@ -35,7 +35,6 @@ export const formatSlugHook =
 
       //only add a slug on update if one doesn't exist
       if (operation === "update" && (!originalDoc?.slug || originalDoc?.slug.trim() === "")) {
-        console.log("Generating slug on update as none exists");
         const fallbackData = data?.[fallback] || originalDoc?.[fallback];
 
         if (fallbackData && typeof fallbackData === "string") {

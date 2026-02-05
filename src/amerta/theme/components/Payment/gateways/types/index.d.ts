@@ -3,7 +3,7 @@ import { PaymentMethod } from "@/amerta/theme/types";
 
 export interface PaymentHandle {
   validate: () => Promise<boolean>;
-  confirm: (paymentMethodId: string, billingAddress: Order["billingAddress"], orderId: string, redirectTo: string) => Promise<void>;
+  confirm: (orderId: string) => Promise<{ success: boolean; redirectUrl: string } | void>;
 }
 
 export interface PaymentGatewayProps {
@@ -15,4 +15,5 @@ export interface PaymentGatewayProps {
   onError: (msg: string) => void;
   onValid: () => void;
   countryCode?: string;
+  locale: string;
 }

@@ -31,7 +31,7 @@ export const dynamicTransport = {
         const defaultFromAddress = process.env.EMAIL_FROM || "";
         const defaultFromName = process.env.EMAIL_APP_NAME || "";
         const formattedFrom = defaultFromName ? `"${defaultFromName}" <${defaultFromAddress}>` : defaultFromAddress;
-        console.log("Using Dynamic Transport with DB/Global Settings", settings);
+        
         if (emailServer) {
           const transporter = nodemailer.createTransport(emailServer);
           const result = await transporter.sendMail({ ...inputData, from: formattedFrom });
@@ -47,8 +47,6 @@ export const dynamicTransport = {
         const result = await transporter.sendMail({ ...inputData, from: formattedFrom });
         return result;
       }
-
-      console.log("Using Dynamic Transport with DB/Global Settings", settings.smtpHost, settings.smtpPort);
 
       const transporter = nodemailer.createTransport({
         host: settings.smtpHost,

@@ -92,9 +92,9 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
         </h1>
 
         {form.formState.errors.root && (
-          <div className="flex items-center justify-between p-4 mb-6 border border-red-200 rounded-lg bg-red-50">
-            <p className="text-sm font-medium text-red-800">{form.formState.errors.root.message}</p>
-            <button onClick={() => form.clearErrors()} className="ml-4 text-sm font-medium text-red-600 hover:text-red-700">
+          <div className="flex items-center justify-between p-4 mb-6 border border-red-200 rounded-lg bg-red-50 dark:bg-red-900/30 dark:border-red-700/50">
+            <p className="text-sm font-medium text-red-800 dark:text-red-400">{form.formState.errors.root.message}</p>
+            <button onClick={() => form.clearErrors()} className="ml-4 text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400">
               Dismiss
             </button>
           </div>
@@ -105,7 +105,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
             <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
               <div>
                 <div className="mb-6">
-                  <h3 className="text-2xl font-medium text-zinc-950">
+                  <h3 className="text-2xl font-medium">
                     <span className="font-serif italic">Contact</span> information
                   </h3>
                   <div className="mt-10">

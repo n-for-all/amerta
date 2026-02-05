@@ -73,16 +73,16 @@ export function StripePayment({ paymentRef, onError, method, currencyCode, count
     );
 
   return (
-    <div className="p-4 duration-200 border-t bg-zinc-50/80 border-zinc-100 animate-in slide-in-from-top-2">
+    <div className="p-4 duration-200 border-t bg-zinc-50/80 border-zinc-100 animate-in slide-in-from-top-2 dark:bg-zinc-900/80 dark:border-zinc-800">
       {method.publicDescription ? (
         <div className="flex items-center gap-3">
           <div className="flex-1">
-            <p className="mt-1 text-xs text-zinc-500">{method.publicDescription}</p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{method.publicDescription}</p>
           </div>
         </div>
       ) : null}
       <Elements stripe={stripePromise} options={{ clientSecret }}>
-        <CheckoutForm onValid={onValid} countryCode={countryCode} currencyCode={currencyCode} amount={amount} clientSecret={clientSecret} paymentRef={paymentRef} onError={onError} />
+        <CheckoutForm onValid={onValid} countryCode={countryCode} currencyCode={currencyCode} amount={amount} clientSecret={clientSecret} paymentRef={paymentRef} onError={onError} paymentMethodId={method.id} />
       </Elements>
     </div>
   );

@@ -2,17 +2,20 @@
 import { useContext } from "react";
 import { CheckoutContext } from "./hooks/useCheckout";
 import { FormField, FormItem, FormControl, FormMessage } from "@/amerta/theme/ui/form";
-import { Loader2 } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { formatPrice } from "@/amerta/theme/utilities/format-price";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 
 export function DeliverySection() {
-  const { form, deliveryMethods, loadingDeliveryMethods, checkoutState } = useContext(CheckoutContext);
+  const context = useContext(CheckoutContext);
+  if (!context) return null;
+  
+  const { form, deliveryMethods, loadingDeliveryMethods, checkoutState } = context;
   const { currency, exchangeRate, __ } = useEcommerce();
   const { qualifiesForFree } = checkoutState;
   return (
-    <div className="pt-10 mt-10 border-t border-zinc-200">
-      <h3 className="text-2xl font-medium text-zinc-950">
+    <div className="pt-10 mt-10 border-t border-zinc-200 dark:border-zinc-800">
+      <h3 className="text-2xl font-medium">
         <span className="font-serif italic">{__("Delivery")}</span> {__("method")}
       </h3>
 
@@ -31,11 +34,16 @@ export function DeliverySection() {
                   {deliveryMethods.map((method) => {
                     const isSelected = field.value === method.id;
                     return (
-                      <button key={method.id} type="button" onClick={() => field.onChange(method.id)} className={`relative rounded-lg border-2 p-4 text-left transition-all ${isSelected ? "border-zinc-900 bg-white" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"}`}>
+                      <button
+                        key={method.id}
+                        type="button"
+                        onClick={() => field.onChange(method.id)}
+                        className={`relative rounded-lg border-2 p-4 text-left transition-all ${isSelected ? "border-zinc-900 bg-white dark:bg-zinc-900 dark:border-zinc-700" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"}`}
+                      >
                         <div className="flex items-start justify-between">
                           <div>
                             <p className="text-sm font-medium">{method.label}</p>
-                            <p className="mt-1 text-xs text-zinc-500">
+                            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                               {method.estimatedDaysMin}-{method.estimatedDaysMax} {__("days")}
                             </p>
                             {qualifiesForFree && method.cost > 0 ? (
@@ -48,7 +56,11 @@ export function DeliverySection() {
                               <p className="mt-2 text-sm font-semibold">{formatPrice(method.cost, currency, exchangeRate)}</p>
                             )}
                           </div>
-                          {isSelected && <div className="w-4 h-4 bg-black rounded-full" />}
+                          {isSelected && (
+                            <div className="flex items-center justify-center w-4 h-4 text-white rounded-full bg-black/60 dark:bg-white/60 dark:text-black">
+                              <Check className="w-4 h-4" />
+                            </div>
+                          )}
                         </div>
                       </button>
                     );

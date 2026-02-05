@@ -14,10 +14,10 @@ export const ThemeShopContactUsBlock: React.FC<Props> = ({ className, titlePrefi
 
   return (
     <div className={cn("container mt-16 sm:mt-24 lg:mt-28", className)}>
-      <div className="flex flex-col justify-between gap-14 lg:flex-row">
+      <div className="flex flex-col justify-between md:gap-14 lg:flex-row">
         {/* Left Column: Info & Image */}
-        <div className="flex flex-col gap-20 overflow-hidden flex-2/3 md:gap-24 lg:gap-28 xl:gap-32">
-          <h1 className="relative w-fit text-7xl lg:text-8xl 2xl:text-9xl font-medium text font-medium *:data-[slot=dim]:text-zinc-300 *:data-[slot=italic]:font-serif *:data-[slot=italic]:font-normal *:data-[slot=italic]:italic *:data-[slot=dim]:dark:text-zinc-500">
+        <div className="flex flex-col gap-6 overflow-hidden flex-2/3 md:gap-24 lg:gap-28 xl:gap-32">
+          <h1 className="relative w-fit text-5xl lg:text-8xl 2xl:text-9xl font-medium text font-medium *:data-[slot=dim]:text-zinc-300 *:data-[slot=italic]:font-serif *:data-[slot=italic]:font-normal *:data-[slot=italic]:italic *:data-[slot=dim]:dark:text-zinc-500">
             <span>{titlePrefix} </span>
             <span className="font-serif italic">{titleSuffix}</span>
           </h1>

@@ -51,27 +51,17 @@ export const getShippingMethods = async (req) => {
       taxRate?: number | null;
     }[] = [];
 
-    // If city is provided, filter for methods that apply to this city
-    // and use city-specific pricing if available
-    console.log("Filtering shipping methods for country:", countryId, "and city:", city, methods);
     if (city) {
       methods = shippingMethodsArray
         .filter((method: Shipping) => {
           if (method.citiesType === "all") return true;
-
-          console.log("Checking method for city-specific applicability:", method.id);
-
           if (method.citiesType === "specific" && method.specificCities) {
             return method.specificCities.some((c) => c.code?.trim().toLowerCase() === city.trim().toLowerCase() && c.active);
           }
 
-          console.warn("Unknown citiesType or missing specificCities for method:", method.id);
-
           return false;
         })
         .map((method: Shipping) => {
-          console.log("Processing method for city-specific pricing:", method.id);
-          // If specific cities, get city-specific pricing
           if (method.citiesType === "specific" && method.specificCities) {
             const cityData = method.specificCities.find((c) => c.code?.trim().toLowerCase() === city.trim().toLowerCase());
 

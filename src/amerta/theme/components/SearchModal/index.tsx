@@ -78,7 +78,7 @@ export const SearchModal = ({ isOpen, onClose, locale }: SearchModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen flex-col bg-black/20 backdrop-blur-[4px] p-4 cursor-auto" onClick={onClose}>
       {/* Container */}
-      <div className="mx-auto flex w-full max-w-[50vw] min-w-[320px] flex-col rounded bg-white shadow-lg dark:bg-[#1c1c1c] dark:text-white/70 overflow-hidden max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+      <div className="mx-auto flex w-full md:max-w-[50vw] min-w-[320px] flex-col rounded bg-white shadow-lg dark:bg-[#1c1c1c] dark:text-white/70 overflow-hidden max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="relative z-10 flex flex-none items-center border-b border-zinc-200 px-4 py-1 dark:border-[#383838]">
           <label className="mr-3 text-zinc-500 dark:text-white/50 rtl:ml-3 rtl:mr-0">

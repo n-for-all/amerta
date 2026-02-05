@@ -70,17 +70,17 @@ const Users: CollectionConfig = {
     },
   ],
   endpoints: [
-    {
-      path: "/me",
-      method: "get",
-      handler: async (req) => {
-        if (req.user && checkRole(["admin"], req.user)) {
-          return NextResponse.json({ user: req.user });
-        } else {
-          return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        }
-      },
-    },
+    // {
+    //   path: "/me",
+    //   method: "get",
+    //   handler: async (req) => {
+    //     if (req.user && checkRole(["admin"], req.user)) {
+    //       return NextResponse.json({ user: req.user });
+    //     } else {
+    //       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    //     }
+    //   },
+    // },
   ],
   timestamps: true,
 };

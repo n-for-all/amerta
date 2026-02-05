@@ -74,7 +74,6 @@ export function ProductLightbox({ images, productName, isOpen, onClose, initialI
 
   const currentImage = images[currentIndex];
   const imageUrl = typeof currentImage === "string" ? currentImage : (currentImage as any)?.url;
-  console.log("imageUrl", imageUrl);
 
   return (
     <Transition show={isOpen} as={React.Fragment}>

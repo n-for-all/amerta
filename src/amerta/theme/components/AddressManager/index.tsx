@@ -173,7 +173,7 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-full p-4">
             <TransitionChild as={React.Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-              <DialogPanel className="relative w-full max-w-2xl max-h-[90vh] p-6 bg-white rounded-lg shadow-lg overflow-y-auto dark:bg-zinc-900">
+              <DialogPanel className="relative w-full max-w-2xl max-h-[90vh] p-4 md:p-6 bg-white rounded-lg shadow-lg overflow-y-auto dark:bg-zinc-900">
                 <button onClick={onClose} className="absolute transition-colors text-zinc-400 top-4 right-4 rtl:left-4 rtl:right-auto hover:text-zinc-600">
                   <X className="w-6 h-6" />
                 </button>
@@ -742,18 +742,19 @@ export function AddressManager({
                         <p className="mb-1">
                           <span className="flex items-center font-medium">
                             {address.firstName} {address.lastName}
-                            {compact && address.title && <span className="px-2 ml-4 text-xs py-0.5 bg-zinc-200 rounded-full">{address.title}</span>}
+                            {compact && address.title && <span className="px-2 ml-4 text-xs py-0.5 bg-zinc-200 rounded-full dark:bg-zinc-700">{address.title}</span>}
                           </span>
                         </p>
-                        {address.address && <p className="text-zinc-700">{address.address}</p>}
-                        <p className="flex flex-wrap gap-4">
-                          {address.street && <span>{address.street}</span>}
-                          {address.phone && (
-                            <span className="text-zinc-600">
+                        {address.address && <p className="text-zinc-700 dark:text-zinc-500">{address.address}</p>}
+                        <p className="flex flex-wrap gap-4 text-zinc-700 dark:text-zinc-500">
+                          {address.street ? <span>{__("St:")} {address.street}</span> : null}
+                          {address.apartment ? <span>{__("Apt:")} {address.apartment}</span> : null}
+                          {address.phone ? (
+                            <span>
                               <Phone className="inline-block w-3 h-3 mr-1" />
                               {address.phoneCountryCode} {address.phone}
                             </span>
-                          )}
+                          ) : null}
                         </p>
                         <p className="mt-1 capitalize">
                           {address.city}, {getCountryName(address.country!)}

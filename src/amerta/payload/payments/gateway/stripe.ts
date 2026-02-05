@@ -5,7 +5,7 @@ import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
 import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
 import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { createPayment } from "@/amerta/theme/utilities/create-payment";
+import { savePayment } from "@/amerta/theme/utilities/save-payment";
 const ZERO_DECIMAL_CURRENCIES = ["jpy", "krw", "ugx", "vnd", "clp", "pyg", "xaf", "xof", "bif", "djf", "gnf", "kmf", "mga", "rwf", "vuv", "xpf"];
 
 export const StripeAdapter: PaymentAdapter = {
@@ -134,7 +134,7 @@ export const StripeAdapter: PaymentAdapter = {
           return new Response(JSON.stringify({ received: true }), { status: 200 });
         }
 
-        await createPayment({
+        await savePayment({
           transactionId: paymentIntent.id,
           gateway: "stripe",
           amount: finalAmount,
@@ -148,7 +148,7 @@ export const StripeAdapter: PaymentAdapter = {
         await req.payload.update({
           collection: "orders",
           id: metadata.orderId,
-          data: { _status: "paid", paidAt: new Date().toISOString() },
+          data: { status: "processing", paidAt: new Date().toISOString() },
         });
       } catch (dbError: any) {
         console.error(dbError);
@@ -157,6 +157,14 @@ export const StripeAdapter: PaymentAdapter = {
     }
 
     return new Response(JSON.stringify({ received: true }), { status: 200 });
+  },
+
+  async confirm(orderAmount, orderCurrency, orderId, redirectUrl, locale, order) {
+    //! stripe handles everything in the frontend, so we just need to redirect only to order received and wait for the webhook to update the order status and payment transaction. 
+    return {
+      success: true,
+      redirectUrl,
+    };
   },
 
   async executeAction(actionName, actionData, method) {

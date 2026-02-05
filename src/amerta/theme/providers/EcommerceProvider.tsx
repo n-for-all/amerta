@@ -60,8 +60,6 @@ export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, 
     [dictionary],
   );
 
-  // 3. The Flusher (Now uses setInterval)
-  // This runs independently of renders, checking the queue every 2 seconds
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (pendingReports.current.length === 0) return;
@@ -69,10 +67,6 @@ export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, 
       // Snapshot and clear queue
       const batch = [...pendingReports.current];
       pendingReports.current = [];
-
-      console.log(`[EcommerceProvider] Reporting ${batch.length} missing keys...`);
-
-      // Fire Server Action
       batch.forEach(({ key, domain }) => {
         reportMissingTranslation(key, domain, locale).catch((err) => console.error(`Failed to report: ${key}`, err));
       });
