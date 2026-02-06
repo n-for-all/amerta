@@ -1,12 +1,18 @@
 import { getCart } from "@/amerta/theme/utilities/get-cart";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
 import { PayloadRequest } from "payload";
 
 export const removeCoupon = async (req: PayloadRequest) => {
   try {
     //@ts-expect-error req.cookies is not typed
     const cartIdCookie = req.cookies.get("cartId")?.value;
+
+    const body = await req.json!();
+    const locale = body.locale as string | undefined;
+    const __ = await createTranslator(locale);
+
     if (!cartIdCookie || !cartIdCookie.startsWith("cart_")) {
-      return Response.json({ error: "You don't have any products in your cart" }, { status: 400 });
+      return Response.json({ error: __("You don't have any products in your cart") }, { status: 400 });
     }
 
     const newCart = await req.payload.update({
@@ -21,7 +27,7 @@ export const removeCoupon = async (req: PayloadRequest) => {
       throw new Error(message);
     }
 
-    const cartWithCoupon = await getCart(cartIdCookie);
+    const cartWithCoupon = await getCart(cartIdCookie, locale);
 
     return Response.json({
       cart: cartWithCoupon,

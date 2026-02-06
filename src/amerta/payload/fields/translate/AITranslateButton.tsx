@@ -126,7 +126,6 @@ export const AITranslateButton: React.FC = () => {
       setModified(true);
       closeModal(drawerSlug);
       toast.success("Translation applied!");
-      
     } catch (err: any) {
       toast.error(err.message || "Translation failed.");
       setIsPending(false);
@@ -148,6 +147,7 @@ export const AITranslateButton: React.FC = () => {
     fetchDocument();
   }, [id, collectionSlug, config]);
 
+  if (!id) return null;
   if (!allLocalesData) return <div className="btn btn--style-secondary btn--size-medium">Loading...</div>;
 
   return (

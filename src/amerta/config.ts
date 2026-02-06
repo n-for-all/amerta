@@ -1,5 +1,3 @@
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
-
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import { BlocksField, Config, PayloadHandler, PayloadRequest } from "payload";
 import { defaultLexical } from "@/amerta/fields/defaultLexical";
@@ -40,7 +38,7 @@ import PaymentsConfig from "@/amerta/collections/Payment";
 import { createStoreData, importBaseData } from "@/amerta/theme/utilities/seed-data";
 import { importWooProductsHandler } from "@/amerta/theme/data/imports/import-woo-products";
 import { importWpXmlHandler } from "@/amerta/theme/data/imports/import-wp-xml";
-import { DEFAULT_LOCALE, LOCALES } from "@/amerta/localization/locales";
+import { DEFAULT_LOCALE, LocaleCode, LOCALES } from "@/amerta/localization/locales";
 import { Translations } from "@/amerta/collections/Translations";
 import { searchHandler } from "@/amerta/theme/utilities/search-handler";
 import { EmailTemplates } from "@/amerta/collections/EmailTemplates";
@@ -202,9 +200,6 @@ export function withAmerta(config: Config): Config {
       afterError: [afterError],
     },
     editor: defaultLexical,
-    db: mongooseAdapter({
-      url: process.env.DATABASE_URI || "",
-    }),
     serverURL: getServerSideURL(),
     globals: [EcommerceSettings, Header, Footer, Settings],
     collections: [...ProductsConfig, Pages, ...BlogConfig, Translations, Store, SalesChannel, Orders, Customers, CustomerGroups, CustomerTags, FinalUsersCollection, Menu, Media, Currencies, Countries, TaxRates, Shipping, ...PaymentsConfig, Cart, CartRules, Wishlist, Coupons, EmailTemplates],
@@ -343,41 +338,9 @@ export function withAmerta(config: Config): Config {
     },
     endpoints: [
       {
-        path: "/checkout/data",
-        method: "get",
-        handler: async (req: PayloadRequest) => {
-          try {
-            const data = await getCheckoutData();
-
-            //@ts-expect-error req.cookies is not typed
-            const cartIdCookie = req.cookies.get("cartId")?.value;
-            return Response.json({
-              success: true,
-              data: {
-                ...data,
-                cart: await getCart(cartIdCookie),
-              },
-            });
-          } catch (error) {
-            console.error("Error fetching checkout data:", error);
-            return Response.json(
-              {
-                success: false,
-                error: "Failed to fetch checkout data",
-              },
-              { status: 500 },
-            );
-          }
-        },
-      },
-      {
         path: "/fields/icons",
         method: "get",
-        handler: async (req: PayloadRequest) => {
-          if (!req.user) {
-            return Response.json({ error: "Unauthorized" }, { status: 401 });
-          }
-
+        handler: withGuard(async (req: PayloadRequest) => {
           try {
             const icons = await generateIconsJson();
             return Response.json(icons || []);
@@ -385,7 +348,7 @@ export function withAmerta(config: Config): Config {
             console.error("Error generating icons:", error);
             return Response.json({ error: "Internal server error" }, { status: 500 });
           }
-        },
+        }),
       },
       {
         path: `/${adminPath}/media-stock/search`,

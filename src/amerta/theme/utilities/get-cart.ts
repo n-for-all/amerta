@@ -5,6 +5,7 @@ import { CartWithCalculations } from "../types";
 import { populateCartItems } from "./populate-cart-items";
 import { calculateSubtotal } from "./calculate-subtotal";
 import { calculateDiscount } from "./calculate-discount";
+import { LocaleCode } from "@/amerta/localization/locales";
 
 export function calculateTotal(subtotal: number, discount: number): number {
   return Math.max(0, subtotal - discount);
@@ -14,7 +15,7 @@ export const generateCartId = (): string => {
   return `cart_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 };
 
-export async function getCart(cartId?: string): Promise<CartWithCalculations> {
+export async function getCart(cartId: string | null, locale?: string): Promise<CartWithCalculations> {
   let createNewCart = false;
   if (!cartId) {
     cartId = generateCartId();
@@ -24,12 +25,12 @@ export async function getCart(cartId?: string): Promise<CartWithCalculations> {
   let cart: Cart | null = null;
   if (!createNewCart) {
     const payload = await getPayload({ config: configPromise });
-    // Try to find existing cart
     const carts = await payload.find({
       collection: "cart",
       where: {
         cartId: { equals: cartId || "0" },
       },
+      locale: locale as LocaleCode,
       limit: 1,
     });
 

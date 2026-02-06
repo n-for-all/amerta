@@ -1,9 +1,11 @@
+import { sendUncachedResponse } from "@/amerta/utilities/sendUncachedResponse";
 import { Shipping } from "@/payload-types";
 
 export const getShippingMethods = async (req) => {
   try {
     const countryId = req.query?.country as string;
     const city = req.query?.city as string;
+    const locale = req.query?.locale as string;
 
     if (!countryId) {
       return Response.json(
@@ -36,6 +38,7 @@ export const getShippingMethods = async (req) => {
       depth: 1,
       limit: 1000,
       sort: "sortOrder",
+      locale: locale as string,
     });
 
     const shippingMethodsArray: Shipping[] = shippingMethods.docs;
@@ -111,36 +114,16 @@ export const getShippingMethods = async (req) => {
       }));
     }
 
-    return Response.json(
-      {
-        success: true,
-        data: methods,
-        total: methods.length,
-      },
-      {
-        status: 200,
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      },
-    );
+    return sendUncachedResponse(200, {
+      success: true,
+      data: methods,
+      total: methods.length,
+    });
   } catch (error) {
     console.error("Error fetching shipping methods:", error);
-    return Response.json(
-      {
-        success: false,
-        error: "Failed to fetch shipping methods",
-      },
-      {
-        status: 500,
-        headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      },
-    );
+    return sendUncachedResponse(500, {
+      success: false,
+      error: "Failed to fetch shipping methods",
+    });
   }
 };

@@ -9,15 +9,13 @@ import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 export function DeliverySection() {
   const context = useContext(CheckoutContext);
   if (!context) return null;
-  
+
   const { form, deliveryMethods, loadingDeliveryMethods, checkoutState } = context;
   const { currency, exchangeRate, __ } = useEcommerce();
   const { qualifiesForFree } = checkoutState;
   return (
     <div className="pt-10 mt-10 border-t border-zinc-200 dark:border-zinc-800">
-      <h3 className="text-2xl font-medium">
-        <span className="font-serif italic">{__("Delivery")}</span> {__("method")}
-      </h3>
+      <h3 className="text-2xl font-medium">{__("Delivery method")}</h3>
 
       {loadingDeliveryMethods ? (
         <div className="flex items-center p-4 mt-6 text-sm bg-white border border-dashed rounded dark:bg-zinc-900 text-zinc-600 border-zinc-200 dark:border-zinc-700 dark:text-zinc-400">
@@ -38,7 +36,7 @@ export function DeliverySection() {
                         key={method.id}
                         type="button"
                         onClick={() => field.onChange(method.id)}
-                        className={`relative rounded-lg border-2 p-4 text-left transition-all ${isSelected ? "border-zinc-900 bg-white dark:bg-zinc-900 dark:border-zinc-700" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"}`}
+                        className={`relative rounded-lg border-2 p-4 text-left rtl:text-right transition-all ${isSelected ? "border-zinc-900 bg-white dark:bg-zinc-900 dark:border-zinc-700" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"}`}
                       >
                         <div className="flex items-start justify-between">
                           <div>

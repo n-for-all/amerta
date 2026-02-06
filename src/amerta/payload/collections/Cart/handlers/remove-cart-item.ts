@@ -1,17 +1,13 @@
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
 import { variantsMatch } from "@/amerta/theme/utilities/variants-match";
 import { PayloadRequest } from "payload";
 import z from "zod";
 
-const variantOptionSchema = z.object({
-  option: z.string(),
-  value: z.string(),
-});
-
 const removeFromCartSchema = z.object({
-  product: z.string().min(1, "Product ID is required"),
-  variantOptions: z.array(variantOptionSchema).optional(),
+  itemId: z.string().min(1, "Item ID is required"),
+  locale: z.string().optional(),
 });
 
 export const removeCartItem = async (req: PayloadRequest) => {
@@ -24,26 +20,22 @@ export const removeCartItem = async (req: PayloadRequest) => {
 
     const body = await req.json!();
     const validation = removeFromCartSchema.safeParse(body);
+    const __ = await createTranslator(validation.data?.locale);
 
     if (!validation.success) {
       console.error("Remove from cart validation errors:", validation.error);
-      return Response.json({ error: "Error removing item from cart" }, { status: 400 });
+      return Response.json({ error: __("Error removing item from cart") }, { status: 400 });
     }
 
-    const { product, variantOptions } = validation.data;
-    const cart = await getCart(cartIdCookie);
+    const { itemId, locale } = validation.data;
+    const cart = await getCart(cartIdCookie, locale);
 
     if (!cart.items || cart.items.length === 0) {
-      return Response.json({ error: "Item is already not in the cart" }, { status: 404 });
+      return Response.json({ error: __("Item is already not in the cart") }, { status: 404 });
     }
 
     const items = (cart.items || []).filter((item: any) => {
-      const itemProductId = typeof item.product === "string" ? item.product : item.product.id;
-      if (itemProductId !== product) return true;
-      if (variantOptions) {
-        return !variantsMatch(item.variantOptions, variantOptions);
-      }
-      return false;
+      return item.id !== itemId;
     });
 
     await createCartIfNotExists(cart!.id);
@@ -61,7 +53,7 @@ export const removeCartItem = async (req: PayloadRequest) => {
     }
 
     // Populate full product data
-    const populatedCart = await getCart(cart.id);
+    const populatedCart = await getCart(cart.id, locale);
 
     return Response.json({ cart: populatedCart });
   } catch (error: any) {

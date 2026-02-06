@@ -5,6 +5,7 @@ import { WishlistButton } from "@/amerta/theme/components/WishlistButton";
 import { cn } from "@/amerta/utilities/ui";
 import { getURL } from "@/amerta/utilities/getURL";
 import { CartForm } from "./CartForm";
+import { StockStatus } from "./StockStatus";
 
 export const ProductCard = ({ product, cartIcon, options, locale, className, vertical }: { product: Product; cartIcon?: React.ReactNode; options: ProductOption[]; locale?: string; className?: string; vertical?: boolean }) => {
   const productImage = product.images && product.images.length > 0 ? product.images[0] : null;
@@ -74,7 +75,7 @@ export const ProductCard = ({ product, cartIcon, options, locale, className, ver
         <div className="flex flex-col gap-2">
           <CartForm noDefaults product={product} icon={cartIcon} compact options={options} buttonClassName="absolute top-3 right-14 z-20" />
         </div>
-        <p className={`text-xs text-sm/6 uppercase ${stockAvailable ? "text-green-500 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{stockAvailable ? "In Stock" : "Out of Stock"}</p>
+        <StockStatus stockAvailable={stockAvailable} locale={locale!} />
       </div>
     </div>
   );

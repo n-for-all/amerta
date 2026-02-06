@@ -10,6 +10,8 @@ import { cn } from "@/amerta/utilities/ui";
 import { useToast } from "@/amerta/theme/ui/toast";
 import { Loader2 } from "lucide-react";
 import { useEcommerce } from "../../providers/EcommerceProvider";
+import { printf } from "fast-printf";
+import { addToCart } from "../../utilities/cart.client";
 
 interface AddToCartFormProps {
   product: Product;
@@ -62,7 +64,7 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
   const [isLoading, setIsLoading] = useState(false);
   const [variantOptions, setVariantOptions] = useState<Array<{ option: string; value: string }>>([]);
   const { toast } = useToast();
-  const { __ } = useEcommerce();
+  const { __, locale } = useEcommerce();
 
   const handleQuantityChange = (value: number) => {
     const newQuantity = Math.max(1, Math.min(10, quantity + value));
@@ -75,35 +77,17 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/cart/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          product: product.id,
-          quantity,
-          variantOptions,
-        }),
-      });
-
-      if (!response.ok) {
-        const responseData = await response.json();
-        throw new Error(responseData.error || "Failed to add product to cart");
-      }
-
-      const data = await response.json();
-      toast(`${product.title} was added to cart (${quantity}x)`, "success", true);
+      const { cart } = await addToCart(product, quantity, variantOptions, locale!);
+      toast(printf(__(`%s was added to cart (%sx)`), product.title, quantity), "success", true);
 
       setQuantity(1);
 
-      // Store cart in localStorage and dispatch update event
-      if (data.cart) {
-        localStorage.setItem("cart", JSON.stringify(data.cart));
-        window.dispatchEvent(new CustomEvent("cartUpdated", { detail: data.cart }));
+      if (cart) {
+        localStorage.setItem("cart", JSON.stringify(cart));
+        window.dispatchEvent(new CustomEvent("cartUpdated", { detail: cart }));
       }
     } catch (error: any) {
-      toast(error.message ? error.message : `Error adding ${product.title} to cart`, "error", true);
+      toast(error.message ? error.message : printf(__(`Error adding %s to cart`), product.title), "error", true);
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +128,7 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
         />
       ) : null}
       {compact ? (
-        <Button tooltip="Add to cart" variant={buttonVariant} disabled={!isActive() || isLoading} className={cn("disabled:opacity-50 disabled:cursor-not-allowed", buttonClassName)} type="button" onClick={handleAddToCart}>
+        <Button tooltip={__("Add to cart")} variant={buttonVariant} disabled={!isActive() || isLoading} className={cn("disabled:opacity-50 disabled:cursor-not-allowed", buttonClassName)} type="button" onClick={handleAddToCart}>
           {isLoading ? (
             <Loader2 className="w-4 h-4 cursor-not-allowed animate-spin" />
           ) : icon ? (

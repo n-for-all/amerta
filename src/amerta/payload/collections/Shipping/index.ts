@@ -88,6 +88,7 @@ export const Shipping: CollectionConfig = {
               name: "city",
               type: "text",
               required: true,
+              localized: true,
               admin: {
                 description: "City name",
               },

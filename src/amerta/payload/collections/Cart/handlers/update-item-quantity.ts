@@ -1,19 +1,17 @@
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { hasStock } from "@/amerta/theme/utilities/has-stock";
+import { isInStock } from "@/amerta/theme/utilities/is-in-stock";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
 import { variantsMatch } from "@/amerta/theme/utilities/variants-match";
+import { printf } from "fast-printf";
 import { PayloadRequest } from "payload";
 import z from "zod";
 
-const variantOptionSchema = z.object({
-  option: z.string(),
-  value: z.string(),
-});
-
 const updateQuantitySchema = z.object({
-  product: z.string().min(1, "Product ID is required"),
+  itemId: z.string().min(1, "Item ID is required"),
   quantity: z.number().int().min(0),
-  variantOptions: z.array(variantOptionSchema).optional(),
+  locale: z.string().optional(),
 });
 
 export const updateItemQuantity = async (req: PayloadRequest) => {
@@ -25,43 +23,47 @@ export const updateItemQuantity = async (req: PayloadRequest) => {
     }
 
     const body = await req.json!();
+    const __ = await createTranslator(body?.locale);
     const validation = updateQuantitySchema.safeParse(body);
 
     if (!validation.success) {
       console.error("Update quantity validation errors:", validation.error);
-      return Response.json({ error: "Error updating item quantity" }, { status: 400 });
+      return Response.json({ error: __("Error updating item quantity") }, { status: 400 });
     }
 
-    const { product, quantity, variantOptions } = validation.data;
-    const cart = await getCart(cartIdCookie);
+    const { itemId, quantity } = validation.data;
+    const cart = await getCart(cartIdCookie, body.locale);
 
     let items = cart.items || [];
     if (items.length === 0) {
       return Response.json({ cart: cart });
     }
 
+    const itemToUpdate = items.find((item: any) => {
+      return item.id === itemId;
+    });
+
+    if (!itemToUpdate) {
+      return Response.json({ error: __("Cart item not found") }, { status: 404 });
+    }
+
     const productDoc = await req.payload.findByID({
       collection: "products",
-      id: product,
+      id: typeof itemToUpdate.product === "string" ? itemToUpdate.product : itemToUpdate.product.id,
     });
 
     if (!productDoc) {
-      return Response.json({ error: "Product not found", code: "PRODUCT_NOT_FOUND" }, { status: 404 });
+      return Response.json({ error: __("Product not found"), code: "PRODUCT_NOT_FOUND" }, { status: 404 });
     }
 
-    if (!hasStock(productDoc, quantity)) {
-      return Response.json({ error: productDoc.title + " is out of stock", code: "OUT_OF_STOCK" }, { status: 400 });
+    if (!isInStock(productDoc, itemToUpdate.variantOptions, quantity)) {
+      return Response.json({ error: printf(__("%s is out of stock"), productDoc.title), code: "OUT_OF_STOCK" }, { status: 400 });
     }
 
     if (quantity <= 0) {
       // Remove item if quantity is 0 or less
       items = (cart.items || []).filter((item: any) => {
-        const itemProductId = typeof item.product === "string" ? item.product : item.product.id;
-        if (itemProductId !== product) return true;
-        if (variantOptions) {
-          return !variantsMatch(item.variantOptions, variantOptions);
-        }
-        return false;
+        return item.id !== itemId;
       });
 
       await createCartIfNotExists(cart!.id);
@@ -78,13 +80,12 @@ export const updateItemQuantity = async (req: PayloadRequest) => {
         throw new Error(message);
       }
       // Populate full product data
-      const populatedCart = await getCart(cart.id);
+      const populatedCart = await getCart(cart.id, body.locale);
       return Response.json({ cart: populatedCart });
     }
 
     items = (cart.items || []).map((item: any) => {
-      const itemProductId = typeof item.product === "string" ? item.product : item.product.id;
-      if (itemProductId === product && variantsMatch(item.variantOptions, variantOptions)) {
+      if (item.id === itemId) {
         return { ...item, quantity };
       }
       return item;
@@ -98,12 +99,11 @@ export const updateItemQuantity = async (req: PayloadRequest) => {
       data: { items },
     });
     if (newCart.errors.length > 0) {
-      // Throw the first error found so your catch block handles it
       const message = newCart.errors.map((err) => err.message).join(", ");
       throw new Error(message);
     }
-    // Populate full product data
-    const populatedCart = await getCart(cart.id);
+
+    const populatedCart = await getCart(cart.id, body.locale);
 
     return Response.json({ cart: populatedCart });
   } catch (error: any) {

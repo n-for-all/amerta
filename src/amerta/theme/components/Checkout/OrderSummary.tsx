@@ -95,7 +95,7 @@ export const OrderSummary = ({ cart, exchangeRate, currency, locale, shippingCos
         <div className="px-4 py-6 border-t border-zinc-200 sm:px-6 dark:border-zinc-800">
           <Button size="lg" type="submit" disabled={isSubmitting} variant={!isValid ? "destructive" : "default"} className={"w-full"}>
             {isSubmitting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : !isValid ? <CircleAlert className="w-5 h-5 mr-2" /> : null}
-            {isSubmitting ? "Processing..." : "Confirm Order"}
+            {isSubmitting ? __("Processing...") : __("Confirm Order")}
           </Button>
 
           <div className="flex justify-center mt-4 text-sm text-center text-zinc-500 dark:text-zinc-400">

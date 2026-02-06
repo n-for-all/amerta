@@ -4,17 +4,7 @@ import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
 import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
 import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-
-const sendUncachedResponse = (status: number, body: any) => {
-  return Response.json(body, {
-    status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-      Pragma: "no-cache",
-      Expires: "0",
-    },
-  });
-};
+import { sendUncachedResponse } from "@/amerta/utilities/sendUncachedResponse";
 
 export const executePaymentMethodAction = async (req) => {
   const { payload } = req;

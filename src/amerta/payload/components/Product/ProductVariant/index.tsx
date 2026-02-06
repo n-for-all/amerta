@@ -96,7 +96,7 @@ const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
             let variantName = "";
             let variantOptions = v.variant || {};
             Object.keys(variantOptions).forEach((key) => {
-              variantName += `${variantOptions[key].name}: ${variantOptions[key].value} `;
+              variantName += `${variantOptions[key]!.name}: ${variantOptions[key]!.value} `;
             });
 
             let maxStock = -1;

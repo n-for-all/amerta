@@ -74,7 +74,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           </li>
           <li>
             <span aria-current="page" className="uppercase text-zinc-500 hover:text-zinc-600 dark:text-zinc-400">
-              {"Products"}
+              {__("Products")}
             </span>
           </li>
         </ol>
@@ -83,14 +83,13 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       <hr role="presentation" className="w-full border-t border-zinc-950/10 dark:border-white/10" />
 
       <main className="container">
-        {/* Header Section */}
         <div className="flex flex-col items-center text-center py-14 lg:py-20">
           <h1 className="mt-5 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none">
-            <span className="text-zinc-500">All</span>
+            <span className="text-zinc-500">{__("All")}</span>
             <br />
-            <span className="underline">{"Products"}</span>
+            <span className="underline">{__("Products")}</span>
           </h1>
-          <div className="max-w-xl mt-5 uppercase text-sm/6 text-zinc-600 dark:text-zinc-400">{"Discover our amazing collection of products"}</div>
+          <div className="max-w-xl mt-5 uppercase text-sm/6 text-zinc-600 dark:text-zinc-400">{__("Discover our amazing collection of products")}</div>
         </div>
 
         <CollectionFilters totalProducts={totalProducts} currentProductCount={products.length} brands={brands} collections={allCollections} options={allOptions} />
@@ -98,15 +97,14 @@ export default async function Page({ params, searchParams }: { params: Promise<{
         <hr role="presentation" className="w-full mt-5 border-t border-zinc-950/10 dark:border-white/10" />
         <div className="pt-10 pb-16 sm:pt-12 sm:pb-24">
           {totalProducts === 0 ? (
-            // Empty State
             <div className="flex flex-col items-center justify-center py-20">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" className="w-16 h-16 mb-4 text-zinc-400">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
               </svg>
-              <h3 className="mb-2 text-2xl font-semibold text-zinc-900 dark:text-white">No Products Available</h3>
-              <p className="max-w-md mb-8 text-center text-zinc-600 dark:text-zinc-400">Sorry, there are currently no products found!</p>
+              <h3 className="mb-2 text-2xl font-semibold text-zinc-900 dark:text-white">{__("No Products Available")}</h3>
+              <p className="max-w-md mb-8 text-center text-zinc-600 dark:text-zinc-400">{__("Sorry, there are currently no products found!")}</p>
               <Button size={"lg"} variant="default" asChild>
-                <Link href={getURL(`/products`, locale)}>Reset Filters</Link>
+                <Link href={getURL(`/products`, locale)}>{__("Reset Filters")}</Link>
               </Button>
             </div>
           ) : (

@@ -4,26 +4,6 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// 1. Define this simple logger class at the top of the file
-class LogPlugin {
-  apply(compiler) {
-    compiler.hooks.watchRun.tap("LogPlugin", (compilation) => {
-      // Log when a file change is detected
-      if (compilation.modifiedFiles) {
-        const files = Array.from(compilation.modifiedFiles);
-        console.log(`\n🚨 DETECTED CHANGE: ${files.join(", ")}`);
-        console.log("⏳ Recompiling...");
-      }
-    });
-
-    compiler.hooks.done.tap("LogPlugin", (stats) => {
-      // Log when compilation finishes
-      const time = stats.endTime - stats.startTime;
-      console.log(`✅ Finished in ${time}ms\n`);
-    });
-  }
-}
-
 const __filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(__filename);
 
@@ -42,6 +22,11 @@ const nextConfig = (phase, { defaultConfig }) => {
   const config = withBundleAnalyzer(
     withPayload(
       {
+        logging: {
+          fetches: {
+            fullUrl: !isProdBuild,
+          },
+        },
         async rewrites() {
           return {
             beforeFiles: [],
@@ -57,12 +42,6 @@ const nextConfig = (phase, { defaultConfig }) => {
             ],
             fallback: [],
           };
-        },
-        webpack: (config, { isServer, dev }) => {
-          if (dev && !isServer) {
-            config.plugins.push(new LogPlugin());
-          }
-          return config;
         },
         productionBrowserSourceMaps: allowSourceMaps,
         output: "standalone",

@@ -1,23 +1,10 @@
 import { Currency, Order, PaymentMethod } from "@/payload-types";
 import { getPaymentAdapter } from "@/amerta/payments";
-import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
 import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
 import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
 import { getURL } from "@/amerta/utilities/getURL";
 import { createOrderKey } from "@/amerta/theme/utilities/create-order-key";
-import { getCurrency } from "@/amerta/theme/utilities/get-currency";
-
-const sendUncachedResponse = (status: number, body: any) => {
-  return Response.json(body, {
-    status,
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-      Pragma: "no-cache",
-      Expires: "0",
-    },
-  });
-};
+import { sendUncachedResponse } from "@/amerta/utilities/sendUncachedResponse";
 
 export type ExecutePaymentMethodConfirmRequest = {
   orderId: string;

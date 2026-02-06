@@ -18,7 +18,7 @@ export default function NotFoundClient() {
         <h3 className="mb-1.5 text-2xl font-semibold">{__("Something went wrong")}</h3>
         <p className="max-w-sm mb-6 text-muted-foreground">{__("The page you're looking for isn't found.")}</p>
         <Button asChild>
-          <Link href={getURL("/", DEFAULT_LOCALE)}>
+          <Link href={getURL("/", DEFAULT_LOCALE)} className="rtl:flex-row-reverse">
             {__("Go to home page")} <ArrowRight className="w-4 h-4" />
           </Link>
         </Button>

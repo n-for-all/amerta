@@ -63,10 +63,10 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
   if (!checkoutState.subtotal || checkoutState.subtotal === 0) {
     return (
       <div className="px-4 py-12 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-semibold text-zinc-900">Your cart is empty</h1>
-        <p className="mt-2 text-zinc-600">Add items to your cart before checking out.</p>
+        <h1 className="text-2xl font-semibold text-zinc-900">{__("Your cart is empty")}</h1>
+        <p className="mt-2 text-zinc-600">{__("Add items to your cart before checking out.")}</p>
         <Link href={getURL("/", locale)} className="inline-block px-6 py-3 mt-6 font-medium text-white rounded-full bg-zinc-900 hover:bg-zinc-800">
-          Continue Shopping
+          {__("Continue Shopping")}
         </Link>
       </div>
     );
@@ -95,7 +95,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
           <div className="flex items-center justify-between p-4 mb-6 border border-red-200 rounded-lg bg-red-50 dark:bg-red-900/30 dark:border-red-700/50">
             <p className="text-sm font-medium text-red-800 dark:text-red-400">{form.formState.errors.root.message}</p>
             <button onClick={() => form.clearErrors()} className="ml-4 text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-300 dark:hover:text-red-400">
-              Dismiss
+              {__("Dismiss")}
             </button>
           </div>
         )}
@@ -106,7 +106,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
               <div>
                 <div className="mb-6">
                   <h3 className="text-2xl font-medium">
-                    <span className="font-serif italic">Contact</span> information
+                    {__("Contact information")}
                   </h3>
                   <div className="mt-10">
                     <FormField
@@ -116,18 +116,18 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
                         <FormItem className="space-y-1">
                           <div className="flex items-center">
                             <FormLabel className="flex-1 text-sm">
-                              Your email address {customer && (
+                              {__("Your email address")} {customer && (
                                 <>
                                   (<Link href={`/logout`} className="px-0.5 text-sm text-blue-600 hover:underline">
-                                    Logout
+                                    {__("Logout")}
                                   </Link>)
                                 </>
                               )}
                             </FormLabel>
                             {!customer && (
                               <span className="text-sm">
-                                Have an account? <button type="button" onClick={() => setShowLoginDialog(true)} className="text-blue-600 hover:underline">
-                                  Log in
+                                {__("Have an account?")} <button type="button" onClick={() => setShowLoginDialog(true)} className="text-blue-600 hover:underline">
+                                  {__("Log in")}
                                 </button>
                               </span>
                             )}
@@ -136,7 +136,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
                             <Input {...field} type="email" placeholder="you@example.com" readOnly={!!customer} className={"w-full rounded-full px-3.5 py-2 text-sm border border-zinc-300 hover:border-zinc-400 bg-transparent focus:outline-hidden focus:ring-2 focus:ring-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed" + (customer ? " cursor-not-allowed bg-zinc-100 text-zinc-500" : "")} />
                           </FormControl>
                           <FormMessage />
-                          <p className="pl-3 mt-1 text-xs text-sm text-zinc-500">We&apos;ll send you tracking info when your order has shipped or updated.</p>
+                          <p className="pl-3 mt-1 text-xs text-sm text-zinc-500">{__("We'll send you tracking info when your order has shipped or updated.")}</p>
                         </FormItem>
                       )}
                     />
@@ -153,7 +153,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
           </form>
         </Form>
         {showLoginDialog && <LoginDialog logo={logo} onClose={() => setShowLoginDialog(false)} />}
-        <ErrorDialog title="Please check your details" open={checkoutState.showErrorDialog} onClose={() => checkoutState.setShowErrorDialog(false)} errors={form.formState.errors} />
+        <ErrorDialog title={__("Please check your details")} open={checkoutState.showErrorDialog} onClose={() => checkoutState.setShowErrorDialog(false)} errors={form.formState.errors} />
       </div>
     </CheckoutContext.Provider>
   );

@@ -11,6 +11,7 @@ const dirname = path.dirname(filename);
 
 export default buildConfig(
   withAmerta({
+    telemetry: false,
     debug: process.env.NODE_ENV !== "production",
     admin: {
       suppressHydrationWarning: true,
@@ -32,6 +33,12 @@ export default buildConfig(
     },
     db: mongooseAdapter({
       url: process.env.DATABASE_URL || "",
+      connectOptions: {
+        maxPoolSize: 50, // Default is usually 5 or 10. Bump this up.
+        minPoolSize: 10,
+        socketTimeoutMS: 30000,
+        connectTimeoutMS: 30000,
+      },
     }),
     sharp,
     plugins: [],

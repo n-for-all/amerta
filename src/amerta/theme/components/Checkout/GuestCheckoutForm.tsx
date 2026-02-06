@@ -19,9 +19,7 @@ export function GuestCheckoutForm() {
     <div className="space-y-10">
       {/* 2. Shipping Address */}
       <div className="pt-10 border-t border-zinc-200 dark:border-zinc-800">
-        <h3 className="mb-6 text-2xl font-medium">
-          <span className="font-serif italic">{__("Shipping")}</span> {__("address")}
-        </h3>
+        <h3 className="mb-6 text-2xl font-medium">{__("Shipping address")}</h3>
         <GuestAddressSection form={form as UseFormReturn<CheckoutFormGuestValues>} countries={data.countries} cities={cities} hasSpecificCities={hasSpecificCities} />
       </div>
 

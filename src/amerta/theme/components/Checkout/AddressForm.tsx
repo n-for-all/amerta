@@ -38,7 +38,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                First Name <span className="text-red-500">*</span>
+                {__("First Name")} <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input {...field} />
@@ -53,7 +53,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Last Name <span className="text-red-500">*</span>
+                {__("Last Name")} <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input {...field} />
@@ -72,18 +72,18 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Country <span className="text-red-500">*</span>
+                {__("Country")} <span className="text-red-500">*</span>
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a country" />
+                    <SelectValue placeholder={__("Select a country")} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {countries.map((country) => (
                     <SelectItem key={country.id} value={country.id}>
-                      {country.name}
+                      {__(country.name)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -98,13 +98,13 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                City <span className="text-red-500">*</span>
+                {__("City")} <span className="text-red-500">*</span>
               </FormLabel>
               {hasSpecificCities ? (
                 <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!form.watch("country")}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder={form.watch("country") ? "Select a city" : "Select country first"} />
+                      <SelectValue placeholder={form.watch("country") ? __("Select a city") : __("Select country first")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -133,10 +133,10 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Address (Area/Landmark) <span className="text-red-500">*</span>
+              {__("Address (Area/Landmark)")} <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Textarea placeholder="Enter area or landmark details" {...field} className="resize-none" rows={3} />
+              <Textarea placeholder={__("Enter area or landmark details")} {...field} className="resize-none" rows={3} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -150,10 +150,10 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Street <span className="text-red-500">*</span>
+              {__("Street")} <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Street name" {...field} />
+              <Input placeholder={__("Street name")} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -168,7 +168,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Apartment/Unit <span className="text-red-500">*</span>
+                {__("Apartment/Unit")} <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input {...field} />
@@ -182,7 +182,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           name="building"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Building</FormLabel>
+              <FormLabel>{__("Building")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -199,7 +199,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           name="postalCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Postal Code</FormLabel>
+              <FormLabel>{__("Postal Code")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -212,7 +212,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           name="state"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>State/Province</FormLabel>
+              <FormLabel>{__("State/Province")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -254,7 +254,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
             return (
               <FormItem>
                 <FormLabel>
-                  Phone (For Delivery Contact) <span className="text-red-500">*</span>
+                  {__("Phone (For Delivery Contact)")} <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <PhoneInput
@@ -264,7 +264,7 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
                       form.setValue("phoneCountryCode", value.phoneCountryCode, { shouldValidate: true });
                       phoneField.onChange(value.phone); // Triggers phone field validation
                     }}
-                    placeholder="Enter your phone number"
+                    placeholder={__("Enter your phone number")}
                   />
                 </FormControl>
                 <FormMessage />

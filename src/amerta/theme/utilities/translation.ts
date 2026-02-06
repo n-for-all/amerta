@@ -3,7 +3,7 @@ import configPromise from "@payload-config";
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { reportMissingTranslation } from "../providers/actions/reportMissingTranslation";
-import { LocaleCode } from "@/amerta/localization/locales";
+import { DEFAULT_LOCALE, LocaleCode } from "@/amerta/localization/locales";
 
 type Dictionary = Record<string, Record<string, string>>;
 
@@ -41,12 +41,12 @@ const getGlobalDictionary = unstable_cache(
 export const getDictionary = cache((locale: string) => getGlobalDictionary(locale));
 
 // 3. Your Helper (Now fast!)
-export const createTranslator = async (locale: string) => {
-  const dictionary = await getDictionary(locale);
+export const createTranslator = async (locale?: string) => {
+  const dictionary = await getDictionary(locale || DEFAULT_LOCALE);
   return (key: string, domain: string = "default") => {
     const val = dictionary[domain]?.[key] || (domain !== "default" ? dictionary["default"]?.[key] : null);
     if (!val || val === "") {
-      reportMissingTranslation(key, domain, locale);
+      locale && reportMissingTranslation(key, domain, locale);
     }
     return val || key;
   };

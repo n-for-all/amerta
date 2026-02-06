@@ -6,6 +6,8 @@ import { getURL } from "@/amerta/utilities/getURL";
 import { Currency, Order, ProductMedia } from "@/payload-types";
 import { formatPrice } from "@/amerta/theme/utilities/format-price";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
+import { printf } from "fast-printf";
+import { useEcommerce } from "../../providers/EcommerceProvider";
 
 type Props = {
   initialOrder: Order;
@@ -20,9 +22,10 @@ type Props = {
 
 export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, customerEmail, customerName, locale, currency, isCOD, orderKey }) => {
   const [payment, setPayment] = useState(initialPayment);
+  const { __ } = useEcommerce();
 
   const hasPaymentRecord = !!payment;
-  const isConfirmed = isCOD || (hasPaymentRecord && payment?.status === "succeeded");
+  const isConfirmed = isCOD || (hasPaymentRecord && payment?.status === "success");
 
   useEffect(() => {
     fetch(`/api/cart/clear`, {
@@ -41,7 +44,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
         if (data.isPaid) {
           setPayment({
-            status: "succeeded",
+            status: "success",
             amount: data.paymentAmount || initialOrder.total,
             currency: currency,
           });
@@ -57,7 +60,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
   const country = typeof initialOrder.address?.country === "string" ? initialOrder.address?.country : initialOrder.address?.country?.name || "";
 
-  const paymentMethodName = payment ? (typeof initialOrder.paymentMethod === "object" ? initialOrder.paymentMethod?.name : "Online Payment") : "Online Payment";
+  const paymentMethodName = payment ? (typeof initialOrder.paymentMethod === "object" ? initialOrder.paymentMethod?.name : __("Online Payment")) : __("Online Payment");
 
   return (
     <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 lg:max-w-3xl">
@@ -66,35 +69,33 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           className={`flex w-fit items-center justify-center rounded-full border px-6 py-2.5 text-sm font-medium transition-colors duration-500
           ${isConfirmed ? "border-green-600 bg-green-50 text-green-700" : "border-zinc-900 text-zinc-900"}`}
         >
-          <span className="flex items-center gap-2 text-xs uppercase">{isConfirmed ? <>✓ Thanks for ordering</> : <>Order Placed</>}</span>
+          <span className="flex items-center gap-2 text-xs uppercase">{isConfirmed ? <>{__("✓ Thanks for ordering")}</> : <>{__("Order Placed")}</>}</span>
         </div>
 
         <h2 className="mt-4 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none text-zinc-900">
           {isConfirmed ? (
             <>
-              Payment <span className="font-serif italic font-normal text-zinc-500">successful!</span>
+              {__("Payment")} <span className="font-serif italic font-normal text-zinc-500">{__("successful!")}</span>
             </>
           ) : (
             <>
-              Order <span className="font-serif italic font-normal text-zinc-500">received.</span>
+              {__("Order")} <span className="font-serif italic font-normal text-zinc-500">{__("received.")}</span>
             </>
           )}
         </h2>
 
         <p className="mt-2.5 text-sm text-zinc-500 uppercase leading-6">
           {isConfirmed ? (
-            <>
-              We sent an email to <span className="font-bold text-zinc-900">{customerEmail}</span> with your order confirmation.
-            </>
+            <span dangerouslySetInnerHTML={{ __html: printf(__("We sent an email to %s with your order confirmation."), `<span className="font-bold text-zinc-900">${customerEmail}</span>`) }}></span>
           ) : (
             <>
-              We are <span className="font-bold text-amber-600">verifying your payment</span>. This page will update automatically.
+              {__("We are")} <span className="font-bold text-amber-600">{__("verifying your payment")}</span>. {__("This page will update automatically.")}
             </>
           )}
         </p>
 
         <dl className="mt-16 text-sm">
-          <dt className="uppercase text-zinc-500">Order ID</dt>
+          <dt className="uppercase text-zinc-500">{__("Order ID")}</dt>
           <dd className="mt-2 font-medium text-zinc-950">#{initialOrder.orderId}</dd>
         </dl>
 
@@ -113,7 +114,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
                     <Link href={getURL(`/products/${slug}`, locale)}>{title}</Link>
                   </h3>
                   {item.variantText && <p className="text-xs uppercase">{item.variantText}</p>}
-                  <p className="mt-auto text-xs uppercase text-zinc-500">Qty {item.quantity}</p>
+                  <p className="mt-auto text-xs uppercase text-zinc-500">{__("Qty")} {item.quantity}</p>
                 </div>
                 <p className="flex-none font-medium text-zinc-900">{formatPrice(item.price, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</p>
               </li>
@@ -125,20 +126,20 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
         <dl className="pt-6 space-y-2 text-sm font-medium border-t border-zinc-200 text-zinc-500">
           {/* Subtotal */}
           <div className="flex justify-between">
-            <dt className="uppercase">Subtotal</dt>
+            <dt className="uppercase">{__("Subtotal")}</dt>
             <dd className="text-zinc-900">{formatPrice(initialOrder.subtotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
           </div>
 
           {/* Shipping */}
           <div className="flex justify-between">
-            <dt className="uppercase">Shipping</dt>
-            <dd className="text-zinc-900">{initialOrder.isFreeShipping ? "FREE" : formatPrice(initialOrder.shippingTotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
+            <dt className="uppercase">{__("Shipping")}</dt>
+            <dd className="text-zinc-900">{initialOrder.isFreeShipping ? __("FREE") : formatPrice(initialOrder.shippingTotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
           </div>
 
           {/* Discount (Only show if exists) */}
           {initialOrder.discountTotal && initialOrder.discountTotal > 0 ? (
             <div className="flex justify-between text-green-600">
-              <dt className="uppercase">Discount {initialOrder.couponCode ? `(${initialOrder.couponCode})` : ""}</dt>
+              <dt className="uppercase">{__("Discount")} {initialOrder.couponCode ? `(${initialOrder.couponCode})` : ""}</dt>
               <dd>-{formatPrice(initialOrder.discountTotal, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
             </div>
           ) : null}
@@ -146,21 +147,21 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           {/* Tax (Only show if exists) */}
           {initialOrder.tax && initialOrder.tax > 0 ? (
             <div className="flex justify-between">
-              <dt className="uppercase">Tax</dt>
+              <dt className="uppercase">{__("Tax")}</dt>
               <dd className="text-zinc-900">{formatPrice(initialOrder.tax, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
             </div>
           ) : null}
 
           {/* Total */}
           <div className="flex items-center justify-between pt-6 border-t border-zinc-200 text-zinc-900">
-            <dt className="text-base uppercase">Total</dt>
+            <dt className="text-base uppercase">{__("Total")}</dt>
             <dd className="text-base">{formatPrice(initialOrder.total || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
           </div>
         </dl>
 
         <dl className="grid grid-cols-2 mt-16 text-sm gap-x-4 text-zinc-600">
           <div>
-            <dt className="font-medium uppercase text-zinc-900">Shipping Address</dt>
+            <dt className="font-medium uppercase text-zinc-900">{__("Shipping Address")}</dt>
             <dd className="mt-2">
               <address className="not-italic uppercase">
                 <span className="block">{customerName}</span>
@@ -174,19 +175,22 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           </div>
 
           <div>
-            <dt className="font-medium uppercase text-zinc-900">Payment Information</dt>
+            <dt className="font-medium uppercase text-zinc-900">{__("Payment Information")}</dt>
             <dd className="mt-2 space-y-2 sm:flex sm:space-y-0 sm:space-x-4">
               {isCOD ? (
                 <div className="flex items-center gap-2">
-                  <div className="h-6 w-10 bg-zinc-200 rounded flex items-center justify-center text-[10px] font-bold">CASH</div>
-                  <p className="uppercase text-zinc-900">Pay on Delivery</p>
+                  <div className="h-6 w-10 bg-zinc-200 rounded flex items-center justify-center text-[10px] font-bold">{__("CASH")}</div>
+                  <p className="uppercase text-zinc-900">{__("Pay on Delivery")}</p>
                 </div>
               ) : (
                 <>
                   <div className="flex-none">
                     <svg width="36" height="24" viewBox="0 0 36 24" aria-hidden="true" className="w-auto h-6">
                       <rect rx="4" fill="#224DBA" width="36" height="24"></rect>
-                      <path d="M10.925 15.673H8.874l-1.538-6c-.073-.276-.228-.52-.456-.635A6.575 6.575 0 005 8.403v-.231h3.304c.456 0 .798.347.855.75l.798 4.328 2.05-5.078h1.994l-3.076 7.5zm4.216 0h-1.937L14.8 8.172h1.937l-1.595 7.5zm4.101-5.422c.057-.404.399-.635.798-.635a3.54 3.54 0 011.88.346l.342-1.615A4.808 4.808 0 0020.496 8c-1.88 0-3.248 1.039-3.248 2.481 0 1.097.969 1.673 1.653 2.02.74.346 1.025.577.968.923 0 .519-.57.75-1.139.75a4.795 4.795 0 01-1.994-.462l-.342 1.616a5.48 5.48 0 002.108.404c2.108.057 3.418-.981 3.418-2.539 0-1.962-2.678-2.077-2.678-2.942zm9.457 5.422L27.16 8.172h-1.652a.858.858 0 00-.798.577l-2.848 6.924h1.994l.398-1.096h2.45l.228 1.096h1.766zm-2.905-5.482l.57 2.827h-1.596l1.026-2.827z" fill="#fff"></path>
+                      <path
+                        d="M10.925 15.673H8.874l-1.538-6c-.073-.276-.228-.52-.456-.635A6.575 6.575 0 005 8.403v-.231h3.304c.456 0 .798.347.855.75l.798 4.328 2.05-5.078h1.994l-3.076 7.5zm4.216 0h-1.937L14.8 8.172h1.937l-1.595 7.5zm4.101-5.422c.057-.404.399-.635.798-.635a3.54 3.54 0 011.88.346l.342-1.615A4.808 4.808 0 0020.496 8c-1.88 0-3.248 1.039-3.248 2.481 0 1.097.969 1.673 1.653 2.02.74.346 1.025.577.968.923 0 .519-.57.75-1.139.75a4.795 4.795 0 01-1.994-.462l-.342 1.616a5.48 5.48 0 002.108.404c2.108.057 3.418-.981 3.418-2.539 0-1.962-2.678-2.077-2.678-2.942zm9.457 5.422L27.16 8.172h-1.652a.858.858 0 00-.798.577l-2.848 6.924h1.994l.398-1.096h2.45l.228 1.096h1.766zm-2.905-5.482l.57 2.827h-1.596l1.026-2.827z"
+                        fill="#fff"
+                      ></path>
                     </svg>
                     <p className="sr-only">Visa</p>
                   </div>
@@ -195,8 +199,8 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
                     {hasPaymentRecord ? (
                       <p className="mt-1 text-xs transition-all duration-500 text-zinc-500">
-                        Paid {formatPrice(payment.amount, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}
-                        <span className="ml-2 font-bold text-green-600">(PAID)</span>
+                        {__("Paid")} {formatPrice(payment.amount, initialOrder.customerCurrency as Currency, 1)}
+                        <span className="ml-2 font-bold text-green-600">({__("PAID")})</span>
                       </p>
                     ) : (
                       <div className="flex items-center gap-2 mt-1 text-xs text-amber-600 animate-pulse">
@@ -204,7 +208,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
                           <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-amber-400"></span>
                           <span className="relative inline-flex w-2 h-2 rounded-full bg-amber-500"></span>
                         </span>
-                        <span>Confirming payment...</span>
+                        <span>{__("Confirming payment...")}</span>
                       </div>
                     )}
                   </div>
@@ -216,7 +220,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
         <div className="py-6 mt-16 text-right border-t border-zinc-200">
           <Link href={getURL("/", locale)} className="text-sm font-medium uppercase text-zinc-950 hover:text-zinc-700">
-            Continue Shopping <span aria-hidden="true">→</span>
+            {__("Continue Shopping →")}
           </Link>
         </div>
       </div>

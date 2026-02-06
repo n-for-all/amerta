@@ -63,7 +63,6 @@ export default async function BrandPage({ params, searchParams }: { params: Prom
 
   return (
     <div>
-      {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="text-xs/6 font-medium py-3.5 container">
         <ol role="list" className="flex flex-wrap items-center gap-2">
           <li>
@@ -87,7 +86,6 @@ export default async function BrandPage({ params, searchParams }: { params: Prom
       <hr role="presentation" className="w-full border-t border-zinc-950/10 dark:border-white/10" />
 
       <main className="container">
-        {/* Header Section */}
         <div className="flex flex-col items-center text-center py-14 lg:py-20">
           <h1 className="mt-5 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none">
             <span className="text-zinc-500">{__("Brand")}</span>

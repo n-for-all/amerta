@@ -119,7 +119,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
               { label: __("Name: A to Z"), value: "name-asc" },
               { label: __("Name: Z to A"), value: "name-desc" },
             ].map((option) => (
-              <button key={option.value} onClick={() => updateFilter("sort", option.value)} className={`block w-full px-4 py-2 text-left text-sm whitespace-nowrap ${searchParams.get("sort") === option.value ? "font-bold text-zinc-900 bg-zinc-50" : "text-zinc-700 hover:bg-zinc-50"}`}>
+              <button key={option.value} onClick={() => updateFilter("sort", option.value)} className={`block w-full px-4 py-2 text-left rtl:text-right text-sm whitespace-nowrap ${searchParams.get("sort") === option.value ? "font-bold text-zinc-900 bg-zinc-50 dark:bg-zinc-800 dark:text-white" : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700"}`}>
                 {option.label}
               </button>
             ))}
@@ -127,7 +127,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
         </FilterDropdown>
       </div>
 
-      <div className="mx-auto md:ml-auto md:mr-0">
+      <div className="mx-auto md:ml-auto md:mr-0 rtl:md:ml-0 rtl:md:mr-auto">
         <Button className="inline-flex items-center sm:hidden">
           {__("Filters")}
           <Filter className="flex-shrink-0 w-4 h-4" />
@@ -224,7 +224,7 @@ function FilterDropdown({ label, children, count = 0 }: { label: string; childre
       <PopoverButton className="inline-flex items-center justify-center px-3 py-2 font-normal rounded-full group focus-visible:outline-none hover:bg-zinc-100 dark:hover:bg-zinc-800">
         <p className="uppercase text-sm/6">{label}</p>
         {count > 0 && <span className="ml-1 text-xs font-semibold underline text-zinc-950 tabular-nums dark:text-white">({count})</span>}
-        <ChevronIcon className="ml-1 -mr-1 text-zinc-400 group-hover:text-zinc-500" />
+        <ChevronIcon className="ml-1 -mr-1 rtl:-ml-1 rtl:mr-1 text-zinc-400 group-hover:text-zinc-500" />
       </PopoverButton>
 
       <PopoverPanel className="absolute right-0 z-30 mt-2 overflow-auto origin-top-right bg-white shadow-lg max-h-48 min-w-32 focus:outline-none dark:bg-zinc-900 dark:ring-white/10">{children}</PopoverPanel>

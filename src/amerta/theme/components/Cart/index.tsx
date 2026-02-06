@@ -27,7 +27,7 @@ export default function Cart({ onClose }: CartProps) {
 
   useEffect(() => {
     const loadCartOnMount = async () => {
-      const { cart: fetchedCart } = await fetchCart();
+      const { cart: fetchedCart } = await fetchCart(locale);
       if (fetchedCart) {
         setCart(fetchedCart);
         localStorage.setItem("cart", JSON.stringify(fetchedCart));
@@ -40,7 +40,7 @@ export default function Cart({ onClose }: CartProps) {
   // Load cart when cart modal opens
   useEffect(() => {
     const loadCart = async () => {
-      const { cart: fetchedCart, error } = await fetchCart();
+      const { cart: fetchedCart, error } = await fetchCart(locale);
       if (error) {
         console.error("Failed to fetch cart:", error.message);
         setCart(null);
@@ -80,17 +80,14 @@ export default function Cart({ onClose }: CartProps) {
     if (onClose) onClose();
   };
 
-  const handleQuantityChange = async (productId: string, newQuantity: number) => {
+  const handleQuantityChange = async (itemId?: string | null, newQuantity?: number) => {
+    if (!itemId || newQuantity === undefined) return;
     if (newQuantity < 1) return;
 
-    setUpdatingItemId(productId);
+    setUpdatingItemId(itemId);
     setError(null);
 
-    // Find item to get variant options
-    const item = (cart?.items || []).find((i) => (i.product as Product).id === productId);
-    if (!item) return;
-
-    const { cart: updatedCart, error: apiError } = await updateQuantity(productId, newQuantity, item.variantOptions);
+    const { cart: updatedCart, error: apiError } = await updateQuantity(itemId, newQuantity,locale);
 
     if (apiError) {
       setError(apiError.message);
@@ -107,15 +104,12 @@ export default function Cart({ onClose }: CartProps) {
     setUpdatingItemId(null);
   };
 
-  const handleRemoveItem = async (productId: string) => {
-    setUpdatingItemId(productId);
+  const handleRemoveItem = async (itemId?: string | null) => {
+    if (!itemId) return;
+    setUpdatingItemId(itemId);
     setError(null);
 
-    // Find item to get variant options
-    const item = (cart?.items || []).find((i) => (i.product as Product).id === productId);
-    if (!item) return;
-
-    const { cart: updatedCart, error: apiError } = await removeFromCart(productId, item.variantOptions);
+    const { cart: updatedCart, error: apiError } = await removeFromCart(itemId, locale);
 
     if (apiError) {
       setError(apiError.message);
@@ -207,7 +201,7 @@ export default function Cart({ onClose }: CartProps) {
                                   const price = item.price;
                                   const salePrice = item.salePrice && item.salePrice > 0 && item.salePrice < item.price ? item.salePrice : item.price;
                                   return (
-                                    <li key={`${product.id}-${index}`} className="flex py-4">
+                                    <li key={`${item.id}`} className="flex py-4">
                                       <div className="relative w-24 h-32 overflow-hidden rounded-md shrink-0">
                                         {(product.images?.[0] as ProductMedia)?.url ? (
                                           <ImageMedia alt={(product.images?.[0] as ProductMedia)?.alt || product.title} src={(product.images?.[0] as ProductMedia)?.url} fill imgClassName="object-contain w-full h-full" />
@@ -250,8 +244,8 @@ export default function Cart({ onClose }: CartProps) {
                                           <div className="inline-grid w-full grid-cols-1 max-w-16">
                                             <select
                                               value={item.quantity}
-                                              onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-                                              disabled={updatingItemId === product.id}
+                                              onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
+                                              disabled={updatingItemId === item.id}
                                               className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-0.5 ps-3 pe-8 text-xs/6 outline-1 -outline-offset-1 outline-zinc-900/10 focus:outline-1 dark:bg-zinc-800 dark:text-white dark:outline-white/10 disabled:opacity-50"
                                             >
                                               {[1, 2, 3, 4, 5, 6, 7, 8].map((qty) => (
@@ -271,8 +265,8 @@ export default function Cart({ onClose }: CartProps) {
 
                                           <button
                                             type="button"
-                                            onClick={() => handleRemoveItem(product.id)}
-                                            disabled={updatingItemId === product.id}
+                                            onClick={() => handleRemoveItem(item.id)}
+                                            disabled={updatingItemId === item.id}
                                             className="p-2 -m-2 font-medium cursor-pointer text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white disabled:opacity-50"
                                             title={__("Remove item from cart")}
                                           >

@@ -97,9 +97,7 @@ export default async function CollectionPage({ params, searchParams }: { params:
             <RichText data={collectionDescription} enableProse={false} enableGutter={false} locale={locale} />
           </div>
         </div>
-
         <CollectionFilters totalProducts={totalProducts} currentProductCount={products.length} brands={brands} collections={[]} options={allOptions} />
-
         <hr role="presentation" className="w-full mt-4 border-t border-zinc-950/10 dark:border-white/10" />
         <div className="pt-10 pb-16 sm:pt-12 sm:pb-24">
           {totalProducts === 0 ? (

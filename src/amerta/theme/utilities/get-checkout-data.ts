@@ -2,6 +2,7 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { PaymentMethod } from "../types";
 import { getSalesChannel } from "./get-sales-channel";
+import { LocaleCode } from "@/amerta/localization/locales";
 
 export interface CheckoutData {
   countries: Array<{
@@ -20,7 +21,7 @@ export interface CheckoutData {
  * Fetch all checkout data (countries and payment methods) at once
  * Use this for server-side rendering to pass initial data to the Checkout component
  */
-export async function getCheckoutData(): Promise<CheckoutData> {
+export async function getCheckoutData(locale: string): Promise<CheckoutData> {
   try {
     const payload = await getPayload({ config: configPromise });
 
@@ -37,6 +38,7 @@ export async function getCheckoutData(): Promise<CheckoutData> {
             equals: true,
           },
         },
+        locale: locale as LocaleCode,
         limit: 1000, // Get all shipping records to extract unique countries
       }),
       payload.find({
@@ -49,6 +51,8 @@ export async function getCheckoutData(): Promise<CheckoutData> {
             equals: salesChannel.id,
           },
         },
+        locale: locale as LocaleCode,
+        limit: 1000,
       }),
     ]);
 

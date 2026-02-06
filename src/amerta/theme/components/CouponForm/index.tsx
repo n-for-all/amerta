@@ -15,7 +15,7 @@ export const CouponForm = ({ cart, onCartUpdate, currency, className, showLabel 
   const [couponError, setCouponError] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState(true);
   const discountAmount = cart?.discount || 0;
-  const { __, exchangeRate } = useEcommerce();
+  const { __, locale, exchangeRate } = useEcommerce();
   const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponCode.trim()) return;
@@ -23,7 +23,7 @@ export const CouponForm = ({ cart, onCartUpdate, currency, className, showLabel 
     setCouponLoading(true);
     setCouponError(null);
 
-    const { cart: updatedCart, error: apiError } = await applyCoupon(couponCode);
+    const { cart: updatedCart, error: apiError } = await applyCoupon(couponCode, locale);
 
     if (apiError) {
       setCouponError(apiError.message);
@@ -47,7 +47,7 @@ export const CouponForm = ({ cart, onCartUpdate, currency, className, showLabel 
     setCouponLoading(true);
     setCouponError(null);
 
-    const { cart: updatedCart, error: apiError } = await removeCoupon();
+    const { cart: updatedCart, error: apiError } = await removeCoupon(locale);
 
     if (apiError) {
       setCouponError(apiError.message);

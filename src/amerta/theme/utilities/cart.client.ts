@@ -11,9 +11,9 @@ import { ApiError, CartWithCalculations } from "../types";
  * @param variantOptions - Optional array of variant option objects.
  * @returns The updated cart or an error object.
  * @example
- * const res = await addToCart({ id: "123", title: "Shirt", price: 20 }, 2);
+ * const res = await addToCart({ id: "123", title: "Shirt", price: 20 }, 2, [], "en-US");
  */
-export async function addToCart(product: { id: string; title: string; price: number }, quantity: number, variantOptions?: Array<{ option: string; value: string }>): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function addToCart(product: { id: string; title: string; price: number }, quantity: number, variantOptions: Array<{ option: string; value: string }>, locale: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/add", {
       method: "POST",
@@ -21,6 +21,7 @@ export async function addToCart(product: { id: string; title: string; price: num
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        locale: locale,
         product: product.id,
         quantity,
         variantOptions: variantOptions || [],
@@ -34,6 +35,9 @@ export async function addToCart(product: { id: string; title: string; price: num
     }
 
     const data = await response.json();
+    if (data.error) {
+      throw new Error(data.error);
+    }
     return { cart: data.cart };
   } catch (err) {
     return {
@@ -46,13 +50,13 @@ export async function addToCart(product: { id: string; title: string; price: num
 
 /**
  * Removes a product from the cart.
- * @param productId - The ID of the product to remove.
- * @param variantOptions - Optional array of variant option objects.
+ * @param itemId - The ID of the item to remove.
+ * @param locale - The locale string.
  * @returns The updated cart or an error object.
  * @example
- * const res = await removeFromCart("123");
+ * const res = await removeFromCart("123", "en-US");
  */
-export async function removeFromCart(productId: string, variantOptions?: Array<{ option: string | ProductOption; value: string }> | null): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function removeFromCart(itemId: string, locale: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/remove", {
       method: "POST",
@@ -60,8 +64,8 @@ export async function removeFromCart(productId: string, variantOptions?: Array<{
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        product: productId,
-        variantOptions: (variantOptions || []).map((vo) => ({ option: typeof vo.option === "string" ? vo.option : vo.option.id, value: vo.value })),
+        locale: locale,
+        itemId: itemId,
       }),
       credentials: "include",
     });
@@ -72,6 +76,9 @@ export async function removeFromCart(productId: string, variantOptions?: Array<{
     }
 
     const data = await response.json();
+    if (data.error) {
+      throw new Error(data.error);
+    }
     return { cart: data.cart };
   } catch (err) {
     return {
@@ -84,14 +91,14 @@ export async function removeFromCart(productId: string, variantOptions?: Array<{
 
 /**
  * Updates the quantity of a cart item or removes it if quantity is less than or equal to zero.
- * @param productId - The ID of the product to update.
+ * @param itemId - The ID of the item to update.
  * @param quantity - The new quantity.
- * @param variantOptions - Optional array of variant option objects.
+ * @param locale - The locale string.
  * @returns The updated cart or an error object.
  * @example
- * const res = await updateQuantity("123", 3);
+ * const res = await updateQuantity("123", 3, "en-US");
  */
-export async function updateQuantity(productId: string, quantity: number, variantOptions?: Array<{ option: string | ProductOption; value: string }> | null): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function updateQuantity(itemId: string, quantity: number, locale: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/update-quantity", {
       method: "POST",
@@ -99,9 +106,9 @@ export async function updateQuantity(productId: string, quantity: number, varian
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        product: productId,
+        itemId: itemId,
         quantity,
-        variantOptions: (variantOptions || []).map((vo) => ({ option: typeof vo.option === "string" ? vo.option : vo.option.id, value: vo.value })),
+        locale,
       }),
       credentials: "include",
     });
@@ -127,16 +134,16 @@ export async function updateQuantity(productId: string, quantity: number, varian
  * @param code - The coupon code to apply.
  * @returns The updated cart or an error object.
  * @example
- * const res = await applyCoupon("SUMMER2024");
+ * const res = await applyCoupon("SUMMER2024", "en-US");
  */
-export async function applyCoupon(code: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function applyCoupon(code: string, locale: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/apply-coupon", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code, locale }),
       credentials: "include",
     });
 
@@ -162,7 +169,7 @@ export async function applyCoupon(code: string): Promise<{ cart: CartWithCalcula
  * @example
  * const res = await removeCoupon();
  */
-export async function removeCoupon(): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function removeCoupon(locale: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/remove-coupon", {
       method: "POST",
@@ -170,6 +177,7 @@ export async function removeCoupon(): Promise<{ cart: CartWithCalculations; erro
         "Content-Type": "application/json",
       },
       credentials: "include",
+      body: JSON.stringify({ locale }),
     });
 
     if (!response.ok) {
@@ -226,9 +234,9 @@ export async function clearCart(): Promise<{ cart: CartWithCalculations; error?:
  * @example
  * const res = await fetchCart();
  */
-export async function fetchCart(): Promise<{ cart: CartWithCalculations | null; error?: null } | { cart?: null; error: ApiError }> {
+export async function fetchCart(locale: string): Promise<{ cart: CartWithCalculations | null; error?: null } | { cart?: null; error: ApiError }> {
   try {
-    const response = await fetch("/api/cart/get", {
+    const response = await fetch("/api/cart/get?locale=" + locale, {
       method: "GET",
       credentials: "include",
     });
@@ -239,6 +247,9 @@ export async function fetchCart(): Promise<{ cart: CartWithCalculations | null; 
     }
 
     const data = await response.json();
+    if (data.error) {
+      throw new Error(data.error);
+    }
     return { cart: data.cart };
   } catch (err) {
     return {

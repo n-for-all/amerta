@@ -293,7 +293,7 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
                               <SelectContent>
                                 {countries.map((country) => (
                                   <SelectItem key={country.id} value={String(country.id)}>
-                                    {country.name}
+                                    {__(country.name)}
                                   </SelectItem>
                                 ))}
                               </SelectContent>

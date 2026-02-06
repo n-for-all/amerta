@@ -40,6 +40,7 @@ import { UnsplashImportProductMedia as UnsplashImportProductMedia_87eec4ae3a9255
 import { Label as Label_af1192929b02b764ee8d11c4d1c96ee8 } from '@/amerta/collections/Pages/Label'
 import { AIAgentButton as AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b } from '@/amerta/fields/translate/AIAgentButton'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { AIBulkTranslateButton as AIBulkTranslateButton_dfda55403b80c8859d6e8bf0cc691a5b } from '@/amerta/fields/translate/AIBulkTranslateButton'
 import { AITranslateButton as AITranslateButton_6b5e411106171f4df368bdf10bad55f2 } from '@/amerta/fields/translate/AITranslateButton'
 import { OrderAdmin as OrderAdmin_18a50d419bd44b124c382b13f5e7610d } from '@/amerta/components/Order'
 import { default as default_0dccb26643971045d66d36c52aa9af99 } from '@/amerta/components/Product/ProductVariant'
@@ -106,6 +107,7 @@ export const importMap = {
   "@/amerta/collections/Pages/Label#Label": Label_af1192929b02b764ee8d11c4d1c96ee8,
   "@/amerta/fields/translate/AIAgentButton#AIAgentButton": AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/amerta/fields/translate/AIBulkTranslateButton#AIBulkTranslateButton": AIBulkTranslateButton_dfda55403b80c8859d6e8bf0cc691a5b,
   "@/amerta/fields/translate/AITranslateButton#AITranslateButton": AITranslateButton_6b5e411106171f4df368bdf10bad55f2,
   "@/amerta/components/Order#OrderAdmin": OrderAdmin_18a50d419bd44b124c382b13f5e7610d,
   "@/amerta/components/Product/ProductVariant#default": default_0dccb26643971045d66d36c52aa9af99,

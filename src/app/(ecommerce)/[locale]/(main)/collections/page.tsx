@@ -32,9 +32,6 @@ export default async function CollectionsPage({ params, searchParams }: Props) {
     return (
       <div className="w-full min-h-screen bg-white dark:bg-zinc-950">
         <main className="container px-4 py-16 mx-auto sm:py-20 lg:py-24">
-          {/* Header */}
-
-          {/* Collections Grid */}
           {collections.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20">
               <LibraryBig className="w-16 h-16 mb-4 text-zinc-400" strokeWidth={1} />

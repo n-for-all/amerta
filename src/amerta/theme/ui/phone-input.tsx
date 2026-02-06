@@ -69,7 +69,7 @@ export const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(({
   };
 
   return (
-    <div className={`flex gap-2 ${className}`}>
+    <div dir="ltr" className={`flex gap-2 dir-ltr ${className}`}>
       {/* Country Code Select */}
       <Select value={selectedCountryCode} onValueChange={handleCountryCodeChange} disabled={disabled} required={required}>
         <SelectTrigger className="flex-shrink-0 w-32">

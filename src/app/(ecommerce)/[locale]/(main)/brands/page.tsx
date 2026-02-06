@@ -9,6 +9,7 @@ import { getBrands } from "@/amerta/theme/utilities/get-brands";
 import { Pagination } from "@/amerta/theme/components/Pagination";
 import { Button } from "@/amerta/theme/ui/button";
 import { SearchParams } from "next/dist/server/request/search-params";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
 
 export const revalidate = 60;
 
@@ -22,6 +23,7 @@ type Props = {
 export default async function BrandsPage({ params, searchParams }: Props) {
   const { locale } = await params;
   const page = (await searchParams)?.page || "1";
+  const __ = await createTranslator(locale);
 
   try {
     const salesChannel = await getSalesChannel();
@@ -30,18 +32,15 @@ export default async function BrandsPage({ params, searchParams }: Props) {
     return (
       <div className="w-full min-h-screen bg-white dark:bg-zinc-950">
         <main className="container px-4 py-16 mx-auto sm:py-20 lg:py-24">
-          {/* Header */}
-
-          {/* Brands Grid */}
           {brands.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20">
               <LibraryBig className="w-16 h-16 mb-4 text-zinc-400" strokeWidth={1} />
-              <h3 className="mb-2 text-2xl font-semibold text-zinc-900 dark:text-white">No Brands Yet</h3>
-              <p className="text-center text-zinc-600 dark:text-zinc-400">Check back soon for our exciting brands!</p>
+              <h3 className="mb-2 text-2xl font-semibold text-zinc-900 dark:text-white">{__("No Brands Yet")}</h3>
+              <p className="text-center text-zinc-600 dark:text-zinc-400">{__("Check back soon for our exciting brands!")}</p>
               <Button asChild>
                 <Link href={getURL("/", locale)} className="mt-6">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Go to Homepage
+                  {__("Go to Homepage")}
                 </Link>
               </Button>
             </div>
@@ -49,10 +48,10 @@ export default async function BrandsPage({ params, searchParams }: Props) {
             <>
               <div className="flex flex-col items-center text-center py-14 lg:py-20">
                 <h1 className="mt-5 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none">
-                  <span className="text-zinc-500">Brands</span>
+                  <span className="text-zinc-500">{__("Brands")}</span>
                   <br />
                 </h1>
-                <div className="max-w-xl mt-5 uppercase text-sm/6 text-zinc-600 dark:text-zinc-400">{"Explore our curated brands of premium products."}</div>
+                <div className="max-w-xl mt-5 uppercase text-sm/6 text-zinc-600 dark:text-zinc-400">{__("Explore our curated brands of premium products.")}</div>
               </div>
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
                 {brands.map((collection: any) => {
@@ -63,8 +62,6 @@ export default async function BrandsPage({ params, searchParams }: Props) {
                           <ImageOrPlaceholder image={collection.image} className="z-0 object-cover rounded-lg" />
                           <span className="absolute inset-0 transition-opacity opacity-0 bg-black/20 group-hover/collection:opacity-100" />
                         </div>
-
-                        {/* Bottom Label */}
                         <div className="absolute inset-x-4 bottom-4 flex items-center justify-center gap-0.5">
                           <div className="flex items-center justify-center px-5 bg-white rounded-full dark:bg-zinc-900 dark:text-white h-11 grow text-zinc-900">
                             <p className="leading-none uppercase text-sm/6">{collection.title || collection.name}</p>
@@ -73,8 +70,6 @@ export default async function BrandsPage({ params, searchParams }: Props) {
                             <ArrowUpRight className="w-4 h-4" />
                           </div>
                         </div>
-
-                        {/* Link */}
                         <Link href={getURL(`/brands/${collection.slug}`, locale)} className="uppercase text-sm/6">
                           <span className="absolute inset-0" />
                           <span className="sr-only">{collection.title || collection.name}</span>
@@ -96,8 +91,8 @@ export default async function BrandsPage({ params, searchParams }: Props) {
       <div className="w-full min-h-screen bg-white dark:bg-zinc-950">
         <main className="container px-4 py-16 mx-auto sm:py-20 lg:py-24">
           <div className="text-center">
-            <h1 className="text-2xl font-semibold text-zinc-900 dark:text-white">Error loading brands</h1>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">Please try again later.</p>
+            <h1 className="text-2xl font-semibold text-zinc-900 dark:text-white">{__("Error loading brands")}</h1>
+            <p className="mt-2 text-zinc-600 dark:text-zinc-400">{__("Please try again later.")}</p>
           </div>
         </main>
       </div>

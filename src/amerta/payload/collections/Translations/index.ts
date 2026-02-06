@@ -11,6 +11,9 @@ export const Translations: CollectionConfig = {
       edit: {
         beforeDocumentControls: ["@/amerta/fields/translate/AITranslateButton#AITranslateButton"],
       },
+      beforeListTable: [
+        '@/amerta/fields/translate/AIBulkTranslateButton#AIBulkTranslateButton'
+      ]
     },
   },
   hooks: {

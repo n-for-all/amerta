@@ -156,7 +156,7 @@ export const createOrder = async (req: PayloadRequest) => {
       return NextResponse.json({ error: "Your cart is empty" }, { status: 400 });
     }
 
-    const cart = await getCart(cartId.value);
+    const cart = await getCart(cartId.value, validationData.locale);
     if (!cart || !cart.items || cart.items.length === 0) {
       return NextResponse.json({ error: "Your cart is empty" }, { status: 400 });
     }

@@ -8,6 +8,9 @@ import { isInStock } from "@/amerta/theme/utilities/is-in-stock";
 import { variantsMatch } from "@/amerta/theme/utilities/variants-match";
 import { PayloadRequest } from "payload";
 import z from "zod";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
+import { printf } from "fast-printf";
 
 const variantOptionSchema = z.object({
   option: z.string(),
@@ -18,20 +21,24 @@ const addToCartSchema = z.object({
   product: z.string().min(1, "Product ID is required"),
   quantity: z.number().int().positive().optional().default(1),
   variantOptions: z.array(variantOptionSchema).optional(),
+  locale: z.string().optional(),
 });
 
+let __ = (text: string) => text; // default no-op translator
 export const addCartItem = async (req: PayloadRequest) => {
   try {
     //@ts-expect-error req.cookies is not typed
     const cartIdCookie = req.cookies.get("cartId")?.value;
-    const cart: CartWithCalculations | null = await getCart(cartIdCookie);
-
     const body = await req.json!();
+    const cart: CartWithCalculations | null = await getCart(cartIdCookie, body?.locale);
+
+    
     const validation = addToCartSchema.safeParse(body);
+    __ = await createTranslator(body?.locale || DEFAULT_LOCALE);
 
     if (!validation.success) {
       console.error("Add to cart validation errors:", validation.error);
-      return Response.json({ error: "Error adding item to cart" }, { status: 400 });
+      return Response.json({ error: __("Error adding item to cart") }, { status: 400 });
     }
 
     const { product, quantity = 1, variantOptions } = validation.data;
@@ -41,7 +48,7 @@ export const addCartItem = async (req: PayloadRequest) => {
     });
 
     if (!productDoc) {
-      return Response.json({ error: "Product not found" }, { status: 404 });
+      return Response.json({ error: __("Product not found") }, { status: 404 });
     }
 
     const items: Cart["items"] = cart?.items || [];
@@ -59,21 +66,19 @@ export const addCartItem = async (req: PayloadRequest) => {
     const allOptions = await getAllProductOptions();
 
     if (!variantOptions || variantOptions.length === 0) {
-      // If product has options, ensure variant options are provided
       if (productDoc.type === "variant") {
-        // get the options defined for the product
         const productOptions = Array.from(new Set((productDoc.variants || []).flatMap(({ variant }) => Object.keys(variant || {}))));
         const optionsLabels = productOptions.map((optionId) => {
           const option = allOptions.find((opt) => opt.id === optionId);
           return option ? option.label : optionId;
         });
 
-        return Response.json({ error: `Please select a variant from: ${optionsLabels.join(", ")} to add this product cart` }, { status: 400 });
+        return Response.json({ error: printf(__(`Please select a variant from: %s to add this product cart`), optionsLabels.join(", ")) }, { status: 400 });
       }
     }
 
     if (!isInStock(productDoc, variantOptions, existingItemIndex >= 0 ? items![existingItemIndex]!.quantity + quantity : quantity)) {
-      return Response.json({ error: productDoc.title + " is out of stock" }, { status: 400 });
+      return Response.json({ error: printf(__("%s is out of stock"), productDoc.title) }, { status: 400 });
     }
 
     if (existingItemIndex >= 0) {
@@ -98,7 +103,7 @@ export const addCartItem = async (req: PayloadRequest) => {
       throw new Error(message);
     }
 
-    const populatedCart = await getCart(cart.id);
+    const populatedCart = await getCart(cart.id, body?.locale);
 
     return Response.json(
       { cart: populatedCart },
@@ -110,6 +115,6 @@ export const addCartItem = async (req: PayloadRequest) => {
     );
   } catch (error: any) {
     console.error("error", error);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: __("Error adding item to cart") }, { status: 500 });
   }
 };

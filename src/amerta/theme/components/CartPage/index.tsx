@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CartWithCalculations } from "@/amerta/theme/types";
@@ -9,6 +9,7 @@ import { TrashIcon } from "lucide-react";
 import { CouponForm } from "../CouponForm";
 import { Button } from "@/amerta/theme/ui/button";
 import { getURL } from "@/amerta/utilities/getURL";
+import { fetchCart, removeFromCart, updateQuantity } from "../../utilities/cart.client";
 
 export default function CartPage() {
   const [cart, setCart] = useState<CartWithCalculations | null>(null);
@@ -20,18 +21,12 @@ export default function CartPage() {
     const loadCart = async () => {
       try {
         setLoading(true);
-
-        const response = await fetch("/api/cart/get", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await response.json();
-        if (data.cart) {
-          setCart(data.cart);
+        const { cart, error } = await fetchCart(locale);
+        if (cart) {
+          setCart(cart);
+        }
+        if (error) {
+          setError(error.message);
         }
       } catch (err) {
         console.error("Error loading cart:", err);
@@ -46,51 +41,36 @@ export default function CartPage() {
 
   const clearError = () => setError(null);
 
-  const handleRemoveItem = async (productId: string) => {
+  const handleRemoveItem = async (itemId?: string | null) => {
+    if (!itemId) return;
     try {
       clearError();
-      const response = await fetch("/api/cart/remove", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ product: productId }),
-      });
-
-      const data = await response.json();
-      if (data.error) {
-        setError(data.error);
-      } else if (data.cart) {
-        setCart(data.cart);
+      const { cart, error } = await removeFromCart(itemId, locale);
+      if (error) {
+        setError(error.message);
+      }
+      if (cart) {
+        setCart(cart);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : __("Failed to remove item"));
     }
   };
 
-  const handleUpdateQuantity = async (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveItem(productId);
+  const handleUpdateQuantity = async (itemId?: string | null, quantity?: number) => {
+    if (quantity !== undefined && quantity <= 0) {
+      handleRemoveItem(itemId);
       return;
     }
 
     try {
       clearError();
-      const response = await fetch("/api/cart/update-quantity", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ product: productId, quantity }),
-      });
-
-      const data = await response.json();
-      if (data.error) {
-        setError(data.error);
-      } else if (data.cart) {
-        setCart(data.cart);
+      const { cart, error } = await updateQuantity(itemId!, quantity!, locale);
+      if (error) {
+        setError(error.message);
+      }
+      if (cart) {
+        setCart(cart);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : __("Failed to update quantity"));
@@ -174,13 +154,13 @@ export default function CartPage() {
                         <div className="grid w-full grid-cols-1">
                           <div className="flex items-center text-sm">
                             <div className="flex items-center justify-between w-24 px-2 py-1 border rounded-full sm:w-28 border-zinc-950/15">
-                              <button type="button" onClick={() => handleUpdateQuantity(product.id, item.quantity - 1)} disabled={item.quantity <= 1} className="flex items-center justify-center w-6 h-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                              <button type="button" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="flex items-center justify-center w-6 h-6 disabled:opacity-50 disabled:cursor-not-allowed">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                                   <path fillRule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
                                 </svg>
                               </button>
                               <span className="flex-1 block font-medium leading-none text-center select-none">{item.quantity}</span>
-                              <button type="button" onClick={() => handleUpdateQuantity(product.id, item.quantity + 1)} className="flex items-center justify-center w-6 h-6">
+                              <button type="button" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="flex items-center justify-center w-6 h-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                                   <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
                                 </svg>
@@ -191,7 +171,7 @@ export default function CartPage() {
 
                         {/* Remove Button */}
                         <div className="absolute top-0 right-0 rtl:left-0 rtl:right-auto">
-                          <Button variant={"ghost"} tooltip={__("Remove item")} type="button" onClick={() => handleRemoveItem(product.id)} className="inline-flex p-2 text-zinc-400 hover:text-zinc-500">
+                          <Button variant={"ghost"} tooltip={__("Remove item")} type="button" onClick={() => handleRemoveItem(item.id)} className="inline-flex p-2 text-zinc-400 hover:text-zinc-500">
                             <span className="sr-only">{__("Remove item")}</span>
                             <TrashIcon className="size-5" />
                           </Button>
@@ -229,13 +209,17 @@ export default function CartPage() {
             </div>
           </dl>
           <div className="mt-10">
-            <Link href={getURL(`/checkout`, locale)} className="block w-full text-center font-medium rounded-full border border-zinc-900 bg-zinc-900 px-5 py-3.5 sm:px-6 sm:py-4 text-sm text-white hover:bg-zinc-800 transition-colors dark:border-white dark:bg-white dark:text-zinc-900 dark:hover:bg-white/90">
+            <Link
+              href={getURL(`/checkout`, locale)}
+              className="block w-full text-center font-medium rounded-full border border-zinc-900 bg-zinc-900 px-5 py-3.5 sm:px-6 sm:py-4 text-sm text-white hover:bg-zinc-800 transition-colors dark:border-white dark:bg-white dark:text-zinc-900 dark:hover:bg-white/90"
+            >
               {__("Checkout")}
             </Link>
 
             <div className="flex justify-center mt-4 text-sm text-center text-zinc-500 dark:text-zinc-400">
               <span className="text-xs">
-                {__("or")} <Link href={getURL(`/collections`, locale)} className="text-xs font-medium uppercase text-zinc-900 hover:underline dark:text-white">
+                {__("or")}{" "}
+                <Link href={getURL(`/collections`, locale)} className="text-xs font-medium uppercase text-zinc-900 hover:underline dark:text-white">
                   {__("Continue Shopping →")}
                 </Link>
               </span>

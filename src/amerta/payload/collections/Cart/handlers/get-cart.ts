@@ -9,8 +9,9 @@ export const getCartHandler = async (req: PayloadRequest) => {
       return Response.json({ cart: null }, { status: 200 });
     }
 
+    const locale = req.query.locale as string | undefined;
     // Populate full product data
-    const populatedCart = await getCart(cartIdCookie);
+    const populatedCart = await getCart(cartIdCookie, locale);
 
     return Response.json({ cart: populatedCart });
   } catch (error: any) {

@@ -65,6 +65,43 @@ export async function translateString(text: string, targetLang: string): Promise
   return result.response.text().trim();
 }
 
+
+
+/**
+ * Translates all values in a JSON object to the specified target language using Gemini AI.
+ * @param items - A record object with string keys and string values to translate.
+ * @param targetLocale - The target language code (e.g., 'fr', 'de').
+ * @returns A promise resolving to the translated JSON object with the same structure.
+ * @example
+ * const translated = await batchTranslate({ greeting: "Hello", farewell: "Goodbye" }, "fr");
+ */
+export const batchTranslate = async (items: Record<string, string>, targetLocale: string) => {
+  const prompt = `
+    You are a professional translator. 
+    Translate the values of the following JSON object to the "${targetLocale}" language. 
+    
+    RULES:
+    1. Keep the keys exactly as they are.
+    2. Only translate the values.
+    3. Return ONLY valid, raw JSON. No markdown formatting.
+    
+    JSON TO TRANSLATE:
+    ${JSON.stringify(items)}
+  `;
+  const responseRaw = await translateString(prompt, targetLocale);
+  try {
+    const cleanJson = responseRaw
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+    return JSON.parse(cleanJson);
+  } catch (e) {
+    console.error("Failed to parse batch translation JSON:", responseRaw);
+    return {};
+  }
+};
+
+
 /**
  * Translates all "text" fields in a rich text JSON object to the specified target language using Gemini AI.
  * @param json - The rich text JSON object to translate.

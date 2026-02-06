@@ -106,7 +106,6 @@ const Customers: CollectionConfig = {
               };
             }
           } catch (err) {
-            console.error("Error verifying customer token:", err);
             return { user: null };
           }
 

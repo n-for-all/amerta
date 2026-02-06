@@ -10,7 +10,7 @@ import { getCurrentCart } from "@/amerta/theme/utilities/get-current-cart";
 
 export default async function CheckoutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const data = await getCheckoutData();
+  const data = await getCheckoutData(locale);
   const ecommerceSettings: EcommerceSettings = await getCachedGlobal("ecommerce-settings" as keyof Config["globals"], 1, locale)();
   return (
     <div className="px-4 pt-16 pb-16 mx-auto max-w-7xl sm:px-6 lg:px-8">

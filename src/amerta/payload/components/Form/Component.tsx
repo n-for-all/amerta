@@ -45,7 +45,7 @@ export const FormBlock: React.FC<
   const [hasSubmitted, setHasSubmitted] = useState<boolean>();
   const [error, setError] = useState<{ message: string; status?: string } | undefined>();
   const router = useRouter();
-  const { locale } = useEcommerce();
+  const { locale, __ } = useEcommerce();
 
   const onSubmit = useCallback(
     (data: FormFieldBlock[]) => {
@@ -110,7 +110,7 @@ export const FormBlock: React.FC<
           console.warn(err);
           setIsLoading(false);
           setError({
-            message: "Something went wrong with the form block.",
+            message: __("Something went wrong with the form block."),
           });
         }
       };
@@ -168,7 +168,7 @@ export const FormBlock: React.FC<
           )}
         </form>
 
-        {isLoading && !hasSubmitted ? <p className="mt-1 text-xs">Submitting, please wait...</p> : null}
+        {isLoading && !hasSubmitted ? <p className="mt-1 text-xs">{__("Submitting, please wait...")}</p> : null}
       </FormProvider>
     </div>
   );

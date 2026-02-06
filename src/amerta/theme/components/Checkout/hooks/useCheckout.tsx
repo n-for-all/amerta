@@ -78,7 +78,6 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const { saveAddress: saveGuestAddress } = useGuestAddressStorage();
   const [showErrorDialog, setShowErrorDialog] = useState(false);
-  const router = useRouter();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(customer ? loggedInCheckoutSchema : checkoutSchema),
@@ -158,7 +157,7 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
 
       setLoadingDeliveryMethods(true);
       try {
-        const params = new URLSearchParams({ country: countryId });
+        const params = new URLSearchParams({ country: countryId, locale: locale });
         if (cityValue) params.append("city", cityValue);
 
         const response = await fetch(`/api/shipping/get?${params.toString()}`);
