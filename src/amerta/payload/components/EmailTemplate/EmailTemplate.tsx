@@ -53,18 +53,25 @@ const PREVIEW_CONTEXT: {
     updatedAt: "2024-05-20T14:30:00.000Z",
     status: "processing",
     orderNote: "Please leave the package at the front desk.",
-    subtotal: 155.0,
+    subtotal: 215.0,
     discountTotal: 15.0,
     shippingTotal: 10.0,
     tax: 5.0,
-    total: 155.0,
+    total: 215.0,
     shippingMethodName: "Express Delivery",
     shippingMethod: "express_01",
     paymentMethodName: "Credit Card (Visa)",
     paymentMethod: "stripe",
     salesChannel: "online_store",
-    customerTotal: 155.0,
-    customerCurrency: "USD",
+    customerTotal: 215.0,
+    customerCurrency: {
+      code: "usd",
+      symbol: "$",
+      enabled: "1",
+      id: "currency_01",
+      createdAt: "2024-05-10T09:00:00.000Z",
+      updatedAt: "2024-05-10T09:00:00.000Z",
+    },
     exchangeRate: 1,
     orderedBy: "customer_01",
     items: [
@@ -74,7 +81,7 @@ const PREVIEW_CONTEXT: {
         productSKU: "COFFEE-ARA-001",
         product: "prod_001",
         variantText: "Roast: Medium, Size: 500g",
-        price: 50.0,
+        price: 100.0,
         quantity: 2,
       },
       {
@@ -83,7 +90,7 @@ const PREVIEW_CONTEXT: {
         productSKU: "MUG-BLK-002",
         product: "prod_002",
         variantText: "Color: Matte Black",
-        price: 25.0,
+        price: 60.0,
         quantity: 1,
       },
       {
@@ -91,7 +98,7 @@ const PREVIEW_CONTEXT: {
         productName: "Coffee Filter Pack",
         productSKU: "FIL-003",
         product: "prod_003",
-        price: 30.0,
+        price: 55.0,
         quantity: 1,
       },
     ],
@@ -552,7 +559,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
             decoration.clear();
           }
         }, 2000);
-      } 
+      }
     } catch (error) {
       console.error("Error finding element in editor:", error);
     }
@@ -613,7 +620,11 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
       {}
       <Drawer slug={DRAWER_SLUG} title="Edit Email Template" className={styles.editorDrawer}>
         <div className={styles.drawerContent}>
-          {renderError && <div style={{ marginBottom: "10px", padding: "8px", fontSize: "12px", color: "#fff", backgroundColor: "#dc2626", borderBottom: "1px solid #b91c1c" }}>{`Error: ${renderError}; if you don't want to fix the syntax then wrap the syntax with {% raw %}{% endraw %} to ignore it like #{, #}, {{}} and more`}</div>}
+          {renderError && (
+            <div
+              style={{ marginBottom: "10px", padding: "8px", fontSize: "12px", color: "#fff", backgroundColor: "#dc2626", borderBottom: "1px solid #b91c1c" }}
+            >{`Error: ${renderError}; if you don't want to fix the syntax then wrap the syntax with {% raw %}{% endraw %} to ignore it like #{, #}, {{}} and more`}</div>
+          )}
           {loading ? (
             <div className={styles.loadingContainer}>
               <div>

@@ -1,6 +1,26 @@
 import { CollectionConfig } from "payload";
 
-export const ADMIN_EMAILS = ["new_order", "cancelled_order", "failed_order", "new_account"];
+export const ADMIN_EMAILS = ["new_order", "cancelled_order", "failed_order", "new_account"] as const;
+
+export const EMAIL_OPTIONS = [
+  { label: "New Customer Order (Admin)", value: "new_order", for: "admin" },
+  { label: "Cancelled Order (Admin)", value: "cancelled_order", for: "admin" },
+  { label: "Cancelled Order", value: "customer_cancelled_order", for: "customer" },
+  { label: "Failed Order (Admin)", value: "failed_order", for: "admin" },
+  { label: "Failed Order", value: "customer_failed_order", for: "customer" },
+  { label: "Order On-Hold", value: "customer_on_hold_order", for: "customer" },
+  { label: "Order Processing (New Order)", value: "customer_processing_order", for: "customer" },
+  { label: "Order Completed", value: "customer_completed_order", for: "customer" },
+  { label: "Order Shipped", value: "customer_shipped_order", for: "customer" },
+  { label: "Order Refunded", value: "customer_refunded_order", for: "customer" },
+  { label: "Order Invoice / Details", value: "customer_invoice", for: "customer" },
+  { label: "New Account (Admin)", value: "new_account", for: "admin" },
+  { label: "New Account", value: "customer_new_account", for: "customer" },
+  { label: "Verify Email", value: "customer_verify_email", for: "customer" },
+  { label: "Reset Password", value: "customer_reset_password", for: "customer" },
+] as const;
+
+export const CUSTOMER_EMAILS = EMAIL_OPTIONS.filter((option) => !option.for || option.for !== "admin").map((option) => option.value);
 
 export const EmailTemplates: CollectionConfig = {
   slug: "email-templates",
@@ -90,25 +110,7 @@ export const EmailTemplates: CollectionConfig = {
 
         return true;
       },
-      options: [
-        { label: "New Order (Admin)", value: "new_order" },
-        { label: "Cancelled Order (Admin)", value: "cancelled_order" },
-        { label: "Cancelled Order", value: "customer_cancelled_order" },
-
-        { label: "Failed Order (Admin)", value: "failed_order" },
-        { label: "Failed Order", value: "customer_failed_order" },
-
-        { label: "Order On-Hold", value: "customer_on_hold_order" },
-        { label: "Order Processing", value: "customer_processing_order" },
-        { label: "Order Completed", value: "customer_completed_order" },
-        { label: "Order Shipped", value: "customer_shipped_order" },
-        { label: "Order Refunded", value: "customer_refunded_order" },
-        { label: "Order Invoice / Details", value: "customer_invoice" },
-        { label: "New Account (Admin)", value: "new_account" },
-        { label: "New Account", value: "customer_new_account" },
-        { label: "Verify Email", value: "customer_verify_email" },
-        { label: "Reset Password", value: "customer_reset_password" },
-      ],
+      options: [...EMAIL_OPTIONS],
     },
     {
       name: "subject",

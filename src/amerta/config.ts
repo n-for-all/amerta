@@ -1,5 +1,5 @@
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
-import { BlocksField, Config, PayloadHandler, PayloadRequest } from "payload";
+import { BlocksField, Config, PayloadRequest } from "payload";
 import { defaultLexical } from "@/amerta/fields/defaultLexical";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
@@ -32,8 +32,6 @@ import { Wishlist } from "@/amerta/collections/Wishlist";
 import { CartRules } from "@/amerta/collections/CartRules";
 import { Coupons } from "@/amerta/collections/Coupons";
 import { Shipping } from "@/amerta/collections/Shipping";
-
-import { getCheckoutData } from "@/amerta/theme/utilities/get-checkout-data";
 import PaymentsConfig from "@/amerta/collections/Payment";
 import { createStoreData, importBaseData } from "@/amerta/theme/utilities/seed-data";
 import { importWooProductsHandler } from "@/amerta/theme/data/imports/import-woo-products";
@@ -42,36 +40,26 @@ import { DEFAULT_LOCALE, LocaleCode, LOCALES } from "@/amerta/localization/local
 import { Translations } from "@/amerta/collections/Translations";
 import { searchHandler } from "@/amerta/theme/utilities/search-handler";
 import { EmailTemplates } from "@/amerta/collections/EmailTemplates";
-import { dynamicTransport } from "@/amerta/utilities/dynamicEmailTransport";
-import { sendTestEmail } from "@/amerta/utilities/sendTestEmail";
+import { dynamicTransport } from "@/amerta/utilities/emails/dynamicEmailTransport";
+import { sendTestEmail } from "@/amerta/utilities/emails/sendTestEmail";
 import { importMediaStock } from "@/amerta/utilities/media-stock/import";
 import { searchMediaStock } from "@/amerta/utilities/media-stock/search";
 import { afterError } from "@/amerta/hooks/after-error";
 import { filterAvailableLocales } from "@/amerta/hooks/filter-available-locales";
-import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { authenticateOauth } from "@/amerta/auth/handlers/authenticate-oauth";
 import { oauthCallback } from "@/amerta/auth/handlers/oauth-callback";
 import { getEnabledAuthProviders } from "@/amerta/auth/handlers/get-enabled-providers";
 import { getDashboardStats } from "@/amerta/stats/handlers/getDashboardStats";
 import deepmerge from "deepmerge";
 import { Page, Post } from "@/payload-types";
-import { getAdminPath } from "./payload/utilities/getAdminURL";
-import { checkRole } from "./payload/access/checkRole";
-import { EcommerceSettings } from "./payload/globals/EcommerceSettings";
-import { importSampleDataHandler } from "./theme/data/imports/import-sample-data";
-import { importShopifyDataHandler } from "./theme/data/imports/import-shopify-data";
-import { importPagesHandler } from "./theme/data/imports/import-sample-pages";
-import { importBlogsHandler } from "./theme/data/imports/import-sample-blogs";
-
-export const withGuard = (handler: PayloadHandler): PayloadHandler => {
-  return async (req) => {
-    if (!req.user || !checkRole(["admin"], req.user)) {
-      return Response.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    return handler(req);
-  };
-};
+import { getAdminPath } from "@/amerta/utilities/getAdminURL";
+import { checkRole } from "@/amerta/access/checkRole";
+import { EcommerceSettings } from "@/amerta/globals/EcommerceSettings";
+import { importSampleDataHandler } from "@/amerta/theme/data/imports/import-sample-data";
+import { importShopifyDataHandler } from "@/amerta/theme/data/imports/import-shopify-data";
+import { importPagesHandler } from "@/amerta/theme/data/imports/import-sample-pages";
+import { importBlogsHandler } from "@/amerta/theme/data/imports/import-sample-blogs";
+import { withGuard } from "@/amerta/utilities/withGuard";
 
 const generateDescription: GenerateDescription<Post | Page> = async ({ doc, req }) => {
   const settings = await req.payload.findGlobal({
@@ -161,7 +149,7 @@ export function withAmerta(config: Config): Config {
   const adminPath = getAdminPath();
   const { onInit: configOnInit, ...configWithoutOnInit } = config;
 
-  const amertaConfig: Omit<Config, "secret"> = {
+  const amertaConfig: Omit<Config, "secret" | "db"> = {
     admin: {
       components: {
         beforeNavLinks: ["@/amerta/components/DashboardLink"],

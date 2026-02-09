@@ -6,13 +6,15 @@ import { cn } from "@/amerta/utilities/ui";
 import { getURL } from "@/amerta/utilities/getURL";
 import { CartForm } from "./CartForm";
 import { StockStatus } from "./StockStatus";
+import { createTranslator } from "../../utilities/translation";
 
-export const ProductCard = ({ product, cartIcon, options, locale, className, vertical }: { product: Product; cartIcon?: React.ReactNode; options: ProductOption[]; locale?: string; className?: string; vertical?: boolean }) => {
+export const ProductCard = async ({ product, cartIcon, options, locale, className, vertical }: { product: Product; cartIcon?: React.ReactNode; options: ProductOption[]; locale?: string; className?: string; vertical?: boolean }) => {
   const productImage = product.images && product.images.length > 0 ? product.images[0] : null;
   const secondImage = product.images && product.images.length > 1 ? product.images[1] : null;
   const productName = product.title;
   const productSlug = product.slug || product.id;
   const stockAvailable = hasStock(product);
+  const __ = await createTranslator(locale);
 
   const getImageUrl = (image: any) => {
     if (!image) return null;
@@ -75,7 +77,7 @@ export const ProductCard = ({ product, cartIcon, options, locale, className, ver
         <div className="flex flex-col gap-2">
           <CartForm noDefaults product={product} icon={cartIcon} compact options={options} buttonClassName="absolute top-3 right-14 z-20" />
         </div>
-        <StockStatus stockAvailable={stockAvailable} locale={locale!} />
+        <StockStatus stockAvailable={stockAvailable} inStockLabel={__("In Stock")} outOfStockLabel={__("Out of Stock")} />
       </div>
     </div>
   );

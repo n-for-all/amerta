@@ -7,6 +7,8 @@ import { addressField } from "@/amerta/fields/addressField";
 import { createOrder } from "./handlers/create-order";
 import { populateOrderData } from "./hooks/populateOrderData";
 import { checkPaymentStatus } from "./handlers/check-status";
+import { sendOrderEmailHandler } from "./handlers/send-email-handler";
+import { withGuard } from "@/amerta/utilities/withGuard";
 
 export const Orders: CollectionConfig = {
   slug: "orders",
@@ -15,6 +17,16 @@ export const Orders: CollectionConfig = {
     group: "",
     useAsTitle: "orderId",
     defaultColumns: ["orderId", "createdAt", "orderedBy", "status"],
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          {
+             path: "@/amerta/components/Order/Actions/index#OrderActions", 
+             exportName: 'OrderActions'
+          }
+        ]
+      }
+    }
   },
   hooks: {
     beforeChange: [populateOrderData],
@@ -422,5 +434,10 @@ export const Orders: CollectionConfig = {
       method: "get",
       handler: checkPaymentStatus,
     },
+    {
+        path: "/:id/send-email",
+        method: "post",
+        handler: withGuard(sendOrderEmailHandler)
+    }
   ],
 };

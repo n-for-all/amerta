@@ -18,6 +18,11 @@ export const Products: CollectionConfig = {
     preview: (doc, { locale }) => {
       return `${getServerSideURL()}/next/preview?url=${encodeURIComponent(`${getServerSideURL()}/${locale}/product/${doc.slug}`)}&secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}`;
     },
+    components: {
+      edit: {
+        beforeDocumentControls: ["@/amerta/fields/translate/AIAgentButton#AIAgentButton"],
+      },
+    },
   },
   hooks: {
     afterChange: [revalidateProduct],
@@ -113,7 +118,7 @@ export const Products: CollectionConfig = {
                       },
                       jsonSchema: {
                         uri: "a://variant-schema.json",
-                        fileMatch: ["*"], 
+                        fileMatch: ["*"],
                         schema: {
                           type: "object",
                           description: "Map of Option IDs to selected values",

@@ -2,7 +2,7 @@
 import { useField } from "@payloadcms/ui";
 import React, { useEffect, useState } from "react";
 import { EmailTemplate } from "./EmailTemplate";
-import { getDefaultEmailTemplateSettings } from "@/amerta/utilities/getDefaultEmailTemplateSettings";
+import { getDefaultEmailTemplateSettings } from "@/amerta/utilities/emails/getDefaultEmailTemplateSettings";
 
 type Props = {
   path: string;

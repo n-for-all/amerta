@@ -5,7 +5,7 @@ import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
 import { getOrderById } from "@/amerta/theme/utilities/get-order-by-id";
 import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
-import { savePayment } from "@/amerta/theme/utilities/save-payment";
+import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
 import { Customer, Payment, PaymentMethod } from "@/payload-types";
 
 export const MamoPayAdapter: PaymentAdapter = {
@@ -178,7 +178,7 @@ export const MamoPayAdapter: PaymentAdapter = {
         return new Response(JSON.stringify({ received: true, message: "Duplicate" }), { status: 200 });
       }
 
-      await savePayment({
+      await saveOrderPayment({
         orderId: orderId,
         transactionId: transactionId,
         gateway: "mamo-pay",
@@ -187,13 +187,6 @@ export const MamoPayAdapter: PaymentAdapter = {
         currency: currencyDoc?.id,
         rawResponse: event,
         paymentMethodId: method.id,
-      });
-
-      // 7. Update Order Status
-      await req.payload.update({
-        collection: "orders",
-        id: orderId,
-        data: { _status: "paid", paidAt: new Date().toISOString() },
       });
     } catch (dbError: any) {
       console.error("DB Error in Mamo Webhook", dbError);
@@ -262,29 +255,16 @@ export const MamoPayAdapter: PaymentAdapter = {
       return { success: false }; // Fail safe
     }
 
-    await savePayment({
+    await saveOrderPayment({
       transactionId: transactionId,
       gateway: (order.paymentMethod as PaymentMethod).type,
       amount: order.customerTotal || 0,
       currency: order.customerCurrency,
-      status: "success",
+      status: isVerified ? "success": "failed",
       orderId: order.id,
       rawResponse: gatewayResponse,
       paymentMethodId: (order.paymentMethod as PaymentMethod).id,
     });
-
-    if (isVerified) {
-      if (order.status === "pending") {
-        await payload.update({
-          collection: "orders",
-          id: order.id,
-          data: {
-            status: "processing",
-            paidAt: new Date().toISOString(),
-          },
-        });
-      }
-    }
 
     return { success: isVerified };
   },
@@ -322,6 +302,8 @@ export const MamoPayAdapter: PaymentAdapter = {
       last_name: order.billingAddress?.lastName || "",
       email: email,
     };
+
+    console.log("Creating Mamo Payment Link with payload:", payload);
 
     const response = await fetch(`${baseUrl}/links`, {
       method: "POST",

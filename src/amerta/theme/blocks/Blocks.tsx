@@ -38,7 +38,7 @@ const blockComponents = {
 
 export const Blocks: React.FC<{
   blocks?: NonNullable<Page["layout"]>[number][] | null;
-  params?: Record<string, string | string[] | undefined>;
+  params?: Record<string, string | string[] | undefined | null>;
 }> = (props) => {
   const { blocks, params } = props; 
 

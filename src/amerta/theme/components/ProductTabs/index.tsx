@@ -17,13 +17,13 @@ interface ProductTabsProps {
 
 export default function ProductTabs({ product, reviews }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>("about");
-  const { locale } = useEcommerce();
+  const { locale, __ } = useEcommerce();
 
   let tabs = [
-    { id: "about" as TabType, label: "About" },
-    { id: "reviews" as TabType, label: "Reviews" },
-    { id: "benefits" as TabType, label: "Benefits" },
-    { id: "faqs" as TabType, label: "FAQs" },
+    { id: "about" as TabType, label: __("About") },
+    { id: "reviews" as TabType, label: __("Reviews") },
+    { id: "benefits" as TabType, label: __("Benefits") },
+    { id: "faqs" as TabType, label: __("FAQs") },
   ];
 
   tabs = tabs.filter((tab) => {
@@ -57,9 +57,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
               </div>
               <div className="flex flex-col gap-5 flex-4/7 lg:gap-10 2xl:gap-14">
                 <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">
-                  <span>Details &amp;</span>
-                  <br />
-                  <span className="font-serif italic">features</span>
+                  <span>{__('Details & Features')}</span>
                 </h2>
                 <div className="max-w-xl leading-relaxed">
                   <div className="space-y-8">
@@ -70,7 +68,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
                     )}
                     {product.showProductDetails && product.productDetails && product.productDetails.length > 0 && (
                       <div>
-                        <p className="mb-3 text-sm uppercase text-zinc-500">Product Details</p>
+                        <p className="mb-3 text-sm uppercase text-zinc-500">{__('Product Details')}</p>
                         <ul className="list-inside list-disc *:marker:text-zinc-300">
                           {product.productDetails.map((item: any, idx: number) => (
                             <li key={idx}>{item.detail}</li>
@@ -80,7 +78,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
                     )}
                     {product.showProductFeatures && product.productFeatures && product.productFeatures.length > 0 && (
                       <div>
-                        <p className="mb-3 text-sm uppercase text-zinc-500">Product Features</p>
+                        <p className="mb-3 text-sm uppercase text-zinc-500">{__('Product Features')}</p>
                         <ul className="list-inside list-disc *:marker:text-zinc-300">
                           {product.productFeatures.map((item: any, idx: number) => (
                             <li key={idx}>{item.feature}</li>
@@ -112,9 +110,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
               </div>
               <div className="flex flex-col gap-5 flex-4/7 lg:gap-10 2xl:gap-14">
                 <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">
-                  <span>Key</span>
-                  <br />
-                  <span className="font-serif italic">benefits</span>
+                  <span>{__('Key Benefits')}</span>
                 </h2>
                 <div className="max-w-xl leading-relaxed">
                   <div className="space-y-6">
@@ -141,9 +137,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
               </div>
               <div className="flex flex-col gap-5 flex-4/7 lg:gap-10 2xl:gap-14">
                 <h2 className="text-[2rem] sm:text-4xl xl:text-[2.5rem] leading-none text font-medium">
-                  <span>Frequently</span>
-                  <br />
-                  <span className="font-serif italic">asked questions</span>
+                  <span>{__('Frequently Asked Questions')}</span>
                 </h2>
                 <div className="max-w-xl leading-relaxed">
                   <div className="space-y-6">

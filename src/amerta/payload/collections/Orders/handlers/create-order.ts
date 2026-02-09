@@ -258,7 +258,7 @@ export const createOrder = async (req: PayloadRequest) => {
       const newCustomer = await payload.create({
         collection: "customers",
         data: {
-          email: `guest_${Date.now()}@email.com`,
+          email: `guest_${Math.floor(Date.now()/1000)}@email.com`,
           displayName: `${validationData!.address.firstName} ${validationData!.address.lastName} - Guest`,
           contact_email: validationData!.email,
           firstName: validationData!.address.firstName,

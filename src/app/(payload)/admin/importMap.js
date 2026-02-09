@@ -35,16 +35,17 @@ import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { SlugComponent as SlugComponent_6856789cec373e2140f714702910988e } from '@/amerta/fields/slug/SlugComponent'
+import { AIAgentButton as AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b } from '@/amerta/fields/translate/AIAgentButton'
 import { default as default_8632f4bd9476e2343e3e4d85c87cc9e6 } from '@/amerta/components/ColorPicker/'
 import { UnsplashImportProductMedia as UnsplashImportProductMedia_87eec4ae3a925586386d06209c58fdaa } from '@/amerta/components/UnsplashImport'
 import { Label as Label_af1192929b02b764ee8d11c4d1c96ee8 } from '@/amerta/collections/Pages/Label'
-import { AIAgentButton as AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b } from '@/amerta/fields/translate/AIAgentButton'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { AIBulkTranslateButton as AIBulkTranslateButton_dfda55403b80c8859d6e8bf0cc691a5b } from '@/amerta/fields/translate/AIBulkTranslateButton'
 import { AITranslateButton as AITranslateButton_6b5e411106171f4df368bdf10bad55f2 } from '@/amerta/fields/translate/AITranslateButton'
 import { OrderAdmin as OrderAdmin_18a50d419bd44b124c382b13f5e7610d } from '@/amerta/components/Order'
 import { default as default_0dccb26643971045d66d36c52aa9af99 } from '@/amerta/components/Product/ProductVariant'
 import { default as default_730fb1b5206d51ba3a4a24c948c8c7e3 } from '@/amerta/fields/phone/PhoneFieldComponent'
+import { OrderActions as OrderActions_02135cdcbc0c9326a6ba3c2660c4c740 } from '@/amerta/components/Order/Actions/index'
 import { RowLabel as RowLabel_9f89a51446befc05f6190d7c481d0d20 } from '@/amerta/fields/link/RowLabel'
 import { UnsplashImport as UnsplashImport_87eec4ae3a925586386d06209c58fdaa } from '@/amerta/components/UnsplashImport'
 import { EmailBuilder as EmailBuilder_67fa476ffa01b051d0a96133b1314340 } from '@/amerta/components/EmailTemplate/index'
@@ -102,16 +103,17 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@/amerta/fields/slug/SlugComponent#SlugComponent": SlugComponent_6856789cec373e2140f714702910988e,
+  "@/amerta/fields/translate/AIAgentButton#AIAgentButton": AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b,
   "@/amerta/components/ColorPicker/#default": default_8632f4bd9476e2343e3e4d85c87cc9e6,
   "@/amerta/components/UnsplashImport#UnsplashImportProductMedia": UnsplashImportProductMedia_87eec4ae3a925586386d06209c58fdaa,
   "@/amerta/collections/Pages/Label#Label": Label_af1192929b02b764ee8d11c4d1c96ee8,
-  "@/amerta/fields/translate/AIAgentButton#AIAgentButton": AIAgentButton_0b7ecaa83dbe456b758af7f412c01a6b,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/amerta/fields/translate/AIBulkTranslateButton#AIBulkTranslateButton": AIBulkTranslateButton_dfda55403b80c8859d6e8bf0cc691a5b,
   "@/amerta/fields/translate/AITranslateButton#AITranslateButton": AITranslateButton_6b5e411106171f4df368bdf10bad55f2,
   "@/amerta/components/Order#OrderAdmin": OrderAdmin_18a50d419bd44b124c382b13f5e7610d,
   "@/amerta/components/Product/ProductVariant#default": default_0dccb26643971045d66d36c52aa9af99,
   "@/amerta/fields/phone/PhoneFieldComponent#default": default_730fb1b5206d51ba3a4a24c948c8c7e3,
+  "@/amerta/components/Order/Actions/index#OrderActions": OrderActions_02135cdcbc0c9326a6ba3c2660c4c740,
   "@/amerta/fields/link/RowLabel#RowLabel": RowLabel_9f89a51446befc05f6190d7c481d0d20,
   "@/amerta/components/UnsplashImport#UnsplashImport": UnsplashImport_87eec4ae3a925586386d06209c58fdaa,
   "@/amerta/components/EmailTemplate/index#EmailBuilder": EmailBuilder_67fa476ffa01b051d0a96133b1314340,

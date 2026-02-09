@@ -5,7 +5,7 @@ import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
 import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
 import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { savePayment } from "@/amerta/theme/utilities/save-payment";
+import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
 const ZERO_DECIMAL_CURRENCIES = ["jpy", "krw", "ugx", "vnd", "clp", "pyg", "xaf", "xof", "bif", "djf", "gnf", "kmf", "mga", "rwf", "vuv", "xpf"];
 
 export const StripeAdapter: PaymentAdapter = {
@@ -134,7 +134,7 @@ export const StripeAdapter: PaymentAdapter = {
           return new Response(JSON.stringify({ received: true }), { status: 200 });
         }
 
-        await savePayment({
+        await saveOrderPayment({
           transactionId: paymentIntent.id,
           gateway: "stripe",
           amount: finalAmount,
@@ -143,12 +143,6 @@ export const StripeAdapter: PaymentAdapter = {
           orderId: metadata.orderId,
           rawResponse: paymentIntent,
           paymentMethodId: method.id,
-        });
-
-        await req.payload.update({
-          collection: "orders",
-          id: metadata.orderId,
-          data: { status: "processing", paidAt: new Date().toISOString() },
         });
       } catch (dbError: any) {
         console.error(dbError);

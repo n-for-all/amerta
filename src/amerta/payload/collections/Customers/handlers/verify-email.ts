@@ -1,5 +1,5 @@
 import { getURL } from "@/amerta/utilities/getURL";
-import { sendVerificationEmail } from "@/amerta/utilities/sendVerificationEmail";
+import { sendVerificationEmail } from "@/amerta/utilities/emails/sendVerificationEmail";
 import crypto from "crypto";
 
 export const verifyEmail = async (req) => {

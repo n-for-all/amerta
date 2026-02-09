@@ -5,7 +5,7 @@ import { getGlobal } from "@/amerta/utilities/getGlobals";
 import { Settings } from "@/payload-types";
 import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 import { getURL } from "@/amerta/utilities/getURL";
-import { getAdminURL } from "./getAdminURL";
+import { getAdminURL } from "../getAdminURL";
 
 export async function getDefaultEmailTemplateSettings() {
   const settings: Settings = await getGlobal("settings" as keyof Config["globals"], 1);

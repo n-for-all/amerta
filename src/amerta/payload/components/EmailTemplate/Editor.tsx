@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } f
 import Editor from "@monaco-editor/react";
 // ✅ Import the CSS Module
 import styles from "./editor.module.scss";
+import { useDebounce } from "@/amerta/utilities/useDebounce";
 
 interface EditorComponentProps {
   value: string;
@@ -194,17 +195,5 @@ const EditorComponent = forwardRef<EditorRef, EditorComponentProps>(
 );
 
 EditorComponent.displayName = "EditorComponent";
-
-// Helper hook
-const useDebounce = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-  return debouncedValue;
-};
 
 export default EditorComponent;

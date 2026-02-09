@@ -1,4 +1,5 @@
-import { savePayment } from "@/amerta/theme/utilities/save-payment";
+
+import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
 import { PaymentAdapter } from "../types";
 import { PaymentMethod } from "@/payload-types";
 
@@ -19,7 +20,7 @@ export const CODAdapter: PaymentAdapter = {
 
   async confirm(orderAmount, orderCurrency, orderId, redirectUrl, locale, order) {
     const id = `cod-${Date.now()}`;
-    await savePayment({
+    await saveOrderPayment({
       transactionId: id,
       gateway: (order.paymentMethod as PaymentMethod).type,
       amount: orderAmount,

@@ -8,18 +8,6 @@ export interface AppliedCoupon {
   discountAmount?: number;
 }
 
-export interface MinimalProduct {
-  id: string;
-  title: string;
-  price: number;
-  slug?: string | null;
-  salePrice?: number | null;
-  images?: Array<{ url?: string | null; alt?: string | null } | string> | null;
-  type?: "simple" | "variant" | null;
-  trackInventory?: boolean | null;
-  quantity?: number | null;
-}
-
 export interface CartWithCalculations {
   id: string;
   items?: Cart["items"] | null;

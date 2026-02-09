@@ -1,12 +1,10 @@
 "use client";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { Product, ProductOption } from "@/payload-types"; // Adjust path
-import { ProductCard } from "@/amerta/theme/components/ProductCard";
 import { cn } from "@/amerta/utilities/ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export const RelatedProducts = ({ products, options, locale, title, description, className }: { products: Product[]; options: ProductOption[]; locale?: string; title?: string; description?: string; className?: string }) => {
+export const RelatedProducts = ({ children, locale, title, description, className }: { children: React.ReactNode; locale?: string; title?: string; description?: string; className?: string }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", loop: false });
 
   const scrollPrev = useCallback(() => {
@@ -17,7 +15,7 @@ export const RelatedProducts = ({ products, options, locale, title, description,
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  if(products.length === 0) return null;
+  if(!children || React.Children.count(children) === 0) return null;
 
   return (
     <div className={cn("mt-44", className)}>
@@ -41,11 +39,7 @@ export const RelatedProducts = ({ products, options, locale, title, description,
         {/* Carousel */}
         <div className="w-full mt-4 md:mt-16 embla" ref={emblaRef}>
           <div className="flex -ms-5 embla__container">
-            {products.map((product) => (
-              <div key={product.id} className="embla__slide basis-[86%] ps-5 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4">
-                <ProductCard className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700" product={product} options={options} locale={locale} />
-              </div>
-            ))}
+            {children}
           </div>
         </div>
       </div>

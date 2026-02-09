@@ -39,19 +39,19 @@ export function proxy(request: NextRequest) {
   const ADMIN_PATH = trimSlashes(process.env.PAYLOAD_ADMIN_ROUTE || "admin");
   const { pathname, search } = request.nextUrl;
   if (pathname.startsWith(`/${ADMIN_PATH}`)) {
-    // const publicAdminRoutes = [`/${ADMIN_PATH}/login`, `/${ADMIN_PATH}/logout`, `/${ADMIN_PATH}/forgot`, `/${ADMIN_PATH}/create-first-user`];
+    const publicAdminRoutes = [`/${ADMIN_PATH}/login`, `/${ADMIN_PATH}/logout`, `/${ADMIN_PATH}/forgot`, `/${ADMIN_PATH}/create-first-user`, `/${ADMIN_PATH}/reset/`];
 
-    // if (publicAdminRoutes.includes(pathname) || pathname.startsWith(`/${ADMIN_PATH}/reset/`)) {
-    //   return NextResponse.next();
-    // }
+    if (publicAdminRoutes.includes(pathname)) {
+      return NextResponse.next();
+    }
 
-    // const token = request.cookies.get("payload-token")?.value;
+    const token = request.cookies.get("payload-token")?.value;
 
-    // if (!token) {
-    //   const loginUrl = new URL(`/${ADMIN_PATH}/login`, request.url);
-    //   loginUrl.searchParams.set("redirect", pathname);
-    //   return NextResponse.redirect(loginUrl);
-    // }
+    if (!token) {
+      const loginUrl = new URL(`/${ADMIN_PATH}/login`, request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
 
     // try {
     //   const collection = getPayloadCollection(token);

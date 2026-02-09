@@ -2,9 +2,10 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { getDefaultCurrency } from "./get-default-currency";
 import { getOrderById } from "./get-order-by-id";
-import { Payment, SalesChannel } from "@/payload-types";
+import { Customer, Payment, SalesChannel } from "@/payload-types";
+import { sendNewOrderEmail } from "@/amerta/utilities/emails/sendOrderEmail";
 
-export const savePayment = async ({
+export const saveOrderPayment = async ({
   paymentMethodId,
   transactionId,
   gateway,
@@ -79,6 +80,21 @@ export const savePayment = async ({
         rawResponse,
       },
     });
+  }
+  //send order confirmation email if payment is successful and order was pending
+  if (status == "success" && order.status === "pending") {
+    await payload.update({
+      collection: "orders",
+      id: orderId,
+      data: { status: "processing", paidAt: new Date().toISOString() },
+    });
+    if (order.orderedBy) {
+      try {
+        await sendNewOrderEmail(order.orderedBy as Customer, order, false);
+      } catch (e) {
+        console.error("Error sending order confirmation email:", e);
+      }
+    }
   }
 
   return payment;

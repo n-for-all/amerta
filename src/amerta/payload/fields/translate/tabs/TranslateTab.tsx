@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAllFormFields, useForm, Button, useModal, toast, useLocale } from "@payloadcms/ui";
 import { translateFieldsAction } from "../actions/translate";
 import { DEFAULT_LOCALE, LOCALES } from "@/amerta/localization/locales";
-import { FieldDef, getLocalizedValue, hasContent } from "../AIAgentButton"; // Import shared helpers
+import { FieldDef, getLocalizedValue, hasContent } from "../AIAgentButton";
 import { FieldCard } from "../FieldCard";
 
 interface Props {
@@ -16,20 +16,25 @@ interface Props {
 export const TranslateTab: React.FC<Props> = ({ data, fields, drawerSlug }) => {
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
   const [isPending, setIsPending] = useState(false);
-  
+
   const { closeModal } = useModal();
   const [, dispatchFields] = useAllFormFields();
   const locale = useLocale();
   const { setModified } = useForm();
 
-  // Filter fields that need translation on mount
   useEffect(() => {
-    const toTranslate = fields.filter((f) => {
-      const source = getLocalizedValue(data, f.path, DEFAULT_LOCALE);
-      const target = getLocalizedValue(data, f.path, locale.code);
-      return hasContent(source) && !hasContent(target);
-    }).map(f => f.path);
-    setSelectedFields(toTranslate);
+    const toTranslate = fields
+      .filter((f) => {
+        const source = getLocalizedValue(data, f.path, DEFAULT_LOCALE);
+        const target = getLocalizedValue(data, f.path, locale.code);
+
+        return hasContent(source) && !hasContent(target);
+      })
+      .map((f) => f.path);
+
+    if (toTranslate.length > 0) {
+      setSelectedFields((prev) => (prev.length === 0 ? toTranslate : prev));
+    }
   }, [data, fields, locale.code]);
 
   const handleTranslate = async () => {
@@ -41,7 +46,9 @@ export const TranslateTab: React.FC<Props> = ({ data, fields, drawerSlug }) => {
 
     selectedFields.forEach((path) => {
       const enValue = getLocalizedValue(data, path, DEFAULT_LOCALE);
-      if (hasContent(enValue)) dataToTranslate[path] = enValue;
+      if (hasContent(enValue)) {
+        dataToTranslate[path] = enValue;
+      }
     });
 
     if (Object.keys(dataToTranslate).length === 0) {
@@ -52,14 +59,17 @@ export const TranslateTab: React.FC<Props> = ({ data, fields, drawerSlug }) => {
 
     try {
       const translatedData = await translateFieldsAction(dataToTranslate, foundLocale.label);
+
       Object.entries(translatedData).forEach(([key, value]) => {
         dispatchFields({ type: "UPDATE", path: key, value: value });
       });
+
       setIsPending(false);
       setModified(true);
       closeModal(drawerSlug);
       toast.success("Translation Complete!");
     } catch (err: any) {
+      console.error(err);
       toast.error("Translation failed.");
       setIsPending(false);
     }
@@ -68,9 +78,7 @@ export const TranslateTab: React.FC<Props> = ({ data, fields, drawerSlug }) => {
   if (DEFAULT_LOCALE.toUpperCase() === locale.code.toUpperCase()) {
     return (
       <div style={{ padding: "20px 0" }}>
-        <div style={{ color: "#b91c1c", padding: "15px", background: "#fef2f2", borderRadius: "6px", fontSize: "14px" }}>
-          You are viewing the default locale. Please switch the locale using the language switcher at the top to translate content.
-        </div>
+        <div style={{ color: "#b91c1c", padding: "15px", background: "#fef2f2", borderRadius: "6px", fontSize: "14px" }}>You are viewing the default locale. Please switch the locale using the language switcher at the top to translate content.</div>
       </div>
     );
   }
@@ -89,6 +97,7 @@ export const TranslateTab: React.FC<Props> = ({ data, fields, drawerSlug }) => {
           {fields.map((f) => {
             const enValue = getLocalizedValue(data, f.path, DEFAULT_LOCALE);
             const targetValue = getLocalizedValue(data, f.path, locale.code);
+
             const hasSource = hasContent(enValue);
             const hasTarget = hasContent(targetValue);
 

@@ -20,7 +20,6 @@ export const getMeHandler = async (req: PayloadRequest) => {
       const decoded = jwt.verify(token, req.payload.secret) as { id: string; collection: string };
       userId = decoded.id;
     } catch (err) {
-      console.error("Invalid token:", err);
       return Response.json({ message: "Invalid Token" }, { status: 403 });
     }
 
