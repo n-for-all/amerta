@@ -50,6 +50,15 @@ export const SEOFields: Field[] = [
     },
   },
   {
+    name: "noIndex",
+    type: "checkbox",
+    label: "No Index",
+    defaultValue: false,
+    admin: {
+      description: "If enabled, this website will be marked with noindex for search engines",
+    },
+  },
+  {
     type: "collapsible",
     label: "Blog Page",
     fields: [

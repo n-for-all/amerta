@@ -77,7 +77,10 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
     setIsLoading(true);
 
     try {
-      const { cart } = await addToCart(product, quantity, variantOptions, locale!);
+      const { cart, error } = await addToCart(product, quantity, variantOptions, locale!);
+      if(error) {
+        throw new Error(error.message);
+      }
       toast(printf(__(`%s was added to cart (%sx)`), product.title, quantity), "success", true);
 
       setQuantity(1);

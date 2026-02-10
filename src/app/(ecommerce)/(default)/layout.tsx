@@ -24,6 +24,7 @@ export default async function RootLayout({ children, locale }: { children: React
         {settings.favicon && typeof settings.favicon === "object" && settings.favicon.url && <link rel="icon" href={settings.favicon.url} sizes="32x32" />}
         {settings.appleTouchIcon && typeof settings.appleTouchIcon === "object" && settings.appleTouchIcon.url && <link rel="apple-touch-icon" href={settings.appleTouchIcon.url} sizes="180x180" />}
         {settings.androidIcon && typeof settings.androidIcon === "object" && settings.androidIcon.url && <link rel="icon" href={settings.androidIcon.url} type={settings.androidIcon.url.endsWith(".png") ? "image/png" : settings.androidIcon.url.endsWith(".svg") ? "image/svg+xml" : settings.androidIcon.url.endsWith(".webp") ? "image/webp" : "image/png"} sizes="192x192" />}
+        {settings.noIndex && <meta name="robots" content="noindex" />}
       </head>
       <body suppressHydrationWarning className="text-black bg-white dark:bg-black dark:text-white">
         <Providers>
