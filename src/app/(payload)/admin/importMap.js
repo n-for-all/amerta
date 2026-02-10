@@ -56,6 +56,7 @@ import { LocaleSelector as LocaleSelector_33fbf62731a3e0f8e4b56572c17ae705 } fro
 import { Icon as Icon_cb15aefbbc30e5bb599344050f8664f7 } from '@/amerta/theme/admin/Icon'
 import { Logo as Logo_46634ccd9d720bf8ed75cdbe749851ad } from '@/amerta/theme/admin/Logo'
 import { default as default_98f051e3cd759a61574cdf9728f35fef } from '@/amerta/components/Imports/index'
+import { AmertaBranding as AmertaBranding_678971af90eba11248fe8384adb74578 } from '@/amerta/components/Branding/AmertaBranding'
 import { default as default_79d3346fbd10228dede0f2b504e327b1 } from '@/amerta/components/BeforeLogin'
 import { default as default_c3bc619fc6ea9a58b3c734facecbaf67 } from '@/amerta/components/DashboardLink'
 import { default as default_1adc9c57051681d25f140e20110aee95 } from '@/amerta/components/Dashboard'
@@ -124,6 +125,7 @@ export const importMap = {
   "@/amerta/theme/admin/Icon#Icon": Icon_cb15aefbbc30e5bb599344050f8664f7,
   "@/amerta/theme/admin/Logo#Logo": Logo_46634ccd9d720bf8ed75cdbe749851ad,
   "@/amerta/components/Imports/index#default": default_98f051e3cd759a61574cdf9728f35fef,
+  "@/amerta/components/Branding/AmertaBranding#AmertaBranding": AmertaBranding_678971af90eba11248fe8384adb74578,
   "@/amerta/components/BeforeLogin#default": default_79d3346fbd10228dede0f2b504e327b1,
   "@/amerta/components/DashboardLink#default": default_c3bc619fc6ea9a58b3c734facecbaf67,
   "@/amerta/components/Dashboard#default": default_1adc9c57051681d25f140e20110aee95,

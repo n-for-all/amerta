@@ -158,7 +158,7 @@ export function withAmerta(config: Config): Config {
           Logo: "@/amerta/theme/admin/Logo#Logo",
           Icon: "@/amerta/theme/admin/Icon#Icon",
         },
-        afterNavLinks: ["@/amerta/components/Imports/index"],
+        afterNavLinks: ["@/amerta/components/Imports/index", "@/amerta/components/Branding/AmertaBranding#AmertaBranding"],
         views: {
           dashboard: {
             path: "/",
