@@ -1,3 +1,9 @@
+/**
+ * @module AI/Translate
+ * @title AI Translate Button
+ * @description This React component provides an interface within the Payload CMS admin for AI-powered translation and content creation. It dynamically identifies translatable fields in the current document and allows users to generate translations or new content using AI models.
+ */
+
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";

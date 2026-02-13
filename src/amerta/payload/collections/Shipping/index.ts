@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Shipping
+ * @title Shipping Collection
+ * @description This module defines the collections related to the shipping functionality in Amerta, including shipping methods, supported countries, and related handlers.
+ */
+
 import type { CollectionConfig } from "payload";
 import { admins } from "@/amerta/access/admins";
 import { getShippingMethods } from "./handlers/get-shipping-methods";

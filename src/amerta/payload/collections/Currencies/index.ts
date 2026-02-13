@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Currencies
+ * @title Currencies Collection
+ * @description This module defines the collections related to the currencies functionality in Amerta, including currency codes, symbols, formatting, and status.
+ */
+
 import type { CollectionConfig } from "payload";
 
 export const Currencies: CollectionConfig = {

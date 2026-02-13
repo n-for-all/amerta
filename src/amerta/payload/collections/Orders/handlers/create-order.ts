@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Orders/Handlers
+ * @title Create Order Handler
+ * @description This handler creates a new order. It validates the request, calculates shipping and tax, and processes the payment accordingly.
+ */
+
 import { Order, Product, ProductMedia } from "@/payload-types";
 import { getPaymentAdapter } from "@/amerta/payments";
 import { orderSubmissionSchema } from "@/amerta/theme/types/order-submission";

@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Blog/Posts
+ * @title Blog Posts Collection
+ * @description This module defines the collections related to the blog posts functionality in Amerta, including posts, categories, and tags. Each collection is structured to support a robust blogging system with features like categorization and tagging for better content organization and discoverability.
+ */
+
 import type { CollectionConfig } from "payload";
 
 import { BlocksFeature, FixedToolbarFeature, HeadingFeature, HorizontalRuleFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";

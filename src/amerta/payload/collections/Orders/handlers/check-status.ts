@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Orders/Handlers
+ * @title Check Payment Status Handler
+ * @description This handler checks the payment status of an order. It validates the request, decrypts the order key, and fetches the payment status accordingly.
+ */
+
 import { NextResponse } from "next/server";
 import { getPayload, PayloadRequest } from "payload";
 import config from "@payload-config";

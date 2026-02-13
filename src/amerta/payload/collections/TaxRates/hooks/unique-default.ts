@@ -1,3 +1,9 @@
+/**
+ * @module Collections/TaxRates/Hooks
+ * @title Unique Default Tax Rate Hook
+ * @description This hook ensures that only one default tax rate exists at any given time.
+ */
+
 import type { CollectionBeforeChangeHook } from "payload";
 
 export const uniqueDefault: CollectionBeforeChangeHook = async ({ data, req, operation, originalDoc }) => {

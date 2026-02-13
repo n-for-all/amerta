@@ -1,3 +1,8 @@
+/**
+ * @module Collections/Cart
+ * @title Cart Collection
+ * @description This module defines the Cart collection, which manages shopping cart data for the e-commerce functionality in Amerta. It includes fields for cart items, customer information, and cart status, as well as API endpoints for cart operations like adding items, updating quantities, and applying coupons.
+ */
 import { admins } from "@/amerta/access/admins";
 import { customerOrAnonymous } from "@/amerta/access/customerOrAnonymous";
 import { CollectionConfig } from "payload";

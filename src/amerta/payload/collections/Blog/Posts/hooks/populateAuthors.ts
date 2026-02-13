@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Blog/Posts/Hooks
+ * @title Populate Authors Hook
+ * @description This hook populates the authors field for blog posts, ensuring that user data is protected while still providing necessary information for display. The hook is triggered after a blog post document is read and populates the authors field with user data, hidden from the admin UI.
+ */
+
 import { User } from '@/payload-types'
 import type { CollectionAfterReadHook } from 'payload'
 

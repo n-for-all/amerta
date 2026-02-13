@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Media
+ * @title Media Collection
+ * @description This module defines the collections related to the media functionality in Amerta, including media details, file uploads, and related handlers.
+ */
+
 import type { CollectionConfig } from "payload";
 
 import { FixedToolbarFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";

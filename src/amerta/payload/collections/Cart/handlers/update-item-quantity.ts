@@ -1,9 +1,13 @@
+/**
+ * @module Collections/Cart/Handlers
+ * @title Update Item Quantity Handler
+ * @description This handler updates the quantity of an item in the cart. It validates the request, checks item existence, and updates the cart accordingly.
+ */
+
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
-import { hasStock } from "@/amerta/theme/utilities/has-stock";
 import { isInStock } from "@/amerta/theme/utilities/is-in-stock";
 import { createTranslator } from "@/amerta/theme/utilities/translation";
-import { variantsMatch } from "@/amerta/theme/utilities/variants-match";
 import { printf } from "fast-printf";
 import { PayloadRequest } from "payload";
 import z from "zod";

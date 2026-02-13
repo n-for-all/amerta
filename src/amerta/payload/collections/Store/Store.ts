@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Store
+ * @title Store Collection
+ * @description This module defines the Store collection, including its fields, access control, and hooks.
+ */
+
 import { admins } from "@/amerta/access/admins";
 import { CollectionConfig } from "payload";
 

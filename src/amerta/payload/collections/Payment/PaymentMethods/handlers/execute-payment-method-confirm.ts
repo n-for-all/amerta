@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Handlers
+ * @title Execute Payment Method Confirm
+ * @description This module defines the handler for executing payment method confirmations in the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
+ */
+    
 import { Currency, Order, PaymentMethod } from "@/payload-types";
 import { getPaymentAdapter } from "@/amerta/payments";
 import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";

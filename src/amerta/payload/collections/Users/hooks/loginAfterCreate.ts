@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Users/Hooks
+ * @title Login After Create
+ * @description This hook logs in the user immediately after they are created.
+ */
+
 import { CollectionAfterChangeHook } from "payload";
 
 export const loginAfterCreate: CollectionAfterChangeHook = async ({ doc, req, req: { payload, body = {} }, operation }: { doc: any; req: any; operation: "create" | "update" | "delete" }) => {

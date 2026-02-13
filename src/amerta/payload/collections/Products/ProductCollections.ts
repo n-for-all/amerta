@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/ProductCollections
+ * @title Product Collections
+ * @description This module defines the collections related to the product collections functionality in Amerta, including collection details, images, descriptions, and associated sales channels.
+ */
+
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { MetaDescriptionField } from "@payloadcms/plugin-seo/dist/fields/MetaDescription";
 import { MetaImageField } from "@payloadcms/plugin-seo/dist/fields/MetaImage";

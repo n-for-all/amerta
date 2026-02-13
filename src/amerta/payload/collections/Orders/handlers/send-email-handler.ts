@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Orders/Handlers
+ * @title Send Order Email Handler
+ * @description This handler sends emails related to order status changes. It validates the request, fetches the order and customer details, and sends the appropriate email based on the action specified.
+ */
+
 import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
 import { Order, Customer } from "@/payload-types";

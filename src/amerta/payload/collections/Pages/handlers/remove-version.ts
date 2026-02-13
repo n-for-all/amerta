@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Pages/Handlers
+ * @title Remove Page Version Handler
+ * @description This handler removes a specific version of a page. It validates the request, checks for the version's existence, and deletes it if found.
+ */
+
 import { PayloadRequest } from "payload";
 
 export const removeVersion = async (req: PayloadRequest) => {

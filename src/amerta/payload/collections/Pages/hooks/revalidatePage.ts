@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Pages/Hooks
+ * @title Revalidate Page Hook
+ * @description This hook revalidates the cache for a page when it is created, updated, or deleted. It ensures that the homepage and other pages are properly revalidated.
+ */
+
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from "payload";
 
 import { revalidatePath, revalidateTag } from "next/cache";

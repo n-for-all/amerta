@@ -4,7 +4,7 @@
  * This module defines the core types and interfaces used throughout the payment system.
  * It provides type definitions for payment results, adapters, and payment gateway integration.
  * 
- * @module payments/types
+ * @module Payments/Types
  */
 
 import { Order, PaymentMethod } from "@/payload-types";

@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Handlers
+ * @title Get Payment Methods
+ * @description This module defines the handler for fetching payment methods in the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
+ */
+
 import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
 
 const sendUncachedResponse = (status: number, body: any) => {

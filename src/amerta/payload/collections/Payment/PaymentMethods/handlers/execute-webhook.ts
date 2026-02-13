@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Handlers
+ * @title Execute Payment Method Webhook
+ * @description This module defines the handler for executing payment method webhooks in the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
+ */
+
 import { getPaymentAdapter } from "@/amerta/payments";
 import { PayloadRequest } from "payload";
 

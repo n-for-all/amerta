@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/Handlers
+ * @title Submit Review Handler
+ * @description This module defines the handlers related to the products collections in Amerta, specifically the submit review handler that processes review submissions, validates the data, updates product ratings, and triggers email notifications if enabled.
+ */
+
 import { getProductById } from "@/amerta/theme/utilities/get-product-by-id";
 import { PayloadRequest } from "payload";
 import z from "zod";

@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Cart/Handlers
+ * @title Remove Cart Item Handler
+ * @description This handler removes an item from the cart. It validates the request, checks item existence, and updates the cart accordingly.
+ */
+
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { createTranslator } from "@/amerta/theme/utilities/translation";

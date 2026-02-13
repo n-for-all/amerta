@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Customers
+ * @title Customers Collection
+ * @description This module defines the collections related to the customers functionality in Amerta, including customer details, authentication, and related handlers.
+ */
+
 import { type CollectionConfig } from "payload";
 import { admins } from "../../access/admins";
 import { anyone } from "../../access/anyone";

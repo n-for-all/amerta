@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Cart/Handlers
+ * @title Get Cart Handler
+ * @description This handler retrieves the cart. It fetches the cart based on the cart ID cookie and returns the cart data.
+ */
+
 import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { PayloadRequest } from "payload";
 

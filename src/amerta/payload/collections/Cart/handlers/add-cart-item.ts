@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Cart/Handlers
+ * @title Add Cart Item Handler
+ * @description This handler adds an item to the cart. It validates the request, checks product availability, and updates the cart accordingly.
+ */
+
 import { Cart } from "@/payload-types";
 import { CartWithCalculations } from "@/amerta/theme/types";
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";

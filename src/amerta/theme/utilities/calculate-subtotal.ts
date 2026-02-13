@@ -1,5 +1,5 @@
 /**
- * @module Cart/calculateSubtotal
+ * @module Cart
  */
 /**
  * Calculates the subtotal of cart items by summing up product prices times quantities.

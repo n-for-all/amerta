@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Shipping/Handlers
+ * @title Get Shipping Methods Handler
+ * @description This handler retrieves the available shipping methods based on the provided country, city, and locale parameters.
+ */
+
 import { sendUncachedResponse } from "@/amerta/utilities/sendUncachedResponse";
 import { Shipping } from "@/payload-types";
 

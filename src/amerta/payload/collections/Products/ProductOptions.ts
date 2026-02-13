@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/ProductOptions
+ * @title Product Options
+ * @description This module defines the collections related to the product options functionality in Amerta, including option details, types, and associated metadata.
+ */
+
 import { CollectionConfig } from "payload";
 
 export const ProductOptions: CollectionConfig = {

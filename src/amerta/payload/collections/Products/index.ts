@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products
+ * @title Products Collections
+ * @description This module exports all the collections related to products, including media, reviews, options, collections, brand, and tags.
+ */
+
 import { ProductMedia } from "./ProductMedia";
 import ProductReviews from "./ProductReviews";
 import { Products } from "./Products";

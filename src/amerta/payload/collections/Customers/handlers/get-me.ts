@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Customers/Handlers
+ * @title Get Me Handler
+ * @description This handler retrieves the authenticated customer's information. It validates the request, checks token validity, and fetches the customer data accordingly.
+ */
+
 import { PayloadRequest } from "payload";
 import jwt from "jsonwebtoken";
 import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";

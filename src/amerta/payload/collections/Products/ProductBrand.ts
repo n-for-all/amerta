@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/ProductBrand
+ * @title Product Brand Collection
+ * @description This module defines the collections related to the product brand functionality in Amerta, including brand details, logos, and associated sales channels.
+ */
+
 import { slugField } from "@/amerta/fields/slug";
 import { CollectionConfig } from "payload";
 

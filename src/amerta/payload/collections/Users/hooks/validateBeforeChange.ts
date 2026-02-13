@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Users/Hooks
+ * @title Validate Before Change
+ * @description This hook validates user data before creating a new user.
+ */
+
 import { z } from "zod";
 import type { CollectionBeforeChangeHook } from "payload";
 import { APIError } from "payload";

@@ -1,5 +1,5 @@
 /**
- * @module Cart/addToCart
+ * @module Cart
  */
 import { ProductOption } from "@/payload-types";
 import { ApiError, CartWithCalculations } from "../types";

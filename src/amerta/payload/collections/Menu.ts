@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Menu
+ * @title Menu Collection
+ * @description This module defines the collections related to the menu functionality in Amerta, including menu details, navigation items, and related handlers.
+ */
+
 import type { CollectionConfig } from "payload";
 
 import { link } from "../fields/link/link";

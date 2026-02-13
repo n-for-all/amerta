@@ -1,3 +1,9 @@
+/**
+ * @module Collections/CartRules
+ * @title Cart Rules Collection
+ * @description This module defines the collections related to the cart rules functionality in Amerta, including rule types, triggers, applicability, and discount details.
+ */
+
 import { CollectionConfig } from "payload";
 
 export const CartRules: CollectionConfig = {

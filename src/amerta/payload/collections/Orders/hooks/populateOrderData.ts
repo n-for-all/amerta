@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Orders/Hooks
+ * @title Populate Order Data Hook
+ * @description This hook populates additional order data before creating or updating an order. It generates order IDs, populates payment and shipping method names, and resolves country and product details.
+ */
+
 import { APIError, CollectionBeforeChangeHook } from "payload";
 
 export const populateOrderData: CollectionBeforeChangeHook = async ({ data, req, operation }) => {

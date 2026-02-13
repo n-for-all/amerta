@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Handlers
+ * @title Execute Payment Method Callback
+ * @description This module defines the handler for executing payment method callbacks in the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
+ */
+
 import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
 import { Order, PaymentMethod } from "@/payload-types";
@@ -73,6 +79,6 @@ export const executePaymentMethodCallback = async (req: PayloadRequest): Promise
     return NextResponse.redirect(new URL(redirectPath, req.url), 303);
   } catch (criticalError) {
     console.error("Critical Callback Error:", criticalError);
-    // return NextResponse.redirect(new URL("/", req.url), 303);
+    return NextResponse.redirect(new URL("/", req.url), 303);
   }
 };

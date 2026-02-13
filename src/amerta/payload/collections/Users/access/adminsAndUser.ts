@@ -1,4 +1,8 @@
-
+/**
+ * @module Collections/Users/Access
+ * @title Admins and User Access
+ * @description This access control ensures that only admins or the user themselves can perform certain actions.
+ */
 
 import { Access } from 'payload'
 import { checkRole } from '@/amerta/access/checkRole'

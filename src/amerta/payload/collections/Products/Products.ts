@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/Products
+ * @title Products
+ * @description This module defines the collections related to the products functionality in Amerta, including product details, options, collections, brands, tags, media, and reviews.
+ */
+
 import ThemeShopBlocks from "@/amerta/theme/blocks";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { MetaDescriptionField } from "@payloadcms/plugin-seo/dist/fields/MetaDescription";

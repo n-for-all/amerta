@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Wishlist
+ * @title Wishlist Collection
+ * @description This module defines the collections related to the wishlist functionality in Amerta, including wishlist details, customer associations, and related handlers.
+ */
+
 import { customerOrAnonymous } from "@/amerta/access/customerOrAnonymous";
 import { CollectionConfig } from "payload";
 

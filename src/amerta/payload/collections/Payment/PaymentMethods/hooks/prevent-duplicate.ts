@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Hooks
+ * @title Prevent Duplicate Payment Methods
+ * @description This module defines a hook for preventing duplicate payment methods in the Payment Methods collection in Amerta, ensuring that each payment method type is unique per sales channel.
+ */
+
 import { CollectionBeforeChangeHook } from "payload";
 
 export const preventDuplicate: CollectionBeforeChangeHook = async ({ data, req, operation, originalDoc }) => {

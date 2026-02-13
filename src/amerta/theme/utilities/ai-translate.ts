@@ -1,3 +1,10 @@
+/**
+ * @module AI
+ * @title AI Translate
+ * @description This module provides high-level utilities for interacting with GeminiAI 
+ * and handling multi-language translation streams within the Amerta core.
+ */
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";

@@ -1,3 +1,9 @@
+/**
+ * @module Collections/TaxRates/Handlers
+ * @title Get Tax Rates by Country Handler
+ * @description This handler retrieves the tax rates for a specific country, including both specific and default tax rates.
+ */
+
 import { PayloadRequest } from "payload";
 
 export const getByCountry = async (req: PayloadRequest) => {

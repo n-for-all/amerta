@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Countries
+ * @title Countries Collection
+ * @description This module defines the collections related to the countries functionality in Amerta, including country details such as name, ISO codes, and status.
+ */
+
 import type { CollectionConfig } from "payload";
 
 export const Countries: CollectionConfig = {

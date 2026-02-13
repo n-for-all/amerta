@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Translations
+ * @title Translations Collection
+ * @description This module defines the collections related to the translations functionality in Amerta, including translation keys, values, domains, and related handlers.
+ */
+
 import { revalidateTag } from "next/cache";
 import type { CollectionConfig } from "payload";
 

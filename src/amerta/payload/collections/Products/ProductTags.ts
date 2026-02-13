@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/ProductTags
+ * @title Product Tags
+ * @description This module defines the collections related to the product tags functionality in Amerta, including tag details, descriptions, and associated metadata.
+ */
+
 import { slugField } from "@/amerta/fields/slug";
 import { CollectionConfig } from "payload";
 

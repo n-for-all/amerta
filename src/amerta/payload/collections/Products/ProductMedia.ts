@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/ProductMedia
+ * @title Product Media
+ * @description This module defines the collections related to the product media functionality in Amerta, including media details, images, and associated metadata.
+ */
+
 import type { CollectionConfig } from "payload";
 
 import { FixedToolbarFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";

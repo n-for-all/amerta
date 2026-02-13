@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Pages/Admin
+ * @title Row Label Component
+ * @description This component renders a custom label for each row in the Pages collection admin interface. It displays the block name or type and indicates if the block is hidden on the frontend.
+ */
+
 "use client";
 import { RowLabelProps, useRowLabel } from "@payloadcms/ui";
 

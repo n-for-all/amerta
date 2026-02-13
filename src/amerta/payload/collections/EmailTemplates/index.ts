@@ -1,3 +1,9 @@
+/**
+ * @module Collections/EmailTemplates
+ * @title Email Templates Collection
+ * @description This module defines the collections related to the email templates functionality in Amerta, including template content, categories, and notification settings.
+ */
+
 import { CollectionConfig } from "payload";
 
 export const ADMIN_EMAILS = ["new_order", "cancelled_order", "failed_order", "new_account"] as const;

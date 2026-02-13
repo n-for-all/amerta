@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Users
+ * @title Users Collection
+ * @description This module defines the collections related to the users functionality in Amerta, including user details, roles, and related handlers.
+ */
+
 import type { CollectionConfig } from "payload";
 
 import { admins } from "@/amerta/access/admins";

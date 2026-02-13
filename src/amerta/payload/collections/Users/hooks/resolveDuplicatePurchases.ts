@@ -1,3 +1,10 @@
+/**
+ * @module Collections/Users/Hooks
+ * @title Resolve Duplicate Purchases
+ * @description This hook ensures that duplicate purchases are removed from the user's purchase list.
+ */
+
+
 import { FieldHook } from 'payload'
 
 import type { User } from '@/payload-types'

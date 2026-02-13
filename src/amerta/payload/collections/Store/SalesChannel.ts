@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Store/SalesChannel
+ * @title Sales Channel Collection
+ * @description This module defines the Sales Channel collection, including its fields, access control, and hooks.
+ */
+
 import { CollectionConfig } from "payload";
 
 export const SalesChannel: CollectionConfig = {

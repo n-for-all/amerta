@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Filters
+ * @title Payment Methods Filters
+ * @description This module defines the filters for the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
+ */
+
 import { FilterOptions } from "payload";
 
 export const filterCurrencies: FilterOptions = async ({ data, req }) => {

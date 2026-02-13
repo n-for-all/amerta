@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Cart/Hooks
+ * @title Check Abandoned Cart Hook
+ * @description This hook checks if a cart has expired and marks it as abandoned if necessary. The hook is triggered before a change is made to a cart document and updates the status based on the expiry date.
+ */
+
 import { CollectionBeforeChangeHook } from "payload";
 
 export const checkAbandoned: CollectionBeforeChangeHook = async ({ data }) => {

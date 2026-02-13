@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Products/ProductReviews
+ * @title Product Reviews
+ * @description This module defines the collections related to the product reviews functionality in Amerta, including review details, ratings, and associated metadata.
+ */
+
 import type { CollectionConfig } from "payload";
 import { submitReview } from "./handlers/submit-review";
 import { admins } from "@/amerta/access/admins";

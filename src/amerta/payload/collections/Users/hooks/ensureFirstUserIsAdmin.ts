@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Users/Hooks
+ * @title Ensure First User Is Admin
+ * @description This hook ensures that the first user created is assigned the admin role.
+ */
+
 import { FieldHook } from 'payload'
 
 import type { User } from '@/payload-types'

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-// 👇 Added Product and Collection to imports
 import type { Media, Page, Post, Config, Settings, Category, Product, Collection } from "@/payload-types";
 import { getServerSideURL } from "./getURL";
 import { getCachedGlobal } from "./getGlobals";
@@ -29,7 +28,7 @@ const cleanDescription = (text: any): string => {
   return cleaned.trim().substring(0, 160);
 };
 
-type PageName = "blogPage" | "brandsPage" | "createAccountPage" | "loginPage" | "recoverPasswordPage" | "resendVerificationEmailPage" | "resetPasswordPage" | "verifyEmailPage" | "accountPage" | "addressesPage" | "ordersPage" | "profilePage" | "collectionsPage" | "productsPage" | "productTagsPage" | "categoriesPage" | "tagsPage" | "cartPage" | "checkoutPage" | "logoutPage";
+export type PageName = "blogPage" | "brandsPage" | "createAccountPage" | "loginPage" | "recoverPasswordPage" | "resendVerificationEmailPage" | "resetPasswordPage" | "verifyEmailPage" | "accountPage" | "addressesPage" | "ordersPage" | "profilePage" | "collectionsPage" | "productsPage" | "productTagsPage" | "categoriesPage" | "tagsPage" | "cartPage" | "checkoutPage" | "logoutPage";
 
 const generateURL = async ({ slug, isFrontPage, type, localeCode }: { slug: string; isFrontPage?: boolean | null; type: DocType; localeCode?: string }) => {
   const url = getServerSideURL();

@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Blog/Posts/Hooks
+ * @title Revalidate Hook
+ * @description This hook revalidates the post page when a post is published, updated, or deleted, ensuring that users see the most up-to-date information when viewing post pages. The hook is triggered after a change is made to a post document and checks if the document's status is "published" before calling the revalidation function.
+ */
+
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
 import { revalidatePath, revalidateTag } from 'next/cache'

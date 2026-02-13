@@ -1,8 +1,7 @@
 {
-  "name": "my-project",
+  "name": "amerta",
   "description": "E-commerce template for Payload",
   "version": "1.0.0",
-  "main": "dist/server.js",
   "license": "MIT",
   "type": "module",
   "scripts": {

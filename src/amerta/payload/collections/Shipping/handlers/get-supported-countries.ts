@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Shipping/Handlers
+ * @title Get Supported Countries Handler
+ * @description This handler retrieves the supported countries for shipping based on the available shipping methods.
+ */
+
 import { PayloadRequest } from "payload";
 
 export const getSupportedCountries = async (req: PayloadRequest) => {

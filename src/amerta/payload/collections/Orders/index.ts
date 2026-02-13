@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Orders
+ * @title Orders Collection
+ * @description This module defines the collections related to the orders functionality in Amerta, including order details, status, and related handlers.
+ */
+
 import { type CollectionConfig } from "payload";
 
 import { admins } from "../../access/admins";

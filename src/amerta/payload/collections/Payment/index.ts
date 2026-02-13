@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Payments
+ * @title Payments Collection
+ * @description This module defines the collections related to the payments functionality in Amerta, including payment details, status, gateways, and related handlers.
+ */
+
 import { admins } from "@/amerta/access/admins";
 import { CollectionConfig } from "payload";
 import { PaymentMethods } from "./PaymentMethods";

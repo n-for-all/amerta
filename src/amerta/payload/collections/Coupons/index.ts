@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Coupons
+ * @title Coupons Collection
+ * @description This module defines the collections related to the coupons functionality in Amerta, including coupon codes, discount types, values, and usage restrictions.
+ */
+
 import { CollectionConfig } from "payload";
 
 export const Coupons: CollectionConfig = {

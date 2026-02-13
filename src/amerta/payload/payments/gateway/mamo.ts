@@ -1,3 +1,30 @@
+/**
+ * @module Payments/MamoPay
+ * @title Mamo Pay Payment Adapter
+ * @description This adapter implements the {@link PaymentAdapter} interface to handle Mamo Pay payment processing.
+ * It supports both live and sandbox environments with automatic webhook setup.
+ *
+ * ## Features
+ * - Support for both Live and Sandbox (Test) modes
+ * - Automatic webhook creation and management
+ * - Multi-currency support with exchange rate conversion
+ * - Duplicate transaction detection
+ * - Secure payment verification via API callback
+ * - Dynamic payment link generation
+ *
+ * ## Configuration
+ * - **slug**: "mamo-pay"
+ * - **label**: "Mamo Pay"
+ * - **Settings**: API keys for both live and test modes, webhook ID storage
+ *
+ * ## API Integration
+ * - Creates payment links via Mamo API
+ * - Handles webhooks for charge completion
+ * - Verifies transactions server-side before confirming payment
+ * - Supports custom actions like dynamic payment link creation
+ *
+ */
+
 import { PaymentAdapter } from "../types";
 import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
 import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
@@ -8,6 +35,33 @@ import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
 import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
 import { Customer, Payment, PaymentMethod } from "@/payload-types";
 
+/**
+ * Mamo Pay Payment Adapter
+ *
+ * @remarks
+ * This adapter implements the {@link PaymentAdapter} interface to handle Mamo Pay payment processing.
+ * It supports both live and sandbox environments with automatic webhook setup.
+ *
+ * ## Features
+ * - Support for both Live and Sandbox (Test) modes
+ * - Automatic webhook creation and management
+ * - Multi-currency support with exchange rate conversion
+ * - Duplicate transaction detection
+ * - Secure payment verification via API callback
+ * - Dynamic payment link generation
+ *
+ * ## Configuration
+ * - **slug**: "mamo-pay"
+ * - **label**: "Mamo Pay"
+ * - **Settings**: API keys for both live and test modes, webhook ID storage
+ *
+ * ## API Integration
+ * - Creates payment links via Mamo API
+ * - Handles webhooks for charge completion
+ * - Verifies transactions server-side before confirming payment
+ * - Supports custom actions like dynamic payment link creation
+ *
+ */
 export const MamoPayAdapter: PaymentAdapter = {
   slug: "mamo-pay",
   label: "Mamo Pay",
@@ -45,6 +99,23 @@ export const MamoPayAdapter: PaymentAdapter = {
     },
   ],
 
+  /**
+   * Validates payment settings and creates webhook on save
+   *
+   * @param options - Configuration object containing the settings data
+   * @param options.data - The payment settings to validate and process
+   *
+   * @returns The processed settings data with webhook ID if newly created
+   *
+   * @remarks
+   * This method performs several important tasks:
+   * 1. Determines whether to use live or sandbox API based on testMode setting
+   * 2. Automatically creates a webhook on Mamo's platform if not already created
+   * 3. Stores the webhook ID in settings to prevent duplicate webhook creation
+   * 4. Handles webhook creation errors gracefully without blocking settings save
+   *
+   * @throws Does not throw errors, but logs them for webhook creation failures
+   */
   async onSaveSettings({ data }) {
     const settings = data.mamoPaySettings;
 
@@ -97,6 +168,28 @@ export const MamoPayAdapter: PaymentAdapter = {
     return data;
   },
 
+  /**
+   * Handles incoming webhooks from Mamo Pay
+   *
+   * @param req - The webhook request object containing payload and body data
+   *
+   * @returns Response object with status 200 on success, error status on failure
+   *
+   * @remarks
+   * This method:
+   * 1. Validates the webhook is for a registered Mamo payment method
+   * 2. Parses and validates the webhook event payload
+   * 3. Only processes "captured" status events (successful payments)
+   * 4. Performs currency conversion from transaction currency to default store currency
+   * 5. Detects and ignores duplicate transactions
+   * 6. Saves the payment record to the database
+   *
+   * ## Webhook Events Handled
+   * - `charge.succeeded` - Payment successfully captured
+   * - `charge.failed` - Payment failed (ignored, handled separately)
+   *
+   * @throws Does not throw errors; returns appropriate HTTP error responses
+   */
   async handleWebhook(req) {
     const payload = req.payload;
 
@@ -196,6 +289,27 @@ export const MamoPayAdapter: PaymentAdapter = {
     return new Response(JSON.stringify({ received: true }), { status: 200 });
   },
 
+  /**
+   * Handles post-payment callback from Mamo Pay
+   *
+   * @param req - The callback request object containing URL search parameters
+   * @param order - The order object with payment details
+   *
+   * @returns Callback result object with success status
+   *
+   * @remarks
+   * This method:
+   * 1. Extracts transaction ID from URL parameters
+   * 2. Performs server-side verification with Mamo API to prevent fraud
+   * 3. Checks for "captured" status from the authoritative server response
+   * 4. Saves payment confirmation to database
+   * 5. Returns verification result to determine if order should be confirmed
+   *
+   * ## Security
+   * - Does not trust client-side status data
+   * - Verifies all transactions with Mamo's API before confirmation
+   * - Fails safely if verification cannot be completed
+   */
   async callback(req: any, order: any) {
     const { payload } = req;
 
@@ -269,6 +383,28 @@ export const MamoPayAdapter: PaymentAdapter = {
     return { success: isVerified };
   },
 
+  /**
+   * Initiates a Mamo Pay payment link creation
+   *
+   * @param orderAmount - The total amount to be paid
+   * @param orderCurrency - The currency code (e.g., "USD")
+   * @param orderId - The order identifier
+   * @param redirectUrl - URL to redirect user after payment (not used for Mamo)
+   * @param locale - The user's locale/language
+   * @param order - The complete order object with billing and customer details
+   *
+   * @returns Payment confirmation object with payment URL for redirect
+   *
+   * @throws Error if API key is missing from payment method settings
+   *
+   * @remarks
+   * This method:
+   * 1. Retrieves API key based on test/live mode configuration
+   * 2. Extracts customer and billing information from order
+   * 3. Creates a payment link via Mamo API
+   * 4. Returns the payment URL for user redirect
+   * 5. Stores order ID in custom_data for webhook correlation
+   */
   async confirm(orderAmount, orderCurrency, orderId, redirectUrl, locale, order) {
     const settings = (order.paymentMethod as PaymentMethod).mamoPaySettings;
     const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;
@@ -326,6 +462,34 @@ export const MamoPayAdapter: PaymentAdapter = {
     };
   },
 
+  /**
+   * Executes custom payment actions for Mamo Pay
+   *
+   * @param actionName - The name of the action to execute
+   * @param actionData - Data object containing parameters for the action
+   * @param method - The payment method configuration object
+   *
+   * @returns Action result object, or null if action is not supported
+   *
+   * @throws Error if API key is missing from payment method settings
+   *
+   * @remarks
+   * Supported actions:
+   * - **createPaymentLink**: Creates a new payment link dynamically
+   *   - Params: `amount`, `currencyCode`, `orderId`, `billingAddress`, `redirectTo`
+   *   - Returns: `{ paymentUrl, paymentLinkId }`
+   * - **getClientSettings**: Retrieves client-side configuration
+   *   - Returns: `{ isTestMode }`
+   *
+   * @example
+   * ```typescript
+   * const result = await executeAction('createPaymentLink', {
+   *   amount: 99.99,
+   *   currencyCode: 'USD',
+   *   orderId: 'order-123'
+   * }, paymentMethod);
+   * ```
+   */
   async executeAction(actionName, actionData, method) {
     const settings = method.mamoPaySettings;
     const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;

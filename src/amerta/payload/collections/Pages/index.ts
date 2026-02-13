@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Pages
+ * @title Pages Collection
+ * @description This module defines the collections related to the pages functionality in Amerta, including page details, layout sections, SEO metadata, and related hooks and handlers.
+ */
+
 import type { Block, CollectionConfig } from "payload";
 
 import { admins } from "@/amerta/access/admins";

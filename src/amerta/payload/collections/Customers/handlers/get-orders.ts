@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Customers/Handlers
+ * @title Get Orders Handler
+ * @description This handler retrieves the authenticated customer's orders. It validates the request, checks token validity, and fetches the orders data accordingly.
+ */
+
 import { PayloadRequest } from "payload";
 
 export const getOrders = async (req: PayloadRequest) => {

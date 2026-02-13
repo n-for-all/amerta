@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Cart/Handlers
+ * @title Remove Coupon Handler
+ * @description This handler removes a coupon from the cart. It validates the request, checks coupon existence, and updates the cart accordingly.
+ */
+
 import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { createTranslator } from "@/amerta/theme/utilities/translation";
 import { PayloadRequest } from "payload";

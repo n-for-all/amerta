@@ -1,3 +1,9 @@
+/**
+ * @module Collections/TaxRates
+ * @title Tax Rates Collection
+ * @description This module defines the collections related to the tax rates functionality in Amerta, including tax rate details, country-specific rates, and related handlers.
+ */
+
 import type { CollectionConfig } from "payload";
 import { getByCountry } from "./handlers/get-by-country";
 import { uniqueDefault } from "./hooks/unique-default";

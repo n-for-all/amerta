@@ -1,3 +1,9 @@
+/**
+ * @module Collections/Customers/Handlers
+ * @title Verify Email Handler
+ * @description This handler verifies the customer's email. It validates the request, checks token validity, and sends a verification email accordingly.
+ */
+
 import { getURL } from "@/amerta/utilities/getURL";
 import { sendVerificationEmail } from "@/amerta/utilities/emails/sendVerificationEmail";
 import crypto from "crypto";

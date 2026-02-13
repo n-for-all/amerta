@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods/Handlers
+ * @title Execute Payment Method Action
+ * @description This module defines the handler for executing payment method actions in the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
+ */
+
 import { Currency, PaymentMethod } from "@/payload-types";
 import { getPaymentAdapter } from "@/amerta/payments";
 import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";

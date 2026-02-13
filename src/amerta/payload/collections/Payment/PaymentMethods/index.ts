@@ -1,3 +1,9 @@
+/**
+ * @module Collections/PaymentMethods
+ * @title Payment Methods Collection
+ * @description This module defines the Payment Methods collection for Amerta, including settings, confirmation, and execution of payment actions.
+ */
+
 import { admins } from "@/amerta/access/admins";
 import { PAYMENT_ADAPTERS } from "@/amerta/payments";
 import { CollectionConfig, Field } from "payload";

@@ -1,3 +1,8 @@
+/**
+ * @module Collections/Cart/Handlers
+ * @title Apply Coupon Handler
+ * @description This handler applies a coupon to the cart. It validates the request, checks coupon validity, and updates the cart accordingly.
+ */
 
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
