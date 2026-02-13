@@ -5,23 +5,31 @@
  */
 
 import { getCart } from "@/amerta/theme/utilities/get-cart";
+import { cookies } from "next/headers";
 import { PayloadRequest } from "payload";
 
 export const getCartHandler = async (req: PayloadRequest) => {
+  const cookiesInstance = await cookies();
+  const cartIdCookie = cookiesInstance.get("cartId")?.value;
   try {
-    //@ts-expect-error req.cookies is not typed
-    const cartIdCookie = req.cookies.get("cartId")?.value;
     if (!cartIdCookie || !cartIdCookie.startsWith("cart_")) {
       return Response.json({ cart: null }, { status: 200 });
     }
 
     const locale = req.query.locale as string | undefined;
-    // Populate full product data
     const populatedCart = await getCart(cartIdCookie, locale);
 
     return Response.json({ cart: populatedCart });
   } catch (error: any) {
     console.error(error);
+    try {
+      await req.payload.delete({
+        collection: "cart",
+        where: { cartId: { equals: cartIdCookie } },
+      });
+
+      cookiesInstance.delete("cartId");
+    } catch {}
     return Response.json({ error: error.message }, { status: 500 });
   }
 };
