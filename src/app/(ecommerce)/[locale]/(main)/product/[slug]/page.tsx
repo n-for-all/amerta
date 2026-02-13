@@ -33,26 +33,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return <ProductDetail product={product} locale={locale} options={options} />;
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise });
-  const pages = await payload.find({
-    collection: "products",
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  });
-
-  const params = pages.docs.map(({ slug }) => {
-    return { slug };
-  });
-
-  return params;
-}
-
 type Args = {
   params: Promise<{
     slug?: string;

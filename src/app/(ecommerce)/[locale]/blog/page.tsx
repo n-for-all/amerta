@@ -9,6 +9,7 @@ import PostCard from "@/amerta/theme/components/PostCard";
 import { getURL } from "@/amerta/utilities/getURL";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { SearchParams } from "next/dist/server/request/search-params";
+import { getPayload } from "payload";
 
 export default async function BlogPage({ searchParams, params }: { searchParams: Promise<SearchParams>; params: Promise<{ locale: string }> }) {
   const { locale } = await params;
