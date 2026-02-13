@@ -77,7 +77,11 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
     setIsLoading(true);
 
     try {
-      const { cart, error } = await addToCart(product, quantity, variantOptions, locale!);
+      const filteredOptions = variantOptions.filter((vo) =>
+        options.some((opt) => opt.id === vo.option)
+      );
+
+      const { cart, error } = await addToCart(product, quantity, filteredOptions, locale!);
       if(error) {
         throw new Error(error.message);
       }

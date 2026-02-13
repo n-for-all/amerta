@@ -1,8 +1,7 @@
 import { Product, ProductOption } from "@/payload-types";
 import { variantsMatch } from "./variants-match";
 
-export const getProductPrice = (product: Product, variantOptions?: Array<{ option: string | ProductOption; value: string }>) => {
-  // For simple products
+export const getProductPrice = (product: Product, variantOptions?: { option: string | ProductOption; value: string }[], options?: ProductOption[]) => {
   if (product.type === "simple") {
     return {
       type: "simple",
@@ -11,7 +10,6 @@ export const getProductPrice = (product: Product, variantOptions?: Array<{ optio
     };
   }
 
-  // For variant products
   if (product.type === "variant") {
     if (!product.variants || product.variants.length === 0) {
       return {
@@ -26,10 +24,15 @@ export const getProductPrice = (product: Product, variantOptions?: Array<{ optio
         return false;
       }
 
-      const variantMainOptions = Object.keys(variant.variant).map((key) => ({
-        option: key,
-        value: variant.variant ? variant.variant[key] : null,
-      }));
+      const variantMainOptions = Object.keys(variant.variant)
+        .filter((key) => {
+          //! remove invalid options, especially when you delete an option, sometime it is not removed from the db
+          return options ? options.some((opt) => opt.id === key) : true;
+        })
+        .map((key) => ({
+          option: key,
+          value: variant.variant ? variant.variant[key]!.value : "---",
+        }));
 
       if (variantMainOptions.length !== variantMainOptions.length || variantMainOptions.length == 0) {
         return false;

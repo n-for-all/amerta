@@ -5745,6 +5745,10 @@ export interface Settings {
    */
   defaultSeoPaginationTitle?: string | null;
   /**
+   * If enabled, this website will be marked with noindex for search engines
+   */
+  noIndex?: boolean | null;
+  /**
    * SEO title for the blog page
    */
   blogPageTitle?: string | null;
@@ -6258,6 +6262,7 @@ export interface SettingsSelect<T extends boolean = true> {
   defaultSeoDescription?: T;
   defaultSeoImage?: T;
   defaultSeoPaginationTitle?: T;
+  noIndex?: T;
   blogPageTitle?: T;
   blogPageDescription?: T;
   createAccountPageTitle?: T;

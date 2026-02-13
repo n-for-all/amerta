@@ -7,7 +7,6 @@
 import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
 import { getCart } from "@/amerta/theme/utilities/get-cart";
 import { createTranslator } from "@/amerta/theme/utilities/translation";
-import { variantsMatch } from "@/amerta/theme/utilities/variants-match";
 import { PayloadRequest } from "payload";
 import z from "zod";
 

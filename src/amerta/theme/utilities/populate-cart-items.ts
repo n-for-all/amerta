@@ -2,8 +2,10 @@ import { Cart } from "@/payload-types";
 import { Payload } from "payload";
 import { hasStock } from "./has-stock";
 import { variantsMatch } from "./variants-match";
+import { getAllProductOptions } from "./get-product-options";
 
 export async function populateCartItems(items: Cart["items"], payload: Payload): Promise<Cart["items"]> {
+  const allOptions = await getAllProductOptions();
   return (await Promise.all(
     (items || [])
       .map(async (item: any) => {
@@ -37,9 +39,11 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
               return null;
             }
             const variant = productDoc.variants?.find((v) => {
+              //!filter out invalid variant options, especially when you delete an option, sometime it is not removed from the db
+              const validVariantOptions = Object.entries(v.variant || {}).filter(([key]) => allOptions.some((opt) => opt.id === key));
               return variantsMatch(
-                v.variant
-                  ? Object.entries(v.variant).map(([key, value]) => {
+                validVariantOptions
+                  ? validVariantOptions.map(([key, value]) => {
                       const variantOptionValue = typeof value === "object" && value !== null && "value" in value ? value.value : value;
                       return { option: key, value: variantOptionValue };
                     })
@@ -51,6 +55,7 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
               price = variant.price || 0;
               salePrice = variant.salePrice || 0;
             } else {
+              console.error("No matching variant found for item:", item, item.variantOptions, productDoc.variants);
               return null;
             }
           } else {
@@ -69,10 +74,11 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
             product: productDoc,
             inStock: hasStock(productDoc, item.quantity),
           };
-        } catch {
+        } catch (e) {
+          console.error("Error populating cart item:", e);
           return item;
         }
       })
-      .filter((item) => item !== null),
+      .filter((item) => item),
   )) as Cart["items"];
 }

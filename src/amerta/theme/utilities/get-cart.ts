@@ -71,14 +71,13 @@ export async function getCart(cartId: string | null, locale?: string): Promise<C
       };
     }
   }
-
-  // Apply currency conversion to product prices
+  
   const cartWithConvertedPrices = {
     ...cart,
     id: cart!.cartId!,
     status: cart!.status!,
     items: (cart!.items || []).map((item: any) => {
-      if (item.product && typeof item.product === "object") {
+      if (item && item.product && typeof item.product === "object") {
         return {
           ...item,
           product: {
@@ -89,7 +88,7 @@ export async function getCart(cartId: string | null, locale?: string): Promise<C
         };
       }
       return item;
-    }),
+    }).filter(Boolean),
   };
 
   const subtotal = calculateSubtotal(cartWithConvertedPrices.items || []);

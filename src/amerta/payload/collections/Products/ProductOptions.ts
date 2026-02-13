@@ -5,6 +5,7 @@
  */
 
 import { CollectionConfig } from "payload";
+import { productOptionDelete } from "./hooks/productOptionDelete";
 
 export const ProductOptions: CollectionConfig = {
   slug: "product-options",
@@ -17,6 +18,9 @@ export const ProductOptions: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterDelete: [productOptionDelete],
   },
   fields: [
     {

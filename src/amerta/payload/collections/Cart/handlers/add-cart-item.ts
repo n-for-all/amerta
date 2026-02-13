@@ -38,7 +38,6 @@ export const addCartItem = async (req: PayloadRequest) => {
     const body = await req.json!();
     const cart: CartWithCalculations | null = await getCart(cartIdCookie, body?.locale);
 
-    
     const validation = addToCartSchema.safeParse(body);
     __ = await createTranslator(body?.locale || DEFAULT_LOCALE);
 
@@ -53,7 +52,7 @@ export const addCartItem = async (req: PayloadRequest) => {
       id: product,
     });
 
-    if (!productDoc) {
+    if (!productDoc || productDoc._status !== "published") {
       return Response.json({ error: __("Product not found") }, { status: 404 });
     }
 
@@ -81,6 +80,14 @@ export const addCartItem = async (req: PayloadRequest) => {
 
         return Response.json({ error: printf(__(`Please select a variant from: %s to add this product cart`), optionsLabels.join(", ")) }, { status: 400 });
       }
+    } else {
+      //check if all variant options are valid
+      const productOptions = Array.from(new Set((productDoc.variants || []).flatMap(({ variant }) => Object.keys(variant || {}))));
+      for (const vo of variantOptions) {
+        if (!productOptions.includes(vo.option)) {
+          return Response.json({ error: printf(__(`Invalid variant option: %s`), vo.option) }, { status: 400 });
+        }
+      }
     }
 
     if (!isInStock(productDoc, variantOptions, existingItemIndex >= 0 ? items![existingItemIndex]!.quantity + quantity : quantity)) {
@@ -90,7 +97,12 @@ export const addCartItem = async (req: PayloadRequest) => {
     if (existingItemIndex >= 0) {
       items![existingItemIndex]!.quantity += quantity;
     } else {
-      const pricing = getProductPrice(productDoc, variantOptions);
+      const pricing = getProductPrice(productDoc, variantOptions, allOptions);
+      if (pricing.price === 0) {
+        console.error("Pricing is 0 for this variant:", pricing, variantOptions, productDoc.variants);
+        return Response.json({ error: printf(__(`Selected variant is out of stock`)) }, { status: 400 });
+      }
+      
       items!.push({ product: productDoc, price: pricing.price, salePrice: pricing.salePrice, quantity, variantOptions: variantOptions || [] });
     }
 
@@ -103,6 +115,8 @@ export const addCartItem = async (req: PayloadRequest) => {
       data: { items: items, status: "active" },
     });
 
+
+
     if (newCart.errors.length > 0) {
       // Throw the first error found so your catch block handles it
       const message = newCart.errors.map((err) => err.message).join(", ");
@@ -110,7 +124,6 @@ export const addCartItem = async (req: PayloadRequest) => {
     }
 
     const populatedCart = await getCart(cart.id, body?.locale);
-
     return Response.json(
       { cart: populatedCart },
       {

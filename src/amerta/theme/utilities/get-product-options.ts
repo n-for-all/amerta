@@ -21,6 +21,9 @@ export async function getProductOptions(optionIds: string[]): Promise<ProductOpt
       id: {
         in: optionIds,
       },
+      deletedAt: {
+        exists: false,
+      },
     },
     limit: optionIds.length,
   });
@@ -64,6 +67,11 @@ export async function getAllProductOptions(locale?: string): Promise<ProductOpti
     collection: "product-options",
     limit: 1000,
     locale: locale as LocaleCode,
+    where: {
+      deletedAt: {
+        exists: false,
+      },
+    },
   });
 
   return docs;
@@ -82,6 +90,9 @@ export async function getProductOptionsByType(type: "text" | "image" | "dropdown
     where: {
       type: {
         equals: type,
+      },
+      deletedAt: {
+        exists: false,
       },
     },
     limit: 1000,
@@ -103,6 +114,9 @@ export async function getFilterProductOptions(): Promise<ProductOption[]> {
       showInFilter: {
         equals: true,
       },
+      deletedAt: {
+        exists: false,
+      },
     },
     limit: 1000,
   });
@@ -122,6 +136,9 @@ export async function getSearchProductOptions(): Promise<ProductOption[]> {
     where: {
       showInSearch: {
         equals: true,
+      },
+      deletedAt: {
+        exists: false,
       },
     },
     limit: 1000,

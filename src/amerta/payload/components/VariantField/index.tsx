@@ -7,7 +7,7 @@ import { ProductOption } from "@/payload-types";
 import { Option } from "@payloadcms/ui/elements/ReactSelect";
 
 export type VariantValue = {
-  name: string;        
+  name: string;
   value: string;
 };
 
@@ -27,7 +27,14 @@ const VariantField = ({ field: { label, required = false }, path }: { field: { l
   if (isError) {
     return <div>Error loading product options.</div>;
   }
+  const existingOptionIds = new Set(data?.docs?.map((doc: any) => doc.id) || []);
+  const ghostKeys = Object.keys(value || {}).filter((key) => !existingOptionIds.has(key));
 
+  const removeGhostKey = (keyToRemove: string) => {
+    const newValue = { ...value };
+    delete newValue[keyToRemove];
+    setValue(newValue);
+  };
   let items = null;
   if (data && data.docs && data.docs.length) {
     items = data.docs.map((item: ProductOption) => {
@@ -118,6 +125,21 @@ const VariantField = ({ field: { label, required = false }, path }: { field: { l
           {label} {required && <span className="required">*</span>}
         </label>
       ) : null}
+      {ghostKeys.length > 0 && (
+        <div className="ghost-warning-container" style={{ marginBottom: "15px", border: "1px solid #ffba00", padding: "10px", borderRadius: "4px", background: "#fff9eb" }}>
+          <p style={{ color: "#856404", margin: "0 0 10px 0", fontSize: "13px", fontWeight: "bold" }}>⚠️ Unknown data detected! The following options were deleted or moved to trash:</p>
+          {ghostKeys.map((key) => (
+            <div key={key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#fff", padding: "5px 10px", marginBottom: "5px", borderRadius: "3px", border: "1px solid #eee" }}>
+              <span style={{ fontSize: "12px", color: "#666" }}>
+                ID: {key} (Value: {value[key]?.value})
+              </span>
+              <button type="button" onClick={() => removeGhostKey(key)} style={{ background: "#ff4d4d", color: "white", border: "none", borderRadius: "3px", padding: "2px 8px", cursor: "pointer", fontSize: "11px" }}>
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="variant-field-items">{items}</div>
       <input type="hidden" name={path} value={JSON.stringify(value)} />
     </div>

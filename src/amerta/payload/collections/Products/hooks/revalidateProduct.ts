@@ -5,7 +5,7 @@
  */
 
 import { AfterChangeHook } from "node_modules/payload/dist/collections/config/types";
-import { revalidate } from "../../../utilities/revalidate";
+import { revalidate } from "@/amerta/utilities/revalidate";
 
 
 // Revalidate the page in the background, so the user doesn't have to wait
