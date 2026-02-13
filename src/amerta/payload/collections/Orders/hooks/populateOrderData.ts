@@ -108,7 +108,8 @@ export const populateOrderData: CollectionBeforeChangeHook = async ({ data, req,
               }
               item.variantText = variantParts.join(", ");
             }
-          } catch {
+          } catch (e) {
+            console.error(e);
             throw new APIError("This product is invalid", 400);
           }
         }
