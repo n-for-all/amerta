@@ -9,7 +9,6 @@ import PostCard from "@/amerta/theme/components/PostCard";
 import { getURL } from "@/amerta/utilities/getURL";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { SearchParams } from "next/dist/server/request/search-params";
-import { getPayload } from "payload";
 
 export default async function BlogPage({ searchParams, params }: { searchParams: Promise<SearchParams>; params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -21,9 +20,7 @@ export default async function BlogPage({ searchParams, params }: { searchParams:
     <div className="container">
       <div className="flex flex-col items-center text-center py-14 lg:py-20">
         <h1 className="mt-5 text-3xl leading-none sm:text-4xl xl:text-5xl/none text font-medium *:data-[slot=dim]:text-zinc-300 *:data-[slot=italic]:font-serif *:data-[slot=italic]:font-normal *:data-[slot=italic]:italic *:data-[slot=dim]:dark:text-zinc-500">
-          <span>Our</span>
-          <br />
-          <span className="font-serif italic underline">Journal.</span>
+          <span className="underline">{__("Our Journal.")}</span>
         </h1>
         <div className="max-w-xl mt-5 uppercase text-sm/6">{__("Stay up-to-date with the latest news and insights.")}</div>
       </div>
