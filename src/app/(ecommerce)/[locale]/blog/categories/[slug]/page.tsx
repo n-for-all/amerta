@@ -8,6 +8,7 @@ import { CategoriesSwitch } from "@/amerta/theme/components/Blog/CategoriesSwitc
 import RichText from "@/amerta/theme/components/RichText";
 import { getURL } from "@/amerta/utilities/getURL";
 import { SearchParams } from "next/dist/server/request/search-params";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
 
 export async function generateMetadata({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<SearchParams> }): Promise<Metadata> {
   const { locale } = await params;
@@ -86,6 +87,7 @@ const BlogCategoryPage: React.FC<{ searchParams: Promise<SearchParams>; params: 
   }
 
   const categories = await getAllCategories(locale);
+  const __ = await createTranslator(locale);
 
   return (
     <div className="container">
@@ -93,14 +95,14 @@ const BlogCategoryPage: React.FC<{ searchParams: Promise<SearchParams>; params: 
         <h1 className="mt-5 text-3xl leading-none sm:text-4xl xl:text-5xl/none text font-medium *:data-[slot=dim]:text-zinc-300 *:data-[slot=italic]:font-serif *:data-[slot=italic]:font-normal *:data-[slot=italic]:italic *:data-[slot=dim]:dark:text-zinc-500">
           <span dangerouslySetInnerHTML={{ __html: category?.title }}></span>
           <br />
-          <span className="font-serif italic underline">Category.</span>
+          <span className="font-serif italic underline">{__("Category.")}</span>
         </h1>
         <div className="max-w-xl mt-5 uppercase text-sm/6">
           <RichText data={category?.description} locale={locale} />
         </div>
         {/* Category Navigation */}
         <div className="mt-6">
-          <CategoriesSwitch label={"Other Categories"} categories={categories} slug={slug} locale={locale} />
+          <CategoriesSwitch label={__("Other Categories")} categories={categories} slug={slug} locale={locale} />
         </div>
       </div>
       <div className="grid grid-cols-1 mt-5 gap-x-8 gap-y-16 md:grid-cols-2 lg:mx-0 xl:grid-cols-3">

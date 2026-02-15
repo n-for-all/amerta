@@ -44,6 +44,7 @@ const PREVIEW_CONTEXT: {
     email: "john@example.com",
     createdAt: "2024-05-15T10:00:00.000Z",
     updatedAt: "2024-05-15T10:00:00.000Z",
+    collection: "users",
   },
   order: {
     id: "60d5ec49f1b2c8a",
@@ -144,6 +145,7 @@ const PREVIEW_CONTEXT: {
     email: "john@example.com",
     createdAt: "2024-05-15T10:00:00.000Z",
     updatedAt: "2024-05-15T10:00:00.000Z",
+    collection: "customers",
   },
 };
 
@@ -438,7 +440,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ initialContent, lo
 
       let bestMatch = { element: null as any, score: 0, line: -1 };
 
-      elementMap.forEach((mappedElement, index) => {
+      elementMap.forEach((mappedElement) => {
         if (mappedElement.tagName !== tagName) return;
 
         let score = 0;

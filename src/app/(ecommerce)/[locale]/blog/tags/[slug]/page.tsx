@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { TagsSwitch } from "@/amerta/theme/components/Blog/TagsSwitch";
 import RichText from "@/amerta/theme/components/RichText";
 import { getURL } from "@/amerta/utilities/getURL";
+import { createTranslator } from "@/amerta/theme/utilities/translation";
 
 export async function generateMetadata({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ page?: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -85,6 +86,7 @@ const BlogTagPage: React.FC<{ searchParams: Promise<{ page?: string }>; params: 
   }
 
   const tags = await getAllTags(locale);
+  const __ = await createTranslator(locale);
 
   return (
     <div className="container">
@@ -93,7 +95,7 @@ const BlogTagPage: React.FC<{ searchParams: Promise<{ page?: string }>; params: 
           <span dangerouslySetInnerHTML={{ __html: tag?.title }}></span>
           <br />
           <span data-slot="italic font-serif" className="underline">
-            Tag.
+            {__("Tag.")}
           </span>
         </h1>
         <div className="max-w-xl mt-5 uppercase text-sm/6">

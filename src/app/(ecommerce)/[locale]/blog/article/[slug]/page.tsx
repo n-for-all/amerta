@@ -30,6 +30,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const timeToRead = timeToReadPost > 0 ? timeToReadPost + " min read" : null;
   const categories = post.categories && Array.isArray(post.categories) ? post.categories.filter((cat) => typeof cat === "object") : [];
   const tags = post.tags && Array.isArray(post.tags) ? post.tags : [];
+  const sanitizedTitle = { __html: title || "" };
   const renderHeader = () => {
     return (
       <header className="px-4 mx-auto max-w-7xl rounded-xl xl:px-0">
@@ -44,7 +45,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
           )}
-          <h1 className="max-w-4xl text-3xl font-semibold text-zinc-900 md:text-4xl md:leading-[120%]! lg:text-4xl dark:text-zinc-100" title={title} dangerouslySetInnerHTML={{ __html: title }}></h1>
+          <h1 className="max-w-4xl text-3xl font-semibold text-zinc-900 md:text-4xl md:leading-[120%]! lg:text-4xl dark:text-zinc-100" dangerouslySetInnerHTML={sanitizedTitle}></h1>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag: any, index: number) => (
               <Link key={tag.id || index} href={getURL(`/blog/tags/${tag.slug}`, locale)} className="inline-flex items-center px-3 py-1 text-xs font-medium border rounded-full border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
