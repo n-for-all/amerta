@@ -49,10 +49,12 @@ import { OrderActions as OrderActions_02135cdcbc0c9326a6ba3c2660c4c740 } from '@
 import { RowLabel as RowLabel_9f89a51446befc05f6190d7c481d0d20 } from '@/amerta/fields/link/RowLabel'
 import { UnsplashImport as UnsplashImport_87eec4ae3a925586386d06209c58fdaa } from '@/amerta/components/UnsplashImport'
 import { EmailBuilder as EmailBuilder_67fa476ffa01b051d0a96133b1314340 } from '@/amerta/components/EmailTemplate/index'
-import { RowLabel as RowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/theme/blocks/common/Footer/RowLabel'
-import { SocialMediaRowLabel as SocialMediaRowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/theme/blocks/common/Footer/RowLabel'
 import { SendTestEmailButton as SendTestEmailButton_417456c3abb8d06fe8fd73955487a582 } from '@/amerta/components/SendTestEmailButton/index'
 import { LocaleSelector as LocaleSelector_33fbf62731a3e0f8e4b56572c17ae705 } from '@/amerta/fields/localeSelector/index'
+import { RowLabel as RowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/theme/blocks/common/Footer/RowLabel'
+import { SocialMediaRowLabel as SocialMediaRowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/theme/blocks/common/Footer/RowLabel'
+import { N8NTestButton as N8NTestButton_3fc92912a4711ac7db0cd57d17c1a99e } from '@/amerta/globals/Integrations/fields/N8NTestButton'
+import { N8NHelp as N8NHelp_938b5e1385d981bfb0396f904d611ec1 } from '@/amerta/globals/Integrations/fields/N8NHelp'
 import { Icon as Icon_cb15aefbbc30e5bb599344050f8664f7 } from '@/amerta/theme/admin/Icon'
 import { Logo as Logo_46634ccd9d720bf8ed75cdbe749851ad } from '@/amerta/theme/admin/Logo'
 import { default as default_98f051e3cd759a61574cdf9728f35fef } from '@/amerta/components/Imports/index'
@@ -118,10 +120,12 @@ export const importMap = {
   "@/amerta/fields/link/RowLabel#RowLabel": RowLabel_9f89a51446befc05f6190d7c481d0d20,
   "@/amerta/components/UnsplashImport#UnsplashImport": UnsplashImport_87eec4ae3a925586386d06209c58fdaa,
   "@/amerta/components/EmailTemplate/index#EmailBuilder": EmailBuilder_67fa476ffa01b051d0a96133b1314340,
-  "@/amerta/theme/blocks/common/Footer/RowLabel#RowLabel": RowLabel_4027df51f784d590fe12493398326d17,
-  "@/amerta/theme/blocks/common/Footer/RowLabel#SocialMediaRowLabel": SocialMediaRowLabel_4027df51f784d590fe12493398326d17,
   "@/amerta/components/SendTestEmailButton/index#SendTestEmailButton": SendTestEmailButton_417456c3abb8d06fe8fd73955487a582,
   "@/amerta/fields/localeSelector/index#LocaleSelector": LocaleSelector_33fbf62731a3e0f8e4b56572c17ae705,
+  "@/amerta/theme/blocks/common/Footer/RowLabel#RowLabel": RowLabel_4027df51f784d590fe12493398326d17,
+  "@/amerta/theme/blocks/common/Footer/RowLabel#SocialMediaRowLabel": SocialMediaRowLabel_4027df51f784d590fe12493398326d17,
+  "@/amerta/globals/Integrations/fields/N8NTestButton#N8NTestButton": N8NTestButton_3fc92912a4711ac7db0cd57d17c1a99e,
+  "@/amerta/globals/Integrations/fields/N8NHelp#N8NHelp": N8NHelp_938b5e1385d981bfb0396f904d611ec1,
   "@/amerta/theme/admin/Icon#Icon": Icon_cb15aefbbc30e5bb599344050f8664f7,
   "@/amerta/theme/admin/Logo#Logo": Logo_46634ccd9d720bf8ed75cdbe749851ad,
   "@/amerta/components/Imports/index#default": default_98f051e3cd759a61574cdf9728f35fef,

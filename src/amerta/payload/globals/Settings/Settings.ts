@@ -9,6 +9,7 @@ import { GTagFields } from "./fields/gtag";
 import { ManifestFields } from "./fields/manifest";
 import { SocialMediaFields } from "./fields/social-media";
 import { AIFields } from "./fields/ai";
+import { admins } from "@/amerta/access/admins";
 
 export const Settings: GlobalConfig = {
   slug: "settings",
@@ -23,6 +24,7 @@ export const Settings: GlobalConfig = {
     interface: "Settings",
   },
   access: {
+    update: admins,    
     read: () => true,
   },
   hooks: {

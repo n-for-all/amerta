@@ -9,7 +9,7 @@ import { Pages } from "@/amerta/collections/Pages";
 import ProductsConfig from "@/amerta/collections/Products";
 import Users from "@/amerta/collections/Users";
 import { Menu } from "@/amerta/collections/Menu";
-import { Settings } from "@/amerta/globals/Settings";
+import { Settings } from "@/amerta/globals/Settings/Settings";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs";
 import { redirectsPlugin } from "@payloadcms/plugin-redirects";
@@ -60,6 +60,7 @@ import { importShopifyDataHandler } from "@/amerta/theme/data/imports/import-sho
 import { importPagesHandler } from "@/amerta/theme/data/imports/import-sample-pages";
 import { importBlogsHandler } from "@/amerta/theme/data/imports/import-sample-blogs";
 import { withGuard } from "@/amerta/utilities/withGuard";
+import { Integrations } from "@/amerta/globals/Integrations";
 
 const generateDescription: GenerateDescription<Post | Page> = async ({ doc, req }) => {
   const settings = await req.payload.findGlobal({
@@ -189,7 +190,7 @@ export function withAmerta(config: Config): Config {
     },
     editor: defaultLexical,
     serverURL: getServerSideURL(),
-    globals: [EcommerceSettings, Header, Footer, Settings],
+    globals: [EcommerceSettings, Settings, Header, Footer, Integrations],
     collections: [...ProductsConfig, Pages, ...BlogConfig, Translations, Store, SalesChannel, Orders, Customers, CustomerGroups, CustomerTags, FinalUsersCollection, Menu, Media, Currencies, Countries, TaxRates, Shipping, ...PaymentsConfig, Cart, CartRules, Wishlist, Coupons, EmailTemplates],
     email: nodemailerAdapter({
       defaultFromAddress: process.env.EMAIL_FROM || "",

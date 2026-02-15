@@ -246,15 +246,17 @@ export interface Config {
       )[];
   globals: {
     'ecommerce-settings': EcommerceSettings;
+    settings: Settings;
     header: Header;
     footer: Footer;
-    settings: Settings;
+    integrations: Integrations;
   };
   globalsSelect: {
     'ecommerce-settings': EcommerceSettingsSelect<false> | EcommerceSettingsSelect<true>;
+    settings: SettingsSelect<false> | SettingsSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    settings: SettingsSelect<false> | SettingsSelect<true>;
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
   };
   locale:
     | 'en'
@@ -2467,6 +2469,14 @@ export interface Order {
   paymentMethod: string | PaymentMethod;
   shippingMethodName?: string | null;
   paymentMethodName?: string | null;
+  /**
+   * Shipping tracking number for this order
+   */
+  shippingTrackingNumber?: string | null;
+  /**
+   * Shipping carrier for this order (e.g. UPS, FedEx)
+   */
+  shippingCarrier?: string | null;
   paidAt?: string | null;
   items?:
     | {
@@ -4543,6 +4553,8 @@ export interface OrdersSelect<T extends boolean = true> {
   paymentMethod?: T;
   shippingMethodName?: T;
   paymentMethodName?: T;
+  shippingTrackingNumber?: T;
+  shippingCarrier?: T;
   paidAt?: T;
   items?:
     | T
@@ -5430,212 +5442,6 @@ export interface EcommerceSettings {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header".
- */
-export interface Header {
-  id: string;
-  /**
-   * Select a menu to display in the header navigation
-   */
-  menu?: (string | null) | Menu;
-  /**
-   * Select a menu to display in the header navigation
-   */
-  'secondary-menu'?: (string | null) | Menu;
-  /**
-   * Logo to display in light mode. SVG recommended for best quality.
-   */
-  logoLight?: (string | null) | Media;
-  /**
-   * Logo to display in dark mode. SVG recommended for best quality.
-   */
-  logoDark?: (string | null) | Media;
-  /**
-   * Custom CSS classes to apply to the logo element
-   */
-  logoClassName?: string | null;
-  /**
-   * Allow users to toggle between light and dark mode
-   */
-  enableThemeSwitch?: boolean | null;
-  /**
-   * Default theme when users first visit the site
-   */
-  defaultTheme?: ('light' | 'dark' | 'system') | null;
-  buttonLink?: {
-    type?: ('reference' | 'custom') | null;
-    /**
-     * Choose how the link size.
-     */
-    size?: ('xs' | 'sm' | 'default' | 'lg') | null;
-    /**
-     * Choose how the link should be rendered.
-     */
-    appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: string | Post;
-        } | null)
-      | ({
-          relationTo: 'categories';
-          value: string | Category;
-        } | null)
-      | ({
-          relationTo: 'products';
-          value: string | Product;
-        } | null)
-      | ({
-          relationTo: 'collections';
-          value: string | Collection;
-        } | null)
-      | ({
-          relationTo: 'product-brands';
-          value: string | ProductBrand;
-        } | null);
-    /**
-     * use {locale} to insert the current locale code into the URL
-     */
-    url?: string | null;
-    newTab?: boolean | null;
-    label?: string | null;
-  };
-  className?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer".
- */
-export interface Footer {
-  id: string;
-  /**
-   * Optional title to display above the logo
-   */
-  title?: string | null;
-  /**
-   * Logo to display in light mode. SVG recommended for best quality.
-   */
-  logoLight?: (string | null) | Media;
-  /**
-   * Logo to display in dark mode. SVG recommended for best quality.
-   */
-  logoDark?: (string | null) | Media;
-  /**
-   * Custom CSS classes to apply to the footer logo element
-   */
-  logoClassName?: string | null;
-  /**
-   * Description text to display under the logo
-   */
-  description?: string | null;
-  footerButton?: {
-    type?: ('reference' | 'custom') | null;
-    /**
-     * Choose how the link size.
-     */
-    size?: ('xs' | 'sm' | 'default' | 'lg') | null;
-    /**
-     * Choose how the link should be rendered.
-     */
-    appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: string | Post;
-        } | null)
-      | ({
-          relationTo: 'categories';
-          value: string | Category;
-        } | null)
-      | ({
-          relationTo: 'products';
-          value: string | Product;
-        } | null)
-      | ({
-          relationTo: 'collections';
-          value: string | Collection;
-        } | null)
-      | ({
-          relationTo: 'product-brands';
-          value: string | ProductBrand;
-        } | null);
-    /**
-     * use {locale} to insert the current locale code into the URL
-     */
-    url?: string | null;
-    newTab?: boolean | null;
-    label?: string | null;
-  };
-  footerMenus?:
-    | {
-        /**
-         * Custom title for this menu section
-         */
-        title: string;
-        /**
-         * Select a menu to display in this footer section
-         */
-        menu?: (string | null) | Menu;
-        id?: string | null;
-      }[]
-    | null;
-  footerBottomMenu?: {
-    /**
-     * Select a menu to display in this footer section
-     */
-    menu?: (string | null) | Menu;
-  };
-  footerForm?: {
-    /**
-     * Enable a form in the footer (e.g., newsletter signup, contact form)
-     */
-    enable?: boolean | null;
-    /**
-     * Select which form to display in the footer
-     */
-    form?: (string | null) | Form;
-    /**
-     * Optional custom title for the form section
-     */
-    title?: string | null;
-    /**
-     * Optional description text above the form
-     */
-    description?: string | null;
-  };
-  /**
-   * Add links to your social media profiles to display in the footer
-   */
-  socialMedia?:
-    | {
-        platform: 'facebook' | 'twitter' | 'instagram' | 'linkedin' | 'youtube' | 'tiktok' | 'github' | 'discord';
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Copyright notice displayed at the bottom of the footer
-   */
-  copyright?: string | null;
-  /**
-   * Custom CSS classes to apply to the footer element
-   */
-  className?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
 export interface Settings {
@@ -6117,6 +5923,229 @@ export interface Settings {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: string;
+  /**
+   * Select a menu to display in the header navigation
+   */
+  menu?: (string | null) | Menu;
+  /**
+   * Select a menu to display in the header navigation
+   */
+  'secondary-menu'?: (string | null) | Menu;
+  /**
+   * Logo to display in light mode. SVG recommended for best quality.
+   */
+  logoLight?: (string | null) | Media;
+  /**
+   * Logo to display in dark mode. SVG recommended for best quality.
+   */
+  logoDark?: (string | null) | Media;
+  /**
+   * Custom CSS classes to apply to the logo element
+   */
+  logoClassName?: string | null;
+  /**
+   * Allow users to toggle between light and dark mode
+   */
+  enableThemeSwitch?: boolean | null;
+  /**
+   * Default theme when users first visit the site
+   */
+  defaultTheme?: ('light' | 'dark' | 'system') | null;
+  buttonLink?: {
+    type?: ('reference' | 'custom') | null;
+    /**
+     * Choose how the link size.
+     */
+    size?: ('xs' | 'sm' | 'default' | 'lg') | null;
+    /**
+     * Choose how the link should be rendered.
+     */
+    appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'categories';
+          value: string | Category;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: string | Product;
+        } | null)
+      | ({
+          relationTo: 'collections';
+          value: string | Collection;
+        } | null)
+      | ({
+          relationTo: 'product-brands';
+          value: string | ProductBrand;
+        } | null);
+    /**
+     * use {locale} to insert the current locale code into the URL
+     */
+    url?: string | null;
+    newTab?: boolean | null;
+    label?: string | null;
+  };
+  className?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: string;
+  /**
+   * Optional title to display above the logo
+   */
+  title?: string | null;
+  /**
+   * Logo to display in light mode. SVG recommended for best quality.
+   */
+  logoLight?: (string | null) | Media;
+  /**
+   * Logo to display in dark mode. SVG recommended for best quality.
+   */
+  logoDark?: (string | null) | Media;
+  /**
+   * Custom CSS classes to apply to the footer logo element
+   */
+  logoClassName?: string | null;
+  /**
+   * Description text to display under the logo
+   */
+  description?: string | null;
+  footerButton?: {
+    type?: ('reference' | 'custom') | null;
+    /**
+     * Choose how the link size.
+     */
+    size?: ('xs' | 'sm' | 'default' | 'lg') | null;
+    /**
+     * Choose how the link should be rendered.
+     */
+    appearance?: ('default' | 'destructive' | 'ghost' | 'outline' | 'link' | 'secondary') | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'categories';
+          value: string | Category;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: string | Product;
+        } | null)
+      | ({
+          relationTo: 'collections';
+          value: string | Collection;
+        } | null)
+      | ({
+          relationTo: 'product-brands';
+          value: string | ProductBrand;
+        } | null);
+    /**
+     * use {locale} to insert the current locale code into the URL
+     */
+    url?: string | null;
+    newTab?: boolean | null;
+    label?: string | null;
+  };
+  footerMenus?:
+    | {
+        /**
+         * Custom title for this menu section
+         */
+        title: string;
+        /**
+         * Select a menu to display in this footer section
+         */
+        menu?: (string | null) | Menu;
+        id?: string | null;
+      }[]
+    | null;
+  footerBottomMenu?: {
+    /**
+     * Select a menu to display in this footer section
+     */
+    menu?: (string | null) | Menu;
+  };
+  footerForm?: {
+    /**
+     * Enable a form in the footer (e.g., newsletter signup, contact form)
+     */
+    enable?: boolean | null;
+    /**
+     * Select which form to display in the footer
+     */
+    form?: (string | null) | Form;
+    /**
+     * Optional custom title for the form section
+     */
+    title?: string | null;
+    /**
+     * Optional description text above the form
+     */
+    description?: string | null;
+  };
+  /**
+   * Add links to your social media profiles to display in the footer
+   */
+  socialMedia?:
+    | {
+        platform: 'facebook' | 'twitter' | 'instagram' | 'linkedin' | 'youtube' | 'tiktok' | 'github' | 'discord';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Copyright notice displayed at the bottom of the footer
+   */
+  copyright?: string | null;
+  /**
+   * Custom CSS classes to apply to the footer element
+   */
+  className?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations".
+ */
+export interface Integrations {
+  id: string;
+  enabled?: boolean | null;
+  webhookUrl: string;
+  environment?: ('prod' | 'dev') | null;
+  secretToken?: string | null;
+  /**
+   * Choose an order to send as a test payload to n8n.
+   */
+  testOrder?: (string | null) | Order;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ecommerce-settings_select".
  */
 export interface EcommerceSettingsSelect<T extends boolean = true> {
@@ -6158,88 +6187,6 @@ export interface EcommerceSettingsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header_select".
- */
-export interface HeaderSelect<T extends boolean = true> {
-  menu?: T;
-  'secondary-menu'?: T;
-  logoLight?: T;
-  logoDark?: T;
-  logoClassName?: T;
-  enableThemeSwitch?: T;
-  defaultTheme?: T;
-  buttonLink?:
-    | T
-    | {
-        type?: T;
-        size?: T;
-        appearance?: T;
-        reference?: T;
-        url?: T;
-        newTab?: T;
-        label?: T;
-      };
-  className?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer_select".
- */
-export interface FooterSelect<T extends boolean = true> {
-  title?: T;
-  logoLight?: T;
-  logoDark?: T;
-  logoClassName?: T;
-  description?: T;
-  footerButton?:
-    | T
-    | {
-        type?: T;
-        size?: T;
-        appearance?: T;
-        reference?: T;
-        url?: T;
-        newTab?: T;
-        label?: T;
-      };
-  footerMenus?:
-    | T
-    | {
-        title?: T;
-        menu?: T;
-        id?: T;
-      };
-  footerBottomMenu?:
-    | T
-    | {
-        menu?: T;
-      };
-  footerForm?:
-    | T
-    | {
-        enable?: T;
-        form?: T;
-        title?: T;
-        description?: T;
-      };
-  socialMedia?:
-    | T
-    | {
-        platform?: T;
-        url?: T;
-        id?: T;
-      };
-  copyright?: T;
-  className?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -6369,6 +6316,102 @@ export interface SettingsSelect<T extends boolean = true> {
   lang?: T;
   dir?: T;
   pwaId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  menu?: T;
+  'secondary-menu'?: T;
+  logoLight?: T;
+  logoDark?: T;
+  logoClassName?: T;
+  enableThemeSwitch?: T;
+  defaultTheme?: T;
+  buttonLink?:
+    | T
+    | {
+        type?: T;
+        size?: T;
+        appearance?: T;
+        reference?: T;
+        url?: T;
+        newTab?: T;
+        label?: T;
+      };
+  className?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  title?: T;
+  logoLight?: T;
+  logoDark?: T;
+  logoClassName?: T;
+  description?: T;
+  footerButton?:
+    | T
+    | {
+        type?: T;
+        size?: T;
+        appearance?: T;
+        reference?: T;
+        url?: T;
+        newTab?: T;
+        label?: T;
+      };
+  footerMenus?:
+    | T
+    | {
+        title?: T;
+        menu?: T;
+        id?: T;
+      };
+  footerBottomMenu?:
+    | T
+    | {
+        menu?: T;
+      };
+  footerForm?:
+    | T
+    | {
+        enable?: T;
+        form?: T;
+        title?: T;
+        description?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  copyright?: T;
+  className?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations_select".
+ */
+export interface IntegrationsSelect<T extends boolean = true> {
+  enabled?: T;
+  webhookUrl?: T;
+  environment?: T;
+  secretToken?: T;
+  testOrder?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

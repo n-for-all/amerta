@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { GlobalConfig } from "payload";
 import { link } from "@/amerta/fields/link/link";
 import { socialLinksField } from "@/amerta/fields/socialLinks";
+import { admins } from "@/amerta/access/admins";
 
 export const EcommerceSettings: GlobalConfig = {
   slug: "ecommerce-settings",
@@ -16,6 +17,7 @@ export const EcommerceSettings: GlobalConfig = {
     interface: "EcommerceSettings",
   },
   access: {
+    update: admins,
     read: () => true,
   },
   hooks: {

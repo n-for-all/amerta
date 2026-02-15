@@ -15,6 +15,7 @@ import { populateOrderData } from "./hooks/populateOrderData";
 import { checkPaymentStatus } from "./handlers/check-status";
 import { sendOrderEmailHandler } from "./handlers/send-email-handler";
 import { withGuard } from "@/amerta/utilities/withGuard";
+import { sendToN8N } from "./hooks/sendToN8N";
 
 export const Orders: CollectionConfig = {
   slug: "orders",
@@ -36,6 +37,7 @@ export const Orders: CollectionConfig = {
   },
   hooks: {
     beforeChange: [populateOrderData],
+    afterChange: [sendToN8N],
   },
   access: {
     read: adminsOrOrderedBy,
@@ -307,6 +309,27 @@ export const Orders: CollectionConfig = {
               admin: {
                 hidden: true,
               },
+            },
+            {
+              type: "row",
+                fields: [
+                    {
+                        name: "shippingTrackingNumber",
+                        type: "text",
+                        admin: {
+                            width: "50%",
+                            description: "Shipping tracking number for this order"
+                        }
+                    },
+                    {
+                        name: "shippingCarrier",
+                        type: "text",
+                        admin: {
+                            width: "50%",
+                            description: "Shipping carrier for this order (e.g. UPS, FedEx)"
+                        }
+                    }
+                ]
             },
             {
               name: "paidAt",
