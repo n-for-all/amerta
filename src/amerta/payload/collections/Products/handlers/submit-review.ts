@@ -134,15 +134,18 @@ export const submitReview = async (req: PayloadRequest) => {
       console.log(emailContent);
       if (settings.reviewNotificationEmails) {
         for (const recipient of settings.reviewNotificationEmails) {
-          console.log(`📧 Email would be sent to: ${recipient.email}`);
-          console.log(`   Subject: New Product Review for ${productName}`);
-          console.log(`   Body:\n${emailContent}\n`);
+          try {
+            const emailResult = await req.payload.sendEmail({
+              to: recipient.email,
+              subject: `New Product Review for ${productName}`,
+              html: emailContent,
+            });
+
+          } catch (error) {
+            throw error;
+          }
         }
       }
-
-      console.log("✓ Notification emails prepared");
-    } else {
-      console.log("⊘ Review notifications not enabled or no email addresses configured");
     }
 
     return Response.json(
@@ -172,7 +175,6 @@ export const submitReview = async (req: PayloadRequest) => {
         { status: 402 },
       );
     }
-
     return Response.json(
       {
         success: false,
