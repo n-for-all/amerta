@@ -54,13 +54,14 @@ import deepmerge from "deepmerge";
 import { Page, Post } from "@/payload-types";
 import { getAdminPath } from "@/amerta/utilities/getAdminURL";
 import { checkRole } from "@/amerta/access/checkRole";
-import { EcommerceSettings } from "@/amerta/globals/EcommerceSettings";
+
 import { importSampleDataHandler } from "@/amerta/theme/data/imports/import-sample-data";
 import { importShopifyDataHandler } from "@/amerta/theme/data/imports/import-shopify-data";
 import { importPagesHandler } from "@/amerta/theme/data/imports/import-sample-pages";
 import { importBlogsHandler } from "@/amerta/theme/data/imports/import-sample-blogs";
 import { withGuard } from "@/amerta/utilities/withGuard";
 import { Integrations } from "@/amerta/globals/Integrations";
+import { EcommerceSettings } from "@/amerta/globals/EcommerceSettings";
 
 const generateDescription: GenerateDescription<Post | Page> = async ({ doc, req }) => {
   const settings = await req.payload.findGlobal({
