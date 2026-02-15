@@ -1,9 +1,7 @@
 "use client";
-import { Order } from "@/payload-types";
 import React from "react";
 
 export const N8NHelp: React.FC = () => {
-  const order: Order = null;
   return (
     <div
       style={{
@@ -30,7 +28,7 @@ export const N8NHelp: React.FC = () => {
           <strong>Finalize:</strong> Use the Payload Node to update the order tracking code:
           <code style={{ display: "block", background: "var(--theme-elevation-200)", padding: "2px 5px", borderRadius: "3px", marginLeft: "5px" }}>
             {`Save the tracking number to the order by calling Payload API: /api/orders/`}
-            <strong>{order?.id || ":id"}</strong>
+            <strong>{`order?.id || ":id"`}</strong>
             <code style={{ background: "var(--theme-elevation-200)", padding: "2px 5px", borderRadius: "3px", marginLeft: "5px" }}>PUT</code>
           </code>
           <code style={{ display: "block", background: "var(--theme-elevation-200)", padding: "2px 5px", borderRadius: "3px", marginTop: "5px", marginLeft: "5px" }}>{`Update shippingTrackingNumber, shippingCarrier and status to shipped in the order fields`}</code>
