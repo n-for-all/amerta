@@ -40,26 +40,30 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({ field, fieldToUse,
   });
 
   useEffect(() => {
-    // 2. GUARD CLAUSE: Stop auto-generation if not in English
-    // This prevents Arabic titles from overwriting the global slug
+    // 1. STOP if not in English
     if (locale !== DEFAULT_LOCALE) {
       return;
     }
 
-    if (!checkboxValue) {
+    // 2. CRITICAL FIX: Only auto-update if the lock IS active (true)
+    // Previously you had (!checkboxValue) which meant "Auto-update when Unlocked"
+    if (checkboxValue) {
       if (targetFieldValue) {
         const formattedSlug = formatSlug(targetFieldValue);
 
-        // Only update if it's actually different (prevents infinite loops)
+        // Only update if it's different to avoid infinite loops
         if (!isFrontPage && value !== formattedSlug) {
-            setValue(formattedSlug);
+          setValue(formattedSlug);
         }
       } else {
+        // If the title is deleted, clear the slug (only if locked)
         if (value !== "") setValue("");
       }
     }
-  }, [targetFieldValue, checkboxValue, setValue, value, isFrontPage, locale]); // 👈 Added locale to dependencies
 
+    // If checkboxValue is false (Unlocked), we do NOTHING here.
+    // We let the user's manual typing (handled by TextInput onChange) take over.
+  }, [targetFieldValue, checkboxValue, setValue, value, isFrontPage, locale]);
   const handleLock = useCallback(
     (e: React.MouseEvent<Element>) => {
       e.preventDefault();

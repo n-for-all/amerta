@@ -131,7 +131,6 @@ export interface Config {
     wishlist: Wishlist;
     coupons: Coupon;
     'email-templates': EmailTemplate;
-    redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
@@ -174,7 +173,6 @@ export interface Config {
     wishlist: WishlistSelect<false> | WishlistSelect<true>;
     coupons: CouponsSelect<false> | CouponsSelect<true>;
     'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
-    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -3242,42 +3240,6 @@ export interface EmailTemplate {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
- */
-export interface Redirect {
-  id: string;
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: string | Post;
-        } | null)
-      | ({
-          relationTo: 'categories';
-          value: string | Category;
-        } | null)
-      | ({
-          relationTo: 'products';
-          value: string | Product;
-        } | null)
-      | ({
-          relationTo: 'collections';
-          value: string | Collection;
-        } | null);
-    url?: string | null;
-  };
-  type: '301' | '302';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -3536,10 +3498,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'email-templates';
         value: string | EmailTemplate;
-      } | null)
-    | ({
-        relationTo: 'redirects';
-        value: string | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
@@ -5110,23 +5068,6 @@ export interface EmailTemplatesSelect<T extends boolean = true> {
   subject?: T;
   staffRecipients?: T;
   bccAddress?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects_select".
- */
-export interface RedirectsSelect<T extends boolean = true> {
-  from?: T;
-  to?:
-    | T
-    | {
-        type?: T;
-        reference?: T;
-        url?: T;
-      };
-  type?: T;
   updatedAt?: T;
   createdAt?: T;
 }

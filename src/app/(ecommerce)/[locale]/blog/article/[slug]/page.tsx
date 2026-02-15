@@ -44,9 +44,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
           )}
-          <h1 className="max-w-4xl text-3xl font-semibold text-zinc-900 md:text-4xl md:leading-[120%]! lg:text-4xl dark:text-zinc-100" title="Quiet ingenuity: 120,000 lunches and counting">
-            {title}
-          </h1>
+          <h1 className="max-w-4xl text-3xl font-semibold text-zinc-900 md:text-4xl md:leading-[120%]! lg:text-4xl dark:text-zinc-100" title={title} dangerouslySetInnerHTML={{ __html: title }}></h1>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag: any, index: number) => (
               <Link key={tag.id || index} href={getURL(`/blog/tags/${tag.slug}`, locale)} className="inline-flex items-center px-3 py-1 text-xs font-medium border rounded-full border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
@@ -126,7 +124,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <div className="pt-8 lg:pt-16">
       {renderHeader()}
 
-      {typeof heroImage === "object" && heroImage !== null && heroImage.url && <div className="max-w-(--breakpoint-md) mx-auto my-4 lg:my-10 sm:my-12 px-4 xl:px-0">{heroImage?.url && <ImageMedia alt={title || ""} src={heroImage?.url} width={heroImage?.width || 100} height={heroImage?.height || 100} imgClassName="rounded-xl" />}</div>}
+      {typeof heroImage === "object" && heroImage !== null && heroImage.url && (
+        <div className="max-w-(--breakpoint-md) mx-auto my-4 lg:my-10 sm:my-12 px-4 xl:px-0">{heroImage?.url && <ImageMedia alt={title || ""} src={heroImage?.url} width={heroImage?.width || 100} height={heroImage?.height || 100} imgClassName="rounded-xl" />}</div>
+      )}
       <div className="flex flex-col px-4 mx-auto max-w-7xl gap-y-10 xl:px-0">
         {renderContent()}
         {/* {renderTags()} */}

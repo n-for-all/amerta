@@ -12,9 +12,7 @@ import { Menu } from "@/amerta/collections/Menu";
 import { Settings } from "@/amerta/globals/Settings/Settings";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs";
-import { redirectsPlugin } from "@payloadcms/plugin-redirects";
 import { seoPlugin } from "@payloadcms/plugin-seo";
-import { revalidateRedirects } from "@/amerta/hooks/revalidate-redirects";
 import BlogConfig from "@/amerta/collections/Blog";
 import { GenerateDescription, GenerateImage, GenerateTitle, GenerateURL } from "@payloadcms/plugin-seo/dist/types";
 import { type Field } from "payload";
@@ -204,31 +202,6 @@ export function withAmerta(config: Config): Config {
       filterAvailableLocales: filterAvailableLocales,
     },
     plugins: [
-      redirectsPlugin({
-        collections: ["pages", "posts", "categories", "products", "collections"],
-        redirectTypes: ["301", "302"],
-        redirectTypeFieldOverride: {
-          label: "Redirect Type (Overridden)",
-        },
-        overrides: {
-          admin: {
-            group: "Settings",
-          },
-          fields: ({ defaultFields }: { defaultFields: Field[] }) => {
-            return defaultFields.map((field) => {
-              if ("name" in field && field.name === "from") {
-                return {
-                  ...field,
-                };
-              }
-              return field;
-            });
-          },
-          hooks: {
-            afterChange: [revalidateRedirects],
-          },
-        },
-      }),
       nestedDocsPlugin({
         collections: ["categories", "collections"],
         generateURL: (docs: Array<Record<string, unknown>>) => docs.reduce((url, doc) => `${url}/${doc.slug || ""}`, "") as any,
