@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         // 1. Create the account
         // Standard Payload REST endpoint is POST /api/{slug}
-        const res = await fetch(`${getServerSideURL()}/api/customer`, {
+        const res = await fetch(`${getServerSideURL()}/api/customers`, {
           method: "POST",
           credentials: "include",
           headers: {

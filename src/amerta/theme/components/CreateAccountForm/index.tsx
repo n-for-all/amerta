@@ -76,7 +76,7 @@ const CreateAccountForm: React.FC<{ logo: React.ReactNode; innerClassName?: stri
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${getServerSideURL()}/api/customer`, {
+      const response = await fetch(`${getServerSideURL()}/api/customers`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

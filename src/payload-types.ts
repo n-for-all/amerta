@@ -282,13 +282,7 @@ export interface Config {
     | 'da'
     | 'no'
     | 'fi';
-  user:
-    | (Customer & {
-        collection: 'customers';
-      })
-    | (User & {
-        collection: 'users';
-      });
+  user: Customer | User;
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -1111,6 +1105,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2597,6 +2592,7 @@ export interface Customer {
       }[]
     | null;
   password?: string | null;
+  collection: 'customers';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
