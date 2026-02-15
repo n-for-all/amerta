@@ -289,7 +289,7 @@ export const StripeAdapter: PaymentAdapter = {
    * The real payment validation happens in {@link handleWebhook} when Stripe
    * sends the `payment_intent.succeeded` event.
    */
-  async confirm(orderAmount, orderCurrency, orderId, redirectUrl, locale, order) {
+  async confirm(orderAmount, orderCurrency, orderId, redirectUrl) {
     //! stripe handles everything in the frontend, so we just need to redirect only to order received and wait for the webhook to update the order status and payment transaction.
     return {
       success: true,

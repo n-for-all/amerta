@@ -31,9 +31,9 @@ import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
 import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
 import { getOrderById } from "@/amerta/theme/utilities/get-order-by-id";
-import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
+import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
-import { Customer, Payment, PaymentMethod } from "@/payload-types";
+import { Customer, PaymentMethod } from "@/payload-types";
 
 /**
  * Mamo Pay Payment Adapter
@@ -311,7 +311,6 @@ export const MamoPayAdapter: PaymentAdapter = {
    * - Fails safely if verification cannot be completed
    */
   async callback(req: any, order: any) {
-    const { payload } = req;
 
     // 1. Extract Data from GET Request (URL Params)
     // We only trust the IDs here, NOT the status.

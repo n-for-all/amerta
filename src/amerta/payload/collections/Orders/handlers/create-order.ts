@@ -278,7 +278,7 @@ export const createOrder = async (req: PayloadRequest) => {
       });
       customerId = newCustomer.id;
     }
-
+console.log("Creating order with data:", items)
     const order = await payload.create({
       collection: "orders",
       data: {

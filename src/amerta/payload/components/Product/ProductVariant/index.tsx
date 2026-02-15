@@ -28,9 +28,10 @@ type VariantOption = {
 
 const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
   // 1. Manage this field's value (The Variant ID)
-  const { value, setValue } = useField<{ label: string; value: string }>({ path });
+  const { value, setValue } = useField<string>({ path });
   const [show, setShow] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  console.log("Rendering ProductVariant with path:", path, "current value:", value);
 
   // 2. dynamically find the sibling 'product', 'price', and 'quantity' field paths
   // If current path is 'items.0.variant', sibling is 'items.0.product', 'items.0.price', 'items.0.quantity'
@@ -154,10 +155,10 @@ const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
           <label className="field-label">Variant</label>
           <Select
             options={options}
-            value={value}
+            value={options.find((opt) => opt.value === value) || undefined}
             onChange={(option: VariantOption | VariantOption[]) => {
               if (Array.isArray(option)) return; // We don't support multi-select here
-              setValue({ label: option.label || "", value: option.value as string });
+              setValue(option.value as string);
               setPrice((option as VariantOption)?.price || 0);
               setQuantity(1);
               setMetaData((option as VariantOption).metaData);

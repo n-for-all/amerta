@@ -352,13 +352,13 @@ export const Orders: CollectionConfig = {
                 },
                 {
                   name: "variant",
-                  type: "select",
+                  type: "text",
                   admin: {
                     components: {
                       Field: "@/amerta/components/Product/ProductVariant", // <--- Renders your Dynamic Dropdown
                     },
                   },
-                  options: [],
+                //   options: [],
                 },
                 {
                   name: "image",

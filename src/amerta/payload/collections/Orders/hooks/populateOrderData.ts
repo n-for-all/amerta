@@ -4,6 +4,8 @@
  * @description This hook populates additional order data before creating or updating an order. It generates order IDs, populates payment and shipping method names, and resolves country and product details.
  */
 
+import { getMatchedVariant } from "@/amerta/theme/utilities/get-matched-variant";
+import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
 import { APIError, CollectionBeforeChangeHook } from "payload";
 
 export const populateOrderData: CollectionBeforeChangeHook = async ({ data, req, operation }) => {
@@ -107,6 +109,13 @@ export const populateOrderData: CollectionBeforeChangeHook = async ({ data, req,
                 }
               }
               item.variantText = variantParts.join(", ");
+              const options = await getAllProductOptions();
+              const variant = await getMatchedVariant(product, item.metaData, options);
+              if (variant) {
+                item.variant = variant.id || "";
+              } else {
+                console.warn("No matching variant found for item metaData:", item.metaData);
+              }
             }
           } catch (e) {
             console.error(e);
