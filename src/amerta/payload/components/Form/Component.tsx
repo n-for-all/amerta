@@ -98,7 +98,10 @@ export const FormBlock: React.FC<
 
             const redirectUrl = url;
 
-            if (redirectUrl) router.push(redirectUrl);
+            if (redirectUrl) {
+              router.refresh();
+              router.push(redirectUrl);
+            }
           } else {
             // reset the form if not redirecting
             setTimeout(() => {
@@ -124,7 +127,9 @@ export const FormBlock: React.FC<
     <div className={`${className} lg:max-w-[48rem]`}>
       {enableIntro && introContent && !hasSubmitted && <RichText locale={locale} className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />}
       <FormProvider {...formMethods}>
-        {!isLoading && hasSubmitted && confirmationType === "message" && <div className="px-2 py-1 mb-1 text-sm text-green-800 border border-green-400 rounded bg-green-150 prose-xs">{typeof confirmationMessage == "string" ? confirmationMessage : <RichText className="text-xs prose-sm" data={confirmationMessage} />}</div>}
+        {!isLoading && hasSubmitted && confirmationType === "message" && (
+          <div className="px-2 py-1 mb-1 text-sm text-green-800 border border-green-400 rounded bg-green-150 prose-xs">{typeof confirmationMessage == "string" ? confirmationMessage : <RichText className="text-xs prose-sm" data={confirmationMessage} />}</div>
+        )}
         {error ? <div className="px-2 py-1 mb-1 text-sm text-red-400 bg-red-100 border border-red-200 rounded">{`${error?.message || ""}`}</div> : null}
 
         <form id={formID} onSubmit={handleSubmit(onSubmit)} className="relative">

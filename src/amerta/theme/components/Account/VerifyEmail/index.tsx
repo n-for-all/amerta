@@ -25,7 +25,10 @@ export default function VerifyEmail({ locale }: { locale: string }) {
 
         if (res.ok) {
           setStatus("Success! Redirecting to login...");
-          setTimeout(() => router.push(getURL(`/login`, locale)), 2000);
+          setTimeout(() => {
+            router.refresh();
+            router.push(getURL(`/login`, locale));
+          }, 2000);
         } else {
           setStatus("Verification failed. Token may be invalid or expired.");
         }

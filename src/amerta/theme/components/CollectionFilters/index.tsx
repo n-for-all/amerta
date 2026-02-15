@@ -74,6 +74,7 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
     options.forEach((opt) => params.delete(`opt_${opt.id}`));
     params.set("page", "1");
 
+    router.refresh();
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -95,6 +96,7 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
       params.set("page", "1");
     }
 
+    router.refresh();
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -148,6 +150,7 @@ export function CollectionFilters({ totalProducts, currentProductCount, brands, 
               if (max) params.set("maxPrice", max);
               else params.delete("maxPrice");
               params.set("page", "1"); // Reset page
+              router.refresh();
               router.push(`${pathname}?${params.toString()}`, { scroll: false });
             }}
           />

@@ -37,6 +37,7 @@ export function AccountSidebar({ locale }: AccountSidebarProps) {
   const activeItem = menuItems.find((item) => isActive(item.href)) || menuItems[0] || { id: "dashboard", href: "/", label: "Dashboard", icon: LayoutDashboard };
 
   const handleMobileChange = (val: string) => {
+    router.refresh();
     if (val === "logout") {
       router.push(getURL("/logout", locale));
     } else {

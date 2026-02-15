@@ -84,7 +84,10 @@ const ResetPasswordForm: React.FC<{
         setSuccess("Password reset successfully.");
         setIsLoading(false);
 
-        setTimeout(() => router.push(getURL(`/login`, locale)), 3000);
+        setTimeout(() => {
+          router.refresh();
+          router.push(getURL(`/login`, locale));
+        }, 3000);
       } catch (e: any) {
         console.error("Error resetting password:", e);
         setError("An unexpected error occurred. Please try again.");

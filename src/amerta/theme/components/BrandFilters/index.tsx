@@ -74,6 +74,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
     options.forEach((opt) => params.delete(`opt_${opt.id}`));
     params.set("page", "1");
 
+    router.refresh();
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -95,6 +96,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
       params.set("page", "1");
     }
 
+    router.refresh();
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -119,7 +121,11 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
               { label: __("Name: A to Z"), value: "name-asc" },
               { label: __("Name: Z to A"), value: "name-desc" },
             ].map((option) => (
-              <button key={option.value} onClick={() => updateFilter("sort", option.value)} className={`block w-full px-4 py-2 text-left rtl:text-right text-sm whitespace-nowrap ${searchParams.get("sort") === option.value ? "font-bold text-zinc-900 bg-zinc-50 dark:bg-zinc-800 dark:text-white" : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700"}`}>
+              <button
+                key={option.value}
+                onClick={() => updateFilter("sort", option.value)}
+                className={`block w-full px-4 py-2 text-left rtl:text-right text-sm whitespace-nowrap ${searchParams.get("sort") === option.value ? "font-bold text-zinc-900 bg-zinc-50 dark:bg-zinc-800 dark:text-white" : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700"}`}
+              >
                 {option.label}
               </button>
             ))}
@@ -148,6 +154,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
               if (max) params.set("maxPrice", max);
               else params.delete("maxPrice");
               params.set("page", "1"); // Reset page
+              router.refresh();
               router.push(`${pathname}?${params.toString()}`, { scroll: false });
             }}
           />

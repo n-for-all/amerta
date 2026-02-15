@@ -101,6 +101,7 @@ const CreateAccountForm: React.FC<{ logo: React.ReactNode; innerClassName?: stri
 
       try {
         const { code } = await login(data);
+        router.refresh();
         if (code === "UnverifiedEmail") {
           router.push(getURL(`/login`, locale));
           return;
@@ -175,7 +176,7 @@ const CreateAccountForm: React.FC<{ logo: React.ReactNode; innerClassName?: stri
                     <FormItem>
                       <FormLabel>{__("Email")}</FormLabel>
                       <FormControl>
-                        <Input {...field} type="email" autoComplete="new-password" placeholder="name@example.com"/>
+                        <Input {...field} type="email" autoComplete="new-password" placeholder="name@example.com" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

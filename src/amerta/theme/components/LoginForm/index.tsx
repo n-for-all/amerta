@@ -81,23 +81,36 @@ const LoginForm: React.FC<{
         if (error) {
           if (code === "UnverifiedEmail") {
             setVerification(true);
-            setError(__( "Your account is not verified yet, Please check your email for the verification link."));
+            setError(__("Your account is not verified yet, Please check your email for the verification link."));
             return;
           }
           setError(error);
           return;
         }
         if (!user) {
-          setError(__( "Login failed. Please try again."));
+          setError(__("Login failed. Please try again."));
           return;
         }
-        if (onLoginSuccess) return onLoginSuccess();
-        if (redirectTo) router.push(redirectTo);
-        else if (redirect?.current) router.push(redirect.current as string);
-        else router.push(getURL(`/account`, locale));
+        if (onLoginSuccess) {
+          return onLoginSuccess();
+        }
+
+        let routerRedirect: string | null = null;
+        if (redirectTo) {
+          routerRedirect = redirectTo;
+        } else if (redirect?.current) {
+          routerRedirect = redirect.current;
+        } else {
+          routerRedirect = getURL(`/account`, locale);
+        }
+
+        setTimeout(() => {
+          router.refresh();
+          router.push(routerRedirect);
+        }, 200);
       } catch (e: any) {
         setVerification(false);
-        setError(e.message || __( "There was an error with the credentials provided. Please try again."));
+        setError(e.message || __("There was an error with the credentials provided. Please try again."));
         setIsLoading(false);
       }
     },
@@ -109,7 +122,8 @@ const LoginForm: React.FC<{
   if (verification) {
     errorMessage = (
       <div>
-        <div className="mb-2">{error}</div> <Button variant="outline" size="sm" asChild>
+        <div className="mb-2">{error}</div>{" "}
+        <Button variant="outline" size="sm" asChild>
           <Link href={getURL(`/resend-verification-email${allParams.trim() ? `?` : ""}${allParams}`, locale)}>Resend Verification Email</Link>
         </Button>
       </div>
@@ -132,7 +146,8 @@ const LoginForm: React.FC<{
                     }
                     return (
                       <div>
-                        <div className="mb-2">{message}</div> <Button variant="outline" size="sm" asChild>
+                        <div className="mb-2">{message}</div>{" "}
+                        <Button variant="outline" size="sm" asChild>
                           <Link href={getURL(`/resend-verification-email${allParams.trim() ? `?` : ""}${allParams}`, locale)}>Resend Verification Email</Link>
                         </Button>
                       </div>

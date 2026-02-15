@@ -33,6 +33,7 @@ export const LogoutPage: React.FC<{ locale: string }> = ({ locale }) => {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
+            router.refresh();
             router.push(getURL(`/`, locale));
             return 0;
           }
@@ -45,6 +46,7 @@ export const LogoutPage: React.FC<{ locale: string }> = ({ locale }) => {
   }, [success, error, router, locale]);
 
   const handleRedirectNow = () => {
+    router.refresh();
     router.push(getURL(`/`, locale));
   };
 
