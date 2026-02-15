@@ -8,7 +8,6 @@ import { Blocks } from "@/amerta/theme/blocks/Blocks";
 import { generateMeta } from "@/amerta/utilities/generateMeta";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
-import { PayloadRedirects } from "@/amerta/components/PayloadRedirects";
 import { LivePreviewListener } from "@/amerta/components/LivePreviewListener";
 import { LOCALES } from "@/amerta/localization/locales";
 import { getPageBySlug } from "@/amerta/theme/utilities/get-page-by-slug";
@@ -45,9 +44,6 @@ export default async function Page({ params: pageParams }: { params: Promise<{ s
 
   return (
     <React.Fragment>
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
       <Blocks blocks={layout} params={{ slug, locale }} />
     </React.Fragment>
