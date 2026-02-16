@@ -20,7 +20,12 @@ export async function getBlogPostByHandle(handle: string, locale?: string) {
     locale: locale as LocaleCode,
     fallbackLocale: false,
   });
-  return posts.docs[0] || null;
+
+  const post = posts.docs[0] || null;
+  if (!post || !post.title) {
+    return null;
+  }
+  return post;
 }
 
 /**

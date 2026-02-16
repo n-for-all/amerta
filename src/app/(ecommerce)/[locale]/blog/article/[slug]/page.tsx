@@ -13,14 +13,44 @@ import { createTranslator } from "@/amerta/theme/utilities/translation";
 import RichText from "@/amerta/theme/components/RichText";
 import { getURL } from "@/amerta/utilities/getURL";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
+import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
+import React from "react";
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
   const { slug, locale } = await params;
-  const post = await getBlogPostByHandle(slug, locale);
+  let post = await getBlogPostByHandle(slug, locale);
   const __ = await createTranslator(locale);
 
+  let message: React.ReactElement | null = null;
   if (!post) {
-    return notFound();
+    if (!locale || locale == DEFAULT_LOCALE) {
+      return notFound();
+    }
+
+    post = await getBlogPostByHandle(slug, DEFAULT_LOCALE);
+    if (post) {
+      message = (
+        <div className="w-full p-6 mb-10 border-l-4 rounded shadow-sm rtl:border-r-4 rtl:border-l-0 border-amber-500 bg-amber-50">
+          <div className="flex items-start">
+            {/* Warning Icon */}
+            <div className="flex-shrink-0">
+              <svg className="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+
+            <div className="ml-4 rtl:mr-4">
+              <h3 className="text-lg font-medium text-amber-800">{__("Content Not Available in Your Language")}</h3>
+              <div className="mt-1 text-sm text-amber-700">
+                <p>{__("This article hasn't been translated yet. We are displaying the default version below for your convenience.")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return notFound();
+    }
   }
 
   const { title, heroImage, authors, content } = post;
@@ -30,12 +60,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const timeToRead = timeToReadPost > 0 ? timeToReadPost + " min read" : null;
   const categories = post.categories && Array.isArray(post.categories) ? post.categories.filter((cat) => typeof cat === "object") : [];
   const tags = post.tags && Array.isArray(post.tags) ? post.tags : [];
-  const sanitizedTitle = { __html: title || "" };
   const renderHeader = () => {
     return (
       <header className="px-4 mx-auto max-w-7xl rounded-xl xl:px-0">
         <div className="mx-auto flex w-full max-w-(--breakpoint-md) flex-col items-start gap-y-5">
-          {/* Category badges */}
+          {message}
           {categories.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {categories.map((cat: any, index: number) => (
@@ -45,7 +74,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
           )}
-          <h1 className="max-w-4xl text-3xl font-semibold text-zinc-900 md:text-4xl md:leading-[120%]! lg:text-4xl dark:text-zinc-100" dangerouslySetInnerHTML={sanitizedTitle}></h1>
+          <h1 className="max-w-4xl text-3xl font-semibold text-zinc-900 md:text-4xl md:leading-[120%]! lg:text-4xl dark:text-zinc-100" title={title || ""} {...(title ? { dangerouslySetInnerHTML: { __html: title } } : {})}></h1>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag: any, index: number) => (
               <Link key={tag.id || index} href={getURL(`/blog/tags/${tag.slug}`, locale)} className="inline-flex items-center px-3 py-1 text-xs font-medium border rounded-full border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
