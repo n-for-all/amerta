@@ -3,14 +3,6 @@ import { GTM as GTMClient } from "./GTM.client";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { Config } from "payload";
 
-
-declare global {
-  interface Window {
-    dataLayer: any[];
-    gtag?: (...args: any[]) => void;
-  }
-}
-
 export const GTM = async () => {
   const settings: Settings = await getCachedGlobal("settings" as keyof Config["globals"], 1)();
   if (!settings.gtagEnabled || !settings.gtagId) return null;
