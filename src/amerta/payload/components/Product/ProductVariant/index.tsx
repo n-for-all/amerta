@@ -31,7 +31,6 @@ const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
   const { value, setValue } = useField<string>({ path });
   const [show, setShow] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  console.log("Rendering ProductVariant with path:", path, "current value:", value);
 
   // 2. dynamically find the sibling 'product', 'price', and 'quantity' field paths
   // If current path is 'items.0.variant', sibling is 'items.0.product', 'items.0.price', 'items.0.quantity'
@@ -45,9 +44,9 @@ const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
     return fields[productPath]?.value as string;
   });
 
-  const { value: priceValue, setValue: setPrice } = useField<number>({ path: pricePath });
-  const { value: quantityValue, setValue: setQuantity } = useField<number>({ path: quantityPath });
-  const { value: metaDataValue, setValue: setMetaData } = useField<MetaData>({ path: metaDataPath });
+  const { setValue: setPrice } = useField<number>({ path: pricePath });
+  const { setValue: setQuantity } = useField<number>({ path: quantityPath });
+  const { setValue: setMetaData } = useField<MetaData>({ path: metaDataPath });
 
   const [options, setOptions] = React.useState<{ label: string; value: string }[]>([]);
 
@@ -95,7 +94,7 @@ const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
           // Map them to the options format Payload expects
           const validOptions = product.variants.map((v) => {
             let variantName = "";
-            let variantOptions = v.variant || {};
+            const variantOptions = v.variant || {};
             Object.keys(variantOptions).forEach((key) => {
               variantName += `${variantOptions[key]!.name}: ${variantOptions[key]!.value} `;
             });

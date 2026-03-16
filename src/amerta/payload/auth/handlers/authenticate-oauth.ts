@@ -29,7 +29,8 @@ export const authenticateOauth = async (req: PayloadRequest) => {
     const result = await adapter.generateAuthUrl({
       req,
       settings: providerSettings,
-      redirectUri: `${getServerSideURL()}/api/auth/${adapter.slug}/${params.locale}/callback`,
+      locale: params.locale || "en",
+      redirectUri: `${getServerSideURL()}/api/auth/${adapter.slug}/callback`,
     });
 
     // ---------------------------------------------------------

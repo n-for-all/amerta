@@ -9,8 +9,36 @@ import { CartWithCalculations } from "@/amerta/theme/types";
 import { Currency } from "@/payload-types";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
 
-export const OrderSummary = ({ cart, exchangeRate, currency, locale, shippingCost, onCartUpdate, tax, loadingTaxes, qualifiesForFree, total, isSubmitting, isValid }: { cart: CartWithCalculations; exchangeRate: number; currency: Currency; locale?: string; shippingCost: number; onCartUpdate: (cart: CartWithCalculations) => void; orderTaxPercentage: number; tax: number; loadingTaxes: boolean; qualifiesForFree: boolean; total: number; isSubmitting: boolean; isValid: boolean }) => {
+export const OrderSummary = ({
+  cart,
+  exchangeRate,
+  currency,
+  locale,
+  shippingCost,
+  onCartUpdate,
+  tax,
+  loadingTaxes,
+  qualifiesForFree,
+  total,
+  isSubmitting,
+  isValid,
+}: {
+  cart: CartWithCalculations;
+  exchangeRate: number;
+  currency: Currency;
+  locale?: string;
+  shippingCost: number;
+  onCartUpdate: (cart: CartWithCalculations) => void;
+  orderTaxPercentage: number;
+  tax: number;
+  loadingTaxes: boolean;
+  qualifiesForFree: boolean;
+  total: number;
+  isSubmitting: boolean;
+  isValid: boolean;
+}) => {
   const { __ } = useEcommerce();
+
   return (
     <div className="sticky mt-10 lg:mt-0 top-24">
       <h3 className="text-2xl font-medium">{__("Order Summary")}</h3>
@@ -21,6 +49,7 @@ export const OrderSummary = ({ cart, exchangeRate, currency, locale, shippingCos
             const product = typeof item.product === "object" ? item.product : null;
             if (!product) return null;
 
+            const salePrice = item.salePrice && item.salePrice > 0 && item.salePrice < item.price ? item.salePrice : item.price;
             const productImage = product.images && product.images.length > 0 ? product.images[0] : product.images && product.images.length > 0 ? product.images[0] : null;
 
             return (
@@ -28,25 +57,29 @@ export const OrderSummary = ({ cart, exchangeRate, currency, locale, shippingCos
                 <div className="relative w-24 h-32 overflow-hidden rounded-md shrink-0">
                   <ImageOrPlaceholder image={productImage} alt={product.title} className="object-contain size-full" />
                 </div>
-                <div className="flex flex-col flex-1 ms-4">
-                  <div className="flex justify-between font-medium">
+                <div className="flex flex-row items-center justify-between flex-1 ms-4">
+                  <div className="flex flex-col font-medium">
                     <h3 className="leading-tight uppercase text-sm/6">{product.title}</h3>
-                    <p className="uppercase ms-4 text-sm/6">{formatPrice(product.price || 0, currency, exchangeRate)}</p>
-                  </div>
 
-                  {item.variantOptions && item.variantOptions.length > 0 && (
-                    <div className="mt-1.5 flex gap-2 text-sm">
-                      {item.variantOptions.map((variant, idx) => (
-                        <div key={idx} className="flex gap-1">
-                          <p className="uppercase text-zinc-500 text-sm/6 dark:text-zinc-400">{typeof variant.option === "string" ? variant.option : variant.option?.label || "Option"}</p>
-                          {idx < (item.variantOptions || []).length - 1 && <p className="uppercase text-zinc-300 text-sm/6 dark:text-zinc-600">/</p>}
-                          <p className="uppercase text-zinc-500 text-sm/6 dark:text-zinc-400">{variant.value}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <p className="mt-1 text-xs uppercase text-zinc-500 dark:text-zinc-400">{__("Qty:")} {item.quantity}</p>
-                  <p className="mt-1 text-xs uppercase text-zinc-500 dark:text-zinc-400">{formatPrice((product.price || 0) * (item.quantity || 1), currency, exchangeRate)}</p>
+                    {item.variantOptions && item.variantOptions.length > 0 && (
+                      <div className="mt-1.5 flex gap-2 text-sm">
+                        {item.variantOptions.map((variant, idx) => (
+                          <div key={idx} className="flex gap-1">
+                            <p className="uppercase text-zinc-500 text-sm/6 dark:text-zinc-400">{typeof variant.option === "string" ? variant.option : variant.option?.label || "Option"}</p>
+                            {idx < (item.variantOptions || []).length - 1 && <p className="uppercase text-zinc-300 text-sm/6 dark:text-zinc-600">/</p>}
+                            <p className="uppercase text-zinc-500 text-sm/6 dark:text-zinc-400">{variant.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <p className="mt-1 text-xs uppercase text-zinc-500 dark:text-zinc-400">
+                      {__("Qty:")} {item.quantity}
+                    </p>
+                  </div>
+                  <div className="flex flex-col">
+                    {salePrice < item.price ? <span className="mr-1 text-red-400 line-through rtl:ml-1 rtl:mr-0">{formatPrice(item.price * item.quantity, currency, exchangeRate)}</span> : null}
+                    {formatPrice(salePrice * item.quantity, currency, exchangeRate)}
+                  </div>
                 </div>
               </li>
             );
@@ -100,8 +133,9 @@ export const OrderSummary = ({ cart, exchangeRate, currency, locale, shippingCos
 
           <div className="flex justify-center mt-4 text-sm text-center text-zinc-500 dark:text-zinc-400">
             <span className="text-xs">
-              {__("or")} <Link href={getURL("/", locale)} className="text-xs font-medium uppercase text-zinc-900 dark:text-zinc-100 hover:underline">
-                {__("Continue Shopping →")} 
+              {__("or")}{" "}
+              <Link href={getURL("/", locale)} className="text-xs font-medium uppercase text-zinc-900 dark:text-zinc-100 hover:underline">
+                {__("Continue Shopping →")}
               </Link>
             </span>
           </div>

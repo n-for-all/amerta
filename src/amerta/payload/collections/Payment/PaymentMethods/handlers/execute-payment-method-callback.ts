@@ -51,8 +51,6 @@ export const executePaymentMethodCallback = async (req: PayloadRequest): Promise
         throw new Error(`No adapter found for type: ${type}`);
       }
 
-      console.log(`Executing callback for payment method: ${type}, order ID: ${order.id}`);
-
       if (adapter.callback) {
         await adapter.callback(req, order);
       } else {

@@ -13,7 +13,8 @@ export function calculateSubtotal(items: any[]): number {
 
   return items.reduce((sum, item) => {
     const product = typeof item.product === "object" ? item.product : null;
-    const price = product?.price || 0;
+    const salePrice = item.salePrice && item.salePrice > 0 && item.salePrice < item.price ? item.salePrice : null;
+    const price = salePrice || item.price || (product ? product.price : 0);
     return sum + price * item.quantity;
   }, 0);
 }

@@ -65,8 +65,8 @@ export const executePaymentMethodConfirm = async (req): Promise<Response> => {
     }
     const found = supportedCurrencies.find((c) => c.code?.toLowerCase() === (order.customerCurrency as Currency)?.code?.toLowerCase());
 
-    let customerAmount = order.customerTotal;
-    let customerCurrency = order.customerCurrency;
+    const customerAmount = order.customerTotal;
+    const customerCurrency = order.customerCurrency;
     if(!customerAmount || !customerCurrency) {
       return sendUncachedResponse(400, {
         success: false,

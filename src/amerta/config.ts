@@ -1,5 +1,5 @@
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
-import { BlocksField, Config, PayloadRequest } from "payload";
+import { BlocksField, Config } from "payload";
 import { defaultLexical } from "@/amerta/fields/defaultLexical";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
@@ -34,7 +34,7 @@ import PaymentsConfig from "@/amerta/collections/Payment";
 import { createStoreData, importBaseData } from "@/amerta/theme/utilities/seed-data";
 import { importWooProductsHandler } from "@/amerta/theme/data/imports/import-woo-products";
 import { importWpXmlHandler } from "@/amerta/theme/data/imports/import-wp-xml";
-import { DEFAULT_LOCALE, LocaleCode, LOCALES } from "@/amerta/localization/locales";
+import { DEFAULT_LOCALE, LOCALES } from "@/amerta/localization/locales";
 import { Translations } from "@/amerta/collections/Translations";
 import { searchHandler } from "@/amerta/theme/utilities/search-handler";
 import { EmailTemplates } from "@/amerta/collections/EmailTemplates";
@@ -49,7 +49,7 @@ import { oauthCallback } from "@/amerta/auth/handlers/oauth-callback";
 import { getEnabledAuthProviders } from "@/amerta/auth/handlers/get-enabled-providers";
 import { getDashboardStats } from "@/amerta/stats/handlers/getDashboardStats";
 import deepmerge from "deepmerge";
-import { Page, Post } from "@/payload-types";
+import { Page, Post, User } from "@/payload-types";
 import { getAdminPath } from "@/amerta/utilities/getAdminURL";
 import { checkRole } from "@/amerta/access/checkRole";
 
@@ -303,7 +303,7 @@ export function withAmerta(config: Config): Config {
       {
         path: "/fields/icons",
         method: "get",
-        handler: withGuard(async (req: PayloadRequest) => {
+        handler: withGuard(async () => {
           try {
             const icons = await generateIconsJson();
             return Response.json(icons || []);
@@ -327,7 +327,7 @@ export function withAmerta(config: Config): Config {
         path: `/${adminPath}/setup/import`,
         method: "post",
         handler: withGuard(async (req) => {
-          if (!req.user || !checkRole(["admin"], req.user)) return Response.json({ error: "Unauthorized" }, { status: 401 });
+          if (!req.user || !checkRole(["admin"], req.user as User)) return Response.json({ error: "Unauthorized" }, { status: 401 });
           const result = await importBaseData(req.payload);
           return Response.json(result);
         }),
@@ -407,7 +407,7 @@ export function withAmerta(config: Config): Config {
         handler: authenticateOauth,
       },
       {
-        path: "/auth/:provider/:locale/callback",
+        path: "/auth/:provider/callback",
         method: "get",
         handler: oauthCallback,
       },

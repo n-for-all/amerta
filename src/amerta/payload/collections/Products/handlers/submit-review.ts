@@ -134,16 +134,11 @@ export const submitReview = async (req: PayloadRequest) => {
       console.log(emailContent);
       if (settings.reviewNotificationEmails) {
         for (const recipient of settings.reviewNotificationEmails) {
-          try {
-            const emailResult = await req.payload.sendEmail({
-              to: recipient.email,
-              subject: `New Product Review for ${productName}`,
-              html: emailContent,
-            });
-
-          } catch (error) {
-            throw error;
-          }
+          await req.payload.sendEmail({
+            to: recipient.email,
+            subject: `New Product Review for ${productName}`,
+            html: emailContent,
+          });
         }
       }
     }

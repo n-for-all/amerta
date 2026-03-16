@@ -30,7 +30,7 @@ export interface AuthProvider {
 
   settingsFields: Field[];
 
-  generateAuthUrl: (args: { req: PayloadRequest; settings: any; redirectUri: string }) => Promise<AuthResult>;
+  generateAuthUrl: (args: { req: PayloadRequest; settings: any; redirectUri: string; locale?: string }) => Promise<AuthResult>;
 
-  authenticate: (args: { req: PayloadRequest; settings: any; searchParams: URLSearchParams; cookies: Map<string, string>; redirectUri: string }) => Promise<AuthResult>;
+  authenticate: (args: { req: PayloadRequest; settings: any; searchParams: URLSearchParams; cookies: Map<string, string>; redirectUri: string; locale?: string }) => Promise<AuthResult>;
 }

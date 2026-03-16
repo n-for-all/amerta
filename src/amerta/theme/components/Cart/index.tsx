@@ -87,7 +87,7 @@ export default function Cart({ onClose }: CartProps) {
     setUpdatingItemId(itemId);
     setError(null);
 
-    const { cart: updatedCart, error: apiError } = await updateQuantity(itemId, newQuantity,locale);
+    const { cart: updatedCart, error: apiError } = await updateQuantity(itemId, newQuantity, locale);
 
     if (apiError) {
       setError(apiError.message);
@@ -201,7 +201,7 @@ export default function Cart({ onClose }: CartProps) {
                                   const price = item.price;
                                   const salePrice = item.salePrice && item.salePrice > 0 && item.salePrice < item.price ? item.salePrice : item.price;
                                   return (
-                                    <li key={`${item.id}`} className="flex py-4">
+                                    <li key={`${item.id}-${index}`} className="flex py-4">
                                       <div className="relative w-24 h-32 overflow-hidden rounded-md shrink-0">
                                         {(product.images?.[0] as ProductMedia)?.url ? (
                                           <ImageMedia alt={(product.images?.[0] as ProductMedia)?.alt || product.title} src={(product.images?.[0] as ProductMedia)?.url} fill imgClassName="object-contain w-full h-full" />
@@ -218,7 +218,7 @@ export default function Cart({ onClose }: CartProps) {
                                               {product.title}
                                             </Link>
                                           </h3>
-                                          <p className="uppercase whitespace-nowrap ms-4 text-sm/6 text-zinc-900 dark:text-white">{formatPrice(price, currency, exchangeRate)}</p>
+                                          <p className="uppercase whitespace-nowrap ms-4 text-sm/6 text-zinc-900 dark:text-white">{formatPrice(salePrice * item.quantity, currency, exchangeRate)}</p>
                                         </div>
 
                                         {/* Variant Options */}
@@ -236,8 +236,8 @@ export default function Cart({ onClose }: CartProps) {
                                         )}
 
                                         <p className="mt-1 text-xs uppercase text-zinc-500 text-sm/6">
-                                          {salePrice < price ? <span className="mr-1 text-red-400 line-through rtl:ml-1 rtl:mr-0">{formatPrice(price * item.quantity, currency, exchangeRate)}</span> : null}
-                                          {formatPrice(salePrice * item.quantity, currency, exchangeRate)}
+                                          {salePrice < price ? <span className="mr-1 text-red-400 line-through rtl:ml-1 rtl:mr-0">{formatPrice(price, currency, exchangeRate)}</span> : null}
+                                          {formatPrice(salePrice, currency, exchangeRate)}
                                         </p>
                                         {!isInStock(product, item.variantOptions) && <p className="mt-1 text-xs text-red-600">{__("This item is out of stock.")}</p>}
                                         <div className="flex items-center justify-between pt-2 mt-1 text-sm">
@@ -248,7 +248,7 @@ export default function Cart({ onClose }: CartProps) {
                                               disabled={updatingItemId === item.id}
                                               className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-0.5 ps-3 pe-8 text-xs/6 outline-1 -outline-offset-1 outline-zinc-900/10 focus:outline-1 dark:bg-zinc-800 dark:text-white dark:outline-white/10 disabled:opacity-50"
                                             >
-                                              {[1, 2, 3, 4, 5, 6, 7, 8].map((qty) => (
+                                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((qty) => (
                                                 <option key={qty} value={qty}>
                                                   {qty}
                                                 </option>

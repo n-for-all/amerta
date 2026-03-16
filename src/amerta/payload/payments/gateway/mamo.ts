@@ -346,14 +346,12 @@ export const MamoPayAdapter: PaymentAdapter = {
           "Content-Type": "application/json",
         },
       });
-      console.log("Mamo Verification HTTP Status:", verifyRes.status);
 
       if (!verifyRes.ok) {
         throw new Error(`Failed to verify charge: ${verifyRes.statusText}`);
       }
 
       const verifyData = await verifyRes.json();
-      console.log("Mamo Verification Response:", verifyData);
       gatewayResponse = verifyData;
 
       // CHECK THE REAL STATUS FROM THE SERVER RESPONSE
@@ -438,7 +436,6 @@ export const MamoPayAdapter: PaymentAdapter = {
       email: email,
     };
 
-    console.log("Creating Mamo Payment Link with payload:", payload);
 
     const response = await fetch(`${baseUrl}/links`, {
       method: "POST",

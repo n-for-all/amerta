@@ -61,7 +61,6 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
   const country = typeof initialOrder.address?.country === "string" ? initialOrder.address?.country : initialOrder.address?.country?.name || "";
 
   const paymentMethodName = payment ? (typeof initialOrder.paymentMethod === "object" ? initialOrder.paymentMethod?.name : __("Online Payment")) : __("Online Payment");
-
   return (
     <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 lg:max-w-3xl">
       <div>
@@ -114,7 +113,9 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
                     <Link href={getURL(`/products/${slug}`, locale)}>{title}</Link>
                   </h3>
                   {item.variantText && <p className="text-xs uppercase">{item.variantText}</p>}
-                  <p className="mt-auto text-xs uppercase text-zinc-500">{__("Qty")} {item.quantity}</p>
+                  <p className="mt-auto text-xs uppercase text-zinc-500">
+                    {__("Qty")} {item.quantity}
+                  </p>
                 </div>
                 <p className="flex-none font-medium text-zinc-900">{formatPrice(item.price, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</p>
               </li>
@@ -139,7 +140,9 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           {/* Discount (Only show if exists) */}
           {initialOrder.discountTotal && initialOrder.discountTotal > 0 ? (
             <div className="flex justify-between text-green-600">
-              <dt className="uppercase">{__("Discount")} {initialOrder.couponCode ? `(${initialOrder.couponCode})` : ""}</dt>
+              <dt className="uppercase">
+                {__("Discount")} {initialOrder.couponCode ? `(${initialOrder.couponCode})` : ""}
+              </dt>
               <dd>-{formatPrice(initialOrder.discountTotal, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
             </div>
           ) : null}

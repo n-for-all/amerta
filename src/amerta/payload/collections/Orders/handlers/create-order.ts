@@ -19,6 +19,16 @@ import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
 import { cookies } from "next/headers";
 
+function getActualComputedTotal(calculatedItems: Array<{ price: number; quantity: number }>, shippingTotal: number, taxAmount: number): number {
+  // 1. Loop through all items and sum up the actual item total
+  const itemsSubtotal = calculatedItems.reduce((acc, currentItem) => {
+    return acc + currentItem.price * currentItem.quantity;
+  }, 0);
+
+  const finalTotal = itemsSubtotal + shippingTotal + taxAmount;
+  return finalTotal;
+}
+
 export const createOrder = async (req: PayloadRequest) => {
   try {
     const { payload } = req;
@@ -179,7 +189,6 @@ export const createOrder = async (req: PayloadRequest) => {
     const tax = await calculateTax(address.country!, cart.total);
     const total = cart.total + tax.taxAmount + shipping.total;
     const computedCartTotal = total * Number(exchangeRate || 1);
-
     if (total.toFixed(1) != validationData.cartTotal.toFixed(1)) {
       console.error("Cart total mismatch. Computed total:", tax.taxAmount, shipping.total, cart.total);
       return NextResponse.json({ error: `Cart total ${total.toFixed(1)} ${validationData.cartTotal.toFixed(1)} has changed, Please review your order before placing it or reload the page to update the changes.` }, { status: 400 });
@@ -231,12 +240,13 @@ export const createOrder = async (req: PayloadRequest) => {
           return null;
         }
         const image = product.images && product.images.length > 0 ? (product.images[0] as ProductMedia).id : null;
+        const salePrice = populatedProduct.salePrice && populatedProduct.salePrice > 0 && populatedProduct.salePrice < populatedProduct.price ? populatedProduct.salePrice : populatedProduct.price;
         return {
           product: populatedProduct.id,
           variantOptions: item.variantOptions || null,
           image,
           quantity: item.quantity || 1,
-          price: populatedProduct.price || 0,
+          price: salePrice || 0,
           metaData: item.variantOptions || null,
         };
       })
@@ -264,7 +274,7 @@ export const createOrder = async (req: PayloadRequest) => {
       const newCustomer = await payload.create({
         collection: "customers",
         data: {
-          email: `guest_${Math.floor(Date.now()/1000)}@email.com`,
+          email: `guest_${Math.floor(Date.now() / 1000)}@email.com`,
           displayName: `${validationData!.address.firstName} ${validationData!.address.lastName} - Guest`,
           contact_email: validationData!.email,
           firstName: validationData!.address.firstName,
@@ -278,7 +288,19 @@ export const createOrder = async (req: PayloadRequest) => {
       });
       customerId = newCustomer.id;
     }
-console.log("Creating order with data:", items)
+
+    const backendCalculatedTotal = getActualComputedTotal(items, shipping.total, tax.taxAmount);
+
+    if (backendCalculatedTotal.toFixed(1) !== validationData.cartTotal.toFixed(1)) {
+      console.error("Cart total mismatch. Backend Computed total:", backendCalculatedTotal);
+      return NextResponse.json(
+        {
+          error: `Cart total has changed to ${backendCalculatedTotal.toFixed(1)}. Please review your order before placing it or reload the page to update the changes.`,
+        },
+        { status: 400 },
+      );
+    }
+
     const order = await payload.create({
       collection: "orders",
       data: {
