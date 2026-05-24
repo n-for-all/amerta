@@ -17,6 +17,10 @@ import { sendNewAccountEmail } from "@/amerta/utilities/emails/sendNewAccountEma
 import { verifyEmail } from "./handlers/verify-email";
 import { getOrders } from "./handlers/get-orders";
 import { getMeHandler } from "./handlers/get-me";
+import registerOptions from "./handlers/webauthn/register-options";
+import registerVerify from "./handlers/webauthn/register-verify";
+import authOptions from "./handlers/webauthn/auth-options";
+import authVerify from "./handlers/webauthn/auth-verify";
 import jwt from "jsonwebtoken";
 import { parse } from "cookie";
 import { cookies } from "next/headers";
@@ -124,7 +128,9 @@ const Customers: CollectionConfig = {
     },
     verify: {
       generateEmailHTML: async ({ token, user, req }) => {
-        const defaultLocale = (req.payload.config.localization as { defaultLocale: string })?.defaultLocale || "en";
+        const defaultLocale =
+          (req.payload.config.localization as { defaultLocale: string })
+            ?.defaultLocale || "en";
 
         const locale = req.locale || defaultLocale;
         const url = getURL(`/verify-email?token=${token}`, locale);
@@ -133,7 +139,9 @@ const Customers: CollectionConfig = {
         return template.html;
       },
       generateEmailSubject: async ({ token, user, req }) => {
-        const defaultLocale = (req.payload.config.localization as { defaultLocale: string })?.defaultLocale || "en";
+        const defaultLocale =
+          (req.payload.config.localization as { defaultLocale: string })
+            ?.defaultLocale || "en";
 
         const locale = req.locale || defaultLocale;
         const url = getURL(`/verify-email?token=${token}`, locale);
@@ -148,11 +156,19 @@ const Customers: CollectionConfig = {
           return "<h1>Error</h1><p>Invalid password reset request.</p>";
         }
 
-        const defaultLocale = (req.payload.config.localization as { defaultLocale: string })?.defaultLocale || "en";
+        const defaultLocale =
+          (req.payload.config.localization as { defaultLocale: string })
+            ?.defaultLocale || "en";
 
         const locale = req.locale || defaultLocale;
-        const resetPasswordUrl = getURL(`/reset-password?token=${token}`, locale);
-        const template = await generatePasswordResetEmail(user, resetPasswordUrl);
+        const resetPasswordUrl = getURL(
+          `/reset-password?token=${token}`,
+          locale,
+        );
+        const template = await generatePasswordResetEmail(
+          user,
+          resetPasswordUrl,
+        );
 
         return template.html;
       },
@@ -161,11 +177,19 @@ const Customers: CollectionConfig = {
           return "<h1>Error</h1><p>Invalid password reset request.</p>";
         }
 
-        const defaultLocale = (req.payload.config.localization as { defaultLocale: string })?.defaultLocale || "en";
+        const defaultLocale =
+          (req.payload.config.localization as { defaultLocale: string })
+            ?.defaultLocale || "en";
 
         const locale = req.locale || defaultLocale;
-        const resetPasswordUrl = getURL(`/reset-password?token=${token}`, locale);
-        const template = await generatePasswordResetEmail(user, resetPasswordUrl);
+        const resetPasswordUrl = getURL(
+          `/reset-password?token=${token}`,
+          locale,
+        );
+        const template = await generatePasswordResetEmail(
+          user,
+          resetPasswordUrl,
+        );
         return template.subject;
       },
     },
@@ -185,7 +209,8 @@ const Customers: CollectionConfig = {
     afterChange: [
       async ({ doc, operation, req }) => {
         //! don't send email if an admin is creating the user
-        if (operation !== "create" || req.user || doc.hasAccount != "1") return doc;
+        if (operation !== "create" || req.user || doc.hasAccount != "1")
+          return doc;
 
         await sendNewAccountEmail(doc);
         return doc;
@@ -364,6 +389,27 @@ const Customers: CollectionConfig = {
       method: "get",
       handler: getOrders,
     },
+    // WebAuthn / Passkey endpoints
+    {
+      path: "/webauthn/register/options",
+      method: "post",
+      handler: registerOptions,
+    },
+    {
+      path: "/webauthn/register/verify",
+      method: "post",
+      handler: registerVerify,
+    },
+    {
+      path: "/webauthn/authenticate/options",
+      method: "post",
+      handler: authOptions,
+    },
+    {
+      path: "/webauthn/authenticate/verify",
+      method: "post",
+      handler: authVerify,
+    },
     {
       path: "/login",
       method: "post",
@@ -377,7 +423,10 @@ const Customers: CollectionConfig = {
 
         const token = result.token;
         if (!token) {
-          return Response.json({ message: "Authentication failed" }, { status: 401 });
+          return Response.json(
+            { message: "Authentication failed" },
+            { status: 401 },
+          );
         }
 
         const cookieStore = await cookies();

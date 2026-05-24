@@ -8,10 +8,11 @@ import { headers } from "next/headers";
 // Import specific utilities for server-side conversion
 import { 
   convertMarkdownToLexical, 
-  editorConfigFactory,
-  defaultEditorConfig 
+  editorConfigFactory
 } from "@payloadcms/richtext-lexical";
 import { getAiSettings } from "@/amerta/theme/utilities/ai-translate";
+import { getServerSideURL } from "@/amerta/utilities/getURL";
+
 
 export const generateContentAction = async (
   dataToUpdate: Record<string, any>, 
@@ -26,10 +27,11 @@ export const generateContentAction = async (
 
   const { apiKey, model: modelName } = await getAiSettings();
   const genAI = new GoogleGenerativeAI(apiKey);
+  const referer = getServerSideURL();
   const model = genAI.getGenerativeModel({
     model: modelName || "gemini-1.5-flash",
     generationConfig: { responseMimeType: "application/json" },
-  });
+  }, referer ? { customHeaders: { Referer: referer } } : undefined);
 
   const prompt = `
     You are a Content Architect.

@@ -1,13 +1,15 @@
 /**
  * @module AI
  * @title AI Translate
- * @description This module provides high-level utilities for interacting with GeminiAI 
+ * @description This module provides high-level utilities for interacting with GeminiAI
  * and handling multi-language translation streams within the Amerta core.
  */
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
+import { getServerSideURL } from "@/amerta/utilities/getURL";
+
 
 /**
  * Retrieves AI settings from the Payload CMS global settings.
@@ -65,14 +67,13 @@ async function listModels() {
 export async function translateString(text: string, targetLang: string): Promise<string> {
   const { apiKey, model } = await getAiSettings();
   const genAI = new GoogleGenerativeAI(apiKey);
-  const modelInstance = genAI.getGenerativeModel({ model: model });
+  const referer = getServerSideURL();
+  const modelInstance = genAI.getGenerativeModel({ model: model }, referer ? { customHeaders: { Referer: referer } } : undefined);
 
   const prompt = `Translate the following text to language "${targetLang}". Output ONLY the translated text. Text: "${text}"`;
   const result = await modelInstance.generateContent(prompt);
   return result.response.text().trim();
 }
-
-
 
 /**
  * Translates all values in a JSON object to the specified target language using Gemini AI.
@@ -108,7 +109,6 @@ export const batchTranslate = async (items: Record<string, string>, targetLocale
   }
 };
 
-
 /**
  * Translates all "text" fields in a rich text JSON object to the specified target language using Gemini AI.
  * @param json - The rich text JSON object to translate.
@@ -120,10 +120,11 @@ export const batchTranslate = async (items: Record<string, string>, targetLocale
 export async function translateRichTextJSON(json: any, targetLang: string): Promise<any> {
   const { apiKey, model } = await getAiSettings();
   const genAI = new GoogleGenerativeAI(apiKey);
+  const referer = getServerSideURL();
   const modelInstance = genAI.getGenerativeModel({
     model: model,
     generationConfig: { responseMimeType: "application/json" },
-  });
+  }, referer ? { customHeaders: { Referer: referer } } : undefined);
 
   const prompt = `
     You are a JSON translator. 
