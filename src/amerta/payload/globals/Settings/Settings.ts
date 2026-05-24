@@ -9,6 +9,7 @@ import { GTagFields } from "./fields/gtag";
 import { ManifestFields } from "./fields/manifest";
 import { SocialMediaFields } from "./fields/social-media";
 import { AIFields } from "./fields/ai";
+import { AuthenticationFields } from "./fields/authentication";
 import { admins } from "@/amerta/access/admins";
 
 export const Settings: GlobalConfig = {
@@ -61,6 +62,10 @@ export const Settings: GlobalConfig = {
         {
           label: "Notifications",
           fields: NotificationsFields,
+        },
+        {
+          label: "Authentication",
+          fields: AuthenticationFields,
         },
         {
           label: "Social Media",

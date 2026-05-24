@@ -1,6 +1,4 @@
-import { AUTH_PROVIDERS } from "@/amerta/auth";
-import { camelSlug } from "@/amerta/utilities/camelSlug";
-import { Field, Tab } from "payload";
+import { Field } from "payload";
 
 export const SocialMediaFields: Field[] = [
   {
@@ -47,41 +45,5 @@ export const SocialMediaFields: Field[] = [
       description: "Link to enable WhatsApp chat support on the site",
       condition: (data) => Boolean(data?.enableWhatsappChat),
     },
-  },
-  {
-    type: "tabs",
-    tabs: [
-      ...(AUTH_PROVIDERS.map((adapter) => {
-        const groupKey = `${camelSlug(adapter.slug)}Settings`; // e.g. "googleSettings"
-
-        return {
-          label: adapter.label,
-          fields: [
-            {
-              name: groupKey,
-              label: ``,
-              type: "group",
-              fields: [
-                {
-                  name: "enabled",
-                  type: "checkbox",
-                  label: `Enable ${adapter.label} Login`,
-                  defaultValue: false,
-                } as Field,
-                ...adapter.settingsFields.map((field: Field): Field => {
-                  return {
-                    ...field,
-                    admin: {
-                      ...field.admin,
-                      condition: (_data, siblingData) => Boolean(siblingData?.enabled),
-                    },
-                  } as Field;
-                }),
-              ],
-            },
-          ],
-        };
-      }) as Tab[]),
-    ],
   },
 ];

@@ -1,16 +1,11 @@
-import type { AuthProvider } from "../types";
+import { AuthProvider, AuthResult } from "../types";
 
+// WebAuthn is not an OAuth provider - it uses a different flow (registration/authentication API endpoints)
 export const WebAuthnProvider: AuthProvider = {
   slug: "webauthn",
   label: "WebAuthn / Passkeys",
 
   settingsFields: [
-    {
-      name: "enabled",
-      label: "Enable Passkeys",
-      type: "checkbox",
-      defaultValue: true,
-    },
     {
       name: "rpName",
       label: "Relying Party Name",
@@ -71,6 +66,22 @@ export const WebAuthnProvider: AuthProvider = {
       defaultValue: 300,
     },
   ],
+
+  // WebAuthn doesn't use OAuth redirect flow - authentication happens via API endpoints
+  generateAuthUrl: async (): Promise<AuthResult> => {
+    return {
+      status: "error",
+      message: "WebAuthn does not use redirect-based authentication. Use the WebAuthn API endpoints instead.",
+    };
+  },
+
+  // WebAuthn doesn't use OAuth callback flow - authentication happens via API endpoints
+  authenticate: async (): Promise<AuthResult> => {
+    return {
+      status: "error",
+      message: "WebAuthn authentication is handled via dedicated API endpoints, not OAuth callback.",
+    };
+  },
 };
 
 export default WebAuthnProvider;
