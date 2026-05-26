@@ -12,8 +12,8 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
   </a>
-  <a href="https://www.npmjs.com/package/amerta">
-    <img src="https://img.shields.io/npm/v/amerta.svg" alt="npm version">
+  <a href="https://www.npmjs.com/package/create-amerta-app">
+    <img src="https://img.shields.io/npm/v/create-amerta-app.svg" alt="npm version">
   </a>
   <a href="https://github.com/n-for-all/amerta/stargazers">
     <img src="https://img.shields.io/github/stars/n-for-all/amerta.svg" alt="GitHub stars">
