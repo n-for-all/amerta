@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_OPTIONS=\"${NODE_OPTIONS} --no-deprecation\" next dev --turbo",
     "stripe:webhooks": "stripe listen --forward-to localhost:3000/api/payments/stripe/webhook",
     "seed:products": "cross-env NODE_ENV=development tsx data/seed-products.ts",
+    "prebuild": "node check-env.js",
     "build:next": "cross-env NODE_OPTIONS=--no-deprecation next build --turbo",
     "build": "cross-env NODE_ENV=production npm run build:next && npm run copyfiles",
     "build:local": "cross-env NEXT_PUBLIC_SERVER_URL='http://localhost:3000' NODE_ALLOW_SOURCE_MAPS=true NODE_ENV=production npm run build:next  && npm run copyfiles",
