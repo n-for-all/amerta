@@ -75,7 +75,14 @@ export const dynamicTransport = {
           },
         });
       } catch (logError) {
-        console.error("Failed to log email:", logError);
+        console.error("Failed to log email:", logError, {
+            to: typeof inputData.to === "string" ? inputData.to : Array.isArray(inputData.to) ? inputData.to.join(", ") : "",
+            from: formattedFrom,
+            subject: inputData.subject || "",
+            html: typeof inputData.html === "string" ? inputData.html : "",
+            bcc: typeof inputData.bcc === "string" ? inputData.bcc : Array.isArray(inputData.bcc) ? inputData.bcc.join(", ") : "",
+            replyTo: typeof inputData.replyTo === "string" ? inputData.replyTo : Array.isArray(inputData.replyTo) ? inputData.replyTo.join(", ") : "",
+          });
       }
 
       return result;
