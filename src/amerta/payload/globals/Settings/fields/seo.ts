@@ -2,15 +2,6 @@ import { Field } from "payload";
 
 export const SEOFields: Field[] = [
     {
-        name: "generateSitemap",
-        type: "ui",
-        admin: {
-            components: {
-                Field: "@/amerta/globals/Settings/components/GenerateSitemapButton#GenerateSitemapButton",
-            },
-        },
-    },
-    {
         name: "seoTitleTemplate",
         type: "text",
         label: "SEO Title Template",

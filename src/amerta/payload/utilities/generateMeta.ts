@@ -176,7 +176,7 @@ export const generateStaticMeta = async ({ pageName, locale, type, pageNum, ogTy
   const pageTitle = options.title || siteTitle;
 
   if (pageNum && pageNum > 1) {
-    titleTemplate = printf(titleTemplate, printf(settings?.defaultSeoPaginationTitle || "%s - Page %d", pageNum));
+    titleTemplate = printf(titleTemplate, printf(settings?.defaultSeoPaginationTitle || "%s - Page %d", pageTitle, pageNum));
   }
 
   const title = printf(titleTemplate, pageTitle as string).replace("{siteName}", siteTitle);
