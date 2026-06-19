@@ -131,6 +131,7 @@ export interface Config {
     wishlist: Wishlist;
     coupons: Coupon;
     'email-templates': EmailTemplate;
+    'email-logs': EmailLog;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
@@ -173,6 +174,7 @@ export interface Config {
     wishlist: WishlistSelect<false> | WishlistSelect<true>;
     coupons: CouponsSelect<false> | CouponsSelect<true>;
     'email-templates': EmailTemplatesSelect<false> | EmailTemplatesSelect<true>;
+    'email-logs': EmailLogsSelect<false> | EmailLogsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -3236,6 +3238,21 @@ export interface EmailTemplate {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-logs".
+ */
+export interface EmailLog {
+  id: string;
+  to: string;
+  from?: string | null;
+  subject: string;
+  html?: string | null;
+  bcc?: string | null;
+  replyTo?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
@@ -3494,6 +3511,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'email-templates';
         value: string | EmailTemplate;
+      } | null)
+    | ({
+        relationTo: 'email-logs';
+        value: string | EmailLog;
       } | null)
     | ({
         relationTo: 'forms';
@@ -5069,6 +5090,20 @@ export interface EmailTemplatesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-logs_select".
+ */
+export interface EmailLogsSelect<T extends boolean = true> {
+  to?: T;
+  from?: T;
+  subject?: T;
+  html?: T;
+  bcc?: T;
+  replyTo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
@@ -5756,23 +5791,6 @@ export interface Settings {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Your Twitter username (without @)
-   */
-  twitterHandle?: string | null;
-  /**
-   * Facebook App ID for Open Graph
-   */
-  facebookAppId?: string | null;
-  ogType?: ('website' | 'article') | null;
-  /**
-   * Toggle to enable or disable WhatsApp chat support on the site
-   */
-  enableWhatsappChat?: boolean | null;
-  /**
-   * Link to enable WhatsApp chat support on the site
-   */
-  whatsappChatLink?: string | null;
   googleSettings?: {
     enabled?: boolean | null;
     clientId?: string | null;
@@ -5793,6 +5811,49 @@ export interface Settings {
     clientId?: string | null;
     clientSecret?: string | null;
   };
+  webauthnSettings?: {
+    enabled?: boolean | null;
+    /**
+     * Friendly name shown during registration (e.g. Your Shop)
+     */
+    rpName?: string | null;
+    /**
+     * Registrable domain (e.g. example.com). If empty, it will be derived from request host.
+     */
+    rpID?: string | null;
+    /**
+     * Optional list of allowed origins for deriving fallback origins. Include NEXT_PUBLIC_SERVER_URL if used.
+     */
+    allowedOrigins?:
+      | {
+          origin?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    attestationType?: ('none' | 'indirect' | 'direct') | null;
+    userVerification?: ('required' | 'preferred' | 'discouraged') | null;
+    /**
+     * Time-to-live for registration/auth challenges in seconds (default: 300)
+     */
+    challengeTTLSeconds?: number | null;
+  };
+  /**
+   * Your Twitter username (without @)
+   */
+  twitterHandle?: string | null;
+  /**
+   * Facebook App ID for Open Graph
+   */
+  facebookAppId?: string | null;
+  ogType?: ('website' | 'article') | null;
+  /**
+   * Toggle to enable or disable WhatsApp chat support on the site
+   */
+  enableWhatsappChat?: boolean | null;
+  /**
+   * Link to enable WhatsApp chat support on the site
+   */
+  whatsappChatLink?: string | null;
   /**
    * Select the AI model to use for content generation
    */
@@ -6210,11 +6271,6 @@ export interface SettingsSelect<T extends boolean = true> {
         id?: T;
       };
   reviewNotificationTemplate?: T;
-  twitterHandle?: T;
-  facebookAppId?: T;
-  ogType?: T;
-  enableWhatsappChat?: T;
-  whatsappChatLink?: T;
   googleSettings?:
     | T
     | {
@@ -6238,6 +6294,27 @@ export interface SettingsSelect<T extends boolean = true> {
         clientId?: T;
         clientSecret?: T;
       };
+  webauthnSettings?:
+    | T
+    | {
+        enabled?: T;
+        rpName?: T;
+        rpID?: T;
+        allowedOrigins?:
+          | T
+          | {
+              origin?: T;
+              id?: T;
+            };
+        attestationType?: T;
+        userVerification?: T;
+        challengeTTLSeconds?: T;
+      };
+  twitterHandle?: T;
+  facebookAppId?: T;
+  ogType?: T;
+  enableWhatsappChat?: T;
+  whatsappChatLink?: T;
   aiModel?: T;
   geminiTranslateApiKey?: T;
   gtagEnabled?: T;

@@ -423,6 +423,25 @@ export function withAmerta(config: Config): Config {
         handler: withGuard(getDashboardStats),
       },
       {
+        path: `/${adminPath}/settings/generate-sitemaps`,
+        method: "post",
+        handler: withGuard(async (req) => {
+          if (!req.user || !checkRole(["admin"], req.user as User)) return Response.json({ error: "Unauthorized" }, { status: 401 });
+          
+          try {
+            const { exec } = require('child_process');
+            const util = require('util');
+            const execPromise = util.promisify(exec);
+            
+            await execPromise('npm run generate:sitemaps');
+            return Response.json({ success: true, message: "Sitemaps generated successfully" });
+          } catch (error: any) {
+            console.error("Sitemap generation error:", error);
+            return Response.json({ error: "Failed to generate sitemaps", details: error.message }, { status: 500 });
+          }
+        }),
+      },
+      {
         path: "/404",
         method: "get",
         handler: () => {

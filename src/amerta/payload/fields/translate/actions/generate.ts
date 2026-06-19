@@ -33,11 +33,18 @@ export const generateContentAction = async (
     generationConfig: { responseMimeType: "application/json" },
   }, referer ? { customHeaders: { Referer: referer } } : undefined);
 
+  const settings = await payload.findGlobal({ slug: "settings" });
+
   const prompt = `
     You are a Content Architect.
     TASK: Rewrite content based on the instruction: "${instruction}"
     TARGET LOCALE: ${locale}
     
+    SITE CONTEXT:
+    - Site Name: ${settings.siteTitle || "N/A"}
+    - Site Description: ${settings.siteDescription || "N/A"}
+    - Site Keywords: ${settings.siteKeywords || "N/A"}
+
     INPUT DATA: ${JSON.stringify(dataToUpdate)}
     
     RULES:
@@ -49,13 +56,17 @@ export const generateContentAction = async (
 
   try {
     const result = await model.generateContent(prompt);
-    const responseText = result.response
-      .text()
-      .replace(/^```json/, "")
-      .replace(/```$/, "")
-      .trim();
+    let responseText = result.response.text();
     
-    let generatedData = JSON.parse(responseText);
+    // Extract JSON safely
+    const jsonMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/i);
+    let jsonString = (jsonMatch ? jsonMatch[1] : responseText) || "";
+    if (!jsonMatch) {
+      const fallbackMatch = jsonString.match(/(\{[\s\S]*\})|(\[[\s\S]*\])/);
+      jsonString = fallbackMatch ? fallbackMatch[0] : jsonString;
+    }
+    
+    let generatedData = JSON.parse(jsonString);
 
     // 🛠️ FIX 1: Handle Array response from AI
     if (Array.isArray(generatedData)) {
