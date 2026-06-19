@@ -49,14 +49,13 @@ const nextConfig = (phase, { defaultConfig }) => {
           ignoreBuildErrors: isProdBuild,
         },
         serverExternalPackages: ["mongodb", "mongoose", "pg", "mysql2", "better-sqlite3", "sqlite3", "nodemailer", "nunjucks"],
-
+        outputFileTracingRoot: path.join(dirname, './'),
         experimental: {
           serverActions: {
             bodySizeLimit: "5mb",
           },
           serverSourceMaps: allowSourceMaps,
-          optimizePackageImports: ["lucide-react"],
-          outputFileTracingRoot: path.join(dirname, './'),
+          optimizePackageImports: ["lucide-react"]
         },
         env: {
           PAYLOAD_CORE_DEV: "true",
