@@ -72,20 +72,19 @@ export default async function registerOptionsHandler(req: PayloadRequest) {
     const userID = user.id.toString();
     const userName = user.email || userID;
 
-    const options = generateRegistrationOptions({
+    const options = await generateRegistrationOptions({
         rpName,
-        rpID,
-        userID,
+        rpID: rpID || "localhost",
+        userID: Buffer.from(userID),
         userName,
         timeout: 60000,
-        attestationType: providerSettings?.attestationType || 'direct',
+        attestationType: (providerSettings?.attestationType as "none" | "direct" | "enterprise") || "direct",
         authenticatorSelection: {
             userVerification: providerSettings?.userVerification || 'preferred',
         },
         // Exclude existing credentials
         excludeCredentials: (user.passkeys || []).map((cred: any) => ({
-            id: Buffer.from(cred.credentialID, 'base64url'),
-            type: 'public-key',
+            id: cred.credentialID as string,
             transports: cred.transports || undefined,
         })),
     });

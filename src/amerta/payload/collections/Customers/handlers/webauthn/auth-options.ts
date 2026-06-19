@@ -12,6 +12,14 @@ function deriveOriginFromRequest(req: PayloadRequest) {
   return `${scheme}://${host}`;
 }
 
+function deriveRpIdFromHost(host?: string) {
+  if (!host) return undefined;
+  if (/^localhost(:|$)/i.test(host) || /^\d+\.\d+\.\d+\.\d+/.test(host)) return host.split(':')[0];
+  const parts = host.split('.');
+  if (parts.length >= 2) return parts.slice(-2).join('.');
+  return host;
+}
+
 export default async function authOptionsHandler(req: PayloadRequest) {
   const { payload } = req;
   const body = req.json ? await req.json() : {};
@@ -36,12 +44,18 @@ export default async function authOptionsHandler(req: PayloadRequest) {
   const expectedOrigin = envOrigin || derivedOrigin || undefined;
 
   const allowCredentials = (user.passkeys || []).map((cred: any) => ({
-    id: Buffer.from(cred.credentialID, 'base64url'),
-    type: 'public-key',
+    id: cred.credentialID as string,
     transports: cred.transports || undefined,
   }));
 
-  const options = generateAuthenticationOptions({
+  let rpID = providerSettings?.rpID || process.env.WEBAUTHN_RP_ID;
+  if (!rpID) {
+    const host = req.headers.get('x-forwarded-host') || req.headers.get('host') || (envOrigin ? new URL(envOrigin).host : undefined);
+    rpID = deriveRpIdFromHost(host || undefined);
+  }
+
+  const options = await generateAuthenticationOptions({
+    rpID: rpID || 'localhost',
     timeout: 60000,
     allowCredentials,
     userVerification: providerSettings?.userVerification || 'preferred',

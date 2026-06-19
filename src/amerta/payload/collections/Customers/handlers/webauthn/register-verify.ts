@@ -108,7 +108,7 @@ export default async function registerVerifyHandler(req: PayloadRequest) {
 
     try {
         const verification = await verifyRegistrationResponse({
-            credential: attestationResponse,
+            response: attestationResponse,
             expectedChallenge: expectedChallenge,
             expectedOrigin: expectedOrigin,
             expectedRPID: expectedRPID,
@@ -131,11 +131,9 @@ export default async function registerVerifyHandler(req: PayloadRequest) {
 
         // Build credential record
         const credential = {
-            credentialID: Buffer.from(registrationInfo.credentialID).toString(
-                "base64url",
-            ),
-            publicKey: registrationInfo.credentialPublicKey.toString("base64url"),
-            counter: registrationInfo.counter,
+            credentialID: Buffer.from(registrationInfo.credential.id).toString("base64url"),
+            publicKey: Buffer.from(registrationInfo.credential.publicKey).toString("base64url"),
+            counter: registrationInfo.credential.counter,
             transports: attestationResponse.transports || [],
             name: attestationResponse?.name || "passkey",
             createdAt: new Date().toISOString(),

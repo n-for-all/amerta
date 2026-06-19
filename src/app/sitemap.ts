@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 import { CollectionSlug, Config, getPayload } from "payload";
+
+export const dynamic = "force-dynamic";
 import configPromise from "@payload-config";
 import { getLinkUrl, getServerSideURL } from "@/amerta/utilities/getURL";
 import { DocType } from "@/amerta/utilities/getPathSegment";

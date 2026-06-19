@@ -58,13 +58,16 @@ export default async function authVerifyHandler(req: PayloadRequest) {
   const derivedOrigin = deriveOriginFromRequest(req);
   const expectedOrigin = envOrigin || derivedOrigin || "";
 
-  let expectedRPID = providerSettings?.rpID || process.env.WEBAUTHN_RP_ID;
+  let expectedRPID: string | string[] | undefined = providerSettings?.rpID || process.env.WEBAUTHN_RP_ID;
   if (!expectedRPID) {
     const host =
       req.headers.get("x-forwarded-host") ||
       req.headers.get("host") ||
       (envOrigin ? new URL(envOrigin).host : undefined);
-    expectedRPID = deriveRpIdFromHost(host || undefined) || undefined;
+    expectedRPID = deriveRpIdFromHost(host || undefined);
+  }
+  if (!expectedRPID) {
+    return new Response(JSON.stringify({ message: "Could not determine RPID" }), { status: 500 });
   }
 
   const expectedChallenge = user.webauthnAuthenticationChallenge;
@@ -120,13 +123,14 @@ export default async function authVerifyHandler(req: PayloadRequest) {
     }
 
     const verification = await verifyAuthenticationResponse({
-      credential: assertionResponse,
+      response: assertionResponse,
       expectedChallenge: expectedChallenge,
       expectedOrigin: expectedOrigin,
       expectedRPID: expectedRPID,
-      authenticator: {
+      credential: {
+        id: dbCred.credentialID as string,
+        publicKey: Buffer.from(dbCred.publicKey!, "base64url"),
         counter: dbCred.counter || 0,
-        credentialPublicKey: Buffer.from(dbCred.publicKey!, "base64url"),
       },
     });
 
@@ -138,10 +142,7 @@ export default async function authVerifyHandler(req: PayloadRequest) {
     }
 
     // Update counter
-    const newCounter =
-      verification.authenticationInfo?.newCounter ??
-      verification.authenticationInfo?.counter ??
-      dbCred.counter;
+    const newCounter = verification.authenticationInfo?.newCounter ?? dbCred.counter;
     const updatedCredentials = (user.passkeys || []).map((c: any) =>
       c.credentialID === dbCred.credentialID
         ? { ...c, counter: newCounter }
