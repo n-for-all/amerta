@@ -49,6 +49,7 @@ import { OrderActions as OrderActions_02135cdcbc0c9326a6ba3c2660c4c740 } from '@
 import { RowLabel as RowLabel_9f89a51446befc05f6190d7c481d0d20 } from '@/amerta/fields/link/RowLabel'
 import { UnsplashImport as UnsplashImport_87eec4ae3a925586386d06209c58fdaa } from '@/amerta/components/UnsplashImport'
 import { EmailBuilder as EmailBuilder_67fa476ffa01b051d0a96133b1314340 } from '@/amerta/components/EmailTemplate/index'
+import { GenerateSitemapButton as GenerateSitemapButton_15bb6dceca98117a4ac5ecb003ac6a43 } from '@/amerta/globals/Settings/components/GenerateSitemapButton'
 import { SendTestEmailButton as SendTestEmailButton_417456c3abb8d06fe8fd73955487a582 } from '@/amerta/components/SendTestEmailButton/index'
 import { LocaleSelector as LocaleSelector_33fbf62731a3e0f8e4b56572c17ae705 } from '@/amerta/fields/localeSelector/index'
 import { RowLabel as RowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/theme/blocks/common/Footer/RowLabel'
@@ -120,6 +121,7 @@ export const importMap = {
   "@/amerta/fields/link/RowLabel#RowLabel": RowLabel_9f89a51446befc05f6190d7c481d0d20,
   "@/amerta/components/UnsplashImport#UnsplashImport": UnsplashImport_87eec4ae3a925586386d06209c58fdaa,
   "@/amerta/components/EmailTemplate/index#EmailBuilder": EmailBuilder_67fa476ffa01b051d0a96133b1314340,
+  "@/amerta/globals/Settings/components/GenerateSitemapButton#GenerateSitemapButton": GenerateSitemapButton_15bb6dceca98117a4ac5ecb003ac6a43,
   "@/amerta/components/SendTestEmailButton/index#SendTestEmailButton": SendTestEmailButton_417456c3abb8d06fe8fd73955487a582,
   "@/amerta/fields/localeSelector/index#LocaleSelector": LocaleSelector_33fbf62731a3e0f8e4b56572c17ae705,
   "@/amerta/theme/blocks/common/Footer/RowLabel#RowLabel": RowLabel_4027df51f784d590fe12493398326d17,

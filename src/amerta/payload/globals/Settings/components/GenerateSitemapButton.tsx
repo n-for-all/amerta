@@ -1,16 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, toast } from "@payloadcms/ui";
+import { Button, toast, useConfig } from "@payloadcms/ui";
 
 export const GenerateSitemapButton: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { config } = useConfig();
+  const apiRoute = config.routes.api;
+  const adminRoute = config.routes.admin?.replace(/^\//, "") || "admin";
+
   const handleGenerate = async () => {
     setIsLoading(true);
     toast.info("Generating sitemaps... This may take a moment.");
 
     try {
-      const res = await fetch(`/api/admin/settings/generate-sitemaps`, {
+      const res = await fetch(`${apiRoute}/${adminRoute}/settings/generate-sitemaps`, {
         method: "POST",
       });
       

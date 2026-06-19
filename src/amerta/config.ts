@@ -53,6 +53,7 @@ import deepmerge from "deepmerge";
 import { Page, Post, User } from "@/payload-types";
 import { getAdminPath } from "@/amerta/utilities/getAdminURL";
 import { checkRole } from "@/amerta/access/checkRole";
+import { generateSitemapsHandler } from "@/amerta/globals/Settings/handlers/generateSitemaps";
 
 import { importSampleDataHandler } from "@/amerta/theme/data/imports/import-sample-data";
 import { importShopifyDataHandler } from "@/amerta/theme/data/imports/import-shopify-data";
@@ -425,21 +426,7 @@ export function withAmerta(config: Config): Config {
       {
         path: `/${adminPath}/settings/generate-sitemaps`,
         method: "post",
-        handler: withGuard(async (req) => {
-          if (!req.user || !checkRole(["admin"], req.user as User)) return Response.json({ error: "Unauthorized" }, { status: 401 });
-          
-          try {
-            const { exec } = require('child_process');
-            const util = require('util');
-            const execPromise = util.promisify(exec);
-            
-            await execPromise('npm run generate:sitemaps');
-            return Response.json({ success: true, message: "Sitemaps generated successfully" });
-          } catch (error: any) {
-            console.error("Sitemap generation error:", error);
-            return Response.json({ error: "Failed to generate sitemaps", details: error.message }, { status: 500 });
-          }
-        }),
+        handler: withGuard(generateSitemapsHandler),
       },
       {
         path: "/404",
