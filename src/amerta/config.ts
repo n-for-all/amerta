@@ -38,6 +38,7 @@ import { DEFAULT_LOCALE, LOCALES } from "@/amerta/localization/locales";
 import { Translations } from "@/amerta/collections/Translations";
 import { searchHandler } from "@/amerta/theme/utilities/search-handler";
 import { EmailTemplates } from "@/amerta/collections/EmailTemplates";
+import { EmailLogs } from "@/amerta/collections/EmailLogs";
 import { dynamicTransport } from "@/amerta/utilities/emails/dynamicEmailTransport";
 import { sendTestEmail } from "@/amerta/utilities/emails/sendTestEmail";
 import { importMediaStock } from "@/amerta/utilities/media-stock/import";
@@ -190,7 +191,7 @@ export function withAmerta(config: Config): Config {
     editor: defaultLexical,
     serverURL: getServerSideURL(),
     globals: [EcommerceSettings, Settings, Header, Footer, Integrations],
-    collections: [...ProductsConfig, Pages, ...BlogConfig, Translations, Store, SalesChannel, Orders, Customers, CustomerGroups, CustomerTags, FinalUsersCollection, Menu, Media, Currencies, Countries, TaxRates, Shipping, ...PaymentsConfig, Cart, CartRules, Wishlist, Coupons, EmailTemplates],
+    collections: [...ProductsConfig, Pages, ...BlogConfig, Translations, Store, SalesChannel, Orders, Customers, CustomerGroups, CustomerTags, FinalUsersCollection, Menu, Media, Currencies, Countries, TaxRates, Shipping, ...PaymentsConfig, Cart, CartRules, Wishlist, Coupons, EmailTemplates, EmailLogs],
     email: nodemailerAdapter({
       defaultFromAddress: process.env.EMAIL_FROM || "",
       defaultFromName: process.env.EMAIL_APP_NAME || "",
