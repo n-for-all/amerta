@@ -2578,6 +2578,28 @@ export interface Customer {
   createdAt: string;
   hasAccount?: ('1' | '0') | null;
   updatedAt: string;
+  passkeys?:
+    | {
+        credentialID?: string | null;
+        publicKey?: string | null;
+        counter?: number | null;
+        transports?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        name?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  webauthnRegistrationChallenge?: string | null;
+  webauthnRegistrationChallengeCreatedAt?: string | null;
+  webauthnAuthenticationChallenge?: string | null;
+  webauthnAuthenticationChallengeCreatedAt?: string | null;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
   salt?: string | null;
@@ -4618,6 +4640,20 @@ export interface CustomersSelect<T extends boolean = true> {
   createdAt?: T;
   hasAccount?: T;
   updatedAt?: T;
+  passkeys?:
+    | T
+    | {
+        credentialID?: T;
+        publicKey?: T;
+        counter?: T;
+        transports?: T;
+        name?: T;
+        id?: T;
+      };
+  webauthnRegistrationChallenge?: T;
+  webauthnRegistrationChallengeCreatedAt?: T;
+  webauthnAuthenticationChallenge?: T;
+  webauthnAuthenticationChallengeCreatedAt?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
   salt?: T;

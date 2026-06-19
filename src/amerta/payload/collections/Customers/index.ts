@@ -372,6 +372,38 @@ const Customers: CollectionConfig = {
         ],
       },
     },
+    {
+      name: "passkeys",
+      type: "array",
+      admin: { hidden: true },
+      fields: [
+        { name: "credentialID", type: "text" },
+        { name: "publicKey", type: "text" },
+        { name: "counter", type: "number" },
+        { name: "transports", type: "json" },
+        { name: "name", type: "text" },
+      ],
+    },
+    {
+      name: "webauthnRegistrationChallenge",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "webauthnRegistrationChallengeCreatedAt",
+      type: "date",
+      admin: { hidden: true },
+    },
+    {
+      name: "webauthnAuthenticationChallenge",
+      type: "text",
+      admin: { hidden: true },
+    },
+    {
+      name: "webauthnAuthenticationChallengeCreatedAt",
+      type: "date",
+      admin: { hidden: true },
+    },
   ],
   endpoints: [
     {

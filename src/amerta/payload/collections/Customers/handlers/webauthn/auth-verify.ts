@@ -91,7 +91,6 @@ export default async function authVerifyHandler(req: PayloadRequest) {
               webauthnAuthenticationChallenge: null,
               webauthnAuthenticationChallengeCreatedAt: null,
             },
-            disableCollectionOperations: true,
           });
         } catch (e) {
           console.warn("Failed to clear expired authentication challenge", e);
@@ -127,7 +126,7 @@ export default async function authVerifyHandler(req: PayloadRequest) {
       expectedRPID: expectedRPID,
       authenticator: {
         counter: dbCred.counter || 0,
-        credentialPublicKey: Buffer.from(dbCred.publicKey, "base64url"),
+        credentialPublicKey: Buffer.from(dbCred.publicKey!, "base64url"),
       },
     });
 
@@ -158,7 +157,6 @@ export default async function authVerifyHandler(req: PayloadRequest) {
         webauthnAuthenticationChallenge: null,
         webauthnAuthenticationChallengeCreatedAt: null,
       },
-      disableCollectionOperations: true,
     });
 
     // Create session token and set cookie (reuse same approach as OAuth)

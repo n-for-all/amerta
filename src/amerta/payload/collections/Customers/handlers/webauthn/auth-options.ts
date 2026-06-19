@@ -56,7 +56,6 @@ export default async function authOptionsHandler(req: PayloadRequest) {
         webauthnAuthenticationChallenge: options.challenge,
         webauthnAuthenticationChallengeCreatedAt: new Date().toISOString(),
       },
-      disableCollectionOperations: true,
     });
   } catch (e) {
     console.error('Failed to save auth challenge', e);
