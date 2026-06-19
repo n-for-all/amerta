@@ -59,5 +59,26 @@ export const EmailLogs: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      name: "status",
+      type: "select",
+      defaultValue: "sent",
+      admin: {
+        readOnly: true,
+        position: "sidebar",
+      },
+      options: [
+        { label: "Sent", value: "sent" },
+        { label: "Failed", value: "failed" },
+      ],
+    },
+    {
+      name: "error",
+      type: "textarea",
+      admin: {
+        readOnly: true,
+        condition: (data) => data.status === "failed",
+      },
+    },
   ],
 };
