@@ -18,7 +18,7 @@ interface LanguageSwitcherProps {
 
 export function LanguageSwitcher({ locale, locales = [] }: LanguageSwitcherProps) {
   const { __ } = useEcommerce();
-  const handleLocaleChange = (code: string) => {
+  const createLocaleUrl = (code: string) => {
     const url = window.location.href;
     // Replace the current locale in the URL with the selected one
     const urlObj = new URL(url);
@@ -33,7 +33,7 @@ export function LanguageSwitcher({ locale, locales = [] }: LanguageSwitcherProps
     }
 
     urlObj.pathname = "/" + pathSegments.filter(Boolean).join("/");
-    window.location.href = urlObj.toString();
+    return urlObj.toString();
   };
 
   if (locales.length === 1) return null;
@@ -55,7 +55,7 @@ export function LanguageSwitcher({ locale, locales = [] }: LanguageSwitcherProps
           <div className="space-y-2 overflow-y-auto max-h-64">
             {locales.length > 0 ? (
               locales.map((curr) => (
-                <Link href="#" key={curr.code} onClick={() => handleLocaleChange(curr.code)} className={`w-full py-1 px-2 flex text-left text-sm w-full rounded transition-colors ${locale === curr.code ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900" : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"}`}>
+                <Link href={createLocaleUrl(curr.code)} key={curr.code} className={`w-full py-1 px-2 flex text-left text-sm w-full rounded transition-colors ${locale === curr.code ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900" : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"}`}>
                   {curr.label}
                 </Link>
               ))
