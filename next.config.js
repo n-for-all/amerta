@@ -12,7 +12,7 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-const url = process.env.NEXT_PUBLIC_SERVER_URL;
+const url = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
 const host = new URL(url).host;
 const allowSourceMaps = process.env.NODE_ALLOW_SOURCE_MAPS === "true";
 
