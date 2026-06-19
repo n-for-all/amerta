@@ -56,6 +56,7 @@ const nextConfig = (phase, { defaultConfig }) => {
           },
           serverSourceMaps: allowSourceMaps,
           optimizePackageImports: ["lucide-react"],
+          outputFileTracingRoot: path.join(__dirname, './'),
         },
         env: {
           PAYLOAD_CORE_DEV: "true",
