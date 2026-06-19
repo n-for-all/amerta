@@ -15,7 +15,7 @@ export const generateCartId = (): string => {
   return `cart_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 };
 
-export async function getCart(cartId: string | null, locale?: string): Promise<CartWithCalculations> {
+export async function getCart(cartId?: string | null, locale?: string): Promise<CartWithCalculations> {
   let createNewCart = false;
   if (!cartId) {
     cartId = generateCartId();

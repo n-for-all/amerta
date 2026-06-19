@@ -14,7 +14,7 @@ import { ensureFirstUserIsAdmin } from "./hooks/ensureFirstUserIsAdmin";
 import { loginAfterCreate } from "./hooks/loginAfterCreate";
 import validateBeforeChange from "./hooks/validateBeforeChange";
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { User } from "@/payload-types";
 
 const Users: CollectionConfig = {
   slug: "users",
@@ -28,7 +28,7 @@ const Users: CollectionConfig = {
     create: anyone,
     update: adminsAndUser,
     delete: admins,
-    admin: ({ req: { user } }) => checkRole(["admin"], user),
+    admin: ({ req: { user } }) => checkRole(["admin"], user as User),
   },
   hooks: {
     beforeChange: [validateBeforeChange],
@@ -80,7 +80,7 @@ const Users: CollectionConfig = {
       path: "/me",
       method: "get",
       handler: async (req) => {
-        if (req.user && checkRole(["admin"], req.user)) {
+        if (req.user && checkRole(["admin"], req.user as User)) {
           return NextResponse.json({ user: req.user });
         } else {
           return NextResponse.json({ message: "Unauthorized" }, { status: 401 });

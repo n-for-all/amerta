@@ -1,7 +1,8 @@
 import { revalidateTag } from "next/cache";
-import { AfterChangeHook } from "node_modules/payload/dist/globals/config/types";
+import { GlobalAfterChangeHook } from "payload";
 
-export const revalidateHeader: AfterChangeHook = ({ doc, req: { payload, context } }) => {
+
+export const revalidateHeader: GlobalAfterChangeHook = ({ doc, req: { payload, context } }) => {
   if (!context.disableRevalidate) {
     payload.logger.info(`Revalidating header`);
 

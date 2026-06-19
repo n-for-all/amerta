@@ -6,7 +6,7 @@ import { useCookieStore } from "./cookies/hooks/useCookieStore";
 
 declare global {
   interface Window {
-    dataLayer: any[];
+    // dataLayer: Object[] | undefined;
     gtag?: (...args: any[]) => void;
   }
 }

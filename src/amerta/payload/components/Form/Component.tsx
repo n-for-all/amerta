@@ -1,5 +1,5 @@
 "use client";
-import type { FormFieldBlock, Form as FormType } from "@payloadcms/plugin-form-builder/types";
+import type { Form as FormType } from "@/payload-types";
 
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
@@ -12,6 +12,7 @@ import { fields } from "./fields";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import RichText from "@/amerta/theme/components/RichText";
 import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { FormFieldBlock } from "@payloadcms/plugin-form-builder/dist/types";
 
 export type FormBlockType = {
   blockName?: string;

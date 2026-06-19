@@ -1,14 +1,14 @@
 "use client";
 import { FormBlock } from "@/amerta/components/Form/Component";
 import { Button } from "@/amerta/theme/ui/button";
-import type { Form as FormType } from "@payloadcms/plugin-form-builder/types";
+import type { Form as FormType } from "@/payload-types";
 import { Loader2, SendIcon } from "lucide-react";
 
 export const Form = ({
   baseForm,
 }: {
   baseForm: {
-    form: FormType;
+    form?: FormType | null | string;
   };
 }) => {
   if (!baseForm || !baseForm.form) return null;

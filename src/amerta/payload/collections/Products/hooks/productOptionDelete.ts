@@ -4,7 +4,9 @@
  * @description Cleanup hook that removes references to deleted product options from all product variants
  */
 
-import { AfterDeleteHook } from "node_modules/payload/dist/collections/config/types";
+import { CollectionAfterDeleteHook } from "payload";
+
+
 
 /**
  * Hook executed after a product option is deleted
@@ -38,7 +40,7 @@ import { AfterDeleteHook } from "node_modules/payload/dist/collections/config/ty
  * // Automatically triggered when a product option is deleted
  * ```
  */
-export const productOptionDelete: AfterDeleteHook = async ({ req, id }) => {
+export const productOptionDelete: CollectionAfterDeleteHook = async ({ req, id }) => {
   const products = await req.payload.find({
     collection: "products",
     where: {

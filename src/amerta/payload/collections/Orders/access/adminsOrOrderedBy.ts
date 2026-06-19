@@ -7,9 +7,10 @@
 import type { Access } from 'payload'
 
 import { checkRole } from '@/amerta/access/checkRole'
+import { User } from '@/payload-types'
 
 export const adminsOrOrderedBy: Access = ({ req: { user } }) => {
-  if (checkRole(['admin'], user)) {
+  if (checkRole(['admin'], user as User)) {
     return true
   }
 

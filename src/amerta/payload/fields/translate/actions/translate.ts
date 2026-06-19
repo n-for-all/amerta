@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { checkRole } from "@/amerta/access/checkRole";
+import { User } from "@/payload-types";
 
 
 export async function translateFieldsAction(fields: Record<string, any>, targetLang = "ar") {
@@ -12,7 +13,7 @@ export async function translateFieldsAction(fields: Record<string, any>, targetL
   const requestHeaders = await headers();
   const { user } = await payload.auth({ headers: requestHeaders });
 
-  if (!user || !checkRole(["admin"], user)) {
+  if (!user || !checkRole(["admin"], user as User)) {
     throw new Error("Unauthorized: You must be logged in to use AI features.");
   }
 

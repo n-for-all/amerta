@@ -3,10 +3,11 @@ import { checkRole } from "@/amerta/access/checkRole";
 import { PayloadRequest } from "payload";
 import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel"; // Ensure path is correct
 import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency"; // Ensure path is correct
+import { User } from "@/payload-types";
 
 export const getDashboardStats = async (request: PayloadRequest) => {
   // 1. Security Check
-  if (!request.user || !checkRole(["admin"], request.user)) {
+  if (!request.user || !checkRole(["admin"], request.user as User)) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
   }
 

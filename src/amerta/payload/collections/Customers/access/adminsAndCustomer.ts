@@ -6,9 +6,11 @@
 
 import { checkRole } from "@/amerta/access/checkRole";
 import type { Access } from "payload";
+import { User } from "@/payload-types";
+
 
 const adminsAndCustomer: Access = ({ req }) => {
-  if (checkRole(["admin"], req.user)) {
+  if (checkRole(["admin"], req.user as User)) {
     return true;
   }
 

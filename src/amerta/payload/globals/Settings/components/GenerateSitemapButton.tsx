@@ -1,18 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, useToast } from "@payloadcms/ui";
+import { Button, toast } from "@payloadcms/ui";
 
 export const GenerateSitemapButton: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
   const handleGenerate = async () => {
     setIsLoading(true);
-    toast({
-      message: "Generating sitemaps... This may take a moment.",
-      type: "info",
-    });
+    toast.info("Generating sitemaps... This may take a moment.");
 
     try {
       const res = await fetch(`/api/admin/settings/generate-sitemaps`, {
@@ -22,18 +17,12 @@ export const GenerateSitemapButton: React.FC = () => {
       const data = await res.json();
       
       if (res.ok && data.success) {
-        toast({
-          message: "Sitemaps generated successfully!",
-          type: "success",
-        });
+        toast.success("Sitemaps generated successfully!");
       } else {
         throw new Error(data.error || "Failed to generate sitemaps");
       }
     } catch (err: any) {
-      toast({
-        message: err.message || "An error occurred",
-        type: "error",
-      });
+      toast.error(err.message || "An error occurred");
     } finally {
       setIsLoading(false);
     }

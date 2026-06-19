@@ -1,11 +1,9 @@
-
-
-import { FieldAccessArgs } from 'node_modules/payload/dist/fields/config/types'
+import { AccessArgs, FieldAccess } from 'payload'
 import { checkRole } from './checkRole'
 import type { User } from '@/payload-types'
 
-type isAdmin = (args: FieldAccessArgs<any, User>) => boolean
+type isAdmin = FieldAccess
 
 export const admins: isAdmin = ({ req: { user } }) => {
-  return checkRole(['admin'], user)
+  return checkRole(['admin'], user as User)
 }
