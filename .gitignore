@@ -16,3 +16,4 @@ docs/
 *.zip
 _test
 package-lock.json
+check-env.js
