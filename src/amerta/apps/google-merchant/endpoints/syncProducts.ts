@@ -7,6 +7,8 @@ import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currenc
 import { getLocales } from "@/amerta/theme/utilities/get-locales";
 import { getAppSettings } from "@/amerta/theme/utilities/get-app-settings";
 import { getCountryById } from "@/amerta/theme/utilities/get-countries";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+import striptags from "striptags";
 
 export const syncProductsEndpoint: Endpoint = {
     path: "/google-merchant/sync",
@@ -109,23 +111,45 @@ export const syncProductsEndpoint: Endpoint = {
                 }
 
                 const val = field[locale];
+                const fallbackVal = field[fallbackLocale];
 
-                const isUnpopulated = typeof val === 'string' || (Array.isArray(val) && val.length > 0 && typeof val[0] === 'string');
+                const isUnpopulated = (typeof val === 'string' && typeof fallbackVal === 'object' && fallbackVal !== null) || 
+                                      (Array.isArray(val) && val.length > 0 && typeof val[0] === 'string' && Array.isArray(fallbackVal) && fallbackVal.length > 0 && typeof fallbackVal[0] === 'object');
 
                 if (val === undefined || val === null || (Array.isArray(val) && val.length === 0) || isUnpopulated) {
-                    return field[fallbackLocale] !== undefined ? field[fallbackLocale] : field;
+                    return fallbackVal !== undefined ? fallbackVal : field;
                 }
                 return val;
+            };
+
+            const lexicalToText = (lexicalDoc: any): string => {
+                if (!lexicalDoc || !lexicalDoc.root || !lexicalDoc.root.children) {
+                    return "";
+                }
+                try {
+                    return convertLexicalToHTML({ data: lexicalDoc });
+                } catch (err) {
+                    console.error("Failed to convert lexical to text:", err);
+                    return "";
+                }
             };
 
             for (const product of products) {
                 for (const locale of locales) {
                     try {
                         const title = getLocalizedValue(product.title, locale);
-                        const localeMeta = getLocalizedValue(product.meta, locale);
+                        
+                        // Extract rich text from product.description
+                        const localeDescription = getLocalizedValue(product.description, locale);
+                        let extractedDescription = "";
+                        if (localeDescription && typeof localeDescription === 'object' && localeDescription.root) {
+                            extractedDescription = lexicalToText(localeDescription);
+                        }
 
+                        const localeMeta = getLocalizedValue(product.meta, locale);
                         const metaDesc = localeMeta?.description;
-                        const description = metaDesc || title;
+                        
+                        const description = extractedDescription || metaDesc || title;
 
                         if (!title) {
                             console.log(`[Google Merchant Sync] Skipping product ${product.id} for locale ${locale} because title is empty`);
@@ -198,12 +222,10 @@ export const syncProductsEndpoint: Endpoint = {
                                             amountMicros: Math.round(parseFloat(salePriceValue) * 1000000),
                                             currencyCode: storeCurrency,
                                         } : undefined,
-                                        availability: (variant.stockStatus === 'in_stock' || (variant.trackInventory && (variant.quantity || 0) > 0)) ? "IN_STOCK" : "OUT_OF_STOCK",
-                                        condition: "NEW",
+                                        availability: (variant.stockStatus === 'in_stock' || (variant.trackInventory && (variant.quantity || 0) > 0)) ? "IN_STOCK" as const : "OUT_OF_STOCK" as const,
+                                        condition: "NEW" as const,
                                     },
                                 };
-
-                                console.log(productInput);
 
                                 await client.insertProductInput({
                                     parent: `accounts/${config.merchantId}`,
@@ -241,12 +263,10 @@ export const syncProductsEndpoint: Endpoint = {
                                         amountMicros: Math.round(parseFloat(salePriceValue) * 1000000),
                                         currencyCode: storeCurrency,
                                     } : undefined,
-                                    availability: (product.stockStatus === 'in_stock' || (product.trackInventory && (product.quantity || 0) > 0)) ? "IN_STOCK" : "OUT_OF_STOCK",
-                                    condition: "NEW",
+                                    availability: (product.stockStatus === 'in_stock' || (product.trackInventory && (product.quantity || 0) > 0)) ? "IN_STOCK" as const : "OUT_OF_STOCK" as const,
+                                    condition: "NEW" as const,
                                 },
                             };
-
-                            console.log(productInput);
 
                             await client.insertProductInput({
                                 parent: `accounts/${config.merchantId}`,
