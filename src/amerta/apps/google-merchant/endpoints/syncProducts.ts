@@ -183,7 +183,7 @@ export const syncProductsEndpoint: Endpoint = {
                                     contentLanguage: locale,
                                     feedLabel: feedLabel,
                                     offerId: variantOfferId,
-                                    attributes: {
+                                    productAttributes: {
                                         title: variantTitle,
                                         description: description,
                                         link: link,
@@ -191,15 +191,15 @@ export const syncProductsEndpoint: Endpoint = {
                                         additionalImageLinks: additionalImageLinks,
                                         itemGroupId: product.id.toString(),
                                         price: {
-                                            value: priceValue,
-                                            currency: storeCurrency,
+                                            amountMicros: Math.round(parseFloat(priceValue) * 1000000),
+                                            currencyCode: storeCurrency,
                                         },
                                         salePrice: salePriceValue ? {
-                                            value: salePriceValue,
-                                            currency: storeCurrency,
+                                            amountMicros: Math.round(parseFloat(salePriceValue) * 1000000),
+                                            currencyCode: storeCurrency,
                                         } : undefined,
-                                        availability: (variant.stockStatus === 'in_stock' || (variant.trackInventory && (variant.quantity || 0) > 0)) ? "in stock" : "out of stock",
-                                        condition: "new",
+                                        availability: (variant.stockStatus === 'in_stock' || (variant.trackInventory && (variant.quantity || 0) > 0)) ? "IN_STOCK" : "OUT_OF_STOCK",
+                                        condition: "NEW",
                                     },
                                 };
 
@@ -227,22 +227,22 @@ export const syncProductsEndpoint: Endpoint = {
                                 contentLanguage: locale,
                                 feedLabel: feedLabel,
                                 offerId: simpleOfferId,
-                                attributes: {
+                                productAttributes: {
                                     title: title,
                                     description: description,
                                     link: link,
                                     imageLink: productImageUrl,
                                     additionalImageLinks: additionalImageLinks,
                                     price: {
-                                        value: priceValue,
-                                        currency: storeCurrency,
+                                        amountMicros: Math.round(parseFloat(priceValue) * 1000000),
+                                        currencyCode: storeCurrency,
                                     },
                                     salePrice: salePriceValue ? {
-                                        value: salePriceValue,
-                                        currency: storeCurrency,
+                                        amountMicros: Math.round(parseFloat(salePriceValue) * 1000000),
+                                        currencyCode: storeCurrency,
                                     } : undefined,
-                                    availability: (product.stockStatus === 'in_stock' || (product.trackInventory && (product.quantity || 0) > 0)) ? "in stock" : "out of stock",
-                                    condition: "new",
+                                    availability: (product.stockStatus === 'in_stock' || (product.trackInventory && (product.quantity || 0) > 0)) ? "IN_STOCK" : "OUT_OF_STOCK",
+                                    condition: "NEW",
                                 },
                             };
 
