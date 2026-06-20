@@ -62,6 +62,8 @@ import { importBlogsHandler } from "@/amerta/theme/data/imports/import-sample-bl
 import { withGuard } from "@/amerta/utilities/withGuard";
 import { Integrations } from "@/amerta/globals/Integrations";
 import { EcommerceSettings } from "@/amerta/globals/EcommerceSettings";
+import { AppSettings } from "./apps/globals";
+import { availableApps } from "./apps";
 
 const generateDescription: GenerateDescription<Post | Page> = async ({ doc, req }) => {
   const settings = await req.payload.findGlobal({
@@ -160,7 +162,7 @@ export function withAmerta(config: Config): Config {
           Logo: "@/amerta/theme/admin/Logo#Logo",
           Icon: "@/amerta/theme/admin/Icon#Icon",
         },
-        afterNavLinks: ["@/amerta/components/Imports/index", "@/amerta/components/Branding/AmertaBranding#AmertaBranding"],
+        afterNavLinks: ["@/amerta/apps/components/AppLinks#AppLinks", "@/amerta/components/Imports/index", "@/amerta/components/Branding/AmertaBranding#AmertaBranding"],
         views: {
           dashboard: {
             path: "/",
@@ -182,6 +184,10 @@ export function withAmerta(config: Config): Config {
             Component: "@/amerta/components/Imports/ImportShopifyData#ImportShopifyData",
             path: "/import-shopify-data",
           },
+          GoogleMerchantSettingsPage: {
+            Component: "@/amerta/apps/google-merchant/components/SettingsView#SettingsView",
+            path: "/google-merchant-settings",
+          },
         },
         // providers: ["@/amerta/theme/components/Onboarding/providers/Guard#SetupGuardProvider"],
       },
@@ -191,8 +197,33 @@ export function withAmerta(config: Config): Config {
     },
     editor: defaultLexical,
     serverURL: getServerSideURL(),
-    globals: [EcommerceSettings, Settings, Header, Footer, Integrations],
-    collections: [...ProductsConfig, Pages, ...BlogConfig, Translations, Store, SalesChannel, Orders, Customers, CustomerGroups, CustomerTags, FinalUsersCollection, Menu, Media, Currencies, Countries, TaxRates, Shipping, ...PaymentsConfig, Cart, CartRules, Wishlist, Coupons, EmailTemplates, EmailLogs],
+    globals: [EcommerceSettings, Settings, Header, Footer, Integrations, AppSettings],
+    collections: [
+      ...ProductsConfig,
+      Pages,
+      ...BlogConfig,
+      Translations,
+      Store,
+      SalesChannel,
+      Orders,
+      Customers,
+      CustomerGroups,
+      CustomerTags,
+      FinalUsersCollection,
+      Menu,
+      Media,
+      Currencies,
+      Countries,
+      TaxRates,
+      Shipping,
+      ...PaymentsConfig,
+      Cart,
+      CartRules,
+      Wishlist,
+      Coupons,
+      EmailTemplates,
+      EmailLogs,
+    ],
     email: nodemailerAdapter({
       defaultFromAddress: process.env.EMAIL_FROM || "",
       defaultFromName: process.env.EMAIL_APP_NAME || "",
@@ -464,5 +495,13 @@ export function withAmerta(config: Config): Config {
     };
   }
 
-  return deepmerge(amertaConfig, mergedConfig, { arrayMerge, isMergeableObject: isPlainObject }) as Config;
+  let finalConfig = deepmerge(amertaConfig, mergedConfig, { arrayMerge, isMergeableObject: isPlainObject }) as Config;
+
+  for (const app of availableApps) {
+    if (app.extendConfig) {
+      finalConfig = app.extendConfig(finalConfig);
+    }
+  }
+
+  return finalConfig;
 }

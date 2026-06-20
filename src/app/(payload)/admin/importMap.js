@@ -55,8 +55,10 @@ import { RowLabel as RowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/
 import { SocialMediaRowLabel as SocialMediaRowLabel_4027df51f784d590fe12493398326d17 } from '@/amerta/theme/blocks/common/Footer/RowLabel'
 import { N8NTestButton as N8NTestButton_3fc92912a4711ac7db0cd57d17c1a99e } from '@/amerta/globals/Integrations/fields/N8NTestButton'
 import { N8NHelp as N8NHelp_938b5e1385d981bfb0396f904d611ec1 } from '@/amerta/globals/Integrations/fields/N8NHelp'
+import { ReloadOnSave as ReloadOnSave_a7a512d2b1786e94325702ab26520b0b } from '@/amerta/apps/components/ReloadOnSave'
 import { Icon as Icon_cb15aefbbc30e5bb599344050f8664f7 } from '@/amerta/theme/admin/Icon'
 import { Logo as Logo_46634ccd9d720bf8ed75cdbe749851ad } from '@/amerta/theme/admin/Logo'
+import { AppLinks as AppLinks_1bcfc4289f54cdbe83734174f70ee27a } from '@/amerta/apps/components/AppLinks'
 import { default as default_98f051e3cd759a61574cdf9728f35fef } from '@/amerta/components/Imports/index'
 import { AmertaBranding as AmertaBranding_678971af90eba11248fe8384adb74578 } from '@/amerta/components/Branding/AmertaBranding'
 import { default as default_79d3346fbd10228dede0f2b504e327b1 } from '@/amerta/components/BeforeLogin'
@@ -66,6 +68,7 @@ import { PageVersions as PageVersions_5a815c3a6134f53dd529f87e979e076c } from '@
 import { ImportView as ImportView_78d45beff5565c48bd6068642c03a030 } from '@/amerta/components/Imports/ImportView'
 import { ImportSampleData as ImportSampleData_860412cd692c06c6c62c55a738e6a64f } from '@/amerta/components/Imports/ImportSampleData'
 import { ImportShopifyData as ImportShopifyData_361417f9da6060fadef2ba6a85278576 } from '@/amerta/components/Imports/ImportShopifyData'
+import { SettingsView as SettingsView_1a6047364e757ac9b61a6c056f13cf80 } from '@/amerta/apps/google-merchant/components/SettingsView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -126,8 +129,10 @@ export const importMap = {
   "@/amerta/theme/blocks/common/Footer/RowLabel#SocialMediaRowLabel": SocialMediaRowLabel_4027df51f784d590fe12493398326d17,
   "@/amerta/globals/Integrations/fields/N8NTestButton#N8NTestButton": N8NTestButton_3fc92912a4711ac7db0cd57d17c1a99e,
   "@/amerta/globals/Integrations/fields/N8NHelp#N8NHelp": N8NHelp_938b5e1385d981bfb0396f904d611ec1,
+  "@/amerta/apps/components/ReloadOnSave#ReloadOnSave": ReloadOnSave_a7a512d2b1786e94325702ab26520b0b,
   "@/amerta/theme/admin/Icon#Icon": Icon_cb15aefbbc30e5bb599344050f8664f7,
   "@/amerta/theme/admin/Logo#Logo": Logo_46634ccd9d720bf8ed75cdbe749851ad,
+  "@/amerta/apps/components/AppLinks#AppLinks": AppLinks_1bcfc4289f54cdbe83734174f70ee27a,
   "@/amerta/components/Imports/index#default": default_98f051e3cd759a61574cdf9728f35fef,
   "@/amerta/components/Branding/AmertaBranding#AmertaBranding": AmertaBranding_678971af90eba11248fe8384adb74578,
   "@/amerta/components/BeforeLogin#default": default_79d3346fbd10228dede0f2b504e327b1,
@@ -137,5 +142,6 @@ export const importMap = {
   "@/amerta/components/Imports/ImportView#ImportView": ImportView_78d45beff5565c48bd6068642c03a030,
   "@/amerta/components/Imports/ImportSampleData#ImportSampleData": ImportSampleData_860412cd692c06c6c62c55a738e6a64f,
   "@/amerta/components/Imports/ImportShopifyData#ImportShopifyData": ImportShopifyData_361417f9da6060fadef2ba6a85278576,
+  "@/amerta/apps/google-merchant/components/SettingsView#SettingsView": SettingsView_1a6047364e757ac9b61a6c056f13cf80,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

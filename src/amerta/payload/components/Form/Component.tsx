@@ -141,9 +141,9 @@ export const FormBlock: React.FC<
                 if (field.type == "row") {
                   return (
                     <div className={field.className || ""} key={index}>
-                      {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      { 
                       field.fields?.map((subField: FormFieldBlock, subIndex: number) => {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                         
                         const Field: React.FC<any> = fields?.[subField.blockType as keyof typeof fields];
                         if (Field) {
                           return <Field key={subIndex} form={formFromProps} {...subField} {...formMethods} control={control} errors={errors} register={register} />;
@@ -153,7 +153,7 @@ export const FormBlock: React.FC<
                     </div>
                   );
                 }
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                 
                 const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields];
                 if (Field) {
                   return (

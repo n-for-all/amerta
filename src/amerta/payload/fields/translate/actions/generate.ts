@@ -56,7 +56,7 @@ export const generateContentAction = async (
 
   try {
     const result = await model.generateContent(prompt);
-    let responseText = result.response.text();
+    const responseText = result.response.text();
     
     // Extract JSON safely
     const jsonMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/i);

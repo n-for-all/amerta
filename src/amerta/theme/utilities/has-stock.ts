@@ -11,7 +11,7 @@ export const hasStock = (product: Product, qty: number = 1): boolean => {
 
   if (product.type === "variant") {
     if (!product.variants || product.variants.length === 0) return false;
-    let hasAvailableVariant = product.variants.some(({ quantity, trackInventory }) => {
+    const hasAvailableVariant = product.variants.some(({ quantity, trackInventory }) => {
       if (trackInventory) {
         return quantity && quantity >= qty;
       }

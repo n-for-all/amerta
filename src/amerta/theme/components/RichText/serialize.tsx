@@ -3,7 +3,7 @@ import escapeHTML from "escape-html";
 import { Text } from "slate";
 import { CMSLink } from "@/amerta/components/Link";
 
-// eslint-disable-next-line no-use-before-define
+ 
 type Children = Leaf[];
 
 type Leaf = {

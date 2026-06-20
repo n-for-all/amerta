@@ -38,7 +38,7 @@ export default async function Order({ params }: { params: Promise<{ id: string; 
       return json;
     });
   } catch (error) {
-    console.error(error); // eslint-disable-line no-console
+    console.error(error);  
   }
 
   if (!order) {

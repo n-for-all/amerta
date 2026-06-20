@@ -79,7 +79,7 @@ export const AnnouncementBar: React.FC<Props> = (props) => {
   const hasSocials = showSocial && socialLinks && Object.values(socialLinks).some(Boolean);
 
   // Grid layout: If socials exist, split space. If not, center content.
-  let gridClass = hasSocials ? "grid-cols-3" : "grid-cols-1";
+  const gridClass = hasSocials ? "grid-cols-3" : "grid-cols-1";
 
   if (!hasAnnouncements) return null;
 

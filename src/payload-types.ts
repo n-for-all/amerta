@@ -250,6 +250,7 @@ export interface Config {
     header: Header;
     footer: Footer;
     integrations: Integrations;
+    apps: App;
   };
   globalsSelect: {
     'ecommerce-settings': EcommerceSettingsSelect<false> | EcommerceSettingsSelect<true>;
@@ -257,6 +258,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    apps: AppsSelect<false> | AppsSelect<true>;
   };
   locale:
     | 'en'
@@ -3270,6 +3272,8 @@ export interface EmailLog {
   html?: string | null;
   bcc?: string | null;
   replyTo?: string | null;
+  status?: ('sent' | 'failed') | null;
+  error?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -5135,6 +5139,8 @@ export interface EmailLogsSelect<T extends boolean = true> {
   html?: T;
   bcc?: T;
   replyTo?: T;
+  status?: T;
+  error?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -6179,6 +6185,33 @@ export interface Integrations {
   createdAt?: string | null;
 }
 /**
+ * Manage installed apps and features.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps".
+ */
+export interface App {
+  id: string;
+  /**
+   * Select which apps should be active.
+   */
+  activeApps?: 'google-merchant'[] | null;
+  /**
+   * Internal JSON store for all app configurations. (Key = App Slug, Value = App Settings)
+   */
+  appSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ecommerce-settings_select".
  */
@@ -6462,6 +6495,17 @@ export interface IntegrationsSelect<T extends boolean = true> {
   environment?: T;
   secretToken?: T;
   testOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps_select".
+ */
+export interface AppsSelect<T extends boolean = true> {
+  activeApps?: T;
+  appSettings?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

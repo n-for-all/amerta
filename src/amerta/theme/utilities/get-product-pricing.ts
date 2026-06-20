@@ -38,7 +38,7 @@ export const getProductPricing = (product: Product, currency: Currency) => {
       image: variant.image,
     }));
 
-    let price = Math.min(...variants.map((v) => v.salePrice || v.price));
+    const price = Math.min(...variants.map((v) => v.salePrice || v.price));
 
     return {
       type: "variant",

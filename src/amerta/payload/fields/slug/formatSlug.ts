@@ -3,7 +3,7 @@ import { slugify } from "@/amerta/utilities/slugify";
 import type { FieldHook } from "payload";
 
 export const formatSlug = (val: string): string => {
-  let slugifier = new slugify();
+  const slugifier = new slugify();
   return slugifier.generate(val).toLowerCase();
 };
 

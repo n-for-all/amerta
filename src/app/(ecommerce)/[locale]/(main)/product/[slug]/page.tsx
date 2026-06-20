@@ -14,6 +14,8 @@ import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currenc
 
 export const dynamic = "force-dynamic";
 
+import { generateProductJSONLD } from "@/amerta/utilities/generateProductJSONLD";
+
 export default async function ProductPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
   const { slug, locale } = await params;
   let product: Product | null = null;
@@ -30,7 +32,28 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const options = await getAllProductOptions(locale);
 
-  return <ProductDetail product={product} locale={locale} options={options} />;
+  const salesChannel = await getSalesChannel();
+  const currency = getDefaultCurrency(salesChannel!);
+  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/${locale}/product/${slug}`;
+  
+  let jsonLd = null;
+  try {
+    jsonLd = generateProductJSONLD(product, currency, url);
+  } catch (err) {
+    console.error("Failed to generate product JSON-LD:", err);
+  }
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <ProductDetail product={product} locale={locale} options={options} />
+    </>
+  );
 }
 
 type Args = {

@@ -17,7 +17,7 @@ export const getAvailableProductOptions = (
 
   if (product.type === "variant") {
     if (!product.variants || product.variants.length === 0) return null;
-    let hasAvailableVariant = product.variants
+    const hasAvailableVariant = product.variants
       .map(({ quantity, trackInventory, variant, stockStatus }) => {
         if (stockStatus !== "in_stock") return null;
         if (trackInventory) {

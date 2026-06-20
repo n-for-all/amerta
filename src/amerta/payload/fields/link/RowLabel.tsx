@@ -60,7 +60,7 @@ export const Label = (props: any) => {
     return "";
   };
 
-  let fieldLabel = field.fields[0]?.label || field.fields[0]?.name || "Link";
+  const fieldLabel = field.fields[0]?.label || field.fields[0]?.name || "Link";
 
   return (
     <span style={{ fontWeight: "600" }}>
