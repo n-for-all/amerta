@@ -182,8 +182,7 @@ export const syncProductsEndpoint: Endpoint = {
                             for (let i = 0; i < product.variants.length; i++) {
                                 const variant = product.variants[i]!;
                                 const variantOfferId = variant.sku || `${product.id}-${i}-${locale}`;
-                                const variantTitleOptions = variant.variant ? Object.values(variant.variant).map((v: any) => v.value).join(" ") : "";
-                                const variantTitle = variantTitleOptions ? `${title} - ${variantTitleOptions}` : title;
+                                const variantTitle = title;
 
                                 let variantImageUrl = productImageUrl;
                                 const variantLocaleImage = getLocalizedValue(variant.image, locale);
