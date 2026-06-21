@@ -18,6 +18,9 @@
   <a href="https://github.com/n-for-all/amerta/stargazers">
     <img src="https://img.shields.io/github/stars/n-for-all/amerta.svg" alt="GitHub stars">
   </a>
+  <a href="https://discord.gg/a8GpXNGc">
+    <img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord">
+  </a>
 
   <br />
   <br />
@@ -40,6 +43,8 @@
     <a href="https://amerta.io/docs"><strong>Explore the docs »</strong></a>
     <br />
     <a href="https://amerta.io/demo">View Demo</a>
+    ·
+    <a href="https://discord.gg/a8GpXNGc">Discord</a>
     ·
     <a href="https://github.com/n-for-all/amerta/issues">Report Bug</a>
     ·
