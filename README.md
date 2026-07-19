@@ -13,12 +13,12 @@
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
   </a>
   <a href="https://www.npmjs.com/package/create-amerta-app">
-    <img src="https://img.shields.io/npm/v/create-amerta-app.svg" alt="npm version">
+    <img src="https://badgen.net/npm/v/create-amerta-app" alt="npm version">
   </a>
   <a href="https://github.com/n-for-all/amerta/stargazers">
-    <img src="https://img.shields.io/github/stars/n-for-all/amerta.svg" alt="GitHub stars">
+    <img src="https://badgen.net/github/stars/n-for-all/amerta" alt="GitHub stars">
   </a>
-  <a href="https://discord.gg/a8GpXNGc">
+  <a href="https://discord.gg/GMDCny785D">
     <img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord">
   </a>
 
@@ -44,7 +44,7 @@
     <br />
     <a href="https://amerta.io/demo">View Demo</a>
     ·
-    <a href="https://discord.gg/a8GpXNGc">Discord</a>
+    <a href="https://discord.gg/GMDCny785D">Discord</a>
     ·
     <a href="https://github.com/n-for-all/amerta/issues">Report Bug</a>
     ·
