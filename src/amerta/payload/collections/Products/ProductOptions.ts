@@ -71,7 +71,7 @@ export const ProductOptions: CollectionConfig = {
       fields: [
         {
           name: "showInFilter",
-          defaultValue: "1",
+          defaultValue: true,
           type: "checkbox",
           admin: {
             width: "25%",
@@ -82,7 +82,7 @@ export const ProductOptions: CollectionConfig = {
         },
         {
           name: "showInSearch",
-          defaultValue: "1",
+          defaultValue: true,
           type: "checkbox",
           admin: {
             width: "25%",

@@ -29,7 +29,7 @@ export function ProductImageGallery({ productImages, productName }: ProductImage
       <div className="hidden-scrollbar lg:grid-flow-row lg:grid-cols-2 lg:overflow-x-hidden undefined">
         {productImages.length > 0 ? (
           <>
-            <div className="relative cursor-pointer group aspect-3/4 w-72 shrink-0 snap-center sm:w-96 lg:w-full lg:col-span-2" aria-hidden="true">
+            <div className="relative cursor-pointer group aspect-3/4 shrink-0 snap-center sm:w-96 lg:w-full lg:col-span-2" aria-hidden="true">
               <ImageOrPlaceholder alt={productName} className="object-contain w-full h-full" image={typeof productImages[0] === "string" ? productImages[0] : (productImages[0] as any)?.url} />
               <button className="absolute flex items-center justify-center w-8 h-8 transition-opacity bg-white rounded-full opacity-0 top-3 left-3 rtl:right-3 rtl:left-auto group-hover:opacity-100 dark:text-neutral-100 hover:opacity-100" type="button" onClick={() => openLightbox(0)}>
                 <span className="sr-only">{__("View image")}</span>
@@ -39,7 +39,7 @@ export function ProductImageGallery({ productImages, productName }: ProductImage
               </button>
             </div>
             {productImages.slice(1).map((image, idx) => (
-              <div key={idx} className="relative cursor-pointer group aspect-3/4 w-72 shrink-0 snap-center sm:w-96 lg:w-full lg:col-span-1" aria-hidden="true">
+              <div key={idx} className="relative cursor-pointer group aspect-3/4 shrink-0 snap-center sm:w-96 lg:w-full lg:col-span-1" aria-hidden="true">
                 <ImageOrPlaceholder alt={productName} className="object-contain w-full h-full" image={typeof image === "string" ? image : (image as any)?.url} />
                 <button className="absolute flex items-center justify-center w-8 h-8 transition-opacity bg-white rounded-full opacity-0 top-3 left-3 rtl:right-3 rtl:left-auto group-hover:opacity-100 dark:text-neutral-100 hover:opacity-100" type="button" onClick={() => openLightbox(idx + 1)}>
                   <span className="sr-only">{__("View image")}</span>

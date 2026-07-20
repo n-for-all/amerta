@@ -66,15 +66,40 @@ const VariantField = ({ field: { label, required = false }, path }: { field: { l
             </div>
           );
         case "dropdown":
-        case "image":
         case "radio":
           return (
             <div className={"variant-item"} key={item.id}>
               <SelectInput
                 options={item.options?.map((c) => ({
-                  label: `${c.label}`,
+                  label: c.label ? `${c.label}` : `${c.option}`,
                   value: c.option,
-                }))}
+                })) || []}
+                path={""}
+                name={""}
+                label={item.name}
+                onChange={(option: Option<unknown> | Option<unknown>[]) => {
+                  const newValue = {
+                    ...value,
+                    [item.id]: {
+                      name: item.name,
+                      type: item.type,
+                      value: Array.isArray(option) ? option.map((opt) => opt.value).join(", ") : option.value,
+                    },
+                  };
+                  setValue(newValue);
+                }}
+                value={item.id && value && value[item.id] ? value[item.id]!.value || "" : ""}
+              />
+            </div>
+          );
+        case "image":
+          return (
+            <div className={"variant-item"} key={item.id}>
+              <SelectInput
+                options={item.images?.map((c) => ({
+                  label: c.label ? `${c.label}` : `${c.id}`,
+                  value: c.id!,
+                })) || []}
                 path={""}
                 name={""}
                 label={item.name}
