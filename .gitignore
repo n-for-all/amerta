@@ -10,7 +10,8 @@ node_modules
 .next
 .vercel
 amerta-publish/
-public/
+public/*
+!public/assets/
 dump/
 docs/
 *.zip

@@ -13,7 +13,7 @@
     "build": "cross-env NODE_ENV=production npm run build:next && npm run copyfiles",
     "build:local": "cross-env NEXT_PUBLIC_SERVER_URL='http://localhost:3000' NODE_ALLOW_SOURCE_MAPS=true NODE_ENV=production npm run build:next  && npm run copyfiles",
     "eject": "npm remove next react react-dom @next/eslint-plugin-next && ts-node eject.ts",
-    "copyfiles": "copyfiles -u 1 \".next/static/**/*\" \".next/standalone/.next/\"",
+    "copyfiles": "copyfiles -u 1 \".next/static/**/*\" \".next/standalone/.next/\" && copyfiles -a \"public/**/*\" \".next/standalone/\"",
     "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "lint": "eslint src",
     "lint:fix": "eslint --fix --ext .ts,.tsx src",
