@@ -51,6 +51,14 @@ export const Products: CollectionConfig = {
       localized: true,
     },
     {
+      name: "callout",
+      type: "text",
+      localized: true,
+      admin: {
+        description: "An optional callout to display on the product page (e.g. 'Free cream with this coffee')",
+      },
+    },
+    {
       name: "images",
       type: "upload",
       relationTo: "product-media",

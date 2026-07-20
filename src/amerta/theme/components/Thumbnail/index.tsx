@@ -28,7 +28,9 @@ export const ImageOrPlaceholder = ({
     alt = image.alt || "";
     src = image.url;
   } else if (typeof image === "string") {
-    src = image;
+    if (image.startsWith("/") || image.startsWith("http")) {
+      src = image;
+    }
   }
 
   if (titleAlt) {

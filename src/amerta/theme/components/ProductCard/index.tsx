@@ -18,7 +18,9 @@ export const ProductCard = async ({ product, cartIcon, options, locale, classNam
 
   const getImageUrl = (image: any) => {
     if (!image) return null;
-    if (typeof image === "string") return image;
+    if (typeof image === "string") {
+      return image.startsWith("/") || image.startsWith("http") ? image : null;
+    }
     return image?.url || null;
   };
 

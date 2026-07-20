@@ -341,6 +341,10 @@ export interface UserAuthOperations {
 export interface Product {
   id: string;
   title: string;
+  /**
+   * An optional callout to display on the product page (e.g. 'Free cream with this coffee')
+   */
+  callout?: string | null;
   images?: (string | ProductMedia)[] | null;
   type?: ('simple' | 'variant') | null;
   excerpt?: string | null;
@@ -3608,6 +3612,7 @@ export interface PayloadMigration {
  */
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
+  callout?: T;
   images?: T;
   type?: T;
   excerpt?: T;

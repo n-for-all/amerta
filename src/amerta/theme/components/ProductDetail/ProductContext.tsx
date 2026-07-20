@@ -42,6 +42,16 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
         {product.title}
       </h1>
 
+      {(product as any).callout && (
+        <div className="mt-4">
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-md animate-[pulse_3s_ease-in-out_infinite]">
+            <span className="text-sm font-bold tracking-wide uppercase">
+              {(product as any).callout}
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-wrap items-center gap-4 mt-8">
         {brand && (
           <div className="px-5 py-2 rounded-full bg-zinc-900">

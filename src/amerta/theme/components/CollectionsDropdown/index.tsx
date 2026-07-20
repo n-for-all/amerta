@@ -49,7 +49,7 @@ export default function CollectionsDropdown({ collections }: CollectionsDropdown
     return (
       <li>
         <div className="flex items-center gap-x-2">
-          <a className="uppercase text-zinc-900" href={`/en/collections/${collection.slug || collection.id}`}>
+          <a className="uppercase text-zinc-900" href={getURL(`/collections/${collection.slug || collection.id}`, locale)}>
             {collection.title}
           </a>
           <svg viewBox="0 0 6 20" aria-hidden="true" className={`w-auto h-5 text-zinc-300 transition-transform ${isOpen ? 'rotate-90' : ''}`}>

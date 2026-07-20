@@ -185,7 +185,7 @@ export const ProductVariantSelector = ({ compact, product, noDefaults, options, 
           return (
             <div key={opt.id} className="space-y-3">
               <h3 className={"uppercase text-sm/6" + (compact ? " sr-only" : "")}>
-                <span className="capitalize">{opt.name}:</span> <span className="font-normal text-zinc-500">{selectedLabel}</span>
+                <span className="capitalize">{opt.label || opt.name}:</span> <span className="font-normal text-zinc-500">{selectedLabel}</span>
               </h3>
 
               {opt.type === "color" && <VariantColorSelector label={opt.label || opt.name} choices={choicesWithState} onSelect={(val) => handleSelect(opt.id, val)} compact={compact} />}
