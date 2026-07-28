@@ -18,6 +18,7 @@ import { ThemeShopContentBlock } from "./general/Content/Component";
 import { ThemeShopImageBlock } from "./general/Image/Component";
 import { ThemeShopSpacerBlock } from "./general/Spacer/Component";
 import { ThemeShopHeroVideoBlock } from "./general/HeroVideo/Component";
+import { ThemeShopIntegrationGridBlock } from "./general/IntegrationGrid/Component";
 
 const blockComponents = {
   themeShopHero: ThemeShopHeroBlock,
@@ -33,14 +34,15 @@ const blockComponents = {
   themeShopContentBlock: ThemeShopContentBlock,
   themeShopImageBlock: ThemeShopImageBlock,
   themeShopSpacerBlock: ThemeShopSpacerBlock,
-  themeShopHeroVideo: ThemeShopHeroVideoBlock
+  themeShopHeroVideo: ThemeShopHeroVideoBlock,
+  themeShopIntegrationGrid: ThemeShopIntegrationGridBlock,
 };
 
 export const Blocks: React.FC<{
   blocks?: NonNullable<Page["layout"]>[number][] | null;
   params?: Record<string, string | string[] | undefined | null>;
 }> = (props) => {
-  const { blocks, params } = props; 
+  const { blocks, params } = props;
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0;
   if (hasBlocks) {
