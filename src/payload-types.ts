@@ -422,6 +422,7 @@ export interface Product {
         | ThemeShopContentBlock
         | ThemeShopImageBlock
         | ThemeShopSpacerBlock
+        | ThemeShopIntegrationGridBlock
       )[]
     | null;
   showProductDetails?: boolean | null;
@@ -845,6 +846,7 @@ export interface Page {
         | ThemeShopContentBlock
         | ThemeShopImageBlock
         | ThemeShopSpacerBlock
+        | ThemeShopIntegrationGridBlock
       )[]
     | null;
   slug?: string | null;
@@ -2287,6 +2289,28 @@ export interface ThemeShopSpacerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopIntegrationGridBlock".
+ */
+export interface ThemeShopIntegrationGridBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
+  heading: string;
+  subtext?: string | null;
+  integrations: {
+    logo: string | Media;
+    name: string;
+    description?: string | null;
+    href?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'themeShopIntegrationGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product-tags".
  */
 export interface ProductTag {
@@ -3668,6 +3692,7 @@ export interface ProductsSelect<T extends boolean = true> {
         themeShopContentBlock?: T | ThemeShopContentBlockSelect<T>;
         themeShopImageBlock?: T | ThemeShopImageBlockSelect<T>;
         themeShopSpacerBlock?: T | ThemeShopSpacerBlockSelect<T>;
+        themeShopIntegrationGrid?: T | ThemeShopIntegrationGridBlockSelect<T>;
       };
   showProductDetails?: T;
   productDetails?:
@@ -4171,6 +4196,26 @@ export interface ThemeShopSpacerBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopIntegrationGridBlock_select".
+ */
+export interface ThemeShopIntegrationGridBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
+  heading?: T;
+  subtext?: T;
+  integrations?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        description?: T;
+        href?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_select".
  */
 export interface CollectionsSelect<T extends boolean = true> {
@@ -4385,6 +4430,7 @@ export interface PagesSelect<T extends boolean = true> {
         themeShopContentBlock?: T | ThemeShopContentBlockSelect<T>;
         themeShopImageBlock?: T | ThemeShopImageBlockSelect<T>;
         themeShopSpacerBlock?: T | ThemeShopSpacerBlockSelect<T>;
+        themeShopIntegrationGrid?: T | ThemeShopIntegrationGridBlockSelect<T>;
       };
   slug?: T;
   slugLock?: T;
