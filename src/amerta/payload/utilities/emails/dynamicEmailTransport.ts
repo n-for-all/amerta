@@ -70,7 +70,23 @@ export const dynamicTransport = {
       console.error("Failed to save email log:", logError);
     }
 
-    if (sendError) throw new Error(sendError);
+    if (sendError) {
+      // Re-throw for test emails so test endpoints/UI can surface the exact error to the admin
+      const isTestEmail =
+        inputData.subject === "Test Email from Payload" ||
+        inputData.headers?.["x-throw-error"] === "true";
+
+      if (isTestEmail) {
+        throw new Error(sendError);
+      }
+
+      // Return a failure result so transactional app flows (like checkout) are not aborted by SMTP outages
+      return {
+        messageId: null,
+        error: sendError,
+        rejected: Array.isArray(inputData.to) ? inputData.to : [inputData.to],
+      };
+    }
     return result;
   },
 };

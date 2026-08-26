@@ -273,6 +273,7 @@ export const createOrder = async (req: PayloadRequest) => {
     if (validationData.guest) {
       const newCustomer = await payload.create({
         collection: "customers",
+        disableVerificationEmail: true,
         data: {
           email: `guest_${Math.floor(Date.now() / 1000)}@email.com`,
           displayName: `${validationData!.address.firstName} ${validationData!.address.lastName} - Guest`,
@@ -281,6 +282,7 @@ export const createOrder = async (req: PayloadRequest) => {
           lastName: validationData!.address.lastName,
           password: Math.random().toString(36).slice(-8),
           hasAccount: "0",
+          _verified: true,
           address: {
             items: [address, ...(billingAddress && billingAddress !== address ? [billingAddress] : [])],
           },
