@@ -13,13 +13,13 @@ import { useToast } from "@/amerta/theme/ui/toast";
 import { Trash2, Plus, MapPin, Loader2, X, Edit, Phone, CreditCard } from "lucide-react";
 import { Switch } from "@/amerta/theme/ui/switch";
 import { Textarea } from "@/amerta/theme/ui/textarea";
-import { ShippingCountry } from "@/amerta/theme/types";
+import { ShippingCountry } from "@/amerta/core/types";
 import { Radio, RadioGroup } from "@/amerta/theme/ui/radio";
 import { PhoneInput } from "@/amerta/theme/ui/phone-input";
 import { useAuth } from "@/amerta/providers/Auth";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { Country, Customer } from "@/payload-types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
 
 // --- 1. Unified Schema (Contains flags for BOTH) ---

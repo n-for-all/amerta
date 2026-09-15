@@ -1,4 +1,4 @@
-import { variantsMatch } from "@/amerta/theme/utilities/variants-match";
+import { variantsMatch } from "@/amerta/core/utilities/variants-match";
 import { Product, ProductOption } from "@/payload-types";
 
 export const getMatchedVariant = (product: Product, variantOptions: { option: string | ProductOption; value: string }[], allOptions: ProductOption[]) => {

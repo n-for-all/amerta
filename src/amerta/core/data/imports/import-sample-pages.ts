@@ -1,5 +1,5 @@
 import { PayloadRequest } from "payload";
-import pagesData from "@/amerta/theme/data/pages.json";
+import pagesData from "@/amerta/core/data/pages.json";
 
 export const importPages = async (
   req: PayloadRequest,

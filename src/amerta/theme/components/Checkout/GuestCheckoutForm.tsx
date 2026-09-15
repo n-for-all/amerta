@@ -8,7 +8,7 @@ import { DeliverySection } from "./DeliverySection";
 import { CheckoutContext } from "./hooks/useCheckout"; // Adjust import path if needed
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutFormGuestValues } from ".";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export function GuestCheckoutForm() {
   const { form, data, checkoutState, paymentMethodRef } = useContext(CheckoutContext);

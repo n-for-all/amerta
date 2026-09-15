@@ -1,14 +1,14 @@
 import { Order } from "@/payload-types";
 import { OrderDetails } from "./Details";
 import { OrderItems } from "./Items";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { getPaymentByOrderId } from "@/amerta/theme/utilities/get-payment";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { getPaymentByOrderId } from "@/amerta/core/utilities/get-payment";
 import { Button } from "@/amerta/theme/ui/button";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { getURL } from "@/amerta/utilities/getURL";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export const OrderAdmin: React.FC<{ order: Order; locale: string }> = async ({ order, locale }) => {
   const salesChannel = await getSalesChannel();

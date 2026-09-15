@@ -1,0 +1,312 @@
+import { getAppSettings } from "@/amerta/core/utilities/get-app-settings";
+import {
+  CJCategory,
+  CJProductDetail,
+  CJProductListItem,
+  CJSearchQuery,
+  CJSettings,
+  parseCJWeight,
+  resolveEffectiveProductWeight,
+} from "../types";
+
+const CJ_API_BASE = "https://developers.cjdropshipping.com/api2.0/v1";
+
+export class CJClient {
+  /**
+   * Request an access token using email and apiKey
+   */
+  static async getAccessToken(email: string, apiKey: string): Promise<{
+    accessToken: string;
+    accessTokenExpiryDate: string;
+    refreshToken?: string;
+  }> {
+    const res = await fetch(`${CJ_API_BASE}/authentication/getAccessToken`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, apiKey }),
+    });
+
+    const data = await res.json();
+    if (!res.ok || data.code !== 200) {
+      throw new Error(data.message || "Failed to authenticate with CJ Dropshipping.");
+    }
+
+    return {
+      accessToken: data.data.accessToken,
+      accessTokenExpiryDate: data.data.accessTokenExpiryDate,
+      refreshToken: data.data.refreshToken,
+    };
+  }
+
+  private static lastRequestTime = 0;
+  private static queuePromise: Promise<any> = Promise.resolve();
+
+  private static async throttle(): Promise<void> {
+    const minInterval = 1100; // CJ strict QPS limit: 1 request per second
+    const now = Date.now();
+    const elapsed = now - CJClient.lastRequestTime;
+    if (elapsed < minInterval) {
+      await new Promise((resolve) => setTimeout(resolve, minInterval - elapsed));
+    }
+    CJClient.lastRequestTime = Date.now();
+  }
+
+  /**
+   * Internal authenticated fetch helper with 1 QPS queue and auto-retry
+   */
+  private static async request<T = any>(endpoint: string, options: RequestInit = {}, retries = 3): Promise<T> {
+    const settings = (await getAppSettings("cj-dropshipping")) as CJSettings | undefined;
+    const token = settings?.accessToken;
+
+    if (!token) {
+      throw new Error("CJ Dropshipping is not connected. Please enter your API credentials in Settings.");
+    }
+
+    // Queue all requests sequentially to guarantee 1 QPS
+    return (CJClient.queuePromise = CJClient.queuePromise.then(async () => {
+      await CJClient.throttle();
+
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+        "CJ-Access-Token": token,
+        ...(options.headers as Record<string, string> || {}),
+      };
+
+      const url = endpoint.startsWith("http") ? endpoint : `${CJ_API_BASE}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+      const res = await fetch(url, {
+        ...options,
+        headers,
+      });
+
+      const data = await res.json();
+
+      // Handle CJ QPS limit with automatic backoff retry
+      const isQpsError =
+        (data.code !== 200 && data.result !== true) &&
+        (String(data.message || "").toLowerCase().includes("qps") ||
+          String(data.message || "").toLowerCase().includes("too many requests"));
+
+      if (isQpsError && retries > 0) {
+        console.warn(`[CJ API Rate Limit] QPS hit on ${endpoint}. Waiting 1500ms before retry (${retries} retries left)...`);
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        return CJClient.request<T>(endpoint, options, retries - 1);
+      }
+
+      if (!res.ok || (data.code !== 200 && data.result !== true)) {
+        throw new Error(data.message || `CJ API Error (${res.status})`);
+      }
+
+      return (data.data !== undefined ? data.data : data) as T;
+    }));
+  }
+
+  /**
+   * Search and list products from CJ catalog
+   */
+  static async searchProducts(query: CJSearchQuery = {}): Promise<{
+    total: number;
+    pageNum: number;
+    pageSize: number;
+    list: CJProductListItem[];
+  }> {
+    const pageNum = query.pageNum || 1;
+    const pageSize = query.pageSize || 24;
+
+    const params = new URLSearchParams();
+    params.append("pageNum", String(pageNum));
+    params.append("pageSize", String(pageSize));
+
+    if (query.keyword && query.keyword.trim()) {
+      params.append("productNameEn", query.keyword.trim());
+    }
+
+    // Only append categoryId if it's a real CJ ID (not placeholder 1-2 digit IDs)
+    if (query.categoryId && query.categoryId.trim().length > 2) {
+      params.append("categoryId", query.categoryId.trim());
+    }
+
+    if (query.startPrice !== undefined && query.startPrice > 0) {
+      params.append("startSellPrice", String(query.startPrice));
+    }
+    if (query.endPrice !== undefined && query.endPrice > 0) {
+      params.append("endSellPrice", String(query.endPrice));
+    }
+    if (query.countryCode && query.countryCode.trim()) {
+      params.append("countryCode", query.countryCode.trim());
+    }
+    if (query.productFlag !== undefined) {
+      params.append("productFlag", String(query.productFlag));
+    }
+    if (query.addMarkStatus !== undefined) {
+      params.append("addMarkStatus", String(query.addMarkStatus));
+    }
+    if (query.startWarehouseInventory !== undefined && query.startWarehouseInventory > 0) {
+      params.append("startWarehouseInventory", String(query.startWarehouseInventory));
+    }
+    if (query.productType !== undefined) {
+      params.append("productType", String(query.productType));
+    }
+
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+    const response = await this.request<any>(`/product/list${queryString}`);
+
+    // Parse list from CJ response
+    let items: any[] = [];
+    let total = 0;
+
+    if (response) {
+      total = response.total || 0;
+      if (Array.isArray(response.list)) {
+        items = response.list;
+      } else if (Array.isArray(response.content?.productList)) {
+        items = response.content.productList;
+      } else if (Array.isArray(response.content)) {
+        items = response.content;
+      } else if (Array.isArray(response)) {
+        items = response;
+      }
+    }
+
+    const normalizedList: CJProductListItem[] = items.map((item: any) => {
+      const pid = String(item.pid || item.id || "");
+      const name = item.productNameEn || item.nameEn || item.productName || item.name || "";
+      const sku = item.productSku || item.sku || "";
+      const image = item.productImage || item.bigImage || item.image || (Array.isArray(item.productImageSet) ? item.productImageSet[0] : "") || "";
+      const price = String(item.sellPrice ?? item.price ?? "0");
+      const weight = resolveEffectiveProductWeight(item);
+
+      return {
+        pid,
+        productNameEn: name,
+        productSku: sku,
+        productImage: image,
+        sellPrice: price,
+        productWeight: weight,
+        categoryName: item.categoryName || item.entryNameEn || "",
+        categoryId: item.categoryId || "",
+        variants: item.variants || item.variantList || item.skuList || undefined,
+      };
+    }).filter((p) => Boolean(p.pid));
+
+    return {
+      total: total || normalizedList.length,
+      pageNum,
+      pageSize,
+      list: normalizedList,
+    };
+  }
+
+  /**
+   * Get full product details by PID
+   */
+  static async getProductDetails(pid: string): Promise<CJProductDetail> {
+    if (!pid) {
+      throw new Error("Product ID (pid) is required.");
+    }
+
+    const response = await this.request<CJProductDetail>(`/product/query?pid=${encodeURIComponent(pid)}`);
+    if (response) {
+      // Normalize productWeight resolving from parent fields and variants
+      const effectiveWeight = resolveEffectiveProductWeight(response);
+      response.productWeight = effectiveWeight;
+
+      if (Array.isArray(response.variants)) {
+        response.variants = response.variants.map((v: any) => ({
+          ...v,
+          variantWeight: parseCJWeight(v.variantWeight || v.weight || effectiveWeight),
+        }));
+      }
+    }
+    return response;
+  }
+
+  /**
+   * Fetch category hierarchy
+   */
+  static async getCategories(): Promise<{ categoryId: string; categoryName: string }[]> {
+    try {
+      const rawData = await this.request<any>("/product/getCategory");
+      if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
+        return [];
+      }
+
+      const flattened: { categoryId: string; categoryName: string }[] = [];
+
+      const parseCategoryList = (list: any[], parentPrefix = "") => {
+        for (const item of list) {
+          const id =
+            item.categoryId ||
+            item.categoryFirstId ||
+            item.categorySecondId ||
+            item.categoryThirdId ||
+            item.id ||
+            "";
+
+          const name =
+            item.categoryName ||
+            item.categoryFirstName ||
+            item.categorySecondName ||
+            item.categoryThirdName ||
+            item.name ||
+            "";
+
+          if (id && name) {
+            const displayName = parentPrefix ? `${parentPrefix} > ${name}` : name;
+            flattened.push({ categoryId: String(id), categoryName: displayName });
+
+            const children =
+              item.categoryFirstList ||
+              item.categorySecondList ||
+              item.categoryList ||
+              item.children ||
+              item.subCategories;
+
+            if (Array.isArray(children) && children.length > 0) {
+              parseCategoryList(children, displayName);
+            }
+          }
+        }
+      };
+
+      parseCategoryList(rawData);
+      return flattened;
+    } catch {
+      return [];
+    }
+  }
+
+  /**
+   * Calculate shipping / freight estimates via CJ API
+   */
+  static async calculateFreight(options: {
+    startCountryCode?: string;
+    endCountryCode: string;
+    vid?: string;
+    pid?: string;
+    quantity?: number;
+  }): Promise<any[]> {
+    const payload: any = {
+      startCountryCode: options.startCountryCode || "CN",
+      endCountryCode: options.endCountryCode,
+      products: [
+        {
+          quantity: options.quantity || 1,
+          ...(options.vid ? { vid: options.vid } : {}),
+          ...(options.pid ? { pid: options.pid } : {}),
+        },
+      ],
+    };
+
+    const response = await this.request<any>("/logistic/freightCalculate", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.list)) return response.list;
+    if (Array.isArray(response?.data)) return response.data;
+    return [];
+  }
+}

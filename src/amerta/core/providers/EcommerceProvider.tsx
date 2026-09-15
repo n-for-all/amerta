@@ -15,6 +15,8 @@ export interface EcommerceContextType {
   exchangeRate: number;
   dictionary: Dictionary;
   defaultPhoneCountryCode: string;
+  activeApps: string[];
+  isAppActive: (slug: string) => boolean;
   __: (key: string, domain?: string) => string;
 }
 
@@ -27,9 +29,18 @@ interface EcommerceProviderProps {
   locale?: string;
   defaultPhoneCountryCode?: string;
   dictionary?: Dictionary;
+  activeApps?: string[];
 }
 
-export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, currency, salesChannel, locale = "en", defaultPhoneCountryCode = "+1", dictionary = {} }) => {
+export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({
+  children,
+  currency,
+  salesChannel,
+  locale = "en",
+  defaultPhoneCountryCode = "+1",
+  dictionary = {},
+  activeApps = [],
+}) => {
 
   const reportedKeys = useRef<Set<string>>(new Set());
   const pendingReports = useRef<Array<{ key: string; domain: string }>>([]);
@@ -80,6 +91,11 @@ export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, 
     return getExchangeRate(defaultCurrency, currency, salesChannel);
   }, [salesChannel, currency]);
 
+  const isAppActive = useCallback(
+    (slug: string) => activeApps.includes(slug),
+    [activeApps]
+  );
+
   const value = useMemo(
     () => ({
       currency,
@@ -88,9 +104,11 @@ export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({ children, 
       exchangeRate,
       dictionary,
       defaultPhoneCountryCode,
+      activeApps,
+      isAppActive,
       __,
     }),
-    [currency, locale, salesChannel, exchangeRate, dictionary, __],
+    [currency, locale, salesChannel, exchangeRate, dictionary, defaultPhoneCountryCode, activeApps, isAppActive, __],
   );
 
   return <EcommerceContext.Provider value={value}>{children}</EcommerceContext.Provider>;

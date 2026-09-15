@@ -14,7 +14,7 @@ import { clearCart } from "./handlers/clear-cart";
 import { applyCoupon } from "./handlers/apply-coupon";
 import { removeCoupon } from "./handlers/remove-coupon";
 import { checkAbandoned } from "./hooks/check-abandoned";
-import { generateCartId } from "@/amerta/theme/utilities/get-cart";
+import { generateCartId } from "@/amerta/core/utilities/get-cart";
 
 export const Cart: CollectionConfig = {
   slug: "cart",

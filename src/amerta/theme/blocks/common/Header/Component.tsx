@@ -14,7 +14,7 @@ import { ArrowRight, MenuIcon } from "lucide-react";
 import Cart from "@/amerta/theme/components/Cart";
 import Wishlist from "@/amerta/theme/components/Wishlist";
 import { CurrencyPopover } from "@/amerta/theme/components/CurrencyPopover";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { useTheme } from "@/amerta/providers/Theme";
 import { LanguageSwitcher } from "@/amerta/theme/components/LanguageSwitcher";
 import { SearchModal } from "@/amerta/theme/components/SearchModal";

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductReview } from "@/payload-types";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
 
 interface ReviewsProps {
   reviews?: ProductReview[];

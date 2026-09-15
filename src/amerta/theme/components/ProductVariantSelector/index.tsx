@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Product, ProductOption } from "@/payload-types";
 import { VariantChoice, VariantColorSelector, VariantDropdownSelector, VariantImageSelector, VariantTextSelector } from "./VariantType";
-import { getAvailableProductOptions } from "../../utilities/get-available-product-options";
+import { getAvailableProductOptions } from "@/amerta/core/utilities/get-available-product-options";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 
 interface Props {
@@ -198,8 +198,8 @@ export const ProductVariantSelector = ({ compact, product, noDefaults, options, 
       </div>
 
       {!compact && variantImage && (
-        <div className="w-full md:w-1/2 rounded-lg overflow-hidden border border-zinc-100 dark:border-zinc-800">
-          <div className="relative aspect-square w-full max-w-56">
+        <div className="w-full md:w-1/2">
+          <div className="relative aspect-square w-full max-w-56 rounded-lg overflow-hidden mx-auto border border-zinc-300 dark:border-zinc-800">
             <ImageMedia src={getUrl(variantImage)!} alt="Selected Variant" fill imgClassName="object-cover" />
           </div>
         </div>

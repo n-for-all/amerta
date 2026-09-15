@@ -6,11 +6,11 @@ import { generateMeta } from "@/amerta/utilities/generateMeta";
 import { getPayload } from "payload";
 
 import ProductDetail from "@/amerta/theme/components/ProductDetail";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { getProductPricing } from "@/amerta/theme/utilities/get-product-pricing";
-import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
-import { getProductBySlug } from "@/amerta/theme/utilities/get-product-by-slug";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { getProductPricing } from "@/amerta/core/utilities/get-product-pricing";
+import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
+import { getProductBySlug } from "@/amerta/core/utilities/get-product-by-slug";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
 
 export const dynamic = "force-dynamic";
 

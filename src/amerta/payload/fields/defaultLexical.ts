@@ -1,5 +1,19 @@
 import { Config } from "payload";
-import { BoldFeature, ItalicFeature, LinkFeature, OrderedListFeature, ParagraphFeature, lexicalEditor, UnderlineFeature, UnorderedListFeature, BlocksFeature, HeadingFeature, HorizontalRuleFeature, FixedToolbarFeature } from "@payloadcms/richtext-lexical";
+import {
+  BoldFeature,
+  ItalicFeature,
+  LinkFeature,
+  OrderedListFeature,
+  ParagraphFeature,
+  lexicalEditor,
+  UnderlineFeature,
+  UnorderedListFeature,
+  BlocksFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  FixedToolbarFeature,
+  UploadFeature,
+} from "@payloadcms/richtext-lexical";
 import { SlateToLexicalFeature } from "@payloadcms/richtext-lexical/migrate";
 
 export const defaultLexical: Config["editor"] = lexicalEditor({
@@ -14,6 +28,13 @@ export const defaultLexical: Config["editor"] = lexicalEditor({
       OrderedListFeature(),
       HorizontalRuleFeature(),
       FixedToolbarFeature(),
+      UploadFeature({
+        collections: {
+          "product-media": {
+            fields: [],
+          },
+        },
+      }),
       LinkFeature({
         enabledCollections: ["pages", "posts"],
         fields: ({ defaultFields }) => {

@@ -1,16 +1,16 @@
 import { Collection, Product, ProductBrand, ProductOption, ProductReview } from "@/payload-types";
 import ProductTabs from "@/amerta/theme/components/ProductTabs";
-import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
-import { hasStock } from "@/amerta/theme/utilities/has-stock";
+import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
+import { hasStock } from "@/amerta/core/utilities/has-stock";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";
 import { RelatedProducts } from "../RelatedProducts";
-import { getRelatedProducts } from "@/amerta/theme/utilities/get-related-products";
-import { getProductReviews } from "@/amerta/theme/utilities/get-product-reviews";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { createTranslator } from "../../utilities/translation";
+import { getRelatedProducts } from "@/amerta/core/utilities/get-related-products";
+import { getProductReviews } from "@/amerta/core/utilities/get-product-reviews";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { ProductContext } from "./ProductContext";
 import { ProductImageGallery } from "./ProductImageGallery";
-import { Blocks } from "../../blocks/Blocks";
+import { Blocks } from "@/amerta/theme/blocks/Blocks";
 
 const CartIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" color="currentColor" stroke="currentColor" strokeWidth={1}>

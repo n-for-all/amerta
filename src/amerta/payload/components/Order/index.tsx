@@ -1,7 +1,7 @@
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
 import { OrderDetails } from "./Details";
 import { OrderItems } from "./Items";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 
 export const OrderAdmin: React.FC<any> = async () => {
   const salesChannel = await getSalesChannel();

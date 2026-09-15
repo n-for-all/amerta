@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 import React from "react";
 import { Pagination } from "@/amerta/theme/components/Pagination";
-import { getAllTags, getBlogPostsByTag, getTagBySlug } from "@/amerta/theme/utilities/blog";
+import { getAllTags, getBlogPostsByTag, getTagBySlug } from "@/amerta/core/utilities/blog";
 import PostCard from "@/amerta/theme/components/PostCard";
 import { notFound } from "next/navigation";
 import { TagsSwitch } from "@/amerta/theme/components/Blog/TagsSwitch";
 import RichText from "@/amerta/theme/components/RichText";
 import { getURL } from "@/amerta/utilities/getURL";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export async function generateMetadata({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ page?: string }> }): Promise<Metadata> {
   const { locale } = await params;

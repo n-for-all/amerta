@@ -4,17 +4,17 @@ import { Product, type Page } from "@/payload-types";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";
 import { Pagination } from "@/amerta/theme/components/Pagination";
-import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
+import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { CollectionFilters } from "@/amerta/theme/components/CollectionFilters";
-import { getProductsBrands } from "@/amerta/theme/utilities/get-products-brands";
+import { getProductsBrands } from "@/amerta/core/utilities/get-products-brands";
 import { Button } from "@/amerta/theme/ui/button";
 import Link from "next/link";
-import { parseSearchFilters } from "@/amerta/theme/utilities/parse-search-filters";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { parseSearchFilters } from "@/amerta/core/utilities/parse-search-filters";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { getURL } from "@/amerta/utilities/getURL";
-import { getCollections } from "@/amerta/theme/utilities/get-collections";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { getProductsBy } from "@/amerta/theme/utilities/get-product-by";
+import { getCollections } from "@/amerta/core/utilities/get-collections";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { getProductsBy } from "@/amerta/core/utilities/get-product-by";
 import { SearchParams } from "next/dist/server/request/search-params";
 
 export default async function Page({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<SearchParams> }) {

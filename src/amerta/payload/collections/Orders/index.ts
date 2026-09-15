@@ -16,6 +16,7 @@ import { checkPaymentStatus } from "./handlers/check-status";
 import { sendOrderEmailHandler } from "./handlers/send-email-handler";
 import { withGuard } from "@/amerta/utilities/withGuard";
 import { sendToN8N } from "./hooks/sendToN8N";
+import { processAppOrderHooks } from "@/amerta/apps/appHooks";
 
 export const Orders: CollectionConfig = {
   slug: "orders",
@@ -37,7 +38,7 @@ export const Orders: CollectionConfig = {
   },
   hooks: {
     beforeChange: [populateOrderData],
-    afterChange: [sendToN8N],
+    afterChange: [sendToN8N, processAppOrderHooks],
   },
   access: {
     read: adminsOrOrderedBy,

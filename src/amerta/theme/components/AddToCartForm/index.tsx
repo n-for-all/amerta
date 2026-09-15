@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { Product, ProductOption } from "@/payload-types";
 import { ProductVariantSelector } from "@/amerta/theme/components/ProductVariantSelector";
-import { hasStock } from "@/amerta/theme/utilities/has-stock";
-import { hasMatchingVariant } from "@/amerta/theme/utilities/has-matching-variant";
+import { hasStock } from "@/amerta/core/utilities/has-stock";
+import { hasMatchingVariant } from "@/amerta/core/utilities/has-matching-variant";
 import { Button } from "@/amerta/theme/ui/button";
 import { cn } from "@/amerta/utilities/ui";
 import { useToast } from "@/amerta/theme/ui/toast";
 import { Loader2 } from "lucide-react";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
-import { addToCart } from "../../utilities/cart.client";
+import { addToCart } from "@/amerta/core/utilities/cart.client";
 
 interface AddToCartFormProps {
   product: Product;

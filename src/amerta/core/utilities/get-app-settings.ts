@@ -14,3 +14,4 @@ export const getAppSettings = async (appSlug?: string) => {
   }
   return settings;
 };
+

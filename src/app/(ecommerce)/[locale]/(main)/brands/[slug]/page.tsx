@@ -7,17 +7,17 @@ import { redirect } from "next/navigation";
 import { Button } from "@/amerta/theme/ui/button";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";
 import { Pagination } from "@/amerta/theme/components/Pagination";
-import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
+import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { BrandFilters } from "@/amerta/theme/components/BrandFilters";
-import { parseSearchFilters } from "@/amerta/theme/utilities/parse-search-filters";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { parseSearchFilters } from "@/amerta/core/utilities/parse-search-filters";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { printf } from "fast-printf";
 import { getURL } from "@/amerta/utilities/getURL";
 import RichText from "@/amerta/theme/components/RichText";
-import { getBrandBySlug } from "@/amerta/theme/utilities/get-brand-by-slug";
-import { getProductsBy } from "@/amerta/theme/utilities/get-product-by";
+import { getBrandBySlug } from "@/amerta/core/utilities/get-brand-by-slug";
+import { getProductsBy } from "@/amerta/core/utilities/get-product-by";
 import { SearchParams } from "next/dist/server/request/search-params";
-import { getProductsCollections } from "@/amerta/theme/utilities/get-products-collections";
+import { getProductsCollections } from "@/amerta/core/utilities/get-products-collections";
 
 export const dynamic = "force-dynamic";
 

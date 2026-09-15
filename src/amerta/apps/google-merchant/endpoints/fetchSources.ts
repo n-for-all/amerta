@@ -1,4 +1,5 @@
 import { Endpoint } from "payload";
+import { withGuard } from "@/amerta/utilities/withGuard";
 import { DataSourcesServiceClient } from "@google-shopping/datasources";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
@@ -6,11 +7,8 @@ import configPromise from "@payload-config";
 export const fetchSourcesEndpoint: Endpoint = {
   path: "/google-merchant/sources",
   method: "get",
-  handler: async (req) => {
+  handler: withGuard(async (req) => {
     try {
-      if (!req.user) {
-        return Response.json({ error: "Unauthorized" }, { status: 401 });
-      }
 
       const payload = await getPayload({ config: configPromise });
       // Fetch the global apps config
@@ -50,5 +48,5 @@ export const fetchSourcesEndpoint: Endpoint = {
       console.error("Error fetching Google Merchant sources:", error);
       return Response.json({ error: error.message || "Failed to fetch sources" }, { status: 500 });
     }
-  },
+  }),
 };

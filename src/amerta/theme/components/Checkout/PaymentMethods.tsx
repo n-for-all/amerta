@@ -1,9 +1,9 @@
 import { Payments } from "../Payment/Payments";
-import { PaymentMethod } from "@/amerta/theme/types";
+import { PaymentMethod } from "@/amerta/core/types";
 import { PaymentHandle } from "../Payment/gateways/types";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutFormValues } from ".";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
 
 export const PaymentMethods = ({
   form,

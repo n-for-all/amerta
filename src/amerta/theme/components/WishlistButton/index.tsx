@@ -5,7 +5,7 @@ import { Heart } from "lucide-react";
 import { Button } from "@/amerta/theme/ui/button";
 import { Product } from "@/payload-types";
 import { cn } from "@/amerta/utilities/ui";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
 
 interface WishlistButtonProps {
   product: Product;

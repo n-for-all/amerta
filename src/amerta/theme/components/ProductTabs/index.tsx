@@ -6,7 +6,7 @@ import ProductReviewForm from "@/amerta/theme/components/ProductReviewForm";
 import Reviews from "@/amerta/theme/components/Reviews";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
 import RichText from "@/amerta/theme/components/RichText";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 type TabType = "about" | "reviews" | "benefits" | "faqs";
 

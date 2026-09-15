@@ -48,6 +48,28 @@ export default function RichText(props: Props) {
     return ({ defaultConverters }) => ({
       ...defaultConverters,
       ...LinkJSXConverter({ internalDocToHref }),
+      upload: ({ node }) => {
+        const uploadNode = node as any;
+        const uploadDoc = typeof uploadNode.value === "object" ? uploadNode.value : null;
+        const url =
+          uploadDoc?.url ||
+          uploadNode.fields?.url ||
+          (typeof uploadNode.value === "string" && uploadNode.value.startsWith("http")
+            ? uploadNode.value
+            : null);
+        const alt = uploadNode.fields?.alt || uploadDoc?.alt || "";
+        if (!url) return null;
+        return (
+          <span className="my-4 block w-full text-center">
+            <img
+              alt={alt}
+              src={url}
+              className="mx-auto max-w-full h-auto object-contain rounded-none inline-block"
+              loading="lazy"
+            />
+          </span>
+        );
+      },
       blocks: {
         banner: ({ node }) => <ThemeShopBannerBlock className="col-start-2 mb-4" {...node.fields} />,
         mediaBlock: ({ node }) => <ThemeShopMediaBlock className="col-span-3 col-start-1" imgClassName="m-0" {...node.fields} captionClassName="mx-auto max-w-[48rem]" enableGutter={false} disableInnerContainer={true} />,

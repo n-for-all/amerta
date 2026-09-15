@@ -69,6 +69,8 @@ import { ImportView as ImportView_78d45beff5565c48bd6068642c03a030 } from '@/ame
 import { ImportSampleData as ImportSampleData_860412cd692c06c6c62c55a738e6a64f } from '@/amerta/components/Imports/ImportSampleData'
 import { ImportShopifyData as ImportShopifyData_361417f9da6060fadef2ba6a85278576 } from '@/amerta/components/Imports/ImportShopifyData'
 import { SettingsView as SettingsView_1a6047364e757ac9b61a6c056f13cf80 } from '@/amerta/apps/google-merchant/components/SettingsView'
+import { SettingsView as SettingsView_631a5ced33b988f2dcac771f8e6d22ec } from '@/amerta/apps/cj-dropshipping/components/SettingsView'
+import { LoyaltySettingsView as LoyaltySettingsView_529dfbc1819d5e59f192fed1067fbd37 } from '@/amerta/apps/loyalty/components/LoyaltySettingsView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -143,5 +145,7 @@ export const importMap = {
   "@/amerta/components/Imports/ImportSampleData#ImportSampleData": ImportSampleData_860412cd692c06c6c62c55a738e6a64f,
   "@/amerta/components/Imports/ImportShopifyData#ImportShopifyData": ImportShopifyData_361417f9da6060fadef2ba6a85278576,
   "@/amerta/apps/google-merchant/components/SettingsView#SettingsView": SettingsView_1a6047364e757ac9b61a6c056f13cf80,
+  "@/amerta/apps/cj-dropshipping/components/SettingsView#SettingsView": SettingsView_631a5ced33b988f2dcac771f8e6d22ec,
+  "@/amerta/apps/loyalty/components/LoyaltySettingsView#LoyaltySettingsView": LoyaltySettingsView_529dfbc1819d5e59f192fed1067fbd37,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

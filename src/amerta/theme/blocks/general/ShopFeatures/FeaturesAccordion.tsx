@@ -2,7 +2,7 @@
 
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import RichText from "@/amerta/theme/components/RichText";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { ThemeShopFeaturesBlock as FeaturesBlockProps } from "@/payload-types";
 
 export const FeaturesAccordion = ({ items }: { items: FeaturesBlockProps["features"] }) => {

@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { decryptSignature } from "@/amerta/theme/utilities/decrypt-signature";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
+import { decryptSignature } from "@/amerta/core/utilities/decrypt-signature";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { OrderReceived } from "@/amerta/theme/components/OrderReceived";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
 import { cookies } from "next/headers";
 
 export default async function OrderReceivedPage({ params }: { params: Promise<{ orderKey: string; locale: string }> }) {

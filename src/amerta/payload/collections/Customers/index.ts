@@ -25,6 +25,7 @@ import jwt from "jsonwebtoken";
 import { parse } from "cookie";
 import { cookies } from "next/headers";
 import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";
+import { processAppCustomerHooks } from "@/amerta/apps/appHooks";
 
 const cookieOptions = {
   path: "/",
@@ -215,6 +216,7 @@ const Customers: CollectionConfig = {
         await sendNewAccountEmail(doc);
         return doc;
       },
+      processAppCustomerHooks,
     ],
     afterLogout: [
       async () => {
@@ -317,6 +319,40 @@ const Customers: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
+    },
+    {
+      name: "metafields",
+      label: "Metafields",
+      type: "array",
+      admin: {
+        description: "Plugin metadata and custom attributes",
+      },
+      fields: [
+        {
+          name: "namespace",
+          type: "text",
+          required: true,
+          admin: {
+            description: "Namespace (e.g. LoyaltyCircle)",
+          },
+        },
+        {
+          name: "key",
+          type: "text",
+          required: true,
+          admin: {
+            description: "Metafield key (e.g. account)",
+          },
+        },
+        {
+          name: "value",
+          type: "json",
+          required: true,
+          admin: {
+            description: "JSON value",
+          },
+        },
+      ],
     },
     {
       name: "createdAt",

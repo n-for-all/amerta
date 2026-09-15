@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getURL } from "@/amerta/utilities/getURL";
 import { Currency, Order, ProductMedia } from "@/payload-types";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { printf } from "fast-printf";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
 
 type Props = {
   initialOrder: Order;
@@ -109,7 +109,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
               <li key={index} className="flex py-6 space-x-6">
                 <div className="relative aspect-[3/4] w-24 flex-none flex-shrink-0 overflow-hidden rounded-md bg-zinc-100">{image && <ImageMedia src={image} alt={title} fill imgClassName="object-contain w-full h-full" />}</div>
                 <div className="flex flex-col flex-auto space-y-1">
-                  <h3 className="uppercase text-zinc-900">
+                  <h3 className="uppercase text-zinc-900 dark:text-zinc-200">
                     <Link href={getURL(`/products/${slug}`, locale)}>{title}</Link>
                   </h3>
                   {item.variantText && <p className="text-xs uppercase">{item.variantText}</p>}
@@ -164,7 +164,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
         <dl className="grid grid-cols-2 mt-16 text-sm gap-x-4 text-zinc-600">
           <div>
-            <dt className="font-medium uppercase text-zinc-900">{__("Shipping Address")}</dt>
+            <dt className="font-medium uppercase text-zinc-900 dark:text-zinc-200">{__("Shipping Address")}</dt>
             <dd className="mt-2">
               <address className="not-italic uppercase">
                 <span className="block">{customerName}</span>
@@ -178,12 +178,12 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           </div>
 
           <div>
-            <dt className="font-medium uppercase text-zinc-900">{__("Payment Information")}</dt>
+            <dt className="font-medium uppercase text-zinc-900 dark:text-zinc-200">{__("Payment Information")}</dt>
             <dd className="mt-2 space-y-2 sm:flex sm:space-y-0 sm:space-x-4">
               {isCOD ? (
                 <div className="flex items-center gap-2">
                   <div className="h-6 w-10 bg-zinc-200 rounded flex items-center justify-center text-[10px] font-bold">{__("CASH")}</div>
-                  <p className="uppercase text-zinc-900">{__("Pay on Delivery")}</p>
+                  <p className="uppercase text-zinc-900 dark:text-zinc-200">{__("Pay on Delivery")}</p>
                 </div>
               ) : (
                 <>

@@ -4,7 +4,7 @@
  * @description This module defines the handler for fetching payment methods in the Payment Methods collection in Amerta, including settings, confirmation, and execution of payment actions.
  */
 
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 
 const sendUncachedResponse = (status: number, body: any) => {
   return Response.json(body, {

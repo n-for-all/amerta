@@ -1,8 +1,8 @@
 "use client";
 import { Product } from "@/payload-types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
-import { getProductPricing } from "@/amerta/theme/utilities/get-product-pricing";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { getProductPricing } from "@/amerta/core/utilities/get-product-pricing";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 
 
 export const ProductListingPrice = ({ product, selectedVariant }: { product: Product; selectedVariant?: NonNullable<Product["variants"]>[number] | null }) => {

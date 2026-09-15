@@ -3,7 +3,7 @@ import React from "react";
 import type { Currency, Order } from "@/payload-types";
 import { useDocumentInfo, useFormFields } from "@payloadcms/ui"; // Import useFormFields
 import styles from "./index.module.scss";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 
 export const OrderItems: React.FC<{ currency?: Currency }> = ({ currency }) => {
   // 1. Get the base saved data (good for ID, status, readonly fields)

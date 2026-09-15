@@ -3,7 +3,7 @@ import type { ThemeShopContactUsBlock as ContactUsBlockProps, Media } from "@/pa
 import { cn } from "@/amerta/utilities/ui";
 import { FormBlock } from "@/amerta/components/Form/Component";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 type Props = {
   className?: string;

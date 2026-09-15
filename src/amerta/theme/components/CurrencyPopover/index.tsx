@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 import { ChevronDown } from "lucide-react";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Currency } from "@/payload-types";
 
 interface CurrencyPopoverProps {

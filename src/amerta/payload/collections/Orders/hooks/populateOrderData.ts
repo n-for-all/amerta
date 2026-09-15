@@ -4,8 +4,8 @@
  * @description This hook populates additional order data before creating or updating an order. It generates order IDs, populates payment and shipping method names, and resolves country and product details.
  */
 
-import { getMatchedVariant } from "@/amerta/theme/utilities/get-matched-variant";
-import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
+import { getMatchedVariant } from "@/amerta/core/utilities/get-matched-variant";
+import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { APIError, CollectionBeforeChangeHook } from "payload";
 
 export const populateOrderData: CollectionBeforeChangeHook = async ({ data, req, operation }) => {

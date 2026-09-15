@@ -4,14 +4,16 @@ import React, { ReactNode } from "react";
 import type { EcommerceSettings, Header as HeaderProps, Settings } from "@/payload-types";
 import { Header } from "./blocks/common/Header/Component";
 import { Footer } from "./blocks/common/Footer/Component";
-import { EcommerceProvider } from "./providers/EcommerceProvider";
+import { EcommerceProvider } from "../core/providers/EcommerceProvider";
 import { Toaster } from "./ui/toast";
-import { getSalesChannel } from "./utilities/get-sales-channel";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { LOCALES } from "@/amerta/localization/locales";
-import { getDictionary } from "./utilities/translation";
-import { getCurrentCurrency } from "./utilities/get-current-currency";
-import { getCurrencies } from "./utilities/get-currencies";
+import { getDictionary } from "@/amerta/core/utilities/translation";
+import { getCurrentCurrency } from "@/amerta/core/utilities/get-current-currency";
+import { getCurrencies } from "@/amerta/core/utilities/get-currencies";
 import { AnnouncementBar } from "./blocks/common/AnnouncementBar";
+
+import { getActiveApps } from "@/amerta/core/utilities/get-active-apps";
 
 interface Props {
   children: ReactNode;
@@ -56,8 +58,17 @@ const ThemeShopLayout: React.FC<Props> = async ({ children, header, locale }) =>
     announcementBar = <AnnouncementBar {...ecommerceSettings.announcementBar} locale={locale} />
   }
 
+  const activeApps = await getActiveApps();
+
   return (
-    <EcommerceProvider locale={locale} currency={currency} salesChannel={salesChannel} dictionary={dictionary} defaultPhoneCountryCode={settingsData.defaultPhoneCountryCode || "+1"}>
+    <EcommerceProvider
+      locale={locale}
+      currency={currency}
+      salesChannel={salesChannel}
+      dictionary={dictionary}
+      defaultPhoneCountryCode={settingsData.defaultPhoneCountryCode || "+1"}
+      activeApps={activeApps}
+    >
       <div>
         {announcementBar}
         <div className="relative sticky top-0 z-30 text-black bg-white dark:bg-black lg:block dark:text-white">{header ? header : <Header {...headerData} currencies={currencies} currentCurrency={currency} locales={enabledLocalesArray} />}</div>

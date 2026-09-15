@@ -7,7 +7,7 @@
 import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
 import { Order, PaymentMethod } from "@/payload-types";
-import { createOrderKey } from "@/amerta/theme/utilities/create-order-key";
+import { createOrderKey } from "@/amerta/core/utilities/create-order-key";
 import { getURL } from "@/amerta/utilities/getURL";
 import { getPaymentAdapter } from "@/amerta/payments";
 

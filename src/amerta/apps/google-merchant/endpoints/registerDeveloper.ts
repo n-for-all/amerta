@@ -1,4 +1,5 @@
 import { Endpoint } from "payload";
+import { withGuard } from "@/amerta/utilities/withGuard";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { GoogleAuth } from "google-auth-library";
@@ -6,11 +7,8 @@ import { GoogleAuth } from "google-auth-library";
 export const registerDeveloperEndpoint: Endpoint = {
   path: "/google-merchant/register",
   method: "post",
-  handler: async (req) => {
+  handler: withGuard(async (req) => {
     try {
-      if (!req.user) {
-        return Response.json({ error: "Unauthorized" }, { status: 401 });
-      }
 
       const payload = await getPayload({ config: configPromise });
       const appsGlobal = await payload.findGlobal({
@@ -75,5 +73,5 @@ export const registerDeveloperEndpoint: Endpoint = {
       console.error("Error registering Google Merchant developer:", error);
       return Response.json({ error: error.message || "Failed to register developer" }, { status: 500 });
     }
-  },
+  }),
 };

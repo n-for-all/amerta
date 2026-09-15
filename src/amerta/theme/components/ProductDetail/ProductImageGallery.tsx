@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
 import { ProductLightbox } from "./ProductLightbox";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
 
 interface ProductImageGalleryProps {
   productImages: (string | any)[];

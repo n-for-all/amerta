@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { CheckoutForm } from "./stripe/CheckoutForm";
 import { PaymentGatewayProps } from "./types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Loader2 } from "lucide-react";
 
 export function StripePayment({ paymentRef, onError, method, currencyCode, countryCode, amount, orderId, onValid }: PaymentGatewayProps) {

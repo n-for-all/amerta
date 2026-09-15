@@ -8,7 +8,7 @@ import { LogOut, LayoutDashboard, MapPin, ShoppingBag, User } from "lucide-react
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { getURL } from "@/amerta/utilities/getURL";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 type AccountSidebarProps = {
   locale: string;

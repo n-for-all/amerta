@@ -10,7 +10,7 @@ import {
   convertMarkdownToLexical, 
   editorConfigFactory
 } from "@payloadcms/richtext-lexical";
-import { getAiSettings } from "@/amerta/theme/utilities/ai-translate";
+import { getAiSettings } from "@/amerta/core/utilities/ai-translate";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 
 

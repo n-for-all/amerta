@@ -1,6 +1,6 @@
 import { PayloadRequest } from "payload";
-import { importWooProductsJSON } from "@/amerta/theme/data/imports/import-woo-products";
-import productsArray from "@/amerta/theme/data/products.json";
+import { importWooProductsJSON } from "@/amerta/core/data/imports/import-woo-products";
+import productsArray from "@/amerta/core/data/products.json";
 
 export const importSampleDataHandler = async (req: PayloadRequest): Promise<Response> => {
   const encoder = new TextEncoder();

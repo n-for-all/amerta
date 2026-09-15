@@ -16,12 +16,12 @@ import {
   FormControl,
   FormMessage,
 } from "@/amerta/theme/ui/form";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { useAuth } from "@/amerta/providers/Auth";
 import { RenderParams } from "@/amerta/components/RenderParams";
 import { Message } from "@/amerta/components/Message";
 import { getURL } from "@/amerta/utilities/getURL";
-import { loginWith } from "@/amerta/theme/utilities/login-with";
+import { loginWith } from "@/amerta/core/utilities/login-with";
 import { printf } from "fast-printf";
 
 const loginSchema = z.object({

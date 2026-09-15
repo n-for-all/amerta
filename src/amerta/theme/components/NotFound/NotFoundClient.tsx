@@ -5,7 +5,7 @@ import Link from "next/link";
 import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
 import { getURL } from "@/amerta/utilities/getURL";
 import { ArrowRight } from "lucide-react";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export default function NotFoundClient() {
   const { __ } = useEcommerce();

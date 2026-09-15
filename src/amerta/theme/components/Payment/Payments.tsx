@@ -5,7 +5,7 @@ import { Control } from "react-hook-form";
 import { PaymentMethodRenderer } from "./PaymentMethodRenderer";
 import { Radio, RadioField, RadioGroup } from "@/amerta/theme/ui/radio";
 import { FormControl, FormField, FormItem, FormMessage } from "@/amerta/theme/ui/form";
-import { PaymentMethod } from "@/amerta/theme/types";
+import { PaymentMethod } from "@/amerta/core/types";
 import { PaymentHandle } from "./gateways/types";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 

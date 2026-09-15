@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Separator } from "@/amerta/theme/ui/separator";
 import { PhoneInput } from "@/amerta/theme/ui/phone-input";
 
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Customer } from "@/payload-types";
 import { useToast } from "@/amerta/theme/ui/toast";
 import { getServerSideURL } from "@/amerta/utilities/getURL";

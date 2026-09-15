@@ -1,12 +1,12 @@
 import Checkout from "@/amerta/theme/components/Checkout";
-import { getCheckoutData } from "@/amerta/theme/utilities/get-checkout-data";
+import { getCheckoutData } from "@/amerta/core/utilities/get-checkout-data";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import type { EcommerceSettings } from "@/payload-types";
 import { Config } from "payload";
 import { Logo } from "@/amerta/theme/blocks/common/Header/logo";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
-import { getCurrentCart } from "@/amerta/theme/utilities/get-current-cart";
+import { getCurrentCart } from "@/amerta/core/utilities/get-current-cart";
 
 export default async function CheckoutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

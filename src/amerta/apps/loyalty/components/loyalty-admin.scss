@@ -1,0 +1,527 @@
+.loyalty-dashboard {
+  padding-top: 1.5rem;
+  padding-bottom: 4rem;
+  color: var(--theme-text);
+
+  .loyalty-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--theme-elevation-150);
+
+    .loyalty-title {
+      h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin: 0 0 0.25rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      p {
+        color: var(--theme-elevation-500);
+        margin: 0;
+        font-size: 0.95rem;
+      }
+    }
+
+    .loyalty-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .loyalty-status-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.85rem;
+        border: 1px solid var(--theme-elevation-200);
+        background: var(--theme-elevation-50);
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 0;
+
+        input[type="checkbox"] {
+          accent-color: #d97706;
+          cursor: pointer;
+        }
+      }
+
+      .loyalty-btn-primary {
+        background: #d97706;
+        color: #fff;
+        border: none;
+        padding: 0.55rem 1.25rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 0;
+        transition: background 0.15s ease;
+
+        &:hover:not(:disabled) {
+          background: #b45309;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .loyalty-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--theme-elevation-150);
+
+    .loyalty-tab-btn {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      background: none;
+      color: var(--theme-elevation-500);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.15s ease;
+
+      &:hover {
+        color: var(--theme-text);
+      }
+
+      &.active {
+        color: #d97706;
+        border-bottom-color: #d97706;
+      }
+    }
+  }
+
+  /* Customer Manager Section */
+  .loyalty-search-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    .loyalty-search-input-wrap {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      svg {
+        position: absolute;
+        left: 0.85rem;
+        color: var(--theme-elevation-400);
+        pointer-events: none;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.6rem 0.85rem 0.6rem 2.5rem;
+        border: 1px solid var(--theme-elevation-200);
+        background: var(--theme-input-bg, var(--theme-elevation-50));
+        color: var(--theme-text);
+        font-size: 0.9rem;
+        border-radius: 0;
+
+        &:focus {
+          outline: none;
+          border-color: #d97706;
+        }
+      }
+    }
+
+    .loyalty-btn-search {
+      padding: 0.6rem 1.25rem;
+      background: var(--theme-elevation-800);
+      color: var(--theme-elevation-0, #fff);
+      border: 1px solid var(--theme-elevation-800);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      border-radius: 0;
+
+      &:hover:not(:disabled) {
+        opacity: 0.9;
+      }
+    }
+
+    .loyalty-btn-refresh {
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--theme-elevation-200);
+      background: var(--theme-elevation-50);
+      color: var(--theme-text);
+      cursor: pointer;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background: var(--theme-elevation-100);
+      }
+    }
+  }
+
+  /* Tables */
+  .loyalty-table-container {
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 0;
+    overflow-x: auto;
+    background: var(--theme-elevation-0, var(--theme-bg));
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+
+      thead {
+        background: var(--theme-elevation-50);
+        border-bottom: 1px solid var(--theme-elevation-150);
+
+        th {
+          padding: 0.75rem 1rem;
+          font-weight: 600;
+          color: var(--theme-elevation-500);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          font-size: 0.75rem;
+
+          &.text-right {
+            text-align: right;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid var(--theme-elevation-100);
+          transition: background 0.1s ease;
+
+          &:hover {
+            background: var(--theme-elevation-50);
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          td {
+            padding: 0.85rem 1rem;
+            vertical-align: middle;
+
+            &.text-right {
+              text-align: right;
+            }
+
+            .cust-name {
+              font-weight: 600;
+              color: var(--theme-text);
+            }
+
+            .cust-link {
+              font-weight: 600;
+              color: var(--theme-text);
+              text-decoration: none;
+              cursor: pointer;
+              display: inline-flex;
+              align-items: center;
+              gap: 0.35rem;
+
+              &:hover {
+                color: #d97706;
+                text-decoration: underline;
+              }
+            }
+
+            .cust-email {
+              font-size: 0.75rem;
+              color: var(--theme-elevation-500);
+              font-family: monospace;
+            }
+
+            .tier-badge {
+              display: inline-block;
+              padding: 0.2rem 0.5rem;
+              font-size: 0.7rem;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              border: 1px solid;
+              border-radius: 0;
+            }
+
+            .status-pill {
+              display: inline-block;
+              padding: 0.2rem 0.5rem;
+              font-size: 0.7rem;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              border-radius: 0;
+              border: 1px solid var(--theme-elevation-200);
+              background: var(--theme-elevation-50);
+              color: var(--theme-elevation-700);
+
+              &.paid {
+                background: rgba(16, 185, 129, 0.15);
+                color: #10b981;
+                border-color: rgba(16, 185, 129, 0.3);
+              }
+
+              &.pending {
+                background: rgba(245, 158, 11, 0.15);
+                color: #f59e0b;
+                border-color: rgba(245, 158, 11, 0.3);
+              }
+
+              &.cancelled {
+                background: rgba(239, 68, 68, 0.15);
+                color: #ef4444;
+                border-color: rgba(239, 68, 68, 0.3);
+              }
+            }
+
+            .actions-wrap {
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+              gap: 0.5rem;
+
+              .btn-edit-link {
+                padding: 0.35rem 0.65rem;
+                border: 1px solid var(--theme-elevation-200);
+                background: var(--theme-elevation-50);
+                color: var(--theme-elevation-700);
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+                border-radius: 0;
+
+                &:hover {
+                  color: #d97706;
+                  border-color: #d97706;
+                }
+              }
+
+              .btn-adjust {
+                padding: 0.35rem 0.75rem;
+                border: 1px solid var(--theme-elevation-200);
+                background: var(--theme-elevation-50);
+                color: var(--theme-text);
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                cursor: pointer;
+                border-radius: 0;
+                transition: all 0.15s ease;
+
+                &:hover {
+                  border-color: #d97706;
+                  color: #d97706;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Card Grid for Rules & Rewards */
+  .loyalty-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 1.5rem;
+
+    .loyalty-card {
+      border: 1px solid var(--theme-elevation-150);
+      background: var(--theme-elevation-0, var(--theme-bg));
+      padding: 1.5rem;
+      border-radius: 0;
+
+      .loyalty-card-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0 0 1rem 0;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--theme-elevation-150);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .loyalty-card-desc {
+        font-size: 0.82rem;
+        color: var(--theme-elevation-500);
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+
+      .form-group {
+        margin-bottom: 1.25rem;
+
+        label {
+          display: block;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+          margin-bottom: 0.4rem;
+          color: var(--theme-elevation-800);
+        }
+
+        input[type="number"],
+        input[type="text"] {
+          width: 100%;
+          padding: 0.6rem 0.85rem;
+          border: 1px solid var(--theme-elevation-200);
+          background: var(--theme-input-bg, var(--theme-elevation-50));
+          color: var(--theme-text);
+          font-size: 0.9rem;
+          font-family: monospace;
+          border-radius: 0;
+
+          &:focus {
+            outline: none;
+            border-color: #d97706;
+          }
+        }
+
+        .help-text {
+          font-size: 0.75rem;
+          color: var(--theme-elevation-500);
+          margin-top: 0.35rem;
+        }
+
+        .input-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+      }
+    }
+  }
+
+  /* Modal */
+  .loyalty-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    .loyalty-modal {
+      width: 100%;
+      max-width: 460px;
+      background: var(--theme-elevation-0, var(--theme-bg));
+      border: 1px solid var(--theme-elevation-200);
+      border-radius: 0;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--theme-elevation-150);
+        padding-bottom: 0.75rem;
+        margin-bottom: 1rem;
+
+        h3 {
+          margin: 0;
+          font-size: 0.95rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        button {
+          background: none;
+          border: none;
+          font-size: 1.25rem;
+          cursor: pointer;
+          color: var(--theme-elevation-400);
+
+          &:hover {
+            color: var(--theme-text);
+          }
+        }
+      }
+
+      .modal-info {
+        background: var(--theme-elevation-50);
+        border: 1px solid var(--theme-elevation-150);
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: 1.25rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--theme-elevation-150);
+
+        .btn-cancel {
+          padding: 0.55rem 1rem;
+          border: 1px solid var(--theme-elevation-200);
+          background: var(--theme-elevation-50);
+          color: var(--theme-text);
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          cursor: pointer;
+          border-radius: 0;
+        }
+
+        .btn-confirm {
+          padding: 0.55rem 1.25rem;
+          background: #d97706;
+          color: #fff;
+          border: none;
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          cursor: pointer;
+          border-radius: 0;
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}

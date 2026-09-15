@@ -1,6 +1,6 @@
 import { PayloadRequest } from "payload";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { htmlToLexical } from "@/amerta/theme/data/imports/import-woo-products"; // Assuming you have this helper
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { htmlToLexical } from "@/amerta/core/data/imports/import-woo-products"; // Assuming you have this helper
 
 interface ShopifyCollection {
   id: number;

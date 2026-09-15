@@ -5,7 +5,7 @@ import { cn } from "@/amerta/utilities/ui";
 import Link from "next/link";
 import { getLinkUrl } from "@/amerta/utilities/getURL";
 import RichText from "@/amerta/theme/components/RichText";
-import { getBlogPosts } from "@/amerta/theme/utilities/blog";
+import { getBlogPosts } from "@/amerta/core/utilities/blog";
 import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
 
 type Props = ThemeShopBlogPostsBlockProps & {

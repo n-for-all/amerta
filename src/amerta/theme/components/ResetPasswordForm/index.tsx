@@ -9,8 +9,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/amerta/theme/ui/button";
 import { Input } from "@/amerta/theme/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/amerta/theme/ui/form";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
-import { getErrorMessage } from "@/amerta/theme/utilities/get-error-message";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { getErrorMessage } from "@/amerta/core/utilities/get-error-message";
 import { Message } from "@/amerta/components/Message";
 import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
 

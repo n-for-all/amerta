@@ -26,13 +26,13 @@
  */
 
 import { PaymentAdapter } from "../types";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
-import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { getOrderById } from "@/amerta/theme/utilities/get-order-by-id";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { getExchangeRate } from "@/amerta/core/utilities/get-exchange-rate";
+import { getCurrencyByCode } from "@/amerta/core/utilities/get-currency-by-code";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
+import { getOrderById } from "@/amerta/core/utilities/get-order-by-id";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
-import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
+import { saveOrderPayment } from "@/amerta/core/utilities/save-order-payment";
 import { Customer, PaymentMethod } from "@/payload-types";
 
 /**

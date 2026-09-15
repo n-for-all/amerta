@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { getLinkUrl } from "@/amerta/utilities/getURL";
-import { LinkType } from "@/amerta/theme/types";
+import { LinkType } from "@/amerta/core/types";
 import { Button } from "@/amerta/theme/ui/button";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 

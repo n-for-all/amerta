@@ -1,10 +1,10 @@
 import { Currency } from "@/payload-types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
-import { AppliedCoupon, CartWithCalculations } from "@/amerta/theme/types";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { AppliedCoupon, CartWithCalculations } from "@/amerta/core/types";
 import { Button } from "@/amerta/theme/ui/button";
 import { Input } from "@/amerta/theme/ui/input";
-import { applyCoupon, removeCoupon } from "@/amerta/theme/utilities/cart.client";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { applyCoupon, removeCoupon } from "@/amerta/core/utilities/cart.client";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { cn } from "@/amerta/utilities/ui";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useState } from "react";

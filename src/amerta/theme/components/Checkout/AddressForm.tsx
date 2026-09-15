@@ -7,7 +7,7 @@ import { Textarea } from "@/amerta/theme/ui/textarea";
 import { PhoneInput } from "@/amerta/theme/ui/phone-input";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutFormGuestValues } from ".";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export interface SupportedCountry {
   id: string;

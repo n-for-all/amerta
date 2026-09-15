@@ -51,6 +51,9 @@
       "@/amerta/theme/*": [
         "./src/amerta/theme/*"
       ],
+      "@/amerta/core/*": [
+        "./src/amerta/core/*"
+      ],
       "@payloadcms/*": [
         "./node_modules/@payloadcms/*"
       ]

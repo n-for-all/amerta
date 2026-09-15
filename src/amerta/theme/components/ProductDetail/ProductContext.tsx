@@ -3,11 +3,23 @@
 
 import { getURL } from "@/amerta/utilities/getURL";
 import { Product } from "@/payload-types";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
 import CollectionsDropdown from "../CollectionsDropdown";
 import AddToCartForm from "../AddToCartForm";
-import { ProductListingPrice, ProductPrice } from "../ProductPrice";
-import { useState } from "react";
+import { ProductListingPrice } from "../ProductPrice";
+import { useState, createContext, useContext } from "react";
+import { AppSlot } from "@/amerta/apps/components/AppSlot";
+
+export interface ProductDetailContextType {
+  product: Product;
+  selectedVariant: NonNullable<Product["variants"]>[number] | null;
+  options?: any;
+  inStock?: boolean;
+}
+
+const ProductDetailContext = createContext<ProductDetailContextType | null>(null);
+
+export const useProductDetail = () => useContext(ProductDetailContext);
 
 export const ProductContext = ({ product, locale, collections, brand, inStock, options }: { product: Product; locale: string; collections: any[]; brand?: any; inStock: boolean; options: any }) => {
   const { __ } = useEcommerce();
@@ -16,12 +28,13 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
     setSelectedVariant(variant);
   };
   return (
-    <div>
+    <ProductDetailContext.Provider value={{ product, selectedVariant, options, inStock }}>
+      <div>
       <nav aria-label="Breadcrumb" className="font-medium text-xs/6">
         <ol role="list" className="flex flex-wrap items-center gap-2">
           <li>
             <div className="flex items-center gap-x-2">
-              <a className="uppercase text-zinc-900" href={getURL("/", locale)}>
+              <a className="uppercase text-zinc-900 dark:text-zinc-200" href={getURL("/", locale)}>
                 {__("Home")}
               </a>
               <svg viewBox="0 0 6 20" aria-hidden="true" className="w-auto h-5 text-zinc-300">
@@ -84,10 +97,12 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
           </a>
         </div>
       </div>
+      <AppSlot target="product.price.after" />
       {!inStock ? <p className="mt-2 text-xs text-red-600 uppercase dark:text-red-400 text-sm/6">{__("Out of Stock")}</p> : null}
 
       <div className="mt-6 mb-4">{product.excerpt}</div>
       <AddToCartForm product={product} options={options} onVariantChange={onVariantChange} />
     </div>
+    </ProductDetailContext.Provider>
   );
 };

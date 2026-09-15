@@ -4,7 +4,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { revalidatePath } from "next/cache";
 import { LocaleCode } from "@/amerta/localization/locales";
-import { batchTranslate, translateString } from "@/amerta/theme/utilities/ai-translate";
+import { batchTranslate, translateString } from "@/amerta/core/utilities/ai-translate";
 
 const MAX_BATCH_SIZE = 30;
 const MAX_CHAR_COUNT = 3000;

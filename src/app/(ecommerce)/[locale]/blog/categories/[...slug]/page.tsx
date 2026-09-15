@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import React from "react";
 import { Pagination } from "@/amerta/theme/components/Pagination";
-import { getAllCategories, getBlogPostsByCategory, getCategoryBySlug } from "@/amerta/theme/utilities/blog";
+import { getAllCategories, getBlogPostsByCategory, getCategoryBySlug } from "@/amerta/core/utilities/blog";
 import PostCard from "@/amerta/theme/components/PostCard";
 import { notFound } from "next/navigation";
 import { CategoriesSwitch } from "@/amerta/theme/components/Blog/CategoriesSwitch";

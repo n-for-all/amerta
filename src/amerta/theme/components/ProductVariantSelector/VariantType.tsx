@@ -5,7 +5,8 @@ import { Tooltip } from "@/amerta/theme/ui/tooltip";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/amerta/theme/ui/select";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { ProductMedia } from "@/payload-types";
-import { useEcommerce } from "../../providers/EcommerceProvider";
+import { useEcommerce } from "../../../core/providers/EcommerceProvider";
+import { resolveColor } from "@/amerta/core/utilities/resolve-color";
 
 // ✅ 1. Define the specific shape of a single choice
 export interface VariantChoice {
@@ -30,16 +31,32 @@ export const VariantColorSelector = ({ choices, onSelect, compact }: SelectorUIP
   if (!choices.length) return null;
   return (
     <div className="flex flex-wrap gap-3">
-      {choices.map((c) => (
-        <Tooltip key={c.value} content={c.label}>
-          <button
-            type="button"
-            onClick={() => onSelect(c.value)}
-            className={cn("h-8 w-8 rounded-full transition-all relative ring-offset-2 focus:outline-none", c.isSelected ? "ring-2 ring-zinc-600 scale-105" : "ring-1 ring-zinc-200 hover:scale-105", !c.isAvailable && "opacity-20 ring-zinc-100", compact && "h-5 w-5")}
-            style={{ backgroundColor: typeof c.meta === "string" ? c.meta : "#000" }}
-          />
-        </Tooltip>
-      ))}
+      {choices.map((c) => {
+        const rawColor = typeof c.meta === "string" ? c.meta : c.label || c.value;
+        const resolved = resolveColor(rawColor);
+        const isGradient = resolved.startsWith("linear-gradient");
+
+        return (
+          <Tooltip key={c.value} content={c.label}>
+            <button
+              type="button"
+              onClick={() => onSelect(c.value)}
+              className={cn(
+                "h-8 w-8 rounded-full transition-all relative ring-offset-2 focus:outline-none border border-black/10 dark:border-white/10",
+                c.isSelected
+                  ? "ring-2 ring-zinc-600 dark:ring-zinc-400 scale-105"
+                  : "ring-1 ring-zinc-200 dark:ring-zinc-800 hover:scale-105",
+                !c.isAvailable && "opacity-20 ring-zinc-100 dark:ring-zinc-400",
+                compact && "h-5 w-5"
+              )}
+              style={{
+                background: isGradient ? resolved : undefined,
+                backgroundColor: !isGradient ? resolved : undefined,
+              }}
+            />
+          </Tooltip>
+        );
+      })}
     </div>
   );
 };

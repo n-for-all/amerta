@@ -1,6 +1,6 @@
 "use server";
 
-import { translateRichTextJSON, translateString } from "@/amerta/theme/utilities/ai-translate";
+import { translateRichTextJSON, translateString } from "@/amerta/core/utilities/ai-translate";
 import { headers } from "next/headers";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";

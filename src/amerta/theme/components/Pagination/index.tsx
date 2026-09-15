@@ -1,4 +1,4 @@
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { printf } from "fast-printf";
 
 export const Pagination = async ({ currentPage, totalPages, searchParams = {}, baseUrl, locale }) => {

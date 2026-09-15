@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Collection } from '@/payload-types';
 import { getURL } from '@/amerta/utilities/getURL';
-import { useEcommerce } from '@/amerta/theme/providers/EcommerceProvider';
+import { useEcommerce } from '@/amerta/core/providers/EcommerceProvider';
 
 interface CollectionsDropdownProps {
   collections: Collection[];
@@ -33,7 +33,7 @@ export default function CollectionsDropdown({ collections }: CollectionsDropdown
     return (
       <li>
         <div className="flex items-center gap-x-2">
-          <a className="uppercase text-zinc-900" href={getURL("/collections", locale)}>
+          <a className="uppercase text-zinc-900 dark:text-zinc-200" href={getURL("/collections", locale)}>
             {__("Collections")}
           </a>
           <svg viewBox="0 0 6 20" aria-hidden="true" className="w-auto h-5 text-zinc-300">
@@ -49,7 +49,7 @@ export default function CollectionsDropdown({ collections }: CollectionsDropdown
     return (
       <li>
         <div className="flex items-center gap-x-2">
-          <a className="uppercase text-zinc-900" href={getURL(`/collections/${collection.slug || collection.id}`, locale)}>
+          <a className="uppercase text-zinc-900 dark:text-zinc-200" href={getURL(`/collections/${collection.slug || collection.id}`, locale)}>
             {collection.title}
           </a>
           <svg viewBox="0 0 6 20" aria-hidden="true" className={`w-auto h-5 text-zinc-300 transition-transform ${isOpen ? 'rotate-90' : ''}`}>

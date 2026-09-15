@@ -5,7 +5,7 @@ import { ThemeShopCollectionArchiveBlock } from "@/payload-types";
 import { CollectionArchiveCarousel } from "./Carousel";
 import { cn } from "@/amerta/utilities/ui";
 import Link from "next/link";
-import { getAllProductOptions } from "@/amerta/theme/utilities/get-product-options";
+import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { getLinkUrl } from "@/amerta/utilities/getURL";
 import RichText from "@/amerta/theme/components/RichText";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";

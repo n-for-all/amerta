@@ -4,10 +4,10 @@
  * @description This handler updates the quantity of an item in the cart. It validates the request, checks item existence, and updates the cart accordingly.
  */
 
-import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
-import { getCart } from "@/amerta/theme/utilities/get-cart";
-import { isInStock } from "@/amerta/theme/utilities/is-in-stock";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createCartIfNotExists } from "@/amerta/core/utilities/create-cart-if-not-exists";
+import { getCart } from "@/amerta/core/utilities/get-cart";
+import { isInStock } from "@/amerta/core/utilities/is-in-stock";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { printf } from "fast-printf";
 import { PayloadRequest } from "payload";
 import z from "zod";

@@ -1,17 +1,15 @@
 "use client";
 
-import { createContext, useState, useEffect, useCallback, useRef } from "react";
+import { createContext, useState, useEffect, useCallback, useRef, useContext } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CartWithCalculations, PaymentMethod } from "@/amerta/theme/types";
+import { CartWithCalculations, PaymentMethod } from "@/amerta/core/types";
 import { Customer, EcommerceSettings } from "@/payload-types";
 import { useGuestAddressStorage, SavedAddress } from "../GuestAddressSection";
 import { PaymentHandle } from "../../Payment/gateways/types";
 import { CheckoutFormValues } from "..";
-import { useRouter } from "next/navigation";
-import { getURL } from "@/amerta/utilities/getURL";
-import { OrderSubmissionPayload } from "@/amerta/theme/types/order-submission";
+import { OrderSubmissionPayload } from "@/amerta/core/types/order-submission";
 
 export const requiredString = (message: string) => z.string({ error: message }).min(1, message);
 
@@ -56,6 +54,8 @@ export const CheckoutContext = createContext<{
   locale: string;
   paymentMethodRef: React.MutableRefObject<PaymentHandle | null>;
 }>({} as any);
+
+export const useCheckoutContext = () => useContext(CheckoutContext);
 
 interface UseCheckoutProps {
   cart: CartWithCalculations | null;

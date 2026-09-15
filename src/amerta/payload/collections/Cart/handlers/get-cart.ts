@@ -4,7 +4,7 @@
  * @description This handler retrieves the cart. It fetches the cart based on the cart ID cookie and returns the cart data.
  */
 
-import { getCart } from "@/amerta/theme/utilities/get-cart";
+import { getCart } from "@/amerta/core/utilities/get-cart";
 import { cookies } from "next/headers";
 import { PayloadRequest } from "payload";
 

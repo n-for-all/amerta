@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Preferences } from "./preferences";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export function CookieButton({ className, privacyUrl }: { className?: string; privacyUrl: string }) {
   const [showPreferences, setShowPreferences] = useState(false);

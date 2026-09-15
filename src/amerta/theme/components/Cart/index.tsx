@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { X, AlertCircle, Loader2 } from "lucide-react";
 import { Dialog, DialogPanel, TransitionChild } from "@headlessui/react";
-import { removeFromCart, updateQuantity, fetchCart } from "@/amerta/theme/utilities/cart.client";
-import { CartWithCalculations } from "@/amerta/theme/types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { removeFromCart, updateQuantity, fetchCart } from "@/amerta/core/utilities/cart.client";
+import { CartWithCalculations } from "@/amerta/core/types";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { CouponForm } from "../CouponForm";
 import { getURL } from "@/amerta/utilities/getURL";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { Product, ProductMedia } from "@/payload-types";
-import { isInStock } from "../../utilities/is-in-stock";
+import { isInStock } from "@/amerta/core/utilities/is-in-stock";
 
 interface CartProps {
   onClose?: () => void;

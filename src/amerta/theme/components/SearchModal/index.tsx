@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search, X, Loader2, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
 import { getURL } from "@/amerta/utilities/getURL";
 interface SearchResult {

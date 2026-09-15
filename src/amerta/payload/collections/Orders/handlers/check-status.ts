@@ -7,7 +7,7 @@
 import { NextResponse } from "next/server";
 import { getPayload, PayloadRequest } from "payload";
 import config from "@payload-config";
-import { decryptSignature } from "@/amerta/theme/utilities/decrypt-signature";
+import { decryptSignature } from "@/amerta/core/utilities/decrypt-signature";
 
 export const checkPaymentStatus = async (req: PayloadRequest) => {
   try {

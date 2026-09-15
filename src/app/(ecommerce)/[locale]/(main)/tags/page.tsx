@@ -4,12 +4,12 @@ import { ArrowLeft, ArrowUpRight, LibraryBig } from "lucide-react";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
 import { getURL } from "@/amerta/utilities/getURL";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { Pagination } from "@/amerta/theme/components/Pagination";
 import { Button } from "@/amerta/theme/ui/button";
 import { SearchParams } from "next/dist/server/request/search-params";
-import { getProductsTags } from "@/amerta/theme/utilities/get-products-tags";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { getProductsTags } from "@/amerta/core/utilities/get-products-tags";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { ProductTag } from "@/payload-types";
 
 export const revalidate = 60;

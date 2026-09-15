@@ -10,8 +10,8 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { LivePreviewListener } from "@/amerta/components/LivePreviewListener";
 import { LOCALES } from "@/amerta/localization/locales";
-import { getPageBySlug } from "@/amerta/theme/utilities/get-page-by-slug";
-import { getHomePage } from "@/amerta/theme/utilities/get-homepage";
+import { getPageBySlug } from "@/amerta/core/utilities/get-page-by-slug";
+import { getHomePage } from "@/amerta/core/utilities/get-homepage";
 
 export default async function Page({ params: pageParams }: { params: Promise<{ slug: string; locale?: string }> }) {
   const { isEnabled: draft } = await draftMode();

@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import React from "react";
 import { Pagination } from "@/amerta/theme/components/Pagination";
-import { getBlogPosts } from "@/amerta/theme/utilities/blog";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
-import { getTimeToRead } from "@/amerta/theme/utilities/get-time-to-read";
+import { getBlogPosts } from "@/amerta/core/utilities/blog";
+import { createTranslator } from "@/amerta/core/utilities/translation";
+import { getTimeToRead } from "@/amerta/core/utilities/get-time-to-read";
 import { printf } from "fast-printf";
 import PostCard from "@/amerta/theme/components/PostCard";
 import { getURL } from "@/amerta/utilities/getURL";

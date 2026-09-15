@@ -7,7 +7,7 @@ import { PaymentMethods } from "./PaymentMethods";
 
 import { Switch } from "@/amerta/theme/ui/switch";
 import { DeliverySection } from "./DeliverySection";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export function CustomerCheckoutForm() {
   const { form, customer, checkoutState, data, paymentMethodRef } = useContext(CheckoutContext);

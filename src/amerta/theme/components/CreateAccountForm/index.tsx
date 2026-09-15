@@ -10,13 +10,13 @@ import { Button } from "@/amerta/theme/ui/button";
 import { Input } from "@/amerta/theme/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/amerta/theme/ui/form"; // Make sure you have this component created (shadcn/ui)
 
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { useAuth } from "@/amerta/providers/Auth";
-import { getErrorMessage } from "@/amerta/theme/utilities/get-error-message";
+import { getErrorMessage } from "@/amerta/core/utilities/get-error-message";
 import { RenderParams } from "@/amerta/components/RenderParams";
 import { Message } from "@/amerta/components/Message";
 import { getServerSideURL, getURL } from "@/amerta/utilities/getURL";
-import { loginWith } from "@/amerta/theme/utilities/login-with";
+import { loginWith } from "@/amerta/core/utilities/login-with";
 import { printf } from "fast-printf";
 
 const formSchema = z

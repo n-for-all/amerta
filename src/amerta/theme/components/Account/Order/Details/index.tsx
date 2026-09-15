@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import type { Order, Payment, Currency, Country } from "@/payload-types";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
 
 export const OrderDetails: React.FC<{ order: Order; locale: string; payment?: Payment; currency: Currency }> = ({ order, payment }) => {

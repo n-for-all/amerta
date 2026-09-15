@@ -2605,6 +2605,34 @@ export interface Customer {
   };
   groups?: (string | CustomerGroup)[] | null;
   tags?: (string | CustomerTag)[] | null;
+  /**
+   * Plugin metadata and custom attributes
+   */
+  metafields?:
+    | {
+        /**
+         * Namespace (e.g. LoyaltyCircle)
+         */
+        namespace: string;
+        /**
+         * Metafield key (e.g. account)
+         */
+        key: string;
+        /**
+         * JSON value
+         */
+        value:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
   createdAt: string;
   hasAccount?: ('1' | '0') | null;
   updatedAt: string;
@@ -4692,6 +4720,14 @@ export interface CustomersSelect<T extends boolean = true> {
       };
   groups?: T;
   tags?: T;
+  metafields?:
+    | T
+    | {
+        namespace?: T;
+        key?: T;
+        value?: T;
+        id?: T;
+      };
   createdAt?: T;
   hasAccount?: T;
   updatedAt?: T;
@@ -6246,7 +6282,7 @@ export interface App {
   /**
    * Select which apps should be active.
    */
-  activeApps?: 'google-merchant'[] | null;
+  activeApps?: ('google-merchant' | 'cj-dropshipping' | 'loyalty')[] | null;
   /**
    * Internal JSON store for all app configurations. (Key = App Slug, Value = App Settings)
    */

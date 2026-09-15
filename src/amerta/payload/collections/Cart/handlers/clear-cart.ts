@@ -4,7 +4,7 @@
  * @description This handler clears the cart. It deletes the cart and removes the cart ID cookie.
  */
 
-import { getCart } from "@/amerta/theme/utilities/get-cart";
+import { getCart } from "@/amerta/core/utilities/get-cart";
 import { PayloadRequest } from "payload";
 import { cookies } from "next/headers";
 

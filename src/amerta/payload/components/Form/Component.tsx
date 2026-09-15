@@ -11,7 +11,7 @@ import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical
 import { fields } from "./fields";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import RichText from "@/amerta/theme/components/RichText";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { FormFieldBlock } from "@payloadcms/plugin-form-builder/dist/types";
 
 export type FormBlockType = {

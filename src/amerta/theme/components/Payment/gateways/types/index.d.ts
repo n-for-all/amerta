@@ -1,5 +1,5 @@
 import { Order } from "@/payload-types";
-import { PaymentMethod } from "@/amerta/theme/types";
+import { PaymentMethod } from "@/amerta/core/types";
 
 export interface PaymentHandle {
   validate: () => Promise<boolean>;

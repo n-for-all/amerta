@@ -3,7 +3,7 @@ import { Input } from "./input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./select";
 import { Search } from "lucide-react";
 import { COUNTRIES } from "@/amerta/constants";
-import { useEcommerce } from "../providers/EcommerceProvider";
+import { useEcommerce } from "../../core/providers/EcommerceProvider";
 
 interface PhoneInputProps {
   value?: {

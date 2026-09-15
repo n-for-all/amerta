@@ -2,9 +2,9 @@
 import React from "react";
 import type { Currency, Order, Payment, Product, ProductMedia } from "@/payload-types";
 import Link from "next/link";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export const OrderItems: React.FC<{ currency?: Currency; order: Order; locale: string; payment?: Payment }> = ({ currency, order, payment }) => {
   const { __ } = useEcommerce();

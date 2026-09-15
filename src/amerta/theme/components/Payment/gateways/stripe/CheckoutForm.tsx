@@ -3,7 +3,7 @@
 import { useImperativeHandle } from "react";
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { PaymentHandle } from "../types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Country } from "@/payload-types";
 import { confirmPayment } from "../../utils/confirm-payment";
 

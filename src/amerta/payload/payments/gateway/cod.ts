@@ -16,7 +16,7 @@
  *
  */
 
-import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
+import { saveOrderPayment } from "@/amerta/core/utilities/save-order-payment";
 import { PaymentAdapter } from "../types";
 import { PaymentMethod } from "@/payload-types";
 

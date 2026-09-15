@@ -1,13 +1,15 @@
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { ImageOrPlaceholder } from "../Thumbnail";
 import { CouponForm } from "../CouponForm";
 import { CircleAlert, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/amerta/theme/ui/button";
 import { getURL } from "@/amerta/utilities/getURL";
-import { CartWithCalculations } from "@/amerta/theme/types";
+import { CartWithCalculations } from "@/amerta/core/types";
 import { Currency } from "@/payload-types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+
+import { AppSlot } from "@/amerta/apps/components/AppSlot";
 
 export const OrderSummary = ({
   cart,
@@ -86,6 +88,7 @@ export const OrderSummary = ({
           })}
         </ul>
         <CouponForm showLabel={false} cart={cart} onCartUpdate={onCartUpdate} currency={currency} className={"px-6 border-t border-zinc-200 py-4 bg-zinc-50 mb-0 dark:bg-zinc-900 dark:border-zinc-800"} />
+        <AppSlot target="checkout.order_summary.before_totals" className="px-4 py-3 border-t border-zinc-200 sm:px-6 dark:border-zinc-800" />
         <dl className="px-4 py-6 space-y-2 border-t border-zinc-200 sm:px-6 dark:border-zinc-800">
           <div className="flex items-center justify-between">
             <dt className="text-sm uppercase">{__("Subtotal")}</dt>

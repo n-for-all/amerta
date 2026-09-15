@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { CheckoutContext } from "./hooks/useCheckout";
 import { FormField, FormItem, FormControl, FormMessage } from "@/amerta/theme/ui/form";
 import { Check, Loader2 } from "lucide-react";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export function DeliverySection() {
   const context = useContext(CheckoutContext);

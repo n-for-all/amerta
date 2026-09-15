@@ -1,10 +1,11 @@
-import { getCustomerOrders } from "@/amerta/theme/utilities/get-customer-orders";
+import { getCustomerOrders } from "@/amerta/core/utilities/get-customer-orders";
 import { getMeCustomer } from "@/amerta/utilities/getMeCustomer";
 import OrdersTable from "../OrdersTable";
 import { Button } from "@/amerta/theme/ui/button";
 import Link from "next/link";
 import { getURL } from "@/amerta/utilities/getURL";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
+import { AppSlot } from "@/amerta/apps/components/AppSlot";
 
 const AccountDashboard = async ({ locale }) => {
   //count user order
@@ -37,6 +38,7 @@ const AccountDashboard = async ({ locale }) => {
             <p className="text-sm font-semibold truncate">{user?.email}</p>
           </div>
         </div>
+        <AppSlot target="account.dashboard.cards" className="mt-4" />
       </div>
       <div className="flex items-center justify-between mb-2 ">
         <h3 className="text-sm font-medium">{__("Recent Orders")}</h3>

@@ -4,8 +4,8 @@
  * @description This handler applies a coupon to the cart. It validates the request, checks coupon validity, and updates the cart accordingly.
  */
 
-import { createCartIfNotExists } from "@/amerta/theme/utilities/create-cart-if-not-exists";
-import { getCart } from "@/amerta/theme/utilities/get-cart";
+import { createCartIfNotExists } from "@/amerta/core/utilities/create-cart-if-not-exists";
+import { getCart } from "@/amerta/core/utilities/get-cart";
 import { PayloadRequest } from "payload";
 
 export const applyCoupon = async (req: PayloadRequest) => {

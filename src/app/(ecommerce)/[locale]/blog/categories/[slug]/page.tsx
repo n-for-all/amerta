@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 import React from "react";
 import { Pagination } from "@/amerta/theme/components/Pagination";
-import { getAllCategories, getBlogPostsByCategory, getCategoryBySlug } from "@/amerta/theme/utilities/blog";
+import { getAllCategories, getBlogPostsByCategory, getCategoryBySlug } from "@/amerta/core/utilities/blog";
 import PostCard from "@/amerta/theme/components/PostCard";
 import { notFound } from "next/navigation";
 import { CategoriesSwitch } from "@/amerta/theme/components/Blog/CategoriesSwitch";
 import RichText from "@/amerta/theme/components/RichText";
 import { getURL } from "@/amerta/utilities/getURL";
 import { SearchParams } from "next/dist/server/request/search-params";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export async function generateMetadata({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<SearchParams> }): Promise<Metadata> {
   const { locale } = await params;

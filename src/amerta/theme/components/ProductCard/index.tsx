@@ -1,4 +1,4 @@
-import { hasStock } from "@/amerta/theme/utilities/has-stock";
+import { hasStock } from "@/amerta/core/utilities/has-stock";
 import { ImageOrPlaceholder } from "../Thumbnail";
 import { Product, ProductBrand, ProductOption } from "@/payload-types";
 import { WishlistButton } from "@/amerta/theme/components/WishlistButton";
@@ -6,7 +6,7 @@ import { cn } from "@/amerta/utilities/ui";
 import { getURL } from "@/amerta/utilities/getURL";
 import { CartForm } from "./CartForm";
 import { StockStatus } from "./StockStatus";
-import { createTranslator } from "../../utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export const ProductCard = async ({ product, cartIcon, options, locale, className, vertical }: { product: Product; cartIcon?: React.ReactNode; options: ProductOption[]; locale?: string; className?: string; vertical?: boolean }) => {
   const productImage = product.images && product.images.length > 0 ? product.images[0] : null;

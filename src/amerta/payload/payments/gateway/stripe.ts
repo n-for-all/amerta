@@ -35,11 +35,11 @@
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { PaymentAdapter } from "../types";
 import Stripe from "stripe";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
-import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
-import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { saveOrderPayment } from "@/amerta/theme/utilities/save-order-payment";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
+import { getExchangeRate } from "@/amerta/core/utilities/get-exchange-rate";
+import { getCurrencyByCode } from "@/amerta/core/utilities/get-currency-by-code";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
+import { saveOrderPayment } from "@/amerta/core/utilities/save-order-payment";
 const ZERO_DECIMAL_CURRENCIES = ["jpy", "krw", "ugx", "vnd", "clp", "pyg", "xaf", "xof", "bif", "djf", "gnf", "kmf", "mga", "rwf", "vuv", "xpf"];
 
 /**

@@ -6,10 +6,10 @@
 
 import { Currency, PaymentMethod } from "@/payload-types";
 import { getPaymentAdapter } from "@/amerta/payments";
-import { getCurrencyByCode } from "@/amerta/theme/utilities/get-currency-by-code";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { getExchangeRate } from "@/amerta/theme/utilities/get-exchange-rate";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
+import { getCurrencyByCode } from "@/amerta/core/utilities/get-currency-by-code";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
+import { getExchangeRate } from "@/amerta/core/utilities/get-exchange-rate";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { sendUncachedResponse } from "@/amerta/utilities/sendUncachedResponse";
 
 export const executePaymentMethodAction = async (req) => {

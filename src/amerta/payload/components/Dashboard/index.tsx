@@ -1,6 +1,6 @@
 import React from "react";
 import DashboardStats from "./Ecommerce/Dashboard";
-import { getAllSalesChannels } from "@/amerta/theme/utilities/get-all-sales-channels";
+import { getAllSalesChannels } from "@/amerta/core/utilities/get-all-sales-channels";
 
 const baseClass = "before-dashboard";
 

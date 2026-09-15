@@ -8,7 +8,7 @@ import { defaultEditorConfig } from "@payloadcms/richtext-lexical";
 import configPromise from "@payload-config";
 
 import { getEnabledNodes, sanitizeServerEditorConfig } from "@payloadcms/richtext-lexical";
-import { getSalesChannel } from "@/amerta/theme/utilities/get-sales-channel";
+import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import fs from "fs";
 import path from "path";
 import os from "os";

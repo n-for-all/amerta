@@ -4,7 +4,7 @@ import { AddressManager } from "@/amerta/theme/components/AddressManager";
 import { RenderParams } from "@/amerta/components/RenderParams";
 import { Separator } from "@/amerta/theme/ui/separator";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export default async function Account({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;

@@ -1,15 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CartWithCalculations } from "@/amerta/theme/types";
+import { CartWithCalculations } from "@/amerta/core/types";
 import { ImageOrPlaceholder } from "../Thumbnail";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { TrashIcon } from "lucide-react";
 import { CouponForm } from "../CouponForm";
 import { Button } from "@/amerta/theme/ui/button";
 import { getURL } from "@/amerta/utilities/getURL";
-import { fetchCart, removeFromCart, updateQuantity } from "../../utilities/cart.client";
+import { fetchCart, removeFromCart, updateQuantity } from "@/amerta/core/utilities/cart.client";
 
 export default function CartPage() {
   const [cart, setCart] = useState<CartWithCalculations | null>(null);

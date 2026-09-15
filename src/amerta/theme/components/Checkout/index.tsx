@@ -2,8 +2,8 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import * as z from "zod";
-import { CartWithCalculations, PaymentMethod } from "@/amerta/theme/types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { CartWithCalculations, PaymentMethod } from "@/amerta/core/types";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Input } from "@/amerta/theme/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/amerta/theme/ui/form";
 import { Customer, EcommerceSettings } from "@/payload-types";

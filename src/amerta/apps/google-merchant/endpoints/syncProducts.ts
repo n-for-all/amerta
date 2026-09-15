@@ -1,23 +1,21 @@
 import { Endpoint } from "payload";
+import { withGuard } from "@/amerta/utilities/withGuard";
 import { ProductInputsServiceClient } from "@google-shopping/products";
 import { getLinkUrl, getServerSideURL } from "@/amerta/utilities/getURL";
-import { getProductsBy } from "@/amerta/theme/utilities/get-product-by";
-import { getAllSalesChannels } from "@/amerta/theme/utilities/get-all-sales-channels";
-import { getDefaultCurrency } from "@/amerta/theme/utilities/get-default-currency";
-import { getLocales } from "@/amerta/theme/utilities/get-locales";
-import { getAppSettings } from "@/amerta/theme/utilities/get-app-settings";
-import { getCountryById } from "@/amerta/theme/utilities/get-countries";
+import { getProductsBy } from "@/amerta/core/utilities/get-product-by";
+import { getAllSalesChannels } from "@/amerta/core/utilities/get-all-sales-channels";
+import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
+import { getLocales } from "@/amerta/core/utilities/get-locales";
+import { getAppSettings } from "@/amerta/core/utilities/get-app-settings";
+import { getCountryById } from "@/amerta/core/utilities/get-countries";
 import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 import striptags from "striptags";
 
 export const syncProductsEndpoint: Endpoint = {
     path: "/google-merchant/sync",
     method: "post",
-    handler: async (req) => {
+    handler: withGuard(async (req) => {
         try {
-            if (!req.user) {
-                return Response.json({ error: "Unauthorized" }, { status: 401 });
-            }
 
             const config = await getAppSettings("google-merchant");
 
@@ -294,5 +292,5 @@ export const syncProductsEndpoint: Endpoint = {
             console.error("Error syncing Google Merchant products:", error);
             return Response.json({ error: error.message || "Failed to sync products" }, { status: 500 });
         }
-    },
+    }),
 };

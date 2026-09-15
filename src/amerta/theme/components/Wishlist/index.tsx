@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Heart, AlertCircle, Loader2 } from "lucide-react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Product, Wishlist as WishlistType } from "@/payload-types";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
-import { formatPrice } from "@/amerta/theme/utilities/format-price";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { cn } from "@/amerta/utilities/ui";
 import { useAuth } from "@/amerta/providers/Auth";
-import { getCustomerWishlist, removeWishlistItem, syncLocalWishlist } from "@/amerta/theme/utilities/wishlist";
+import { getCustomerWishlist, removeWishlistItem, syncLocalWishlist } from "@/amerta/core/utilities/wishlist";
 import { getURL } from "@/amerta/utilities/getURL";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 

@@ -1,5 +1,5 @@
 import CartPage from "@/amerta/theme/components/CartPage";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 

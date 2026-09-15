@@ -1,15 +1,13 @@
 import { Endpoint } from "payload";
+import { withGuard } from "@/amerta/utilities/withGuard";
 import { ProductInputsServiceClient, ProductsServiceClient } from "@google-shopping/products";
-import { getAppSettings } from "@/amerta/theme/utilities/get-app-settings";
+import { getAppSettings } from "@/amerta/core/utilities/get-app-settings";
 
 export const clearProductsEndpoint: Endpoint = {
     path: "/google-merchant/clear",
     method: "post",
-    handler: async (req) => {
+    handler: withGuard(async (req) => {
         try {
-            if (!req.user) {
-                return Response.json({ error: "Unauthorized" }, { status: 401 });
-            }
 
             const config = await getAppSettings("google-merchant");
 
@@ -71,5 +69,5 @@ export const clearProductsEndpoint: Endpoint = {
             console.error("Error clearing Google Merchant products:", error);
             return Response.json({ error: error.message || "Failed to clear products" }, { status: 500 });
         }
-    },
+    }),
 };

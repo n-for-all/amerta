@@ -5,7 +5,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { useEcommerce } from "@/amerta/theme/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
 import { usePathname, useSearchParams } from "next/navigation";
 

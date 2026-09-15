@@ -5,7 +5,7 @@ import { RenderParams } from "@/amerta/components/RenderParams";
 import { getURL } from "@/amerta/utilities/getURL";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { SearchParams } from "next/dist/server/request/search-params";
-import { createTranslator } from "@/amerta/theme/utilities/translation";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export default async function Orders({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<SearchParams> }) {
   const { locale } = await params;

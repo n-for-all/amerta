@@ -1,5 +1,5 @@
 import { PayloadRequest } from "payload";
-import postsData from "@/amerta/theme/data/posts.json";
+import postsData from "@/amerta/core/data/posts.json";
 
 // --- Main Import Logic ---
 export const importBlogs = async (
