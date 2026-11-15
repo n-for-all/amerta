@@ -95,13 +95,12 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
     <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 lg:max-w-3xl">
       <div>
         <div
-          className={`flex w-fit items-center justify-center rounded-full border px-6 py-2.5 text-sm font-medium transition-colors duration-500
-          ${isConfirmed ? "border-green-600 bg-green-50 text-green-700" : "border-zinc-900 text-zinc-900"}`}
+          className={`flex w-fit items-center justify-center rounded-full border px-6 py-2.5 text-sm font-medium transition-colors duration-500 ${isConfirmed ?"border-green-600 bg-green-50 text-green-700 dark:border-green-500 dark:bg-green-950 dark:text-green-400" : "border-zinc-900 text-zinc-900 dark:border-zinc-100 dark:text-zinc-100"}`}
         >
           <span className="flex items-center gap-2 text-xs uppercase">{isConfirmed ? <>{__("✓ Thanks for ordering")}</> : <>{__("Order Placed")}</>}</span>
         </div>
 
-        <h2 className="mt-4 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none text-zinc-900">
+        <h2 className="mt-4 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none text-zinc-900 dark:text-zinc-100">
           {isConfirmed ? (
             <>
               {__("Payment")} <span className="font-serif italic font-normal text-zinc-500">{__("successful!")}</span>
@@ -115,7 +114,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
         <p className="mt-2.5 text-sm text-zinc-500 uppercase leading-6">
           {isConfirmed ? (
-            <span dangerouslySetInnerHTML={{ __html: printf(__("We sent an email to %s with your order confirmation."), `<span className="font-bold text-zinc-900">${customerEmail}</span>`) }}></span>
+            <span dangerouslySetInnerHTML={{ __html: printf(__("We sent an email to %s with your order confirmation."), `<span class="font-bold text-zinc-900 dark:text-zinc-100">${customerEmail}</span>`) }}></span>
           ) : (
             <>
               {__("We are")} <span className="font-bold text-amber-600">{__("verifying your payment")}</span>. {__("This page will update automatically.")}
@@ -125,10 +124,10 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
 
         <dl className="mt-16 text-sm">
           <dt className="uppercase text-zinc-500">{__("Order ID")}</dt>
-          <dd className="mt-2 font-medium text-zinc-950">#{initialOrder.orderId}</dd>
+          <dd className="mt-2 font-medium text-zinc-950 dark:text-white">#{initialOrder.orderId}</dd>
         </dl>
 
-        <ul role="list" className="mt-6 text-sm font-medium border-t divide-y divide-zinc-200 border-zinc-200 text-zinc-500">
+        <ul role="list" className="mt-6 text-sm font-medium border-t divide-y divide-zinc-200 dark:divide-zinc-800 border-zinc-200 dark:border-zinc-800 text-zinc-500">
           {(initialOrder.items || []).map((item, index) => {
             const product = typeof item.product === "object" ? item.product : null;
             const image = (item?.image as ProductMedia)?.url || (product?.images?.[0] as ProductMedia)?.url;
@@ -147,24 +146,24 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
                     {__("Qty")} {item.quantity}
                   </p>
                 </div>
-                <p className="flex-none font-medium text-zinc-900">{formatPrice(item.price, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</p>
+                <p className="flex-none font-medium text-zinc-900 dark:text-zinc-100">{formatPrice(item.price, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</p>
               </li>
             );
           })}
         </ul>
 
         {/* --- UPDATED TOTALS SECTION --- */}
-        <dl className="pt-6 space-y-2 text-sm font-medium border-t border-zinc-200 text-zinc-500">
+        <dl className="pt-6 space-y-2 text-sm font-medium border-t border-zinc-200 dark:border-zinc-800 text-zinc-500">
           {/* Subtotal */}
           <div className="flex justify-between">
             <dt className="uppercase">{__("Subtotal")}</dt>
-            <dd className="text-zinc-900">{formatPrice(initialOrder.subtotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
+            <dd className="text-zinc-900 dark:text-zinc-100">{formatPrice(initialOrder.subtotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
           </div>
 
           {/* Shipping */}
           <div className="flex justify-between">
             <dt className="uppercase">{__("Shipping")}</dt>
-            <dd className="text-zinc-900">{initialOrder.isFreeShipping ? __("FREE") : formatPrice(initialOrder.shippingTotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
+            <dd className="text-zinc-900 dark:text-zinc-100">{initialOrder.isFreeShipping ? __("FREE") : formatPrice(initialOrder.shippingTotal || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
           </div>
 
           {/* Discount (Only show if exists) */}
@@ -181,18 +180,18 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           {initialOrder.tax && initialOrder.tax > 0 ? (
             <div className="flex justify-between">
               <dt className="uppercase">{__("Tax")}</dt>
-              <dd className="text-zinc-900">{formatPrice(initialOrder.tax, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
+              <dd className="text-zinc-900 dark:text-zinc-100">{formatPrice(initialOrder.tax, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
             </div>
           ) : null}
 
           {/* Total */}
-          <div className="flex items-center justify-between pt-6 border-t border-zinc-200 text-zinc-900">
+          <div className="flex items-center justify-between pt-6 border-t border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
             <dt className="text-base uppercase">{__("Total")}</dt>
             <dd className="text-base">{formatPrice(initialOrder.total || 0, initialOrder.customerCurrency as Currency, initialOrder.exchangeRate!)}</dd>
           </div>
         </dl>
 
-        <dl className="grid grid-cols-2 mt-16 text-sm gap-x-4 text-zinc-600">
+        <dl className="grid grid-cols-2 mt-16 text-sm gap-x-4 text-zinc-600 dark:text-zinc-400">
           <div>
             <dt className="font-medium uppercase text-zinc-900 dark:text-zinc-200">{__("Shipping Address")}</dt>
             <dd className="mt-2">
@@ -212,7 +211,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
             <dd className="mt-2 space-y-2 sm:flex sm:space-y-0 sm:space-x-4">
               {isCOD ? (
                 <div className="flex items-center gap-2">
-                  <div className="h-6 w-10 bg-zinc-200 rounded flex items-center justify-center text-[10px] font-bold">{__("CASH")}</div>
+                  <div className="h-6 w-10 bg-zinc-200 dark:bg-zinc-800 rounded flex items-center justify-center text-[10px] font-bold">{__("CASH")}</div>
                   <p className="uppercase text-zinc-900 dark:text-zinc-200">{__("Pay on Delivery")}</p>
                 </div>
               ) : (
@@ -228,7 +227,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
                     <p className="sr-only">Visa</p>
                   </div>
                   <div className="flex-auto uppercase">
-                    <p className="text-zinc-900">{paymentMethodName}</p>
+                    <p className="text-zinc-900 dark:text-zinc-100">{paymentMethodName}</p>
 
                     {hasPaymentRecord ? (
                       <p className="mt-1 text-xs transition-all duration-500 text-zinc-500">
@@ -251,8 +250,8 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
           </div>
         </dl>
 
-        <div className="py-6 mt-16 text-right border-t border-zinc-200">
-          <Link href={getURL("/", locale)} className="text-sm font-medium uppercase text-zinc-950 hover:text-zinc-700">
+        <div className="py-6 mt-16 text-right border-t border-zinc-200 dark:border-zinc-800">
+          <Link href={getURL("/", locale)} className="text-sm font-medium uppercase text-zinc-950 dark:text-white hover:text-zinc-700 dark:hover:text-zinc-300">
             {__("Continue Shopping →")}
           </Link>
         </div>
