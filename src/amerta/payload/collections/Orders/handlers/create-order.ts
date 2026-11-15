@@ -213,14 +213,9 @@ export const createOrder = async (req: PayloadRequest) => {
       return NextResponse.json({ error: "The selected payment method is not available, Please select a different payment method." }, { status: 500 });
     }
 
-    // Test customers: only gateways that can run without charging real money
-    if (isTestOrder) {
-      if (paymentMethod.type === "mamo-pay" && !paymentMethod.mamoPaySettings?.testApiKey) {
-        return NextResponse.json({ error: "Test order: add a Mamo Sandbox Test Key to the payment method first." }, { status: 400 });
-      }
-      if (!["mamo-pay", "cod"].includes(paymentMethod.type)) {
-        return NextResponse.json({ error: "Test orders can only use Mamo Pay (sandbox) or Cash on Delivery." }, { status: 400 });
-      }
+    // Test customers: only gateways whose test/sandbox mode is configured (no real money)
+    if (isTestOrder && !paymentAdapter.isTestModeConfigured?.(paymentMethod)) {
+      return NextResponse.json({ error: `Test order: "${paymentMethod.name}" has no test/sandbox credentials configured. Add them to the payment method or choose another one.` }, { status: 400 });
     }
 
     let productIds = cart.items.map((item) => (typeof item.product === "string" ? item.product : item.product.id));

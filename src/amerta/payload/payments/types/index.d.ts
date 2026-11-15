@@ -9,6 +9,9 @@
 
 import { Order, PaymentMethod } from "@/payload-types";
 
+/** Server-decided context passed to gateway actions. */
+export type PaymentContext = { isTest: boolean };
+
 /**
  * Represents the result of a payment operation.
  * 
@@ -104,7 +107,18 @@ export interface PaymentAdapter {
    * @param method - The payment method configuration
    * @returns Promise resolving to the action result
    */
-  executeAction: (actionName: string, actionData: { amount: number; currencyCode?: string; [key: string]: any }, method: PaymentMethod) => Promise<any>;
+  /**
+   * `context.isTest` is decided server-side (order.isTest, or the logged-in test customer before
+   * the order exists). Gateways that support test mode must use their sandbox/test credentials when it is true.
+   */
+  executeAction: (actionName: string, actionData: { amount: number; currencyCode?: string; [key: string]: any }, method: PaymentMethod, context?: PaymentContext) => Promise<any>;
+
+  /**
+   * Test orders (placed by a "Test customer") are only allowed on gateways that return true here,
+   * i.e. sandbox/test credentials are configured, or no real money moves (e.g. COD).
+   * Gateways without this method cannot be used for test orders.
+   */
+  isTestModeConfigured?: (method: PaymentMethod) => boolean;
 
   /**
    * Confirm a payment after the customer submits payment details.

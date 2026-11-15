@@ -2854,6 +2854,16 @@ export interface PaymentMethod {
     secretKey: string;
     webhookId?: string | null;
     webhookSecret?: string | null;
+    /**
+     * Stripe test key (pk_test_...). Used only for orders by customers marked as Test customer.
+     */
+    testPublishableKey?: string | null;
+    /**
+     * Stripe test key (sk_test_...). Used only for orders by customers marked as Test customer.
+     */
+    testSecretKey?: string | null;
+    testWebhookId?: string | null;
+    testWebhookSecret?: string | null;
   };
   codSettings?: {
     /**
@@ -5387,6 +5397,10 @@ export interface PaymentMethodSelect<T extends boolean = true> {
         secretKey?: T;
         webhookId?: T;
         webhookSecret?: T;
+        testPublishableKey?: T;
+        testSecretKey?: T;
+        testWebhookId?: T;
+        testWebhookSecret?: T;
       };
   codSettings?:
     | T

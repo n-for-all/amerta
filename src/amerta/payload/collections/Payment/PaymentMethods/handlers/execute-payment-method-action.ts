@@ -5,7 +5,7 @@
  */
 
 import { Currency, PaymentMethod } from "@/payload-types";
-import { getPaymentAdapter } from "@/amerta/payments";
+import { getPaymentAdapter, isTestPayment } from "@/amerta/payments";
 import { getCurrencyByCode } from "@/amerta/core/utilities/get-currency-by-code";
 import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
 import { getExchangeRate } from "@/amerta/core/utilities/get-exchange-rate";
@@ -76,7 +76,18 @@ export const executePaymentMethodAction = async (req) => {
     let orderAmount = amount;
     orderAmount = (amount * exchangeRate).toFixed(2);
 
-    const result = await adapter.executeAction(action, { amount: orderAmount, orderId, currencyCode: orderCurrency, paymentIntentId, redirectTo }, paymentMethod);
+    // Test mode is decided here, server-side, from the order (or the logged-in test customer)
+    let order: { isTest?: boolean | null } | null = null;
+    if (orderId) {
+      try {
+        order = await payload.findByID({ collection: "orders", id: String(orderId), depth: 0 });
+      } catch {
+        order = null;
+      }
+    }
+    const context = { isTest: isTestPayment(order, req.user) };
+
+    const result = await adapter.executeAction(action, { amount: orderAmount, orderId, currencyCode: orderCurrency, paymentIntentId, redirectTo }, paymentMethod, context);
     return sendUncachedResponse(200, {
       success: true,
       result,

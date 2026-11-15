@@ -101,6 +101,9 @@ export const CODAdapter: PaymentAdapter = {
    * COD adapter does not support any custom payment actions. All action requests
    * will result in an error. This method is required by the {@link PaymentAdapter} interface.
    */
+  // No money moves, so test orders can always use it
+  isTestModeConfigured: () => true,
+
   async executeAction(actionName) {
     throw new Error(`Unknown action: ${actionName}`);
   },

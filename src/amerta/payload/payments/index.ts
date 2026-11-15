@@ -23,3 +23,13 @@ export const PAYMENT_ADAPTERS: PaymentAdapter[] = [StripeAdapter, CODAdapter, Ma
  * @returns The payment adapter matching the provided slug, or undefined if not found
  */
 export const getPaymentAdapter = (slug: string): PaymentAdapter | undefined => PAYMENT_ADAPTERS.find((a) => a.slug === slug);
+
+/**
+ * Decides whether a payment runs in test mode. Server-side only — never trust the client:
+ * - once the order exists: its `isTest` flag (set at creation from the customer)
+ * - before that (e.g. Stripe loading its Payment Element on checkout): the logged-in customer's "Test customer" flag
+ */
+export const isTestPayment = (order?: { isTest?: boolean | null } | null, user?: any): boolean => {
+  if (order) return !!order.isTest;
+  return !!(user && user.collection === "customers" && user.isTestCustomer);
+};

@@ -3,6 +3,8 @@ import configPromise from "@payload-config";
 import { PaymentMethod } from "../types";
 import { getSalesChannel } from "./get-sales-channel";
 import { LocaleCode } from "@/amerta/localization/locales";
+import { headers } from "next/headers";
+import { getPaymentAdapter, isTestPayment } from "@/amerta/payments";
 
 export interface CheckoutData {
   countries: Array<{
@@ -77,9 +79,20 @@ export async function getCheckoutData(locale: string): Promise<CheckoutData> {
       }
     });
 
+    // Test customers only see gateways that can take a test payment (sandbox/test keys configured, or COD)
+    let paymentMethodDocs = paymentMethodsData.docs || [];
+    try {
+      const { user } = await payload.auth({ headers: await headers() });
+      if (isTestPayment(null, user)) {
+        paymentMethodDocs = paymentMethodDocs.filter((pm) => !!getPaymentAdapter(pm.type)?.isTestModeConfigured?.(pm));
+      }
+    } catch {
+      // Not logged in / auth unavailable: show the normal list
+    }
+
     return {
       countries: Array.from(countriesMap.values()),
-      paymentMethods: (paymentMethodsData.docs || []).map((pm) => ({
+      paymentMethods: paymentMethodDocs.map((pm) => ({
         id: pm.id || "",
         name: pm.name,
         label: pm.label,

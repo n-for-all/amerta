@@ -76,6 +76,17 @@ const ZERO_DECIMAL_CURRENCIES = ["jpy", "krw", "ugx", "vnd", "clp", "pyg", "xaf"
  * - `charge.refunded` - Payment refunded
  *
  */
+/**
+ * Live or test credentials. Test is used for test orders (placed by a "Test customer"), so testers can
+ * pay with Stripe test cards on a live store. A store whose main key is already sk_test_ stays fully test.
+ */
+function getStripeEnv(settings: any, isTest: boolean) {
+  const s = settings || {};
+  return isTest
+    ? { isTest: true, secretKey: s.testSecretKey as string | undefined, publishableKey: s.testPublishableKey as string | undefined }
+    : { isTest: false, secretKey: s.secretKey as string | undefined, publishableKey: s.publishableKey as string | undefined };
+}
+
 export const StripeAdapter: PaymentAdapter = {
   slug: "stripe",
   label: "Credit Card (Stripe)",
@@ -102,7 +113,35 @@ export const StripeAdapter: PaymentAdapter = {
       name: "webhookSecret",
       type: "text",
     },
+    {
+      name: "testPublishableKey",
+      type: "text",
+      label: "Test Publishable Key",
+      admin: {
+        description: "Stripe test key (pk_test_...). Used only for orders by customers marked as Test customer.",
+      },
+    },
+    {
+      name: "testSecretKey",
+      type: "text",
+      label: "Test Secret Key",
+      admin: {
+        description: "Stripe test key (sk_test_...). Used only for orders by customers marked as Test customer.",
+      },
+    },
+    {
+      name: "testWebhookId",
+      type: "text",
+      admin: { readOnly: true },
+    },
+    {
+      name: "testWebhookSecret",
+      type: "text",
+      admin: { readOnly: true },
+    },
   ],
+
+  isTestModeConfigured: (method) => !!(method.stripeSettings?.testSecretKey && method.stripeSettings?.testPublishableKey),
 
   /**
    * Validates payment settings and creates webhook on save
@@ -123,29 +162,33 @@ export const StripeAdapter: PaymentAdapter = {
    * @throws May throw errors from Stripe API if webhook creation fails
    */
   async onSaveSettings({ data }) {
-    if (data.stripeSettings?.webhookSecret && data.stripeSettings?.webhookId) {
-      return data;
+    const settings = data.stripeSettings;
+    if (!settings) return data;
+    const webhookUrl = getServerSideURL() + "/api/payments/stripe/webhook/";
+    const events: Stripe.WebhookEndpointCreateParams.EnabledEvent[] = ["payment_intent.succeeded", "payment_intent.payment_failed", "charge.refunded"];
+
+    // Live endpoint (skipped when the main key is itself a test key)
+    if (settings.secretKey && !settings.secretKey.startsWith("sk_test_") && !(settings.webhookSecret && settings.webhookId)) {
+      const stripe = new Stripe(settings.secretKey);
+      const endpoint = await stripe.webhookEndpoints.create({ url: webhookUrl, enabled_events: events, description: "Production Order Sync" });
+      settings.webhookSecret = endpoint.secret;
+      settings.webhookId = endpoint.id;
     }
 
-    //! if no secret key or it's a test key, skip webhook creation because it will fail
-    if (!data.stripeSettings?.secretKey || data.stripeSettings?.secretKey.startsWith("sk_test_")) {
-      return;
-    }
-    async function createWebhook() {
-      const stripe = new Stripe(data.stripeSettings!.secretKey!);
-
-      const webhookEndpoint = await stripe.webhookEndpoints.create({
-        url: getServerSideURL() + "/api/payments/stripe/webhook/",
-        enabled_events: ["payment_intent.succeeded", "payment_intent.payment_failed", "charge.refunded"],
-        description: "Production Order Sync",
-      });
-
-      data.stripeSettings!.webhookSecret = webhookEndpoint.secret;
-      data.stripeSettings!.webhookId = webhookEndpoint.id;
-      return data;
+    // Test endpoint for test orders (Stripe test and live mode have separate webhooks)
+    if (settings.testSecretKey && !(settings.testWebhookSecret && settings.testWebhookId)) {
+      try {
+        const stripe = new Stripe(settings.testSecretKey);
+        const endpoint = await stripe.webhookEndpoints.create({ url: webhookUrl, enabled_events: events, description: "Test Order Sync" });
+        settings.testWebhookSecret = endpoint.secret;
+        settings.testWebhookId = endpoint.id;
+      } catch (err) {
+        // Don't block saving (e.g. a localhost URL can't be registered)
+        console.error("Failed to create Stripe test webhook:", err);
+      }
     }
 
-    return await createWebhook();
+    return data;
   },
 
   /**
@@ -191,19 +234,34 @@ export const StripeAdapter: PaymentAdapter = {
     }
 
     const method = paymentMethod.docs[0];
-    if (!method || !method.stripeSettings?.secretKey) {
+    if (!method || (!method.stripeSettings?.secretKey && !method.stripeSettings?.testSecretKey)) {
       return new Response("Stripe Secret Key is not configured in this payment method", { status: 500 });
     }
 
-    const stripe = new Stripe(method.stripeSettings!.secretKey!);
     const signature = req.headers.get("stripe-signature");
     const bodyText = await req.text();
-    let event: Stripe.Event;
 
-    try {
-      event = stripe.webhooks.constructEvent(bodyText, signature!, method.stripeSettings!.webhookSecret!);
-    } catch (err: any) {
-      return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    // The signature proves the event came from Stripe. Live and test mode have different
+    // endpoint secrets, so try live first, then test.
+    let event: Stripe.Event | null = null;
+    let verifiedWithTestSecret = false;
+    const candidates = [
+      { key: method.stripeSettings?.secretKey, secret: method.stripeSettings?.webhookSecret, isTest: false },
+      { key: method.stripeSettings?.testSecretKey, secret: method.stripeSettings?.testWebhookSecret, isTest: true },
+    ];
+    let lastError = "No webhook secret configured";
+    for (const c of candidates) {
+      if (!c.secret || !c.key) continue;
+      try {
+        event = new Stripe(c.key).webhooks.constructEvent(bodyText, signature!, c.secret);
+        verifiedWithTestSecret = c.isTest;
+        break;
+      } catch (err: any) {
+        lastError = err.message;
+      }
+    }
+    if (!event) {
+      return new Response(`Webhook Error: ${lastError}`, { status: 400 });
     }
 
     if (event.type === "payment_intent.succeeded") {
@@ -213,6 +271,15 @@ export const StripeAdapter: PaymentAdapter = {
       if (!metadata?.orderId) {
         console.error("Webhook Error: Missing Order ID in payment intent metadata", paymentIntent);
         return new Response("Missing Order ID", { status: 400 });
+      }
+
+      // A test-mode payment may only pay a test order
+      if (verifiedWithTestSecret) {
+        const order = await payload.findByID({ collection: "orders", id: metadata.orderId, depth: 0 }).catch(() => null);
+        if (!order?.isTest) {
+          console.error(`Stripe Webhook: test-mode payment for non-test order ${metadata.orderId} ignored`);
+          return new Response(JSON.stringify({ received: true, status: "ignored" }), { status: 200 });
+        }
       }
 
       try {
@@ -339,11 +406,12 @@ export const StripeAdapter: PaymentAdapter = {
    * const { publishableKey } = await executeAction('getClientSettings', {}, stripeMethod);
    * ```
    */
-  async executeAction(actionName, actionData, method) {
-    const secretKey = method.stripeSettings?.secretKey;
+  async executeAction(actionName, actionData, method, context) {
+    const env = getStripeEnv(method.stripeSettings, !!context?.isTest);
+    const secretKey = env.secretKey;
 
     if (!secretKey) {
-      throw new Error("Stripe Secret Key is missing in payment method settings.");
+      throw new Error(env.isTest ? "Stripe Test Secret Key is missing in payment method settings." : "Stripe Secret Key is missing in payment method settings.");
     }
 
     const stripe = new Stripe(secretKey);
@@ -384,7 +452,7 @@ export const StripeAdapter: PaymentAdapter = {
 
       case "getClientSettings":
         return {
-          publishableKey: method.stripeSettings?.publishableKey,
+          publishableKey: env.publishableKey,
         };
     }
 

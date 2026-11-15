@@ -544,9 +544,11 @@ export const MamoPayAdapter: PaymentAdapter = {
    * }, paymentMethod);
    * ```
    */
-  async executeAction(actionName, actionData, method) {
+  isTestModeConfigured: (method) => !!method.mamoPaySettings?.testApiKey,
+
+  async executeAction(actionName, actionData, method, context) {
     const settings = method.mamoPaySettings;
-    const { isTestMode } = getMamoEnv(settings);
+    const { isTestMode } = getMamoEnv(settings, context?.isTest ? { isTest: true } : null);
 
     switch (actionName) {
       case "createPaymentLink": {
@@ -558,7 +560,7 @@ export const MamoPayAdapter: PaymentAdapter = {
           throw new Error("Order not found for creating Mamo payment link.");
         }
 
-        const { apiKey, baseUrl } = getMamoEnv(settings, order);
+        const { apiKey, baseUrl } = getMamoEnv(settings, { isTest: !!order.isTest || !!context?.isTest });
         if (!apiKey) {
           throw new Error("Mamo API Key is missing in payment method settings.");
         }
