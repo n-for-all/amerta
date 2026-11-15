@@ -25,7 +25,13 @@ export const Translations: CollectionConfig = {
   hooks: {
     afterChange: [
       () => {
-        revalidateTag("translations", "max");
+        // Expire at once: with "max" the old dictionary kept being served, because its background refresh on dynamic pages never finished.
+        revalidateTag("translations", { expire: 0 });
+      },
+    ],
+    afterDelete: [
+      () => {
+        revalidateTag("translations", { expire: 0 });
       },
     ],
   },

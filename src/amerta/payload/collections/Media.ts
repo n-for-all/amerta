@@ -5,12 +5,23 @@
  */
 
 import type { CollectionConfig } from "payload";
+import path from "path";
 
 import { FixedToolbarFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import { SlateToLexicalFeature } from "@payloadcms/richtext-lexical/migrate";
 
 import { anyone } from "../access/anyone";
 import { authenticated } from "../access/authenticated";
+
+/**
+ * Folder that holds uploaded files. The production server runs from `.next/standalone`, which every
+ * `npm run build` deletes and recreates, so uploads are kept in the project's own `public/` folder instead.
+ */
+export const uploadDir = (folder: string) => {
+  const cwd = process.cwd();
+  const root = cwd.endsWith(path.join(".next", "standalone")) ? path.resolve(cwd, "../..") : cwd;
+  return path.join(root, "public", folder);
+};
 
 export const Media: CollectionConfig = {
   slug: "media",
@@ -56,7 +67,7 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
-    staticDir: "public/media",
+    staticDir: uploadDir("media"),
     adminThumbnail: "thumbnail",
     focalPoint: true,
     imageSizes: [

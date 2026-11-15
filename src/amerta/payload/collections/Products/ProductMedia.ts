@@ -13,6 +13,7 @@ import { anyone } from "../../access/anyone";
 import { authenticated } from "../../access/authenticated";
 import { formatAdminURL } from "payload/shared";
 import config from "@payload-config";
+import { uploadDir } from "../Media";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import fs from "fs";
 import path from "path";
@@ -55,7 +56,7 @@ export const ProductMedia: CollectionConfig = {
   hooks: {
     afterDelete: [
       ({ doc }) => {
-        const staticDir = path.resolve(process.cwd(), "public/products");
+        const staticDir = uploadDir("products");
 
         const deleteFile = (filename: string) => {
           const filePath = path.join(staticDir, filename);
@@ -105,7 +106,7 @@ export const ProductMedia: CollectionConfig = {
     },
   ],
   upload: {
-    staticDir: "public/products",
+    staticDir: uploadDir("products"),
     adminThumbnail: (originalDoc: any) => {
       let size = "medium";
       if (originalDoc?.sizes?.thumbnail) {
