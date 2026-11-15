@@ -1,20 +1,3 @@
-import React, { Fragment } from "react";
-import { Metadata } from "next";
-import ProfileForm from "@/amerta/theme/components/ProfileForm";
-import { RenderParams } from "@/amerta/components/RenderParams";
-import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
-
-export default async function Account() {
-  return (
-    <Fragment>
-      <RenderParams />
-      <ProfileForm />
-    </Fragment>
-  );
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await params;
-  const metaData = await generateStaticMeta({ pageName: "profilePage", locale, type: "profile" });
-  return metaData;
-}
+// Route implementation lives in the theme so each site can override it:
+// copy src/amerta/theme/routes/(ecommerce)/[locale]/(customer)/(account)/account/profile/page.tsx to src/themes/<your-theme>/routes/(ecommerce)/[locale]/(customer)/(account)/account/profile/page.tsx and edit it there.
+export { default, generateMetadata } from "@/amerta/theme/routes/(ecommerce)/[locale]/(customer)/(account)/account/profile/page";

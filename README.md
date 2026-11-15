@@ -79,3 +79,9 @@ The fastest way to get started is using our CLI tool. This will scaffold the pro
 ```bash
 npx create-amerta-app my-store
 ```
+
+## 🧩 Building client sites
+
+Amerta is a skeleton: each client site is its own project, linked back to Amerta so it keeps receiving updates (`npm run system:upgrade`). Everything site-specific lives in a theme folder (`src/themes/<site>/`) that can override **any page, layout, component, block or style** without editing Amerta's files.
+
+See the guide: **[Building sites on Amerta](https://amerta.io/guides/building-sites.md)** (source: `amerta-publish/fuma/content/guides/building-sites.md`).

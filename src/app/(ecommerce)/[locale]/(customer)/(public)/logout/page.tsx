@@ -1,16 +1,3 @@
-import { Metadata } from "next";
-import { LogoutPage } from "@/amerta/theme/components/LogoutPage";
-import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
-
-
-
-export default async function Logout({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  return <LogoutPage locale={locale} />;
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await params;
-  const metaData = await generateStaticMeta({ pageName: "logoutPage", locale, type: "logout" });
-  return metaData;
-}
+// Route implementation lives in the theme so each site can override it:
+// copy src/amerta/theme/routes/(ecommerce)/[locale]/(customer)/(public)/logout/page.tsx to src/themes/<your-theme>/routes/(ecommerce)/[locale]/(customer)/(public)/logout/page.tsx and edit it there.
+export { default, generateMetadata } from "@/amerta/theme/routes/(ecommerce)/[locale]/(customer)/(public)/logout/page";

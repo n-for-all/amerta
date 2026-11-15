@@ -23,6 +23,7 @@ export const AppSlot: React.FC<AppSlotProps> = ({ target, className }) => {
     .filter((ext) => activeApps.includes(ext.appSlug) && ext.target === target)
     .map((ext) => ({
       key: `${ext.appSlug}-${ext.target}`,
+      appSlug: ext.appSlug,
       Component: ext.Component,
     }));
 
@@ -32,8 +33,12 @@ export const AppSlot: React.FC<AppSlotProps> = ({ target, className }) => {
 
   return (
     <div className={className || "app-slot-container"}>
-      {matchingExtensions.map(({ key, Component }) => (
-        <Component key={key} />
+      {/* Stable hooks so themes can restyle any app widget without editing it, e.g.
+          [data-app="loyalty"][data-app-slot="product.price.after"] > * { ... } */}
+      {matchingExtensions.map(({ key, appSlug, Component }) => (
+        <div key={key} className="contents" data-app={appSlug} data-app-slot={target}>
+          <Component />
+        </div>
       ))}
     </div>
   );

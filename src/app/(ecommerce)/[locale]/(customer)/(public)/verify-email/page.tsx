@@ -1,14 +1,3 @@
-import { Metadata } from "next";
-import VerifyEmail from "@/amerta/theme/components/Account/VerifyEmail";
-import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
-
-export default async function VerifyEmailPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  return <VerifyEmail locale={locale} />;
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await params;
-  const metaData = await generateStaticMeta({ pageName: "verifyEmailPage", locale, type: "verify-email" });
-  return metaData;
-}
+// Route implementation lives in the theme so each site can override it:
+// copy src/amerta/theme/routes/(ecommerce)/[locale]/(customer)/(public)/verify-email/page.tsx to src/themes/<your-theme>/routes/(ecommerce)/[locale]/(customer)/(public)/verify-email/page.tsx and edit it there.
+export { default, generateMetadata } from "@/amerta/theme/routes/(ecommerce)/[locale]/(customer)/(public)/verify-email/page";

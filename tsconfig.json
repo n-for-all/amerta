@@ -51,6 +51,9 @@
       "@/amerta/theme/*": [
         "./src/amerta/theme/*"
       ],
+      "@/amerta/parent-theme/*": [
+        "./src/amerta/theme/*"
+      ],
       "@/amerta/core/*": [
         "./src/amerta/core/*"
       ],

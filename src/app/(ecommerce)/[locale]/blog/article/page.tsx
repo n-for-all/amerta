@@ -1,7 +1,3 @@
-import { getURL } from "@/amerta/utilities/getURL";
-import { redirect } from "next/navigation";
-
-export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  redirect(getURL(`/blog`, locale));
-}
+// Route implementation lives in the theme so each site can override it:
+// copy src/amerta/theme/routes/(ecommerce)/[locale]/blog/article/page.tsx to src/themes/<your-theme>/routes/(ecommerce)/[locale]/blog/article/page.tsx and edit it there.
+export { default } from "@/amerta/theme/routes/(ecommerce)/[locale]/blog/article/page";
