@@ -13,50 +13,100 @@ const dirname = path.dirname(filename);
 
 type MCPTool = NonNullable<NonNullable<Parameters<typeof mcpPlugin>[0]["mcp"]>["tools"]>[number];
 
-/** MCP tool: upload a file from a public URL into `media` or `product-media` (the plugin's own create tool can't take files). */
+const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
+const ALLOWED_MIME = /^(image\/|video\/|application\/pdf$)/;
+
+/** Content type from a file's first bytes, for the common formats (undefined = unknown, e.g. SVG or video). */
+const sniffMime = (data: Buffer): string | undefined => {
+  if (data.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return "image/png";
+  if (data[0] === 0xff && data[1] === 0xd8 && data[2] === 0xff) return "image/jpeg";
+  if (data.subarray(0, 6).toString("latin1").startsWith("GIF8")) return "image/gif";
+  if (data.subarray(0, 4).toString("latin1") === "RIFF" && data.subarray(8, 12).toString("latin1") === "WEBP") return "image/webp";
+  if (data.subarray(0, 5).toString("latin1") === "%PDF-") return "application/pdf";
+  if (data.subarray(4, 12).toString("latin1") === "ftypavif") return "image/avif";
+  return undefined;
+};
+
+/**
+ * MCP tool: upload a file into `media` or `product-media` (the plugin's own create tool can't take files).
+ * The file comes from a public https `url`, or directly as `base64` (for files that only exist on the
+ * caller's machine). With `replaceId` it replaces the file of an existing document instead, keeping its id,
+ * so everything that uses that image (products, pages, posts) shows the new file.
+ */
 const uploadMediaTool: MCPTool = {
   name: "uploadMedia",
   description:
-    "Upload an image/video/PDF from a public https URL into `media` (site/blog) or `product-media` (product images). Returns the new document id to use in products.images, posts, pages, etc.",
+    "Upload an image/video/PDF into `media` (site/blog) or `product-media` (product images), from a public https `url` or as `base64` file contents (max 25 MB). Returns the document id to use in products.images, posts, pages, etc. Pass `replaceId` to replace the file of an existing document instead (same id, so everything using it updates).",
   // Cast: zod v3 types from zod@4 vs the plugin's bundled zod@3.25 are runtime-compatible but too deep for tsc to compare
   parameters: {
-    url: z.string().url().describe("Public https URL of the file"),
+    url: z.string().url().optional().describe("Public https URL of the file (or use base64)"),
+    base64: z.string().optional().describe("File contents, base64-encoded (a data: URL prefix is allowed). Use instead of url for local files."),
+    mimeType: z.string().optional().describe("Content type for base64 uploads, e.g. image/png (detected from the file for PNG/JPEG/GIF/WebP/AVIF/PDF)"),
     collection: z.enum(["media", "product-media"]).describe("media = site/blog media, product-media = product images"),
+    replaceId: z.string().optional().describe("Id of an existing document in `collection` whose file should be replaced"),
     alt: z.string().optional().describe("Alt text (recommended for SEO/accessibility)"),
     title: z.string().optional(),
-    filename: z.string().optional().describe("Optional file name, e.g. kopi-luwak-50g.jpg"),
+    filename: z.string().optional().describe("File name, e.g. kopi-luwak-50g.jpg (required for base64 uploads)"),
   } as unknown as MCPTool["parameters"],
   handler: async (args, req) => {
-    const { url, collection, alt, title, filename } = args as { url: string; collection: "media" | "product-media"; alt?: string; title?: string; filename?: string };
+    const { url, base64, mimeType, collection, replaceId, alt, title, filename } = args as {
+      url?: string;
+      base64?: string;
+      mimeType?: string;
+      collection: "media" | "product-media";
+      replaceId?: string;
+      alt?: string;
+      title?: string;
+      filename?: string;
+    };
     const fail = (msg: string) => ({ content: [{ type: "text" as const, text: `uploadMedia failed: ${msg}` }] });
     try {
-      const target = new URL(url);
-      // Only fetch public https URLs (no internal hosts) to avoid server-side request forgery
-      if (target.protocol !== "https:") return fail("only https URLs are allowed");
-      if (/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.|\[?::1\]?$)/i.test(target.hostname)) return fail("private/internal hosts are not allowed");
+      if (!url === !base64) return fail("pass exactly one of url or base64");
+      let data: Buffer;
+      let mimetype: string;
+      let name: string;
 
-      const res = await fetch(target, { redirect: "follow", signal: AbortSignal.timeout(30000) });
-      if (!res.ok) return fail(`download returned HTTP ${res.status}`);
-      const mimetype = (res.headers.get("content-type") || "").split(";")[0]!.trim();
-      if (!/^(image\/|video\/|application\/pdf$)/.test(mimetype)) return fail(`unsupported content type "${mimetype}"`);
-      const data = Buffer.from(await res.arrayBuffer());
-      if (data.length > 25 * 1024 * 1024) return fail("file is larger than 25 MB");
+      if (base64) {
+        if (!filename) return fail("filename is required for base64 uploads");
+        const match = /^data:([^;,]+)?(?:;[^,]*)?,(.*)$/s.exec(base64);
+        const encoded = (match ? match[2]! : base64).replace(/\s+/g, "");
+        if (encoded.length > Math.ceil((MAX_UPLOAD_BYTES * 4) / 3) + 4) return fail("file is larger than 25 MB");
+        data = Buffer.from(encoded, "base64");
+        if (!data.length) return fail("base64 is empty or invalid");
+        const sniffed = sniffMime(data);
+        const declared = (mimeType || match?.[1] || "").trim().toLowerCase();
+        if (sniffed && declared && declared !== sniffed && !(declared === "image/jpg" && sniffed === "image/jpeg")) return fail(`the file is ${sniffed}, not ${declared}`);
+        mimetype = sniffed || declared;
+        if (!mimetype) return fail("could not detect the file type; pass mimeType");
+        name = filename;
+      } else {
+        const target = new URL(url!);
+        // Only fetch public https URLs (no internal hosts) to avoid server-side request forgery
+        if (target.protocol !== "https:") return fail("only https URLs are allowed");
+        if (/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.|\[?::1\]?$)/i.test(target.hostname)) return fail("private/internal hosts are not allowed");
 
-      const ext = mimetype.split("/")[1]?.replace("jpeg", "jpg").replace("svg+xml", "svg") || "bin";
-      const fromUrl = decodeURIComponent(target.pathname.split("/").pop() || "").replace(/[^\w.-]+/g, "-");
-      const name = (filename || (fromUrl.includes(".") ? fromUrl : `${fromUrl || "upload"}.${ext}`)).slice(0, 120);
+        const res = await fetch(target, { redirect: "follow", signal: AbortSignal.timeout(30000) });
+        if (!res.ok) return fail(`download returned HTTP ${res.status}`);
+        mimetype = (res.headers.get("content-type") || "").split(";")[0]!.trim();
+        data = Buffer.from(await res.arrayBuffer());
+        const ext = mimetype.split("/")[1]?.replace("jpeg", "jpg").replace("svg+xml", "svg") || "bin";
+        const fromUrl = decodeURIComponent(target.pathname.split("/").pop() || "").replace(/[^\w.-]+/g, "-");
+        name = filename || (fromUrl.includes(".") ? fromUrl : `${fromUrl || "upload"}.${ext}`);
+      }
 
-      const doc = await req.payload.create({
-        collection,
-        data: { ...(alt && { alt }), ...(title && { title }) },
-        file: { data, mimetype, name, size: data.length },
-        req,
-        // Custom MCP tools don't receive the API key's user (built-in tools do), so collection access
-        // can't be evaluated here. Authorization is the API key's "uploadMedia" permission, which the
-        // plugin checks before this handler can run.
-        overrideAccess: true,
-      });
-      return { content: [{ type: "text" as const, text: JSON.stringify({ id: doc.id, collection, filename: (doc as any).filename, url: (doc as any).url, alt: (doc as any).alt ?? null }) }] };
+      if (!ALLOWED_MIME.test(mimetype)) return fail(`unsupported content type "${mimetype}"`);
+      if (data.length > MAX_UPLOAD_BYTES) return fail("file is larger than 25 MB");
+      name = name.replace(/[/\\]+/g, "-").slice(0, 120);
+
+      const file = { data, mimetype, name, size: data.length };
+      const fields = { ...(alt && { alt }), ...(title && { title }) };
+      // Custom MCP tools don't receive the API key's user (built-in tools do), so collection access
+      // can't be evaluated here. Authorization is the API key's "uploadMedia" permission, which the
+      // plugin checks before this handler can run.
+      const doc = replaceId
+        ? await req.payload.update({ collection, id: replaceId, data: fields, file, req, overrideAccess: true, overwriteExistingFiles: true })
+        : await req.payload.create({ collection, data: fields, file, req, overrideAccess: true });
+      return { content: [{ type: "text" as const, text: JSON.stringify({ id: doc.id, collection, replaced: !!replaceId, filename: (doc as any).filename, url: (doc as any).url, alt: (doc as any).alt ?? null }) }] };
     } catch (err: any) {
       return fail(err?.message || String(err));
     }
