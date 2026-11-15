@@ -63,6 +63,43 @@ const uploadMediaTool: MCPTool = {
   },
 };
 
+/**
+ * MCP tool: replace the blocks `layout` of a page, post or product.
+ * The plugin's built-in update tools can't accept block fields: they turn every block type into "any object",
+ * so the "exactly one block type must match" check always fails. Payload still validates every block on save.
+ */
+const updateLayoutTool: MCPTool = {
+  name: "updateLayout",
+  description:
+    "Replace the blocks `layout` of a page, post or product. Pass the full array of blocks (each with its `blockType`); relationship/upload fields take ids. Use the normal update tools for every other field.",
+  parameters: {
+    collection: z.enum(["pages", "posts", "products"]),
+    id: z.string().describe("Document id"),
+    layout: z.array(z.record(z.string(), z.any())).describe("Full list of blocks, e.g. [{ blockType: 'klStory', title: '...' }]"),
+    locale: z.string().optional().describe("Locale for localized fields inside the blocks, e.g. en or ar (default: the default locale)"),
+    publish: z.boolean().optional().describe("true = save and publish; false/omitted = save as a draft"),
+  } as unknown as MCPTool["parameters"],
+  handler: async (args, req) => {
+    const { collection, id, layout, locale, publish } = args as { collection: "pages" | "posts" | "products"; id: string; layout: Record<string, unknown>[]; locale?: string; publish?: boolean };
+    try {
+      const doc = await req.payload.update({
+        collection,
+        id,
+        data: { layout, ...(publish && { _status: "published" }) } as any,
+        draft: !publish,
+        ...(locale && { locale: locale as any }),
+        req,
+        // Same as uploadMedia: custom tools don't receive the API key's user; the key's
+        // "updateLayout" permission (checked by the plugin) is the authorization.
+        overrideAccess: true,
+      });
+      return { content: [{ type: "text" as const, text: JSON.stringify({ id: doc.id, collection, blocks: ((doc as any).layout || []).map((b: any) => b.blockType), _status: (doc as any)._status }) }] };
+    } catch (err: any) {
+      return { content: [{ type: "text" as const, text: `updateLayout failed: ${err?.data?.errors ? JSON.stringify(err.data.errors) : err?.message || String(err)}` }] };
+    }
+  },
+};
+
 export default buildConfig(
   withAmerta({
     telemetry: false,
@@ -137,6 +174,7 @@ export default buildConfig(
         mcp: {
           tools: [
             uploadMediaTool,
+            updateLayoutTool,
           ],
         },
       }),
