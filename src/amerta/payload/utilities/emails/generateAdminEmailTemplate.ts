@@ -8,6 +8,10 @@ import { User } from "@/payload-types";
 import { format } from "date-fns";
 import { ADMIN_EMAILS } from "@/amerta/collections/EmailTemplates";
 
+/** Subjects are plain text: undo the HTML escaping nunjucks applies (autoescape is for the HTML body). */
+const decodeSubject = (s: string) =>
+  s.replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+
 type AdminEmail = typeof ADMIN_EMAILS[number];
 export async function generateAdminEmailTemplate(name: AdminEmail) {
   const payload = await getPayload({ config: configPromise });
@@ -55,7 +59,7 @@ export async function generateAdminEmailTemplate(name: AdminEmail) {
       ...props,
     };
 
-    const subject = nunjucks.renderString(templateDoc.subject, mergedContext);
+    const subject = decodeSubject(nunjucks.renderString(templateDoc.subject, mergedContext));
     const html = nunjucks.renderString(templateDoc.body, mergedContext);
 
     return { to, subject, html };
@@ -69,7 +73,7 @@ export async function generateAdminEmailTemplate(name: AdminEmail) {
 
     const to = ((templateDoc.staffRecipients || []) as User[]).map((user) => user.email).join(", ");
 
-    const subject = nunjucks.renderString(templateDoc.subject, mergedContext);
+    const subject = decodeSubject(nunjucks.renderString(templateDoc.subject, mergedContext));
     const html = nunjucks.renderString(templateDoc.body, mergedContext);
 
     try {

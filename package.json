@@ -24,7 +24,7 @@
     "ii": "cross-env NODE_OPTIONS=--no-deprecation pnpm --ignore-workspace install",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation node .next/standalone/server.js",
-    "system:upgrade": "git fetch upstream && git reset --hard upstream/main && npm install && npm run build && echo '✅ Update Complete!' && npm start"
+    "system:upgrade": "git fetch upstream && git merge --no-edit upstream/main && npm install && npm run build && echo '✅ Update Complete!' && npm start"
   },
   "dependencies": {
     "@google-shopping/accounts": "3.2.1",

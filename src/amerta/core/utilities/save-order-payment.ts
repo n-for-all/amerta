@@ -90,7 +90,9 @@ export const saveOrderPayment = async ({
     });
     if (order.orderedBy) {
       try {
-        await sendNewOrderEmail(order.orderedBy as Customer, order, false);
+        // Paid order: notify the customer AND the store staff ("new_order" template recipients).
+        // (The admin email was previously disabled here, so staff were never notified.)
+        await sendNewOrderEmail(order.orderedBy as Customer, order, true);
       } catch (e) {
         console.error("Error sending order confirmation email:", e);
       }

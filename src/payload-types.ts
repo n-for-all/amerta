@@ -3425,17 +3425,13 @@ export interface PayloadMcpApiKey {
      */
     update?: boolean | null;
   };
-  categories?: {
+  productMedia?: {
     /**
-     * Allow clients to find categories.
+     * Allow clients to find product-media.
      */
     find?: boolean | null;
     /**
-     * Allow clients to create categories.
-     */
-    create?: boolean | null;
-    /**
-     * Allow clients to update categories.
+     * Allow clients to update product-media.
      */
     update?: boolean | null;
   };
@@ -3501,6 +3497,10 @@ export interface PayloadMcpApiKey {
      */
     find?: boolean | null;
     /**
+     * Allow clients to create product-reviews.
+     */
+    create?: boolean | null;
+    /**
      * Allow clients to update product-reviews.
      */
     update?: boolean | null;
@@ -3533,6 +3533,20 @@ export interface PayloadMcpApiKey {
      */
     update?: boolean | null;
   };
+  categories?: {
+    /**
+     * Allow clients to find categories.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create categories.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update categories.
+     */
+    update?: boolean | null;
+  };
   tags?: {
     /**
      * Allow clients to find tags.
@@ -3547,27 +3561,39 @@ export interface PayloadMcpApiKey {
      */
     update?: boolean | null;
   };
+  media?: {
+    /**
+     * Allow clients to find media.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update media.
+     */
+    update?: boolean | null;
+  };
   menu?: {
     /**
      * Allow clients to find menu.
      */
     find?: boolean | null;
     /**
+     * Allow clients to create menu.
+     */
+    create?: boolean | null;
+    /**
      * Allow clients to update menu.
      */
     update?: boolean | null;
-  };
-  media?: {
-    /**
-     * Allow clients to find media.
-     */
-    find?: boolean | null;
   };
   translations?: {
     /**
      * Allow clients to find translations.
      */
     find?: boolean | null;
+    /**
+     * Allow clients to create translations.
+     */
+    create?: boolean | null;
     /**
      * Allow clients to update translations.
      */
@@ -3637,9 +3663,53 @@ export interface PayloadMcpApiKey {
      */
     find?: boolean | null;
     /**
+     * Allow clients to create shipping.
+     */
+    create?: boolean | null;
+    /**
      * Allow clients to update shipping.
      */
     update?: boolean | null;
+  };
+  currency?: {
+    /**
+     * Allow clients to find currency.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update currency.
+     */
+    update?: boolean | null;
+  };
+  country?: {
+    /**
+     * Allow clients to find country.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update country.
+     */
+    update?: boolean | null;
+  };
+  taxRate?: {
+    /**
+     * Allow clients to find tax-rate.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create tax-rate.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update tax-rate.
+     */
+    update?: boolean | null;
+  };
+  salesChannel?: {
+    /**
+     * Allow clients to find sales-channel.
+     */
+    find?: boolean | null;
   };
   settings?: {
     /**
@@ -3680,6 +3750,22 @@ export interface PayloadMcpApiKey {
      * Allow clients to update footer global.
      */
     update?: boolean | null;
+  };
+  apps?: {
+    /**
+     * Allow clients to find apps global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update apps global.
+     */
+    update?: boolean | null;
+  };
+  'payload-mcp-tool'?: {
+    /**
+     * Upload an image/video/PDF from a public https URL into `media` (site/blog) or `product-media` (product images). Returns the new document id to use in products.images, posts, pages, etc.
+     */
+    uploadMedia?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -5755,11 +5841,10 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         create?: T;
         update?: T;
       };
-  categories?:
+  productMedia?:
     | T
     | {
         find?: T;
-        create?: T;
         update?: T;
       };
   collections?:
@@ -5794,6 +5879,7 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | T
     | {
         find?: T;
+        create?: T;
         update?: T;
       };
   pages?:
@@ -5810,6 +5896,13 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         create?: T;
         update?: T;
       };
+  categories?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
   tags?:
     | T
     | {
@@ -5817,21 +5910,24 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         create?: T;
         update?: T;
       };
-  menu?:
+  media?:
     | T
     | {
         find?: T;
         update?: T;
       };
-  media?:
+  menu?:
     | T
     | {
         find?: T;
+        create?: T;
+        update?: T;
       };
   translations?:
     | T
     | {
         find?: T;
+        create?: T;
         update?: T;
       };
   emailTemplates?:
@@ -5870,7 +5966,32 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | T
     | {
         find?: T;
+        create?: T;
         update?: T;
+      };
+  currency?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  country?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  taxRate?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  salesChannel?:
+    | T
+    | {
+        find?: T;
       };
   settings?:
     | T
@@ -5895,6 +6016,17 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | {
         find?: T;
         update?: T;
+      };
+  apps?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  'payload-mcp-tool'?:
+    | T
+    | {
+        uploadMedia?: T;
       };
   updatedAt?: T;
   createdAt?: T;
