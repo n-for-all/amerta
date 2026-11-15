@@ -49,6 +49,7 @@
         "./src/amerta/apps/*"
       ],
       "@/amerta/theme/*": [
+        "./src/theme/*",
         "./src/amerta/theme/*"
       ],
       "@/amerta/parent-theme/*": [
