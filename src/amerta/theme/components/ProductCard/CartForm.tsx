@@ -1,7 +1,7 @@
 "use client";
 import { Product } from "@/payload-types";
-import AddToCartForm from "../AddToCartForm";
-import { ProductListingPrice } from "../ProductPrice";
+import AddToCartForm from "@/amerta/theme/components/AddToCartForm";
+import { ProductListingPrice } from "@/amerta/theme/components/ProductPrice";
 import React from "react";
 
 export const CartForm = ({ product, icon, noDefaults, compact, options, buttonClassName }: { product: Product; icon?: React.ReactNode; noDefaults?: boolean; compact?: boolean; options: any[]; buttonClassName?: string }) => {

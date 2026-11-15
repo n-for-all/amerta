@@ -1,7 +1,7 @@
 import type { GlobalConfig } from "payload";
 
 import { link } from "@/amerta/fields/link/link";
-import { revalidateFooter } from "./hooks/revalidateFooter";
+import { revalidateFooter } from "@/amerta/theme/blocks/common/Footer/hooks/revalidateFooter";
 
 export const Footer: GlobalConfig = {
   slug: "footer",

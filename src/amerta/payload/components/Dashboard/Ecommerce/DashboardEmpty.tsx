@@ -2,7 +2,7 @@ import React from "react";
 import { Store } from "lucide-react";
 import styles from "./skeleton.module.scss";
 import Link from "next/link";
-import { getAdminURL } from "@/amerta/utilities/getAdminURL";
+import { getAdminRelativeURL } from "@/amerta/utilities/getAdminURL";
 
 export const DashboardSkeleton = () => {
   return (
@@ -72,7 +72,7 @@ export const DashboardEmptyState = () => {
           <p>
             You need to create a <strong>Sales Channel</strong> before you can view your store analytics.
           </p>
-          <Link href={getAdminURL("/collections/sales-channel")} className={styles.ctaButton}>
+          <Link href={getAdminRelativeURL("/collections/sales-channel")} className={styles.ctaButton}>
             Go To Sales Channel
           </Link>
         </div>

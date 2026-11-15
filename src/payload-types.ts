@@ -96,6 +96,7 @@ export interface Config {
   auth: {
     customers: CustomerAuthOperations;
     users: UserAuthOperations;
+    'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {};
   collections: {
@@ -134,6 +135,7 @@ export interface Config {
     'email-logs': EmailLog;
     forms: Form;
     'form-submissions': FormSubmission;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -177,6 +179,7 @@ export interface Config {
     'email-logs': EmailLogsSelect<false> | EmailLogsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -286,7 +289,7 @@ export interface Config {
     | 'da'
     | 'no'
     | 'fi';
-  user: Customer | User;
+  user: Customer | User | PayloadMcpApiKey;
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -317,6 +320,24 @@ export interface CustomerAuthOperations {
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface PayloadMcpApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -2450,6 +2471,11 @@ export interface Order {
   salesChannel: string | SalesChannel;
   status?: ('pending' | 'processing' | 'shipped' | 'completed' | 'cancelled' | 'refunded' | 'on-hold') | null;
   /**
+   * Placed by a test customer and paid via the gateway sandbox. Runs every live-order function; delete it to revert.
+   */
+  isTest?: boolean | null;
+  stockReduced?: boolean | null;
+  /**
    * Customer's notes or special instructions for this order
    */
   orderNote?: string | null;
@@ -2634,6 +2660,10 @@ export interface Customer {
       }[]
     | null;
   createdAt: string;
+  /**
+   * Orders by this customer are paid through the payment gateway's sandbox and marked as TEST. Everything else (emails, loyalty, stock, n8n, tracking) runs as a live order.
+   */
+  isTestCustomer?: boolean | null;
   hasAccount?: ('1' | '0') | null;
   updatedAt: string;
   passkeys?:
@@ -2836,6 +2866,7 @@ export interface PaymentMethod {
     testApiKey?: string | null;
     testMode?: boolean | null;
     webhookId?: string | null;
+    testWebhookId?: string | null;
   };
   /**
    * This payment method will only be available in the selected sales channels.
@@ -3351,6 +3382,303 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
+ * API keys control which collections, resources, tools, and prompts MCP clients can access
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys".
+ */
+export interface PayloadMcpApiKey {
+  id: string;
+  /**
+   * The user that the API key is associated with.
+   */
+  user: string | User;
+  /**
+   * A useful label for the API key.
+   */
+  label?: string | null;
+  /**
+   * The purpose of the API key.
+   */
+  description?: string | null;
+  products?: {
+    /**
+     * Allow clients to find products.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create products.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update products.
+     */
+    update?: boolean | null;
+  };
+  categories?: {
+    /**
+     * Allow clients to find categories.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create categories.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update categories.
+     */
+    update?: boolean | null;
+  };
+  collections?: {
+    /**
+     * Allow clients to find collections.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create collections.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update collections.
+     */
+    update?: boolean | null;
+  };
+  productBrands?: {
+    /**
+     * Allow clients to find product-brands.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create product-brands.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update product-brands.
+     */
+    update?: boolean | null;
+  };
+  productTags?: {
+    /**
+     * Allow clients to find product-tags.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create product-tags.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update product-tags.
+     */
+    update?: boolean | null;
+  };
+  productOptions?: {
+    /**
+     * Allow clients to find product-options.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create product-options.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update product-options.
+     */
+    update?: boolean | null;
+  };
+  productReviews?: {
+    /**
+     * Allow clients to find product-reviews.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update product-reviews.
+     */
+    update?: boolean | null;
+  };
+  pages?: {
+    /**
+     * Allow clients to find pages.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create pages.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update pages.
+     */
+    update?: boolean | null;
+  };
+  posts?: {
+    /**
+     * Allow clients to find posts.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create posts.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update posts.
+     */
+    update?: boolean | null;
+  };
+  tags?: {
+    /**
+     * Allow clients to find tags.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create tags.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update tags.
+     */
+    update?: boolean | null;
+  };
+  menu?: {
+    /**
+     * Allow clients to find menu.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update menu.
+     */
+    update?: boolean | null;
+  };
+  media?: {
+    /**
+     * Allow clients to find media.
+     */
+    find?: boolean | null;
+  };
+  translations?: {
+    /**
+     * Allow clients to find translations.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update translations.
+     */
+    update?: boolean | null;
+  };
+  emailTemplates?: {
+    /**
+     * Allow clients to find email-templates.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update email-templates.
+     */
+    update?: boolean | null;
+  };
+  orders?: {
+    /**
+     * Allow clients to find orders.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update orders.
+     */
+    update?: boolean | null;
+  };
+  customers?: {
+    /**
+     * Allow clients to find customers.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update customers.
+     */
+    update?: boolean | null;
+  };
+  coupons?: {
+    /**
+     * Allow clients to find coupons.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create coupons.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update coupons.
+     */
+    update?: boolean | null;
+  };
+  cartRules?: {
+    /**
+     * Allow clients to find cart-rules.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create cart-rules.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update cart-rules.
+     */
+    update?: boolean | null;
+  };
+  shipping?: {
+    /**
+     * Allow clients to find shipping.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update shipping.
+     */
+    update?: boolean | null;
+  };
+  settings?: {
+    /**
+     * Allow clients to find settings global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update settings global.
+     */
+    update?: boolean | null;
+  };
+  ecommerceSettings?: {
+    /**
+     * Allow clients to find ecommerce-settings global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update ecommerce-settings global.
+     */
+    update?: boolean | null;
+  };
+  header?: {
+    /**
+     * Allow clients to find header global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update header global.
+     */
+    update?: boolean | null;
+  };
+  footer?: {
+    /**
+     * Allow clients to find footer global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update footer global.
+     */
+    update?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'payload-mcp-api-keys';
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -3605,6 +3933,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'form-submissions';
         value: string | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
       } | null);
   globalSlug?: string | null;
   user:
@@ -3615,6 +3947,10 @@ export interface PayloadLockedDocument {
     | {
         relationTo: 'users';
         value: string | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
       };
   updatedAt: string;
   createdAt: string;
@@ -3633,6 +3969,10 @@ export interface PayloadPreference {
     | {
         relationTo: 'users';
         value: string | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
       };
   key?: string | null;
   value?:
@@ -4618,6 +4958,8 @@ export interface OrdersSelect<T extends boolean = true> {
   orderedBy?: T;
   salesChannel?: T;
   status?: T;
+  isTest?: T;
+  stockReduced?: T;
   orderNote?: T;
   subtotal?: T;
   shippingTotal?: T;
@@ -4729,6 +5071,7 @@ export interface CustomersSelect<T extends boolean = true> {
         id?: T;
       };
   createdAt?: T;
+  isTestCustomer?: T;
   hasAccount?: T;
   updatedAt?: T;
   passkeys?:
@@ -5057,6 +5400,7 @@ export interface PaymentMethodSelect<T extends boolean = true> {
         testApiKey?: T;
         testMode?: T;
         webhookId?: T;
+        testWebhookId?: T;
       };
   salesChannels?: T;
   currencies?: T;
@@ -5381,6 +5725,168 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys_select".
+ */
+export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
+  user?: T;
+  label?: T;
+  description?: T;
+  products?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  categories?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  collections?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  productBrands?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  productTags?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  productOptions?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  productReviews?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  pages?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  posts?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  tags?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  menu?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  media?:
+    | T
+    | {
+        find?: T;
+      };
+  translations?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  emailTemplates?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  orders?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  customers?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  coupons?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  cartRules?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+      };
+  shipping?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  settings?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  ecommerceSettings?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  header?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  footer?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -5,7 +5,7 @@ import type { Footer } from "@/payload-types";
 import { Config } from "payload";
 import { CMSLink } from "@/amerta/components/Link";
 import { Media } from "@/amerta/components/Media";
-import { FooterForm } from "./form";
+import { FooterForm } from "@/amerta/theme/blocks/common/Footer/form";
 
 const FooterLogo = ({ logoLight, logoDark, logoClassName }) => {
   return (

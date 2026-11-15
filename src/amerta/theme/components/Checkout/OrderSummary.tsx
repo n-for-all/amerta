@@ -1,6 +1,6 @@
 import { formatPrice } from "@/amerta/core/utilities/format-price";
-import { ImageOrPlaceholder } from "../Thumbnail";
-import { CouponForm } from "../CouponForm";
+import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
+import { CouponForm } from "@/amerta/theme/components/CouponForm";
 import { CircleAlert, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/amerta/theme/ui/button";

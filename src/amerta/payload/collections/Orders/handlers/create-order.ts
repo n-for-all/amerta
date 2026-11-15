@@ -33,6 +33,7 @@ export const createOrder = async (req: PayloadRequest) => {
   try {
     const { payload } = req;
     let customerId: string | null = null;
+    let isTestOrder = false;
 
     const salesChannel = await getSalesChannel();
     if (!salesChannel) {
@@ -114,6 +115,7 @@ export const createOrder = async (req: PayloadRequest) => {
           collection: "customers",
           id: customerId,
         });
+        isTestOrder = !!customerData?.isTestCustomer;
 
         if (customerData && customerData.address && Array.isArray(customerData.address.items)) {
           const savedAddress = customerData.address.items.find((addr) => addr.id === validationData.shippingAddressId);
@@ -209,6 +211,16 @@ export const createOrder = async (req: PayloadRequest) => {
     const paymentAdapter = await getPaymentAdapter(paymentMethod.type);
     if (!paymentAdapter) {
       return NextResponse.json({ error: "The selected payment method is not available, Please select a different payment method." }, { status: 500 });
+    }
+
+    // Test customers: only gateways that can run without charging real money
+    if (isTestOrder) {
+      if (paymentMethod.type === "mamo-pay" && !paymentMethod.mamoPaySettings?.testApiKey) {
+        return NextResponse.json({ error: "Test order: add a Mamo Sandbox Test Key to the payment method first." }, { status: 400 });
+      }
+      if (!["mamo-pay", "cod"].includes(paymentMethod.type)) {
+        return NextResponse.json({ error: "Test orders can only use Mamo Pay (sandbox) or Cash on Delivery." }, { status: 400 });
+      }
     }
 
     let productIds = cart.items.map((item) => (typeof item.product === "string" ? item.product : item.product.id));
@@ -308,6 +320,7 @@ export const createOrder = async (req: PayloadRequest) => {
       data: {
         orderedBy: customerId!,
         status: "pending",
+        isTest: isTestOrder,
         discountTotal: cart.discount,
         couponCode: typeof cart.appliedCoupon === "string" ? cart.appliedCoupon : cart.appliedCoupon?.code || "",
         subtotal: cart.subtotal,

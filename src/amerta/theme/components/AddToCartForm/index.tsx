@@ -12,6 +12,7 @@ import { Loader2 } from "lucide-react";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
 import { addToCart } from "@/amerta/core/utilities/cart.client";
+import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
 
 interface AddToCartFormProps {
   product: Product;
@@ -64,7 +65,7 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
   const [isLoading, setIsLoading] = useState(false);
   const [variantOptions, setVariantOptions] = useState<Array<{ option: string; value: string }>>([]);
   const { toast } = useToast();
-  const { __, locale } = useEcommerce();
+  const { __, locale, currency, exchangeRate } = useEcommerce();
 
   const handleQuantityChange = (value: number) => {
     const newQuantity = Math.max(1, Math.min(10, quantity + value));
@@ -90,6 +91,21 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
       setQuantity(1);
 
       if (cart) {
+        const line = cart.items?.find((i) => (typeof i.product === "string" ? i.product : i.product?.id) === product.id);
+        const unitPrice = line ? line.salePrice || line.price : product.salePrice || product.price;
+        trackEcommerce("add_to_cart", {
+          currency: currency?.code || "",
+          value: unitPrice * quantity * (Number(exchangeRate) || 1),
+          items: [
+            {
+              item_id: product.sku || product.id,
+              item_name: product.title,
+              price: unitPrice * (Number(exchangeRate) || 1),
+              quantity,
+              ...(filteredOptions.length && { item_variant: filteredOptions.map((o) => o.value).join(" / ") }),
+            },
+          ],
+        });
         localStorage.setItem("cart", JSON.stringify(cart));
         window.dispatchEvent(new CustomEvent("cartUpdated", { detail: cart }));
       }

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
-import { ProductLightbox } from "./ProductLightbox";
-import { useEcommerce } from "../../../core/providers/EcommerceProvider";
+import { ProductLightbox } from "@/amerta/theme/components/ProductDetail/ProductLightbox";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 interface ProductImageGalleryProps {
   productImages: (string | any)[];

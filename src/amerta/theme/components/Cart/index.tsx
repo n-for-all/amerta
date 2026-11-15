@@ -8,7 +8,7 @@ import { removeFromCart, updateQuantity, fetchCart } from "@/amerta/core/utiliti
 import { CartWithCalculations } from "@/amerta/core/types";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { formatPrice } from "@/amerta/core/utilities/format-price";
-import { CouponForm } from "../CouponForm";
+import { CouponForm } from "@/amerta/theme/components/CouponForm";
 import { getURL } from "@/amerta/utilities/getURL";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { Product, ProductMedia } from "@/payload-types";

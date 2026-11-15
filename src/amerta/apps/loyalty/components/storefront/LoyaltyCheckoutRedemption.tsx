@@ -139,7 +139,8 @@ export const LoyaltyCheckoutRedemption: React.FC = () => {
         <p className="text-[11px] text-emerald-600 dark:text-emerald-400">
           {printf(
             __(loyaltyStatus.settings.checkoutEarnMessage),
-            estimatedEarnedPoints.toLocaleString()
+            estimatedEarnedPoints.toLocaleString(),
+            multiplier
           )}
         </p>
       )}

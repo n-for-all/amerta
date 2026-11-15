@@ -22,3 +22,12 @@ export const getAdminApiURL = (path: string): string => {
   pathParts.push(trimSlashes(path || ""));
   return pathParts.filter(Boolean).join("/");
 };
+
+/**
+ * Relative admin path (e.g. "/admin/globals/apps") for links rendered inside the admin.
+ * Same-origin, so it works on any host/port regardless of NEXT_PUBLIC_SERVER_URL.
+ * Use getAdminURL() only where an absolute URL is required (e.g. emails).
+ */
+export const getAdminRelativeURL = (path: string): string => {
+  return "/" + [getAdminPath(), trimSlashes(path || "")].filter(Boolean).join("/");
+};

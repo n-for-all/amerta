@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeShopBlogPostsBlock as ThemeShopBlogPostsBlockProps } from "@/payload-types";
-import { BlogPostsCarousel } from "./Carousel";
+import { BlogPostsCarousel } from "@/amerta/theme/blocks/general/BlogPosts/Carousel";
 import { cn } from "@/amerta/utilities/ui";
 import Link from "next/link";
 import { getLinkUrl } from "@/amerta/utilities/getURL";

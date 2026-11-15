@@ -1,6 +1,6 @@
 import { Order } from "@/payload-types";
-import { OrderDetails } from "./Details";
-import { OrderItems } from "./Items";
+import { OrderDetails } from "@/amerta/theme/components/Account/Order/Details";
+import { OrderItems } from "@/amerta/theme/components/Account/Order/Items";
 import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { getPaymentByOrderId } from "@/amerta/core/utilities/get-payment";
 import { Button } from "@/amerta/theme/ui/button";

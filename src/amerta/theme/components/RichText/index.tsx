@@ -8,7 +8,7 @@ import { cn } from "@/amerta/utilities/ui";
 
 import { ThemeShopCallToActionTextBlock } from "@/amerta/theme/blocks/general/CallToActionText/Component";
 import { FormBlock } from "@/amerta/components/Form/Component";
-import { renderSubmitButton } from "./formButton";
+import { renderSubmitButton } from "@/amerta/theme/components/RichText/formButton";
 import { ThemeShopMediaBlock } from "@/amerta/theme/blocks/general/MediaBlock/Component";
 import { ThemeShopCodeBlock, ThemeShopCodeBlockProps } from "@/amerta/theme/blocks/general/Code/Component";
 import { ThemeShopBannerBlock } from "@/amerta/theme/blocks/general/Banner/Component";

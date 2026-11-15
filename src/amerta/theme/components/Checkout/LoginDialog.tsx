@@ -1,4 +1,4 @@
-import LoginForm from "../LoginForm";
+import LoginForm from "@/amerta/theme/components/LoginForm";
 
 export const LoginDialog = ({ onClose, logo }) => {
   return (

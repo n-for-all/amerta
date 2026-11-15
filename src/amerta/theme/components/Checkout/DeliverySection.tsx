@@ -1,6 +1,6 @@
 "use client";
 import { useContext } from "react";
-import { CheckoutContext } from "./hooks/useCheckout";
+import { CheckoutContext } from "@/amerta/theme/components/Checkout/hooks/useCheckout";
 import { FormField, FormItem, FormControl, FormMessage } from "@/amerta/theme/ui/form";
 import { Check, Loader2 } from "lucide-react";
 import { formatPrice } from "@/amerta/core/utilities/format-price";

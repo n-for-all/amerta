@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Onboarding } from "..";
+import { Onboarding } from "@/amerta/theme/components/Onboarding";
 import { getAdminApiURL } from "@/amerta/utilities/getAdminURL";
 import { useAuth } from "@payloadcms/ui";
 

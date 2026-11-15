@@ -16,7 +16,7 @@ import { checkPaymentStatus } from "./handlers/check-status";
 import { sendOrderEmailHandler } from "./handlers/send-email-handler";
 import { withGuard } from "@/amerta/utilities/withGuard";
 import { sendToN8N } from "./hooks/sendToN8N";
-import { processAppOrderHooks } from "@/amerta/apps/appHooks";
+import { processAppOrderHooks, processAppOrderDeleted } from "@/amerta/apps/appHooks";
 
 export const Orders: CollectionConfig = {
   slug: "orders",
@@ -24,7 +24,7 @@ export const Orders: CollectionConfig = {
   admin: {
     group: "",
     useAsTitle: "orderId",
-    defaultColumns: ["orderId", "createdAt", "orderedBy", "status"],
+    defaultColumns: ["orderId", "createdAt", "orderedBy", "status", "isTest"],
     components: {
       edit: {
         beforeDocumentControls: [
@@ -39,6 +39,7 @@ export const Orders: CollectionConfig = {
   hooks: {
     beforeChange: [populateOrderData],
     afterChange: [sendToN8N, processAppOrderHooks],
+    afterDelete: [processAppOrderDeleted],
   },
   access: {
     read: adminsOrOrderedBy,
@@ -122,6 +123,28 @@ export const Orders: CollectionConfig = {
       ],
       admin: {
         position: "sidebar",
+      },
+    },
+    {
+      name: "isTest",
+      label: "TEST order",
+      type: "checkbox",
+      defaultValue: false,
+      access: {
+        update: admins,
+      },
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+        description: "Placed by a test customer and paid via the gateway sandbox. Runs every live-order function; delete it to revert.",
+      },
+    },
+    {
+      name: "stockReduced",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        hidden: true,
       },
     },
     {

@@ -2,7 +2,7 @@ import React from "react";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { ThemeShopCollectionArchiveBlock } from "@/payload-types";
-import { CollectionArchiveCarousel } from "./Carousel";
+import { CollectionArchiveCarousel } from "@/amerta/theme/blocks/general/CollectionArchive/Carousel";
 import { cn } from "@/amerta/utilities/ui";
 import Link from "next/link";
 import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";

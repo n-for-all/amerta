@@ -1,7 +1,7 @@
 import type { GlobalConfig } from "payload";
 
 import { link } from "@/amerta/fields/link/link";
-import { revalidateHeader } from "./hooks/revalidateHeader";
+import { revalidateHeader } from "@/amerta/theme/blocks/common/Header/hooks/revalidateHeader";
 
 export const Header: GlobalConfig = {
   admin: {

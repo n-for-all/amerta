@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { CheckoutForm } from "./stripe/CheckoutForm";
-import { PaymentGatewayProps } from "./types";
+import { CheckoutForm } from "@/amerta/theme/components/Payment/gateways/stripe/CheckoutForm";
+import { PaymentGatewayProps } from "@/amerta/theme/components/Payment/gateways/types";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Loader2 } from "lucide-react";
 

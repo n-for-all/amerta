@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "@/amerta/utilities/ui";
 import { ThemeShopFeaturesBlock as FeaturesBlockProps } from "@/payload-types";
-import { FeaturesAccordion } from "./FeaturesAccordion";
+import { FeaturesAccordion } from "@/amerta/theme/blocks/general/ShopFeatures/FeaturesAccordion";
 import RichText from "@/amerta/theme/components/RichText";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 

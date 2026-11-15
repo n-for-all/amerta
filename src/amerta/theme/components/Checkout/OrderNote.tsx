@@ -1,5 +1,5 @@
 import { FormControl, FormField, FormItem, FormMessage } from "@/amerta/theme/ui/form";
-import { useEcommerce } from "../../../core/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export const OrderNote = ({ form }: { form: any }) => {
   const { __ } = useEcommerce();

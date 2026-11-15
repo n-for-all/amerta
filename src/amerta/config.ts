@@ -155,6 +155,9 @@ export function withAmerta(config: Config): Config {
 
   const amertaConfig: Omit<Config, "secret" | "db"> = {
     admin: {
+      avatar: {
+        Component: "@/amerta/theme/components/Avatar#AdminAvatar",
+      },
       components: {
         beforeNavLinks: ["@/amerta/components/DashboardLink"],
         beforeLogin: ["@/amerta/components/BeforeLogin"],

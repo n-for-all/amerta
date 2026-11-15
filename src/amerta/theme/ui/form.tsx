@@ -13,7 +13,7 @@ import {
 } from "react-hook-form"
 
 import { cn } from "@/amerta/utilities/ui"
-import { Label } from "./label"
+import { Label } from "@/amerta/theme/ui/label"
 import { AlertCircle } from "lucide-react"
 
 const Form = FormProvider

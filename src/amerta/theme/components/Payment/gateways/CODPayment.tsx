@@ -1,6 +1,6 @@
-import { PaymentGatewayProps } from "./types";
+import { PaymentGatewayProps } from "@/amerta/theme/components/Payment/gateways/types";
 import { useImperativeHandle } from "react";
-import { confirmPayment } from "../utils/confirm-payment";
+import { confirmPayment } from "@/amerta/theme/components/Payment/utils/confirm-payment";
 
 export function CODPayment({ currencyCode, amount, paymentRef, method, locale }: PaymentGatewayProps) {
   useImperativeHandle(paymentRef, () => ({

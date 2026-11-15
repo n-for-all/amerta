@@ -2,11 +2,11 @@
 
 import { forwardRef } from "react";
 import { Control } from "react-hook-form";
-import { PaymentMethodRenderer } from "./PaymentMethodRenderer";
+import { PaymentMethodRenderer } from "@/amerta/theme/components/Payment/PaymentMethodRenderer";
 import { Radio, RadioField, RadioGroup } from "@/amerta/theme/ui/radio";
 import { FormControl, FormField, FormItem, FormMessage } from "@/amerta/theme/ui/form";
 import { PaymentMethod } from "@/amerta/core/types";
-import { PaymentHandle } from "./gateways/types";
+import { PaymentHandle } from "@/amerta/theme/components/Payment/gateways/types";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 
 interface PaymentsProps {

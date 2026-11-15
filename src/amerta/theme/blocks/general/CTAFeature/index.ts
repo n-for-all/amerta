@@ -1,2 +1,2 @@
-export { ThemeShopCTAFeatureBlock } from "./Component";
-export { ThemeShopCTAFeatureBlock as default } from "./config";
+export { ThemeShopCTAFeatureBlock } from "@/amerta/theme/blocks/general/CTAFeature/Component";
+export { ThemeShopCTAFeatureBlock as default } from "@/amerta/theme/blocks/general/CTAFeature/config";

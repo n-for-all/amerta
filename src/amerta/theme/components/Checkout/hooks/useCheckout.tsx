@@ -6,9 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CartWithCalculations, PaymentMethod } from "@/amerta/core/types";
 import { Customer, EcommerceSettings } from "@/payload-types";
-import { useGuestAddressStorage, SavedAddress } from "../GuestAddressSection";
-import { PaymentHandle } from "../../Payment/gateways/types";
-import { CheckoutFormValues } from "..";
+import { useGuestAddressStorage, SavedAddress } from "@/amerta/theme/components/Checkout/GuestAddressSection";
+import { PaymentHandle } from "@/amerta/theme/components/Payment/gateways/types";
+import { CheckoutFormValues } from "@/amerta/theme/components/Checkout";
 import { OrderSubmissionPayload } from "@/amerta/core/types/order-submission";
 
 export const requiredString = (message: string) => z.string({ error: message }).min(1, message);

@@ -1,5 +1,10 @@
-import { CollectionAfterChangeHook, Payload } from "payload";
+import { CollectionAfterChangeHook, CollectionAfterDeleteHook, Payload } from "payload";
 import { availableApps } from "./index";
+import { adjustOrderStock } from "@/amerta/core/utilities/is-in-stock";
+import { sendOrderDeletedToN8N } from "@/amerta/collections/Orders/hooks/sendToN8N";
+
+const PAID_STATUSES = ["processing", "completed", "shipped"];
+const CANCELLED_STATUSES = ["cancelled", "refunded"];
 
 /**
  * Helper to fetch active apps from the apps global
@@ -26,8 +31,31 @@ export const processAppOrderHooks: CollectionAfterChangeHook = async ({
   doc, // current order
   previousDoc, // order before update
   operation, // 'create' | 'update'
-  req: { payload },
+  req,
+  context,
 }) => {
+  const { payload } = req;
+  // Internal bookkeeping writes (e.g. setting stockReduced) must not re-trigger lifecycle events
+  if (context?.inventoryAdjustment) return doc;
+
+  // Inventory (core, independent of apps): reduce once when the order becomes paid,
+  // restore when it is cancelled/refunded. `stockReduced` makes both idempotent.
+  try {
+    const isPaid = PAID_STATUSES.includes(doc.status);
+    const isCancelled = CANCELLED_STATUSES.includes(doc.status);
+    if (isPaid && !doc.stockReduced) {
+      await adjustOrderStock(doc, -1, payload, req);
+      await payload.update({ collection: "orders", id: doc.id, data: { stockReduced: true }, req, context: { inventoryAdjustment: true } });
+      doc.stockReduced = true;
+    } else if (isCancelled && doc.stockReduced) {
+      await adjustOrderStock(doc, 1, payload, req);
+      await payload.update({ collection: "orders", id: doc.id, data: { stockReduced: false }, req, context: { inventoryAdjustment: true } });
+      doc.stockReduced = false;
+    }
+  } catch (err) {
+    console.error("[AppHooks] Inventory adjustment failed:", err);
+  }
+
   try {
     const activeAppSlugs = await getActiveAppSlugs(payload);
     if (!activeAppSlugs || activeAppSlugs.length === 0) {
@@ -107,6 +135,45 @@ export const processAppOrderHooks: CollectionAfterChangeHook = async ({
     console.error("[AppHooks] Error processing app order hooks:", err);
   }
 
+  return doc;
+};
+
+/**
+ * Order deleted: revert everything the order did, as if it had been cancelled.
+ * - Apps get onOrderCancelled (e.g. loyalty points clawback) if the order was paid and not already cancelled
+ * - Stock is restored if it had been reduced
+ * - n8n is notified with event "order.deleted"
+ */
+export const processAppOrderDeleted: CollectionAfterDeleteHook = async ({ doc, req }) => {
+  const { payload } = req;
+
+  if (doc.stockReduced) {
+    try {
+      await adjustOrderStock(doc, 1, payload, req);
+    } catch (err) {
+      console.error("[AppHooks] Stock restore on delete failed:", err);
+    }
+  }
+
+  if (!CANCELLED_STATUSES.includes(doc.status)) {
+    try {
+      const activeAppSlugs = await getActiveAppSlugs(payload);
+      const activeApps = availableApps.filter((app) => activeAppSlugs.includes(app.slug));
+      for (const app of activeApps) {
+        if (app.hooks?.onOrderCancelled) {
+          try {
+            await app.hooks.onOrderCancelled(doc, doc, payload);
+          } catch (appErr) {
+            console.error(`[AppHooks] Error in ${app.slug}.onOrderCancelled (delete):`, appErr);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("[AppHooks] Error processing order delete:", err);
+    }
+  }
+
+  await sendOrderDeletedToN8N(doc, payload);
   return doc;
 };
 

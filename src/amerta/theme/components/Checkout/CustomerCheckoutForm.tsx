@@ -1,12 +1,12 @@
 "use client";
 
 import { useContext, useEffect } from "react";
-import { CheckoutContext } from "./hooks/useCheckout"; // Ensure path matches where you saved the context
+import { CheckoutContext } from "@/amerta/theme/components/Checkout/hooks/useCheckout"; // Ensure path matches where you saved the context
 import { AddressManager } from "@/amerta/theme/components/AddressManager";
-import { PaymentMethods } from "./PaymentMethods";
+import { PaymentMethods } from "@/amerta/theme/components/Checkout/PaymentMethods";
 
 import { Switch } from "@/amerta/theme/ui/switch";
-import { DeliverySection } from "./DeliverySection";
+import { DeliverySection } from "@/amerta/theme/components/Checkout/DeliverySection";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export function CustomerCheckoutForm() {

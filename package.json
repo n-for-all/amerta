@@ -1,7 +1,7 @@
 {
   "name": "amerta",
   "description": "E-commerce template for Payload",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -41,6 +41,7 @@
     "@payloadcms/live-preview-react": "3.75.0",
     "@payloadcms/next": "3.75.0",
     "@payloadcms/plugin-form-builder": "3.75.0",
+    "@payloadcms/plugin-mcp": "3.75.0",
     "@payloadcms/plugin-nested-docs": "3.75.0",
     "@payloadcms/plugin-redirects": "3.75.0",
     "@payloadcms/plugin-search": "3.75.0",

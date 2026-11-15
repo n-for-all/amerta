@@ -264,6 +264,10 @@ export async function clawbackOrderPoints(order: any, payload: Payload) {
 
   if (!earnTx) return;
 
+  // Already reversed (e.g. cancelled, then deleted) — don't take the points twice
+  const alreadyReversed = account.history.some((tx) => tx.type === "refund" && String(tx.orderId) === String(order.id));
+  if (alreadyReversed) return;
+
   const pointsToClawback = earnTx.points;
   const newBalance = Math.max(0, account.points - pointsToClawback);
   const newLifetime = Math.max(0, account.lifetimePoints - pointsToClawback);

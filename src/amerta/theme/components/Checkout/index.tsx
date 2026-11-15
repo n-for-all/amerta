@@ -1,5 +1,6 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
 import Link from "next/link";
 import * as z from "zod";
 import { CartWithCalculations, PaymentMethod } from "@/amerta/core/types";
@@ -7,14 +8,14 @@ import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Input } from "@/amerta/theme/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/amerta/theme/ui/form";
 import { Customer, EcommerceSettings } from "@/payload-types";
-import { LoginDialog } from "./LoginDialog";
-import { PaymentHandle } from "../Payment/gateways/types";
-import { ErrorDialog } from "./ErrorDialog";
-import { OrderSummary } from "./OrderSummary";
-import { CheckoutContext, checkoutSchema, loggedInCheckoutSchema, useCheckout } from "./hooks/useCheckout";
-import { CustomerCheckoutForm } from "./CustomerCheckoutForm";
-import { GuestCheckoutForm } from "./GuestCheckoutForm";
-import { OrderNote } from "./OrderNote";
+import { LoginDialog } from "@/amerta/theme/components/Checkout/LoginDialog";
+import { PaymentHandle } from "@/amerta/theme/components/Payment/gateways/types";
+import { ErrorDialog } from "@/amerta/theme/components/Checkout/ErrorDialog";
+import { OrderSummary } from "@/amerta/theme/components/Checkout/OrderSummary";
+import { CheckoutContext, checkoutSchema, loggedInCheckoutSchema, useCheckout } from "@/amerta/theme/components/Checkout/hooks/useCheckout";
+import { CustomerCheckoutForm } from "@/amerta/theme/components/Checkout/CustomerCheckoutForm";
+import { GuestCheckoutForm } from "@/amerta/theme/components/Checkout/GuestCheckoutForm";
+import { OrderNote } from "@/amerta/theme/components/Checkout/OrderNote";
 import { getURL } from "@/amerta/utilities/getURL";
 import { useAuth } from "@/amerta/providers/Auth";
 
@@ -49,6 +50,21 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const paymentMethodRef = useRef<PaymentHandle>(null);
   const { user: customer } = useAuth() as { user: Customer | null };
+
+  useEffect(() => {
+    if (!cartData?.items?.length) return;
+    const rate = Number(exchangeRate) || 1;
+    trackEcommerce("begin_checkout", {
+      currency: currency?.code || "",
+      value: cartData.total * rate,
+      ...(typeof cartData.appliedCoupon === "object" && cartData.appliedCoupon?.code && { coupon: cartData.appliedCoupon.code }),
+      items: cartData.items.map((i) => {
+        const p = typeof i.product === "object" ? i.product : null;
+        return { item_id: p?.sku || p?.id || String(i.product), item_name: p?.title || "", price: (i.salePrice || i.price) * rate, quantity: i.quantity };
+      }),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const checkoutState = useCheckout({
     cart: cartData,

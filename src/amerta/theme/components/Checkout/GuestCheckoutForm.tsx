@@ -1,13 +1,13 @@
 "use client";
 
 import { useContext } from "react";
-import { GuestAddressSection } from "./GuestAddressSection";
-import { PaymentMethods } from "./PaymentMethods";
+import { GuestAddressSection } from "@/amerta/theme/components/Checkout/GuestAddressSection";
+import { PaymentMethods } from "@/amerta/theme/components/Checkout/PaymentMethods";
 import { Switch } from "@/amerta/theme/ui/switch";
-import { DeliverySection } from "./DeliverySection";
-import { CheckoutContext } from "./hooks/useCheckout"; // Adjust import path if needed
+import { DeliverySection } from "@/amerta/theme/components/Checkout/DeliverySection";
+import { CheckoutContext } from "@/amerta/theme/components/Checkout/hooks/useCheckout"; // Adjust import path if needed
 import { UseFormReturn } from "react-hook-form";
-import { CheckoutFormGuestValues } from ".";
+import { CheckoutFormGuestValues } from "@/amerta/theme/components/Checkout";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export function GuestCheckoutForm() {

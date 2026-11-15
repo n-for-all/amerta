@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import DefaultLayout from "@/app/(ecommerce)/(default)/layout";
 import { DEFAULT_LOCALE, LOCALES } from "@/amerta/localization/locales";
-import NotFoundClient from "./NotFoundClient";
+import NotFoundClient from "@/amerta/theme/components/NotFound/NotFoundClient";
 
 export const metadata = {
   title: "404 - Page Not Found",

@@ -1,11 +1,11 @@
 import { hasStock } from "@/amerta/core/utilities/has-stock";
-import { ImageOrPlaceholder } from "../Thumbnail";
+import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
 import { Product, ProductBrand, ProductOption } from "@/payload-types";
 import { WishlistButton } from "@/amerta/theme/components/WishlistButton";
 import { cn } from "@/amerta/utilities/ui";
 import { getURL } from "@/amerta/utilities/getURL";
-import { CartForm } from "./CartForm";
-import { StockStatus } from "./StockStatus";
+import { CartForm } from "@/amerta/theme/components/ProductCard/CartForm";
+import { StockStatus } from "@/amerta/theme/components/ProductCard/StockStatus";
 import { createTranslator } from "@/amerta/core/utilities/translation";
 
 export const ProductCard = async ({ product, cartIcon, options, locale, className, vertical }: { product: Product; cartIcon?: React.ReactNode; options: ProductOption[]; locale?: string; className?: string; vertical?: boolean }) => {

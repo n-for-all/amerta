@@ -11,8 +11,54 @@ declare global {
   }
 }
 
+export type TrackItem = {
+  item_id: string;
+  item_name: string;
+  price: number;
+  quantity: number;
+  item_variant?: string;
+};
+
+const round = (n: number) => Math.round((Number(n) || 0) * 100) / 100;
+
+/**
+ * Push a GA4-format ecommerce event to the GTM dataLayer.
+ * GTM forwards it to GA4 / Meta Pixel / etc. `event_id` lets Meta dedupe with CAPI.
+ */
+export function trackEcommerce(
+  event: "view_item" | "add_to_cart" | "begin_checkout" | "purchase",
+  data: { currency: string; value: number; items: TrackItem[]; transaction_id?: string; tax?: number; shipping?: number; coupon?: string },
+  options?: { test?: boolean },
+) {
+  if (typeof window === "undefined") return;
+  const w = window as any;
+  // Test orders / test customers: GA4 gets debug_mode (DebugView; excluded from reports by the
+  // "Developer traffic" data filter), Meta gets is_test. Live events don't carry these keys at all.
+  // The window flag is set once the customer has loaded; fall back to the value remembered from the
+  // previous page so events fired early on a fresh page load (e.g. begin_checkout) are flagged too.
+  let rememberedTest = false;
+  try {
+    rememberedTest = localStorage.getItem("amertaTestCustomer") === "1";
+  } catch {}
+  const isTest = options?.test ?? (typeof w.__amertaTestCustomer === "boolean" ? w.__amertaTestCustomer : rememberedTest);
+  w.dataLayer = w.dataLayer || [];
+  const ecommerce = {
+    ...data,
+    currency: (data.currency || "").toUpperCase(), // GA4/Meta require ISO 4217 uppercase (e.g. "AED")
+    value: round(data.value),
+    ...(data.tax !== undefined && { tax: round(data.tax) }),
+    ...(data.shipping !== undefined && { shipping: round(data.shipping) }),
+    items: data.items.map((i) => ({ ...i, price: round(i.price) })),
+  };
+  const eventId = data.transaction_id ? `${event}_${data.transaction_id}` : `${event}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  w.dataLayer.push({ ecommerce: null }); // clear previous ecommerce object
+  w.dataLayer.push({ event, event_id: eventId, ...(isTest && { debug_mode: true, is_test: true }), ecommerce });
+  // Reset so the flags don't leak into later events via the dataLayer's merged state
+  if (isTest) w.dataLayer.push({ debug_mode: undefined, is_test: undefined });
+}
+
 export const GTM = ({ gtmId, withConsent }: { gtmId: string; withConsent?: boolean }) => {
-  const { preferences, hasConsented, acceptCookies } = useCookieStore();
+  const { preferences, hasConsented } = useCookieStore();
   useEffect(() => {
     if (typeof window === "undefined" || hasConsented === null || !withConsent) return;
 
@@ -39,7 +85,7 @@ export const GTM = ({ gtmId, withConsent }: { gtmId: string; withConsent?: boole
       }, 50);
       return () => clearInterval(scriptCheck);
     }
-  }, [hasConsented, acceptCookies]);
+  }, [hasConsented, preferences, withConsent]);
 
   const defaultConsent = !withConsent ? "granted" : "denied";
 

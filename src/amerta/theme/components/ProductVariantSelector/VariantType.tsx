@@ -5,7 +5,7 @@ import { Tooltip } from "@/amerta/theme/ui/tooltip";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/amerta/theme/ui/select";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { ProductMedia } from "@/payload-types";
-import { useEcommerce } from "../../../core/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { resolveColor } from "@/amerta/core/utilities/resolve-color";
 
 // ✅ 1. Define the specific shape of a single choice

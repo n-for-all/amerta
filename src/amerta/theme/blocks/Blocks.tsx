@@ -2,23 +2,23 @@ import React, { Fragment } from "react";
 
 import { Page } from "@/payload-types";
 import { toKebabCase } from "@/amerta/utilities/toKebabCase";
-import { ThemeShopHeroBlock } from "./general/Hero/Component";
-import { SmoothScroll } from "./common/SmoothScroll";
-import { ThemeShopCollectionShowcaseBlock } from "./general/CollectionShowcase/Component";
-import { ThemeShopCTAFeatureBlock } from "./general/CTAFeature/Component";
-import { ThemeShopGridShowcaseBlock } from "./general/GridShowcase/Component";
-import { ThemeShopNewsletterBlock } from "./general/Newsletter/Component";
-import { ThemeShopCollectionArchive } from "./general/CollectionArchive/Component";
-import { ThemeShopFeaturesBlock } from "./general/ShopFeatures/Component";
-import { ThemeShopBenefitsBlock } from "./general/Benefits/Component";
-import { ThemeShopBlogPostsBlock } from "./general/BlogPosts/Component";
+import { ThemeShopHeroBlock } from "@/amerta/theme/blocks/general/Hero/Component";
+import { SmoothScroll } from "@/amerta/theme/blocks/common/SmoothScroll";
+import { ThemeShopCollectionShowcaseBlock } from "@/amerta/theme/blocks/general/CollectionShowcase/Component";
+import { ThemeShopCTAFeatureBlock } from "@/amerta/theme/blocks/general/CTAFeature/Component";
+import { ThemeShopGridShowcaseBlock } from "@/amerta/theme/blocks/general/GridShowcase/Component";
+import { ThemeShopNewsletterBlock } from "@/amerta/theme/blocks/general/Newsletter/Component";
+import { ThemeShopCollectionArchive } from "@/amerta/theme/blocks/general/CollectionArchive/Component";
+import { ThemeShopFeaturesBlock } from "@/amerta/theme/blocks/general/ShopFeatures/Component";
+import { ThemeShopBenefitsBlock } from "@/amerta/theme/blocks/general/Benefits/Component";
+import { ThemeShopBlogPostsBlock } from "@/amerta/theme/blocks/general/BlogPosts/Component";
 import { DEFAULT_LOCALE } from "@/amerta/localization/locales";
-import { ThemeShopContactUsBlock } from "./general/ContactUs/Component";
-import { ThemeShopContentBlock } from "./general/Content/Component";
-import { ThemeShopImageBlock } from "./general/Image/Component";
-import { ThemeShopSpacerBlock } from "./general/Spacer/Component";
-import { ThemeShopHeroVideoBlock } from "./general/HeroVideo/Component";
-import { ThemeShopIntegrationGridBlock } from "./general/IntegrationGrid/Component";
+import { ThemeShopContactUsBlock } from "@/amerta/theme/blocks/general/ContactUs/Component";
+import { ThemeShopContentBlock } from "@/amerta/theme/blocks/general/Content/Component";
+import { ThemeShopImageBlock } from "@/amerta/theme/blocks/general/Image/Component";
+import { ThemeShopSpacerBlock } from "@/amerta/theme/blocks/general/Spacer/Component";
+import { ThemeShopHeroVideoBlock } from "@/amerta/theme/blocks/general/HeroVideo/Component";
+import { ThemeShopIntegrationGridBlock } from "@/amerta/theme/blocks/general/IntegrationGrid/Component";
 
 const blockComponents = {
   themeShopHero: ThemeShopHeroBlock,

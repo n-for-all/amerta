@@ -1,7 +1,7 @@
 "use client";
 
-import { confirmPayment } from "../utils/confirm-payment";
-import { PaymentGatewayProps } from "./types";
+import { confirmPayment } from "@/amerta/theme/components/Payment/utils/confirm-payment";
+import { PaymentGatewayProps } from "@/amerta/theme/components/Payment/gateways/types";
 import { useImperativeHandle, useState } from "react";
 
 export function MamoPayment({ currencyCode, amount, paymentRef, method, locale }: PaymentGatewayProps) {

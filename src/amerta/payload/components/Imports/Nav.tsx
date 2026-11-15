@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { NavGroup } from "@payloadcms/ui";
 import { useTranslation } from "@payloadcms/ui";
 import { getTranslation } from "@payloadcms/translations";
-import { getAdminURL } from "@/amerta/utilities/getAdminURL";
+import { getAdminRelativeURL } from "@/amerta/utilities/getAdminURL";
 
 const baseClass = "nav";
 const entities = [
@@ -44,7 +44,7 @@ export const ImportsNav = ({ navPreferences, label }) => {
           );
 
           return (
-            <Link className={`${baseClass}__link`} href={getAdminURL(href)} id={id} key={i} prefetch={false}>
+            <Link className={`${baseClass}__link`} href={getAdminRelativeURL(href)} id={id} key={i} prefetch={false}>
               {Label}
             </Link>
           );

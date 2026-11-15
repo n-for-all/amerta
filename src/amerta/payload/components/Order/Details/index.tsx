@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import type { Order, Customer } from "@/payload-types";
 import { useDocumentInfo, useFormFields } from "@payloadcms/ui";
 import styles from "./index.module.scss";
-import { getAdminURL } from "@/amerta/utilities/getAdminURL";
+import { getAdminRelativeURL } from "@/amerta/utilities/getAdminURL";
 
 export const OrderDetails: React.FC = () => {
   const { data: savedData } = useDocumentInfo();
@@ -146,7 +146,7 @@ export const OrderDetails: React.FC = () => {
             <div className={styles.label}>Customer:</div>
             <div className={styles.value}>
               {customerId ? (
-                <a href={getAdminURL(`/collections/customer/${customerId}`)} className={styles.customerLink}>
+                <a href={getAdminRelativeURL(`/collections/customer/${customerId}`)} className={styles.customerLink}>
                   <span className={`${styles.badge} ${customerBadge === "Account" ? styles.badgeAccount : styles.badgeGuest}`}>{customerBadge}</span>
                   {customerName && ` ${customerName}`}
                 </a>

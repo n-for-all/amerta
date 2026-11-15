@@ -217,6 +217,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchMe();
   }, []);
 
+  // Lets tracking (GTM.client trackEcommerce) mark a test customer's events as test/debug
+  useEffect(() => {
+    if (typeof window === "undefined" || user === undefined) return; // undefined = still loading
+    const isTest = !!(user as any)?.isTestCustomer;
+    (window as any).__amertaTestCustomer = isTest;
+    try {
+      if (isTest) localStorage.setItem("amertaTestCustomer", "1");
+      else localStorage.removeItem("amertaTestCustomer");
+    } catch {}
+  }, [user]);
+
   return (
     <Context.Provider
       value={{

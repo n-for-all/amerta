@@ -3,13 +3,13 @@ import ProductTabs from "@/amerta/theme/components/ProductTabs";
 import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { hasStock } from "@/amerta/core/utilities/has-stock";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";
-import { RelatedProducts } from "../RelatedProducts";
+import { RelatedProducts } from "@/amerta/theme/components/RelatedProducts";
 import { getRelatedProducts } from "@/amerta/core/utilities/get-related-products";
 import { getProductReviews } from "@/amerta/core/utilities/get-product-reviews";
 import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { createTranslator } from "@/amerta/core/utilities/translation";
-import { ProductContext } from "./ProductContext";
-import { ProductImageGallery } from "./ProductImageGallery";
+import { ProductContext } from "@/amerta/theme/components/ProductDetail/ProductContext";
+import { ProductImageGallery } from "@/amerta/theme/components/ProductDetail/ProductImageGallery";
 import { Blocks } from "@/amerta/theme/blocks/Blocks";
 
 const CartIcon = ({ className }: { className?: string }) => (

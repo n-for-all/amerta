@@ -15,9 +15,6 @@ import {
   adminAdjustPointsEndpoint,
   adminUpdateCustomerEndpoint,
 } from "./endpoints/admin";
-import { LoyaltyCheckoutRedemption } from "./components/storefront/LoyaltyCheckoutRedemption";
-import { CustomerAccountLoyaltyCard } from "./components/storefront/CustomerAccountLoyaltyCard";
-import { ProductPointsBadge } from "./components/storefront/ProductPointsBadge";
 
 export const loyaltyApp: AmertaApp = {
   name: "Loyalty & VIP Circle",
@@ -30,30 +27,20 @@ export const loyaltyApp: AmertaApp = {
     path: "/admin/loyalty-settings",
   },
   hooks: {
-    onOrderPaid: async (order, payload) => {
+    // Signature is (order, previousOrder, payload) — see AmertaAppHooks in apps/types.ts.
+    // These previously took (order, payload), so `payload` was actually the previous order and
+    // points were never awarded or clawed back.
+    onOrderPaid: async (order, _previousOrder, payload) => {
       await awardOrderPoints(order, payload);
     },
-    onOrderCancelled: async (order, payload) => {
+    onOrderCancelled: async (order, _previousOrder, payload) => {
       await clawbackOrderPoints(order, payload);
     },
     onCustomerCreated: async (customer, payload) => {
       await awardWelcomeBonus(String(customer.id), payload);
     },
   },
-  storefrontExtensions: [
-    {
-      target: "checkout.order_summary.before_totals",
-      Component: LoyaltyCheckoutRedemption,
-    },
-    {
-      target: "account.dashboard.cards",
-      Component: CustomerAccountLoyaltyCard,
-    },
-    {
-      target: "product.price.after",
-      Component: ProductPointsBadge,
-    },
-  ],
+  // Storefront UI extensions are registered client-side in apps/storefront-extensions.ts
   extendConfig: (config) => {
     return {
       ...config,

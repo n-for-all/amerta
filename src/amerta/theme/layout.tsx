@@ -2,16 +2,16 @@ import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { Config } from "payload";
 import React, { ReactNode } from "react";
 import type { EcommerceSettings, Header as HeaderProps, Settings } from "@/payload-types";
-import { Header } from "./blocks/common/Header/Component";
-import { Footer } from "./blocks/common/Footer/Component";
-import { EcommerceProvider } from "../core/providers/EcommerceProvider";
-import { Toaster } from "./ui/toast";
+import { Header } from "@/amerta/theme/blocks/common/Header/Component";
+import { Footer } from "@/amerta/theme/blocks/common/Footer/Component";
+import { EcommerceProvider } from "@/amerta/core/providers/EcommerceProvider";
+import { Toaster } from "@/amerta/theme/ui/toast";
 import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { LOCALES } from "@/amerta/localization/locales";
 import { getDictionary } from "@/amerta/core/utilities/translation";
 import { getCurrentCurrency } from "@/amerta/core/utilities/get-current-currency";
 import { getCurrencies } from "@/amerta/core/utilities/get-currencies";
-import { AnnouncementBar } from "./blocks/common/AnnouncementBar";
+import { AnnouncementBar } from "@/amerta/theme/blocks/common/AnnouncementBar";
 
 import { getActiveApps } from "@/amerta/core/utilities/get-active-apps";
 

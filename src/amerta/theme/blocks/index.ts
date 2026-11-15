@@ -1,22 +1,22 @@
-import { ThemeShopHero } from "./general/Hero/config";
-import { ThemeShopCollectionShowcase } from "./general/CollectionShowcase/config";
-import { ThemeShopCTAFeatureBlock } from "./general/CTAFeature/config";
-import { ThemeShopGridShowcaseBlock } from "./general/GridShowcase/config";
-import { ThemeShopMediaBlock } from "./general/MediaBlock/config";
-import { ThemeShopBannerBlock } from "./general/Banner/config";
-import { ThemeShopCodeBlock } from "./general/Code/config";
-import { ThemeShopCallToActionTextBlock } from "./general/CallToActionText/config";
-import { ThemeShopNewsletterBlock } from "./general/Newsletter/config";
-import { ThemeShopCollectionArchive } from "./general/CollectionArchive/config";
-import { ThemeShopFeaturesBlock } from "./general/ShopFeatures/config";
-import { ThemeShopBenefitsBlock } from "./general/Benefits/config";
-import { ThemeShopBlogPostsBlock } from "./general/BlogPosts/config";
-import { ThemeShopContactUsBlock } from "./general/ContactUs/config";
-import { ThemeShopContentBlock } from "./general/Content/config";
-import { ThemeShopImageBlock } from "./general/Image/config";
-import { ThemeShopSpacerBlock } from "./general/Spacer/config";
-import { ThemeShopHeroVideoBlock } from "./general/HeroVideo/config";
-import { ThemeShopIntegrationGridBlock } from "./general/IntegrationGrid/config";
+import { ThemeShopHero } from "@/amerta/theme/blocks/general/Hero/config";
+import { ThemeShopCollectionShowcase } from "@/amerta/theme/blocks/general/CollectionShowcase/config";
+import { ThemeShopCTAFeatureBlock } from "@/amerta/theme/blocks/general/CTAFeature/config";
+import { ThemeShopGridShowcaseBlock } from "@/amerta/theme/blocks/general/GridShowcase/config";
+import { ThemeShopMediaBlock } from "@/amerta/theme/blocks/general/MediaBlock/config";
+import { ThemeShopBannerBlock } from "@/amerta/theme/blocks/general/Banner/config";
+import { ThemeShopCodeBlock } from "@/amerta/theme/blocks/general/Code/config";
+import { ThemeShopCallToActionTextBlock } from "@/amerta/theme/blocks/general/CallToActionText/config";
+import { ThemeShopNewsletterBlock } from "@/amerta/theme/blocks/general/Newsletter/config";
+import { ThemeShopCollectionArchive } from "@/amerta/theme/blocks/general/CollectionArchive/config";
+import { ThemeShopFeaturesBlock } from "@/amerta/theme/blocks/general/ShopFeatures/config";
+import { ThemeShopBenefitsBlock } from "@/amerta/theme/blocks/general/Benefits/config";
+import { ThemeShopBlogPostsBlock } from "@/amerta/theme/blocks/general/BlogPosts/config";
+import { ThemeShopContactUsBlock } from "@/amerta/theme/blocks/general/ContactUs/config";
+import { ThemeShopContentBlock } from "@/amerta/theme/blocks/general/Content/config";
+import { ThemeShopImageBlock } from "@/amerta/theme/blocks/general/Image/config";
+import { ThemeShopSpacerBlock } from "@/amerta/theme/blocks/general/Spacer/config";
+import { ThemeShopHeroVideoBlock } from "@/amerta/theme/blocks/general/HeroVideo/config";
+import { ThemeShopIntegrationGridBlock } from "@/amerta/theme/blocks/general/IntegrationGrid/config";
 
 const ThemeBlocks = [
   ThemeShopHero,

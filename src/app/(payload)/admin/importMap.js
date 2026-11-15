@@ -56,6 +56,7 @@ import { SocialMediaRowLabel as SocialMediaRowLabel_4027df51f784d590fe1249339832
 import { N8NTestButton as N8NTestButton_3fc92912a4711ac7db0cd57d17c1a99e } from '@/amerta/globals/Integrations/fields/N8NTestButton'
 import { N8NHelp as N8NHelp_938b5e1385d981bfb0396f904d611ec1 } from '@/amerta/globals/Integrations/fields/N8NHelp'
 import { ReloadOnSave as ReloadOnSave_a7a512d2b1786e94325702ab26520b0b } from '@/amerta/apps/components/ReloadOnSave'
+import { AdminAvatar as AdminAvatar_652e9dc2b9e4f728f2c310cb42900f9a } from '@/amerta/theme/components/Avatar'
 import { Icon as Icon_cb15aefbbc30e5bb599344050f8664f7 } from '@/amerta/theme/admin/Icon'
 import { Logo as Logo_46634ccd9d720bf8ed75cdbe749851ad } from '@/amerta/theme/admin/Logo'
 import { AppLinks as AppLinks_1bcfc4289f54cdbe83734174f70ee27a } from '@/amerta/apps/components/AppLinks'
@@ -132,6 +133,7 @@ export const importMap = {
   "@/amerta/globals/Integrations/fields/N8NTestButton#N8NTestButton": N8NTestButton_3fc92912a4711ac7db0cd57d17c1a99e,
   "@/amerta/globals/Integrations/fields/N8NHelp#N8NHelp": N8NHelp_938b5e1385d981bfb0396f904d611ec1,
   "@/amerta/apps/components/ReloadOnSave#ReloadOnSave": ReloadOnSave_a7a512d2b1786e94325702ab26520b0b,
+  "@/amerta/theme/components/Avatar#AdminAvatar": AdminAvatar_652e9dc2b9e4f728f2c310cb42900f9a,
   "@/amerta/theme/admin/Icon#Icon": Icon_cb15aefbbc30e5bb599344050f8664f7,
   "@/amerta/theme/admin/Logo#Logo": Logo_46634ccd9d720bf8ed75cdbe749851ad,
   "@/amerta/apps/components/AppLinks#AppLinks": AppLinks_1bcfc4289f54cdbe83734174f70ee27a,

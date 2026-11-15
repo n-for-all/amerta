@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Product, ProductOption } from "@/payload-types";
-import { VariantChoice, VariantColorSelector, VariantDropdownSelector, VariantImageSelector, VariantTextSelector } from "./VariantType";
+import { VariantChoice, VariantColorSelector, VariantDropdownSelector, VariantImageSelector, VariantTextSelector } from "@/amerta/theme/components/ProductVariantSelector/VariantType";
 import { getAvailableProductOptions } from "@/amerta/core/utilities/get-available-product-options";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 

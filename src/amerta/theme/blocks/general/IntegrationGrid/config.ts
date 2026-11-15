@@ -1,6 +1,6 @@
 import type { Block } from "payload";
 
-import { integrationFields } from "../../shared/integrationFields";
+import { integrationFields } from "@/amerta/theme/blocks/shared/integrationFields";
 
 export const ThemeShopIntegrationGridBlock: Block = {
   slug: "themeShopIntegrationGrid",

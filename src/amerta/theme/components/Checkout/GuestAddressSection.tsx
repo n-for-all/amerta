@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { AddressForm, SupportedCountry } from "./AddressForm";
-import { CheckoutFormGuestValues } from ".";
+import { AddressForm, SupportedCountry } from "@/amerta/theme/components/Checkout/AddressForm";
+import { CheckoutFormGuestValues } from "@/amerta/theme/components/Checkout";
 
 export interface SavedAddress {
   id: string;

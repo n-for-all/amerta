@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/amerta/utilities/ui";
 import type { ThemeShopNewsletterBlock as NewsletterProps } from "@/payload-types";
 import RichText from "@/amerta/theme/components/RichText";
-import { Form } from "./Form";
+import { Form } from "@/amerta/theme/blocks/general/Newsletter/Form";
 
 type Props = NewsletterProps & {
   className?: string;

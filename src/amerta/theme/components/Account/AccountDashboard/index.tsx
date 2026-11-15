@@ -1,6 +1,6 @@
 import { getCustomerOrders } from "@/amerta/core/utilities/get-customer-orders";
 import { getMeCustomer } from "@/amerta/utilities/getMeCustomer";
-import OrdersTable from "../OrdersTable";
+import OrdersTable from "@/amerta/theme/components/Account/OrdersTable";
 import { Button } from "@/amerta/theme/ui/button";
 import Link from "next/link";
 import { getURL } from "@/amerta/utilities/getURL";

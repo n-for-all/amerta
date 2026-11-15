@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Code } from './Component.client'
+import { Code } from '@/amerta/theme/blocks/general/Code/Component.client'
 
 export type ThemeShopCodeBlockProps = {
   code: string

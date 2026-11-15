@@ -4,16 +4,7 @@ import { getPathSegment } from "./getPathSegment";
 import { CollectionSlug } from "payload";
 
 export const getServerSideURL = () => {
-  let url = process.env.NEXT_PUBLIC_SERVER_URL;
-
-  if (!url && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`.replace(/\/$/, "");
-  }
-
-  if (!url) {
-    url = process.env.NEXT_PUBLIC_SERVER_URL || "";
-  }
-
+  const url = process.env.NEXT_PUBLIC_SERVER_URL || "";
   return url.replace(/\/$/, "");
 };
 

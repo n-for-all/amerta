@@ -3,11 +3,12 @@
 
 import { getURL } from "@/amerta/utilities/getURL";
 import { Product } from "@/payload-types";
-import { useEcommerce } from "../../../core/providers/EcommerceProvider";
-import CollectionsDropdown from "../CollectionsDropdown";
-import AddToCartForm from "../AddToCartForm";
-import { ProductListingPrice } from "../ProductPrice";
-import { useState, createContext, useContext } from "react";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import CollectionsDropdown from "@/amerta/theme/components/CollectionsDropdown";
+import AddToCartForm from "@/amerta/theme/components/AddToCartForm";
+import { ProductListingPrice } from "@/amerta/theme/components/ProductPrice";
+import { useState, useEffect, createContext, useContext } from "react";
+import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
 import { AppSlot } from "@/amerta/apps/components/AppSlot";
 
 export interface ProductDetailContextType {
@@ -22,8 +23,18 @@ const ProductDetailContext = createContext<ProductDetailContextType | null>(null
 export const useProductDetail = () => useContext(ProductDetailContext);
 
 export const ProductContext = ({ product, locale, collections, brand, inStock, options }: { product: Product; locale: string; collections: any[]; brand?: any; inStock: boolean; options: any }) => {
-  const { __ } = useEcommerce();
+  const { __, currency, exchangeRate } = useEcommerce();
   const [selectedVariant, setSelectedVariant] = useState<NonNullable<Product["variants"]>[number] | null>(null);
+
+  useEffect(() => {
+    const price = (product.salePrice || product.price || 0) * (Number(exchangeRate) || 1);
+    trackEcommerce("view_item", {
+      currency: currency?.code || "",
+      value: price,
+      items: [{ item_id: product.sku || product.id, item_name: product.title, price, quantity: 1 }],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.id]);
   const onVariantChange = (variant: NonNullable<Product["variants"]>[number] | null) => {
     setSelectedVariant(variant);
   };

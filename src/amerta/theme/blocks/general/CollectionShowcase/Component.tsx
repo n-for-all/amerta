@@ -1,4 +1,4 @@
-import { ThemeShopCollectionShowcaseBlockClient } from "./Component.client";
+import { ThemeShopCollectionShowcaseBlockClient } from "@/amerta/theme/blocks/general/CollectionShowcase/Component.client";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 

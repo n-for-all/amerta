@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
-import { Input } from "./input";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "./select";
+import { Input } from "@/amerta/theme/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/amerta/theme/ui/select";
 import { Search } from "lucide-react";
 import { COUNTRIES } from "@/amerta/constants";
-import { useEcommerce } from "../../core/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 interface PhoneInputProps {
   value?: {

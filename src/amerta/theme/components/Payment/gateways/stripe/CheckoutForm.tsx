@@ -2,10 +2,10 @@
 
 import { useImperativeHandle } from "react";
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { PaymentHandle } from "../types";
+import { PaymentHandle } from "@/amerta/theme/components/Payment/gateways/types";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Country } from "@/payload-types";
-import { confirmPayment } from "../../utils/confirm-payment";
+import { confirmPayment } from "@/amerta/theme/components/Payment/utils/confirm-payment";
 
 interface Props {
   paymentRef: React.Ref<PaymentHandle>;

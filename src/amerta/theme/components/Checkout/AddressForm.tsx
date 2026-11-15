@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/amerta/theme/ui/textarea";
 import { PhoneInput } from "@/amerta/theme/ui/phone-input";
 import { UseFormReturn } from "react-hook-form";
-import { CheckoutFormGuestValues } from ".";
+import { CheckoutFormGuestValues } from "@/amerta/theme/components/Checkout";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 export interface SupportedCountry {

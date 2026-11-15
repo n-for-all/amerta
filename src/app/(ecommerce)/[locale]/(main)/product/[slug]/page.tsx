@@ -1,9 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import configPromise from "@payload-config";
 import { type Product } from "@/payload-types";
 import { generateMeta } from "@/amerta/utilities/generateMeta";
-import { getPayload } from "payload";
 
 import ProductDetail from "@/amerta/theme/components/ProductDetail";
 import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
@@ -15,6 +13,7 @@ import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency
 export const dynamic = "force-dynamic";
 
 import { generateProductJSONLD } from "@/amerta/utilities/generateProductJSONLD";
+import { getURL } from "@/amerta/utilities/getURL";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
   const { slug, locale } = await params;
@@ -34,7 +33,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const salesChannel = await getSalesChannel();
   const currency = getDefaultCurrency(salesChannel!);
-  const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/${locale}/product/${slug}`;
+  const url = getURL(`/${locale}/product/${slug}`);
   
   let jsonLd = null;
   try {

@@ -7,7 +7,8 @@ import { Currency, Order, ProductMedia } from "@/payload-types";
 import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { printf } from "fast-printf";
-import { useEcommerce } from "../../../core/providers/EcommerceProvider";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
 
 type Props = {
   initialOrder: Order;
@@ -33,6 +34,35 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
       credentials: "include",
     });
   }, []);
+
+  // Send `purchase` once per order, only when paid (or COD). Guarded against refreshes.
+  useEffect(() => {
+    if (!isConfirmed) return;
+    const transactionId = initialOrder.orderId || initialOrder.id;
+    // Keyed by database id: order numbers can be reused after an order is deleted
+    const key = `tracked_purchase_${initialOrder.id}`;
+    try {
+      if (localStorage.getItem(key)) return;
+      localStorage.setItem(key, "1");
+    } catch {}
+    const rate = Number(initialOrder.exchangeRate) || 1;
+    trackEcommerce("purchase", {
+      transaction_id: transactionId,
+      currency: currency?.code || "",
+      value: initialOrder.customerTotal || initialOrder.total * rate,
+      tax: (initialOrder.tax || 0) * rate,
+      shipping: (initialOrder.shippingTotal || 0) * rate,
+      ...(initialOrder.couponCode && { coupon: initialOrder.couponCode }),
+      items: (initialOrder.items || []).map((i) => ({
+        item_id: i.productSKU || (typeof i.product === "object" ? i.product?.id : i.product) || "",
+        item_name: i.productName || "",
+        price: i.price * rate,
+        quantity: i.quantity || 1,
+        ...(i.variantText && { item_variant: i.variantText }),
+      })),
+    }, { test: !!initialOrder.isTest });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConfirmed]);
 
   useEffect(() => {
     if (isConfirmed) return;

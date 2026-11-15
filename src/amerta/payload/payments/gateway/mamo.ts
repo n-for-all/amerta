@@ -62,6 +62,23 @@ import { Customer, PaymentMethod } from "@/payload-types";
  * - Supports custom actions like dynamic payment link creation
  *
  */
+const MAMO_LIVE_URL = "https://business.mamopay.com/manage_api/v1";
+const MAMO_SANDBOX_URL = "https://sandbox.dev.business.mamopay.com/manage_api/v1";
+
+/**
+ * Picks sandbox or live for a request. Sandbox when the global "Enable Sandbox Mode" is on,
+ * or when the order itself is a test order (placed by a test customer) — so testers can
+ * use the sandbox on a live store without affecting real customers.
+ */
+function getMamoEnv(settings: any, order?: { isTest?: boolean | null } | null) {
+  const isTestMode = !!settings?.testMode || !!order?.isTest;
+  return {
+    isTestMode,
+    apiKey: isTestMode ? settings?.testApiKey : settings?.liveApiKey,
+    baseUrl: isTestMode ? MAMO_SANDBOX_URL : MAMO_LIVE_URL,
+  };
+}
+
 export const MamoPayAdapter: PaymentAdapter = {
   slug: "mamo-pay",
   label: "Mamo Pay",
@@ -70,18 +87,12 @@ export const MamoPayAdapter: PaymentAdapter = {
     {
       name: "liveApiKey",
       type: "text",
-      label: "Live API Key",
-      admin: {
-        condition: (data, siblingData) => !siblingData?.testMode,
-      },
+      label: "Live API Key"
     },
     {
       name: "testApiKey",
       type: "text",
-      label: "Sandbox Test Key",
-      admin: {
-        condition: (data, siblingData) => siblingData?.testMode,
-      },
+      label: "Sandbox Test Key"
     },
     {
       name: "testMode",
@@ -91,6 +102,14 @@ export const MamoPayAdapter: PaymentAdapter = {
     },
     {
       name: "webhookId",
+      type: "text",
+      admin: {
+        readOnly: true,
+        hidden: true,
+      },
+    },
+    {
+      name: "testWebhookId",
       type: "text",
       admin: {
         readOnly: true,
@@ -118,51 +137,52 @@ export const MamoPayAdapter: PaymentAdapter = {
    */
   async onSaveSettings({ data }) {
     const settings = data.mamoPaySettings;
-
-    // 1. Get the correct key based on mode
-    const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;
-
-    // If no key or already has a webhook, skip
-    if (!settings || !apiKey || settings?.webhookId) {
-      return data;
-    }
-
-    // 2. Determine URL
-    const baseUrl = settings.testMode ? "https://sandbox.dev.business.mamopay.com/manage_api/v1" : "https://business.mamopay.com/manage_api/v1";
+    if (!settings) return data;
 
     const myWebhookUrl = `${getServerSideURL()}/api/payments/mamo-pay/webhook`;
 
-    try {
-      // 3. Call Mamo API to create webhook
-      const response = await fetch(`${baseUrl}/webhooks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          url: myWebhookUrl,
-          events: ["charge.succeeded", "charge.failed"],
-          active: true,
-          name: "Order Sync",
-        }),
-      });
+    // Webhooks created before sandbox/live were tracked separately: if sandbox mode was on,
+    // the stored webhookId belongs to the sandbox account.
+    if (settings.testMode && settings.webhookId && !settings.testWebhookId) {
+      settings.testWebhookId = settings.webhookId;
+      settings.webhookId = null;
+    }
 
-      if (!response.ok) {
-        const err = await response.text();
-        console.error("Failed to auto-create Mamo Webhook:", err);
-        // We don't throw error here to allow saving the settings even if webhook fails
-        return data;
+    // Register the webhook on each Mamo environment that has a key (live + sandbox),
+    // so both real orders and test orders get payment confirmations.
+    const register = async (apiKey: string, baseUrl: string) => {
+      try {
+        const response = await fetch(`${baseUrl}/webhooks`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            url: myWebhookUrl,
+            events: ["charge.succeeded", "charge.failed"],
+            active: true,
+            name: "Order Sync",
+          }),
+        });
+        if (!response.ok) {
+          // Don't block saving settings if the webhook can't be created
+          console.error(`Failed to auto-create Mamo webhook (${baseUrl}):`, await response.text());
+          return null;
+        }
+        const webhookData = await response.json();
+        return webhookData?.id || null;
+      } catch (error) {
+        console.error(`Error creating Mamo webhook (${baseUrl}):`, error);
+        return null;
       }
+    };
 
-      const webhookData = await response.json();
-
-      // 4. Save the ID back to settings so we don't create it again next time
-      if (webhookData.id) {
-        data.mamoPaySettings!.webhookId = webhookData.id;
-      }
-    } catch (error) {
-      console.error("Error creating Mamo webhook:", error);
+    if (settings.liveApiKey && !settings.webhookId) {
+      settings.webhookId = (await register(settings.liveApiKey, MAMO_LIVE_URL)) || settings.webhookId;
+    }
+    if (settings.testApiKey && !settings.testWebhookId) {
+      settings.testWebhookId = (await register(settings.testApiKey, MAMO_SANDBOX_URL)) || settings.testWebhookId;
     }
 
     return data;
@@ -207,9 +227,8 @@ export const MamoPayAdapter: PaymentAdapter = {
 
     const method = paymentMethod.docs[0];
     const settings = method.mamoPaySettings;
-    const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;
-
-    if (!apiKey) {
+    // Confirmations can come from the live or the sandbox environment (test orders)
+    if (!settings?.liveApiKey && !settings?.testApiKey) {
       return new Response("Mamo API Key configuration missing", { status: 500 });
     }
 
@@ -240,8 +259,51 @@ export const MamoPayAdapter: PaymentAdapter = {
     }
 
     const orderId = customData.orderId;
-    const amount = event.amount; // Mamo sends 10.50 (float), not 1050 (cents)
-    const currencyCode = event.currency;
+
+    // SECURITY: never trust the webhook body. Anyone can POST here, so confirm the charge
+    // with Mamo's API (sandbox key for test orders, live key otherwise) and use Mamo's data.
+    // Mamo's custom_data.orderId is our order number (e.g. "ORD-20261115-1051"); older links may
+    // carry the database id. Resolve both.
+    let order: any = null;
+    try {
+      const byNumber = await payload.find({ collection: "orders", where: { orderId: { equals: String(orderId) } }, limit: 1, depth: 0 });
+      order = byNumber.docs[0] || (/^[a-f0-9]{24}$/i.test(String(orderId)) ? await getOrderById({ id: String(orderId) }) : null);
+    } catch {
+      order = null;
+    }
+    if (!order) {
+      return new Response("Order not found", { status: 404 });
+    }
+    const env = getMamoEnv(settings, order);
+    if (!env.apiKey || !transactionId) {
+      return new Response("Cannot verify payment", { status: 400 });
+    }
+
+    let verified: any;
+    try {
+      const verifyRes = await fetch(`${env.baseUrl}/charges/${encodeURIComponent(transactionId)}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${env.apiKey}`, "Content-Type": "application/json" },
+      });
+      if (!verifyRes.ok) {
+        console.error(`Mamo Webhook: charge ${transactionId} could not be verified (${verifyRes.status})`);
+        return new Response("Payment not verified", { status: 400 });
+      }
+      verified = await verifyRes.json();
+    } catch (err) {
+      console.error("Mamo Webhook: verification request failed", err);
+      return new Response("Verification failed", { status: 502 });
+    }
+
+    const verifiedOrderId = verified?.custom_data?.orderId;
+    const belongsToOrder = !verifiedOrderId || [order.orderId, order.id].map(String).includes(String(verifiedOrderId));
+    if (verified?.status !== "captured" || !belongsToOrder) {
+      console.error(`Mamo Webhook: charge ${transactionId} not captured or belongs to another order`, { status: verified?.status, verifiedOrderId });
+      return new Response(JSON.stringify({ received: true, status: "not_verified" }), { status: 200 });
+    }
+
+    const amount = verified.amount ?? event.amount; // Mamo sends 10.50 (float), not 1050 (cents)
+    const currencyCode = verified.amount_currency ?? verified.currency ?? event.amount_currency ?? event.currency;
 
     try {
       // 4. Currency Conversion & Store Logic
@@ -272,7 +334,7 @@ export const MamoPayAdapter: PaymentAdapter = {
       }
 
       await saveOrderPayment({
-        orderId: orderId,
+        orderId: order.id,
         transactionId: transactionId,
         gateway: "mamo-pay",
         status: "success",
@@ -330,9 +392,9 @@ export const MamoPayAdapter: PaymentAdapter = {
     // ------------------------------------------------------------
     const paymentMethod = order.paymentMethod as PaymentMethod;
     // Assuming you store your API Key in the payment method settings or ENV
-    const apiKey = paymentMethod.mamoPaySettings?.testMode ? paymentMethod.mamoPaySettings?.testApiKey : paymentMethod.mamoPaySettings?.liveApiKey || process.env.MAMO_API_KEY;
-    const isTestMode = paymentMethod.mamoPaySettings?.testMode;
-    const baseUrl = isTestMode ? "https://sandbox.dev.business.mamopay.com/manage_api/v1" : "https://business.mamopay.com/manage_api/v1";
+    const env = getMamoEnv(paymentMethod.mamoPaySettings, order);
+    const apiKey = env.apiKey || (!env.isTestMode ? process.env.MAMO_API_KEY : undefined);
+    const baseUrl = env.baseUrl;
 
 
     let isVerified = false;
@@ -404,15 +466,11 @@ export const MamoPayAdapter: PaymentAdapter = {
    */
   async confirm(orderAmount, orderCurrency, orderId, redirectUrl, locale, order) {
     const settings = (order.paymentMethod as PaymentMethod).mamoPaySettings;
-    const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;
-    const isTestMode = settings?.testMode;
+    const { apiKey, baseUrl } = getMamoEnv(settings, order);
 
     if (!apiKey) {
       throw new Error("Mamo API Key is missing in payment method settings.");
     }
-
-    // Determine Environment URL
-    const baseUrl = isTestMode ? "https://sandbox.dev.business.mamopay.com/manage_api/v1" : "https://business.mamopay.com/manage_api/v1";
 
     const orderCustomer = order.orderedBy as Customer;
     let email = orderCustomer?.email;
@@ -488,15 +546,7 @@ export const MamoPayAdapter: PaymentAdapter = {
    */
   async executeAction(actionName, actionData, method) {
     const settings = method.mamoPaySettings;
-    const apiKey = settings?.testMode ? settings?.testApiKey : settings?.liveApiKey;
-    const isTestMode = settings?.testMode;
-
-    if (!apiKey) {
-      throw new Error("Mamo API Key is missing in payment method settings.");
-    }
-
-    // Determine Environment URL
-    const baseUrl = isTestMode ? "https://sandbox.dev.business.mamopay.com/manage_api/v1" : "https://business.mamopay.com/manage_api/v1";
+    const { isTestMode } = getMamoEnv(settings);
 
     switch (actionName) {
       case "createPaymentLink": {
@@ -506,6 +556,11 @@ export const MamoPayAdapter: PaymentAdapter = {
         const order = await getOrderById({ id: orderId || "0" });
         if (!order) {
           throw new Error("Order not found for creating Mamo payment link.");
+        }
+
+        const { apiKey, baseUrl } = getMamoEnv(settings, order);
+        if (!apiKey) {
+          throw new Error("Mamo API Key is missing in payment method settings.");
         }
 
         const payload = {

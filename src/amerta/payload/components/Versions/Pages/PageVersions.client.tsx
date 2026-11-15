@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, toast, useModal, ConfirmationModal } from "@payloadcms/ui";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
-import { getAdminURL } from "@/amerta/utilities/getAdminURL";
+import { getAdminRelativeURL } from "@/amerta/utilities/getAdminURL";
 
 const formatRelativeTime = (date: Date) => {
   const now = new Date();
@@ -319,7 +319,7 @@ const ClientPageVersions = () => {
                     </td>
                     <td>
                       <div>
-                        <a href={getAdminURL(`/collections/pages/${page.parent}`)}>{page.version.title || "Untitled"}</a>
+                        <a href={getAdminRelativeURL(`/collections/pages/${page.parent}`)}>{page.version.title || "Untitled"}</a>
                         <div>/{page.version.slug || ""}</div>
                       </div>
                     </td>

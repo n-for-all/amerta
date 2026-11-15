@@ -374,6 +374,20 @@ const Customers: CollectionConfig = {
       },
     },
     {
+      name: "isTestCustomer",
+      label: "Test customer",
+      type: "checkbox",
+      defaultValue: false,
+      access: {
+        create: admins,
+        update: admins,
+      },
+      admin: {
+        position: "sidebar",
+        description: "Orders by this customer are paid through the payment gateway's sandbox and marked as TEST. Everything else (emails, loyalty, stock, n8n, tracking) runs as a live order.",
+      },
+    },
+    {
       name: "hasAccount",
       label: "Has Account",
       type: "select",

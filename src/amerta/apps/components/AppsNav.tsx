@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavGroup, useTranslation } from "@payloadcms/ui";
 import { getTranslation } from "@payloadcms/translations";
-import { getAdminURL } from "@/amerta/utilities/getAdminURL";
+import { getAdminRelativeURL } from "@/amerta/utilities/getAdminURL";
 
 const baseClass = "nav";
 
@@ -16,7 +16,7 @@ export const AppsNav = ({ navPreferences, appsToRender }) => {
     <>
       <NavGroup isOpen={navPreferences?.groups?.["Apps"]?.open} label={getTranslation("Apps", i18n)}>
         {/* Always render the Settings link */}
-        <Link className={`${baseClass}__link`} href={getAdminURL("/globals/apps")} id="nav-apps-settings" prefetch={false}>
+        <Link className={`${baseClass}__link`} href={getAdminRelativeURL("/globals/apps")} id="nav-apps-settings" prefetch={false}>
           {pathname.endsWith("/globals/apps") && <div className={`${baseClass}__link-indicator`} />}
           <span className={`${baseClass}__link-label`}>{getTranslation("Settings", i18n)}</span>
         </Link>
