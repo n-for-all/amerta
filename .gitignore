@@ -17,3 +17,6 @@ docs/
 *.zip
 _test
 package-lock.json
+
+# TypeScript incremental build cache
+*.tsbuildinfo
