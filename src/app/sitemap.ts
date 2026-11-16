@@ -13,25 +13,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config: configPromise });
   const baseUrl = getServerSideURL();
 
-  const lastModified = new Date();
-
-  // 1. Define Static Pages (Exclude Auth/Account pages)
-  // We manually list the public "index" pages from your switch statement
+  // 1. Public index pages, listed for every language (e.g. /products and /ar/products).
+  // Brand, tag and category listings are left out: they are thin, and tag/category pages
+  // name /blog as their canonical, so they don't belong in a sitemap.
   const staticRoutes = [
     "", // Home
-    "/blog",
-    "/collections",
     "/products",
-    "/brands",
-    "/tags",
+    "/collections",
+    "/blog",
   ];
-
-  const staticMap = staticRoutes.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified,
-    changeFrequency: "daily" as const,
-    priority: route === "" ? 1.0 : 0.8,
-  }));
 
   // 2. Fetch Dynamic Content
   // Helper to fetch and map docs
@@ -91,21 +81,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const settings: Settings = await getGlobal("settings" as keyof Config["globals"], 1);
   const locales: LocaleCode[] = settings.locales && (settings.locales as LocaleCode[]).length > 0 ? (settings.locales as LocaleCode[]) : [DEFAULT_LOCALE];
 
+  const staticMap: MetadataRoute.Sitemap = [];
   for (const locale of locales) {
+    const prefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+    for (const route of staticRoutes) {
+      staticMap.push({
+        url: `${baseUrl}${prefix}${route}`,
+        changeFrequency: "daily" as const,
+        priority: route === "" ? 1.0 : 0.8,
+      });
+    }
+
     // 3. Execute Fetches in Parallel
-    const [pages, posts, categories, tags, products, productsTags, collections, brands] = await Promise.all([
+    const [pages, posts, products, collections] = await Promise.all([
       generateEntries("pages", "page", locale),
       generateEntries("posts", "post", locale),
-      generateEntries("categories", "category", locale),
-      generateEntries("tags", "tags", locale),
       generateEntries("products", "products", locale),
-      generateEntries("product-tags", "product-tags", locale),
       generateEntries("collections", "collection", locale),
-      generateEntries("product-brands", "brands", locale),
     ]);
 
     // 4. Combine Everything
-    allEntries.push(...pages, ...posts, ...categories, ...tags, ...products, ...productsTags, ...collections, ...brands);
+    allEntries.push(...pages, ...posts, ...products, ...collections);
   }
   return [...staticMap, ...allEntries];
 }

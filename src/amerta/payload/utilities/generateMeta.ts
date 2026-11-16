@@ -35,7 +35,8 @@ const generateURL = async ({ slug, isFrontPage, type, localeCode }: { slug: stri
 
   const prefix = !localeCode || localeCode === DEFAULT_LOCALE ? "" : `/${localeCode}`;
   const pathSegment = getPathSegment(type);
-  return slug && !isFrontPage ? `${url}${prefix}${pathSegment}/${slug}` : `${url}${prefix}`;
+  if (isFrontPage) return `${url}${prefix}`;
+  return slug ? `${url}${prefix}${pathSegment}/${slug}` : `${url}${prefix}${pathSegment}`;
 };
 
 const getImageURL = async (image?: Media | Config["db"]["defaultIDType"] | null, settings: Settings | null = null, locale?: string) => {
@@ -44,8 +45,8 @@ const getImageURL = async (image?: Media | Config["db"]["defaultIDType"] | null,
   let url = "";
 
   if (image && typeof image === "object" && "url" in image) {
-    const ogUrl = image.sizes?.og?.url;
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url;
+    const ogUrl = image.sizes?.og?.url || image.url || "";
+    url = /^https?:\/\//.test(ogUrl) ? ogUrl : serverUrl + ogUrl;
   } else {
     settings = settings ? settings : await getCachedGlobal("settings" as never, 1, locale)();
     return settings?.defaultSeoImage && typeof settings?.defaultSeoImage === "object" ? settings?.defaultSeoImage.url : "";
@@ -54,12 +55,14 @@ const getImageURL = async (image?: Media | Config["db"]["defaultIDType"] | null,
   return url;
 };
 
-export const generateCanonicalURL = async ({ slug, isFrontPage, settings, type }: { slug: string; isFrontPage: boolean | null; settings: Settings; type: DocType }) => {
+export const generateCanonicalURL = async ({ slug, isFrontPage, settings, type, locale }: { slug: string; isFrontPage: boolean | null; settings: Settings; type: DocType; locale?: string }) => {
   const languages: Record<string, string> = {};
 
   const enabledLocales: string[] = (settings?.locales || []) as string[];
+  // A page has its own address when it has a slug, is the front page, or is a fixed page like /products or /blog
+  const hasOwnURL = !!slug || !!isFrontPage || getPathSegment(type) !== "";
 
-  if (Array.isArray(enabledLocales) && slug) {
+  if (Array.isArray(enabledLocales) && hasOwnURL) {
     await Promise.all(
       enabledLocales.map(async (lang: string) => {
         const code = lang;
@@ -74,7 +77,8 @@ export const generateCanonicalURL = async ({ slug, isFrontPage, settings, type }
     languages["x-default"] = languages[DEFAULT_LOCALE] || "";
   }
 
-  const canonicalURL = slug ? await generateURL({ slug: slug || "", isFrontPage, type: type }) : getServerSideURL();
+  // Each language version is its own canonical (an Arabic page must not point to the English one)
+  const canonicalURL = hasOwnURL ? await generateURL({ slug: slug || "", isFrontPage, type: type, localeCode: locale }) : getServerSideURL();
   return { canonicalURL, languages };
 };
 
@@ -119,7 +123,7 @@ export const generateMeta = async (args: { doc: Partial<Page> | Partial<Post> | 
     }
   }
 
-  const { canonicalURL, languages } = await generateCanonicalURL({ slug: doc?.slug || "", isFrontPage: doc && "isFrontPage" in doc ? !!doc.isFrontPage : false, settings: settings as Settings, type });
+  const { canonicalURL, languages } = await generateCanonicalURL({ slug: doc?.slug || "", isFrontPage: doc && "isFrontPage" in doc ? !!doc.isFrontPage : false, settings: settings as Settings, type, locale });
   const ogTypeFinal = (ogType == "product" ? undefined : ogType) || settings.ogType || "website";
   const other = {};
   if (ogType == "product") {
@@ -185,13 +189,15 @@ export const generateStaticMeta = async ({ pageName, locale, type, pageNum, ogTy
   const siteName = (settings.siteTitle as string) || "";
 
   const url = await generateURL({ slug: "", isFrontPage: type === "page" ? true : false, type, localeCode: locale });
-  const { canonicalURL, languages } = await generateCanonicalURL({ slug: "", isFrontPage: false, settings: settings as Settings, type });
+  const { canonicalURL, languages } = await generateCanonicalURL({ slug: "", isFrontPage: false, settings: settings as Settings, type, locale });
 
   const ogTypeFinal: OpenGraphType = (ogType == "product" ? undefined : ogType) || settings.ogType || "website";
+  const privatePage = ["account", "addresses", "orders", "profile", "cart", "checkout", "login", "logout", "create-account", "recover-password", "reset-password", "verify-email", "resend-verification-email"].includes(type);
 
   return {
     title,
     description,
+    ...(privatePage ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title,
       description,
