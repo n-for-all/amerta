@@ -150,6 +150,63 @@ const updateLayoutTool: MCPTool = {
   },
 };
 
+/**
+ * MCP tool: find & replace text inside a page, post or product without resending the whole document.
+ * Works on rich text (every text node, at any depth), the excerpt and the SEO title/description.
+ * Exact, case-sensitive matches only; nothing is saved when no replacement matches.
+ */
+export const replaceTextTool: MCPTool = {
+  name: "replaceText",
+  description:
+    "Find & replace exact text in a page, post or product (one locale): rich text content, excerpt and SEO title/description. Returns how many times each replacement matched. Set dryRun to preview without saving.",
+  parameters: {
+    collection: z.enum(["pages", "posts", "products"]),
+    id: z.string().describe("Document id"),
+    locale: z.string().describe("Locale to edit, e.g. en or ar"),
+    replacements: z.array(z.object({ find: z.string().min(1), replace: z.string() })).min(1).describe("Applied in order, every occurrence"),
+    dryRun: z.boolean().optional().describe("true = only count matches, don't save"),
+  } as unknown as MCPTool["parameters"],
+  handler: async (args, req) => {
+    const { collection, id, locale, replacements, dryRun } = args as { collection: "pages" | "posts" | "products"; id: string; locale: string; replacements: { find: string; replace: string }[]; dryRun?: boolean };
+    try {
+      const doc: any = await req.payload.findByID({ collection, id, locale: locale as any, fallbackLocale: false as any, depth: 0, req, overrideAccess: true });
+      const counts = replacements.map(() => 0);
+      const swap = (text: string) =>
+        replacements.reduce((t, r, i) => {
+          const parts = t.split(r.find);
+          counts[i] = (counts[i] ?? 0) + parts.length - 1;
+          return parts.join(r.replace);
+        }, text);
+      // Rich text: rewrite every lexical text node
+      const walk = (node: any): any => {
+        if (Array.isArray(node)) return node.map(walk);
+        if (!node || typeof node !== "object") return node;
+        const out: any = {};
+        for (const [k, v] of Object.entries(node)) out[k] = k === "text" && typeof v === "string" ? swap(v) : walk(v);
+        return out;
+      };
+      const data: Record<string, any> = {};
+      for (const field of ["content", "description"]) {
+        if (doc[field] && typeof doc[field] === "object" && doc[field].root) data[field] = walk(doc[field]);
+      }
+      if (typeof doc.excerpt === "string") data.excerpt = swap(doc.excerpt);
+      if (doc.meta && typeof doc.meta === "object") {
+        data.meta = { ...doc.meta };
+        if (typeof doc.meta.title === "string") data.meta.title = swap(doc.meta.title);
+        if (typeof doc.meta.description === "string") data.meta.description = swap(doc.meta.description);
+      }
+      const total = counts.reduce((a, b) => a + b, 0);
+      if (!dryRun && total > 0) {
+        // Keep the slug as it is (some collections regenerate it from the title on save)
+        await req.payload.update({ collection, id, locale: locale as any, data: { ...data, ...(doc.slug && { slug: doc.slug }) }, req, overrideAccess: true });
+      }
+      return { content: [{ type: "text" as const, text: JSON.stringify({ id, collection, locale, saved: !dryRun && total > 0, matches: replacements.map((r, i) => ({ find: r.find, count: counts[i] })) }) }] };
+    } catch (err: any) {
+      return { content: [{ type: "text" as const, text: `replaceText failed: ${err?.data?.errors ? JSON.stringify(err.data.errors) : err?.message || String(err)}` }] };
+    }
+  },
+};
+
 export default buildConfig(
   withAmerta({
     telemetry: false,
@@ -225,6 +282,7 @@ export default buildConfig(
           tools: [
             uploadMediaTool,
             updateLayoutTool,
+            replaceTextTool,
           ],
         },
       }),
