@@ -1,12 +1,12 @@
 import type { GlobalAfterChangeHook } from 'payload'
 
-import { revalidateTag } from 'next/cache'
+import { revalidateCacheTags } from '@/amerta/utilities/revalidate'
 
-export const revalidateFooter: GlobalAfterChangeHook = ({ doc, req: { payload, context } }) => {
-  if (!context.disableRevalidate) {
-    payload.logger.info(`Revalidating footer`)
+export const revalidateFooter: GlobalAfterChangeHook = ({ doc, req }) => {
+  if (!req.context.disableRevalidate) {
+    req.payload.logger.info(`Revalidating footer`)
 
-    revalidateTag('global_footer', { expire: 0 })
+    revalidateCacheTags(['global_footer'], req)
   }
 
   return doc

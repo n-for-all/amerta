@@ -1,10 +1,10 @@
 import type { CollectionAfterChangeHook } from 'payload'
 
-import { revalidateTag } from 'next/cache'
+import { revalidateCacheTags } from '@/amerta/utilities/revalidate'
 
-export const revalidateRedirects: CollectionAfterChangeHook = ({ doc, req: { payload } }) => {
-  payload.logger.info(`Revalidating redirects`)
-  revalidateTag('redirects', { expire: 0 })
+export const revalidateRedirects: CollectionAfterChangeHook = ({ doc, req }) => {
+  req.payload.logger.info(`Revalidating redirects`)
+  revalidateCacheTags(['redirects'], req)
 
   return doc
 }

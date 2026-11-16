@@ -4,7 +4,7 @@
  * @description This module defines the collections related to the translations functionality in Amerta, including translation keys, values, domains, and related handlers.
  */
 
-import { revalidateTag } from "next/cache";
+import { revalidateCacheTags } from "@/amerta/utilities/revalidate";
 import type { CollectionConfig } from "payload";
 
 export const Translations: CollectionConfig = {
@@ -24,17 +24,17 @@ export const Translations: CollectionConfig = {
   },
   hooks: {
     afterChange: [
-      ({ context }) => {
+      ({ context, req }) => {
         // Missing keys are recorded while a page renders, where Next.js doesn't allow revalidation (they pass
         // disableRevalidation); the new key only holds the English text, so the cached dictionary is still right.
         if (context?.disableRevalidation) return;
         // Expire at once: with "max" the old dictionary kept being served, because its background refresh on dynamic pages never finished.
-        revalidateTag("translations", { expire: 0 });
+        revalidateCacheTags(["translations"], req);
       },
     ],
     afterDelete: [
-      () => {
-        revalidateTag("translations", { expire: 0 });
+      ({ req }) => {
+        revalidateCacheTags(["translations"], req);
       },
     ],
   },

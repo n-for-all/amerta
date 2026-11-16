@@ -1,4 +1,5 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
+import { revalidateCacheTags } from "@/amerta/utilities/revalidate";
 import { GlobalConfig } from "payload";
 import { SEOFields } from "./fields/seo";
 import { EmailFields } from "./fields/emails";
@@ -30,12 +31,13 @@ export const Settings: GlobalConfig = {
   },
   hooks: {
     afterChange: [
-      async () => {
-        revalidatePath("/(.*)", "layout");
-        revalidatePath("/manifest.webmanifest");
-        revalidatePath("/manifest.json");
-        revalidateTag("global_settings", { expire: 0 });
-        revalidateTag("layout", { expire: 0 });
+      async ({ req }) => {
+        revalidateCacheTags(["global_settings", "layout"], req);
+        try {
+          revalidatePath("/(.*)", "layout");
+          revalidatePath("/manifest.webmanifest");
+          revalidatePath("/manifest.json");
+        } catch {}
       },
     ],
   },

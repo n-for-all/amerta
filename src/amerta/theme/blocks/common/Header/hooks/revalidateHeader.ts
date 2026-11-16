@@ -1,12 +1,12 @@
-import { revalidateTag } from "next/cache";
+import { revalidateCacheTags } from "@/amerta/utilities/revalidate";
 import { GlobalAfterChangeHook } from "payload";
 
 
-export const revalidateHeader: GlobalAfterChangeHook = ({ doc, req: { payload, context } }) => {
-  if (!context.disableRevalidate) {
-    payload.logger.info(`Revalidating header`);
+export const revalidateHeader: GlobalAfterChangeHook = ({ doc, req }) => {
+  if (!req.context.disableRevalidate) {
+    req.payload.logger.info(`Revalidating header`);
 
-    revalidateTag("global_header", { expire: 0 });
+    revalidateCacheTags(["global_header"], req);
   }
 
   return doc;

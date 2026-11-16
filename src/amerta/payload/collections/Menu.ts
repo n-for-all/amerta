@@ -9,7 +9,7 @@ import type { CollectionConfig } from "payload";
 import { link } from "../fields/link/link";
 import { slugField } from "@/amerta/fields/slug";
 import { Menu as MenuType } from "@/payload-types";
-import { revalidateTag } from "next/cache";
+import { revalidateCacheTags } from "@/amerta/utilities/revalidate";
 
 const populateNavItems = async ({ doc, req }: { doc: MenuType; req?: any }) => {
   if (doc.navItems && doc.navItems.length > 0) {
@@ -70,8 +70,8 @@ export const Menu: CollectionConfig = {
   hooks: {
     afterRead: [populateNavItems],
     afterChange: [
-      () => {
-        revalidateTag("globals", { expire: 0 });
+      ({ req }) => {
+        revalidateCacheTags(["globals"], req);
       },
     ],
   },
