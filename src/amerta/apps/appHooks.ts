@@ -7,6 +7,23 @@ const PAID_STATUSES = ["processing", "completed", "shipped"];
 const CANCELLED_STATUSES = ["cancelled", "refunded"];
 
 /**
+ * Counts (direction 1) or gives back (-1) one use of the order's offers (cart rules) and coupon,
+ * so their usage limits work. Runs together with the stock adjustment, so it happens once per paid order.
+ */
+async function adjustOfferUsage(doc: any, direction: 1 | -1, payload: Payload, req: any) {
+  const ruleIds = (doc.appliedRules || []).map((r: any) => (typeof r === "object" ? r.id : r)).filter(Boolean);
+  for (const id of ruleIds) {
+    const rule = await payload.findByID({ collection: "cart-rules", id, depth: 0, req }).catch(() => null);
+    if (rule) await payload.update({ collection: "cart-rules", id, data: { timesUsed: Math.max(0, (rule.timesUsed || 0) + direction) }, req });
+  }
+  if (doc.couponCode) {
+    const coupons = await payload.find({ collection: "coupons", where: { code: { equals: doc.couponCode } }, limit: 1, depth: 0, req });
+    const coupon = coupons.docs[0];
+    if (coupon) await payload.update({ collection: "coupons", id: coupon.id, data: { timesUsed: Math.max(0, (coupon.timesUsed || 0) + direction) }, req });
+  }
+}
+
+/**
  * Helper to fetch active apps from the apps global
  */
 export async function getActiveAppSlugs(payload: Payload): Promise<string[]> {
@@ -45,10 +62,12 @@ export const processAppOrderHooks: CollectionAfterChangeHook = async ({
     const isCancelled = CANCELLED_STATUSES.includes(doc.status);
     if (isPaid && !doc.stockReduced) {
       await adjustOrderStock(doc, -1, payload, req);
+      await adjustOfferUsage(doc, 1, payload, req).catch((err) => console.error("[AppHooks] Offer usage count failed:", err));
       await payload.update({ collection: "orders", id: doc.id, data: { stockReduced: true }, req, context: { inventoryAdjustment: true } });
       doc.stockReduced = true;
     } else if (isCancelled && doc.stockReduced) {
       await adjustOrderStock(doc, 1, payload, req);
+      await adjustOfferUsage(doc, -1, payload, req).catch((err) => console.error("[AppHooks] Offer usage count failed:", err));
       await payload.update({ collection: "orders", id: doc.id, data: { stockReduced: false }, req, context: { inventoryAdjustment: true } });
       doc.stockReduced = false;
     }
@@ -150,6 +169,7 @@ export const processAppOrderDeleted: CollectionAfterDeleteHook = async ({ doc, r
   if (doc.stockReduced) {
     try {
       await adjustOrderStock(doc, 1, payload, req);
+      await adjustOfferUsage(doc, -1, payload, req);
     } catch (err) {
       console.error("[AppHooks] Stock restore on delete failed:", err);
     }

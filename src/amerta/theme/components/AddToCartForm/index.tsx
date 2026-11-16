@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Product, ProductOption } from "@/payload-types";
 import { ProductVariantSelector } from "@/amerta/theme/components/ProductVariantSelector";
 import { hasStock } from "@/amerta/core/utilities/has-stock";
+import { availableQuantity } from "@/amerta/core/utilities/is-in-stock";
 import { hasMatchingVariant } from "@/amerta/core/utilities/has-matching-variant";
 import { Button } from "@/amerta/theme/ui/button";
 import { cn } from "@/amerta/utilities/ui";
@@ -13,6 +14,8 @@ import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
 import { addToCart } from "@/amerta/core/utilities/cart.client";
 import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
+import { useRouter } from "next/navigation";
+import { getURL } from "@/amerta/utilities/getURL";
 
 interface AddToCartFormProps {
   product: Product;
@@ -25,6 +28,8 @@ interface AddToCartFormProps {
   className?: string;
   icon?: React.ReactNode;
   onVariantChange?: (variant: NonNullable<Product["variants"]>[number] | null) => void;
+  /** Bundles: the product chosen for each choice */
+  bundleChoices?: { group: string; product: string }[];
 }
 
 const CartQty = ({ label, loading, quantity, onChange }: { label: string; loading: boolean; quantity: number; onChange: (value: number) => void }) => {
@@ -60,15 +65,21 @@ const CartQty = ({ label, loading, quantity, onChange }: { label: string; loadin
   );
 };
 
-export default function AddToCartForm({ product, options, noDefaults, compact, icon, buttonVariant = "default", buttonClassName, className, onVariantChange }: AddToCartFormProps) {
+export default function AddToCartForm({ product, options, noDefaults, compact, icon, buttonVariant = "default", buttonClassName, className, onVariantChange, bundleChoices }: AddToCartFormProps) {
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [variantOptions, setVariantOptions] = useState<Array<{ option: string; value: string }>>([]);
   const { toast } = useToast();
+  const router = useRouter();
   const { __, locale, currency, exchangeRate } = useEcommerce();
 
+  // Units left (Infinity when stock isn't tracked); the quantity can't go above it
+  const available = availableQuantity(product, variantOptions, bundleChoices);
+  const soldOut = !hasStock(product) || available <= 0;
+  const maxQuantity = Math.max(1, Math.min(10, available));
+
   const handleQuantityChange = (value: number) => {
-    const newQuantity = Math.max(1, Math.min(10, quantity + value));
+    const newQuantity = Math.max(1, Math.min(maxQuantity, quantity + value));
     setQuantity(newQuantity);
   };
 
@@ -82,11 +93,11 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
         options.some((opt) => opt.id === vo.option)
       );
 
-      const { cart, error } = await addToCart(product, quantity, filteredOptions, locale!);
+      const { cart, error } = await addToCart(product, Math.min(quantity, maxQuantity), filteredOptions, locale!, bundleChoices);
       if(error) {
         throw new Error(error.message);
       }
-      toast(printf(__(`%s was added to cart (%sx)`), product.title, quantity), "success", true);
+      toast(printf(__(`%s was added to cart (%sx)`), product.title, quantity), "success", true, __("View cart"), () => router.push(getURL("/cart", locale)));
 
       setQuantity(1);
 
@@ -120,6 +131,8 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
     switch (product.type) {
       case "simple":
         return quantity > 0;
+      case "bundle":
+        return quantity > 0 && (bundleChoices || []).length >= (product.bundleChoices || []).length;
       case "variant":
         return hasMatchingVariant(product, variantOptions) && quantity > 0;
       default:
@@ -127,10 +140,10 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
     }
   };
 
-  if (!hasStock(product)) {
-    if (compact) return null;
-    return <p className="mt-2 text-xs text-red-600 uppercase dark:text-red-400 text-sm/6">{__("Out of Stock")}</p>;
-  }
+  if (soldOut && compact) return null;
+  // Only sold inside a bundle; a bundle with choices needs its page to pick them
+  if (product.notSoldSeparately) return null;
+  if (compact && product.type === "bundle" && (product.bundleChoices || []).length) return null;
 
   return (
     <form className={cn(compact ? "flex items-center justify-between gap-4" : "block mt-10", className)} onSubmit={(e) => e.preventDefault()}>
@@ -169,10 +182,16 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
         </Button>
       ) : (
         <div className="flex flex-col mt-6 gap-7">
-          <CartQty label={__("Qty")} loading={isLoading} quantity={quantity} onChange={handleQuantityChange} />
+          {!soldOut && available <= 3 && (
+            <p role="status" className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-700 dark:text-amber-300">
+              <span aria-hidden className="h-2 w-2 rounded-full bg-amber-500" />
+              {available === 1 ? __("Only 1 left") : printf(__("Only %s left"), available)}
+            </p>
+          )}
+          {!soldOut && available > 1 && <CartQty label={__("Qty")} loading={isLoading} quantity={Math.min(quantity, maxQuantity)} onChange={handleQuantityChange} />}
           <div className="flex flex-col gap-8 mt-4">
             <button
-              disabled={!isActive() || isLoading}
+              disabled={soldOut || !isActive() || isLoading}
               className={cn(
                 "w-full max-w-4xl cursor-pointer py-5 font-medium tracking-wide sm:py-6 relative isolate inline-flex shrink-0 items-center justify-center gap-x-2 rounded-full border uppercase px-5 sm:px-6 sm:py-6 text-sm/none focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500 data-disabled:opacity-50 border-zinc-900 text-zinc-950 active:bg-zinc-950 transition-all duration-500 hover:text-zinc-100 hover:bg-zinc-950 dark:border-white/40 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed",
                 buttonClassName,
@@ -180,7 +199,7 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
               type="button"
               onClick={handleAddToCart}
             >
-              {isLoading ? __("Adding...") : __("Add to cart")}
+              {soldOut ? __("Sold out") : isLoading ? __("Adding...") : __("Add to cart")}
               <div className="absolute right-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-white sm:h-12 sm:w-12">
                 {icon ? (
                   icon

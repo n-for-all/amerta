@@ -28,6 +28,7 @@ export const ThemeShopCollectionArchive: React.FC<Props> = async ({ buttonPrimar
       collections: {
         equals: collectionId,
       },
+      notSoldSeparately: { not_equals: true },
     },
     limit: limit || 8,
     depth: 1,

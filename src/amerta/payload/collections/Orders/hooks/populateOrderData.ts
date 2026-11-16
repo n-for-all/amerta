@@ -91,8 +91,19 @@ export const populateOrderData: CollectionBeforeChangeHook = async ({ data, req,
             item.productName = product.title;
             item.productSKU = product.sku || "";
 
+            // Bundle: the products the customer chose, e.g. "Choose your game: 7 Wonders Duel"
+            if (Array.isArray(item.bundleChoices) && item.bundleChoices.length) {
+              const parts: string[] = [];
+              for (const c of item.bundleChoices) {
+                const chosen = typeof c.product === "object" ? c.product : await req.payload.findByID({ collection: "products", id: c.product, depth: 0 }).catch(() => null);
+                const group = (product.bundleChoices || []).find((g) => g.id === c.group);
+                if (chosen) parts.push(group?.label ? `${group.label}: ${chosen.title}` : chosen.title);
+              }
+              item.variantText = parts.join(", ");
+            }
+
             // Build variant text from variantOptions
-            if (item.metaData && Array.isArray(item.metaData)) {
+            if (item.metaData && Array.isArray(item.metaData) && item.metaData.length) {
               const variantParts: string[] = [];
               for (const opt of item.metaData) {
                 if (opt.option && opt.value) {

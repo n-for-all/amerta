@@ -16,6 +16,18 @@ export interface CartWithCalculations {
   total: number;
   appliedCoupon?: AppliedCoupon | null | string;
   status: "active" | "abandoned" | "completed";
+  /** Part of `discount` that comes from the coupon */
+  couponDiscount?: number;
+  /** Part of `discount` that comes from automatic offers (cart rules) */
+  rulesDiscount?: number;
+  /** An offer makes delivery free */
+  freeDelivery?: boolean;
+  /** Products added for free by offers (not in `items`, price 0) */
+  gifts?: import("../utilities/cart").CartGift[];
+  /** Offers applied to this cart */
+  offers?: import("../utilities/cart").AppliedCartRule[];
+  /** Offer messages: "Add AED 50 more for free delivery" (upsell) and "You get free delivery" (active) */
+  offerMessages?: import("../utilities/cart").CartRulesResult["messages"];
 }
 
 export interface ApiError {

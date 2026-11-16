@@ -267,8 +267,20 @@ export const Toaster = () => {
               <div className="flex flex-col items-center justify-between text-[.875rem]">
                 <div className="flex items-center justify-between w-full h-full gap-4">
                   <span>{toast.text}</span>
-                  {!toast.action && (
-                    <div className="flex gap-1">
+                  {(
+                    <div className="flex shrink-0 items-center gap-1">
+                      {toast.action && (
+                        <button
+                          type="button"
+                          className="rounded-md border border-current/40 px-3 py-1.5 text-[.8125rem] font-medium whitespace-nowrap transition hover:bg-black/10"
+                          onClick={() => {
+                            toast.onAction?.();
+                            toastStore.remove(toast.id);
+                          }}
+                        >
+                          {toast.action}
+                        </button>
+                      )}
                       {toast.onUndoAction && (
                         <Button
                           size="sm"
@@ -297,25 +309,6 @@ export const Toaster = () => {
                     </div>
                   )}
                 </div>
-                {toast.action && (
-                  <div className="flex items-center justify-end w-full gap-2">
-                    <Button variant={"ghost"} size="sm" onClick={() => toastStore.remove(toast.id)}>
-                      Dismiss
-                    </Button>
-                    <Button
-                      variant={"ghost"}
-                      size="sm"
-                      onClick={() => {
-                        if (toast?.onAction) {
-                          toast?.onAction();
-                        }
-                        toastStore.remove(toast.id);
-                      }}
-                    >
-                      {toast.action}
-                    </Button>
-                  </div>
-                )}
               </div>
             </div>
           );

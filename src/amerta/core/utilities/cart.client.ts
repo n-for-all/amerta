@@ -12,7 +12,7 @@ import { ApiError, CartWithCalculations } from "../types";
  * @example
  * const res = await addToCart({ id: "123", title: "Shirt", price: 20 }, 2, [], "en-US");
  */
-export async function addToCart(product: { id: string; title: string; price: number }, quantity: number, variantOptions: Array<{ option: string; value: string }>, locale: string): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
+export async function addToCart(product: { id: string; title: string; price: number }, quantity: number, variantOptions: Array<{ option: string; value: string }>, locale: string, bundleChoices?: Array<{ group: string; product: string }>): Promise<{ cart: CartWithCalculations; error?: null } | { cart?: null; error: ApiError }> {
   try {
     const response = await fetch("/api/cart/add", {
       method: "POST",
@@ -24,6 +24,7 @@ export async function addToCart(product: { id: string; title: string; price: num
         product: product.id,
         quantity,
         variantOptions: variantOptions || [],
+        ...(bundleChoices?.length && { bundleChoices }),
       }),
       credentials: "include",
     });

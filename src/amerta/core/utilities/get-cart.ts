@@ -5,6 +5,7 @@ import { CartWithCalculations } from "../types";
 import { populateCartItems } from "./populate-cart-items";
 import { calculateSubtotal } from "./calculate-subtotal";
 import { calculateDiscount } from "./calculate-discount";
+import { evaluateCartRules } from "./cart";
 import { LocaleCode } from "@/amerta/localization/locales";
 
 export function calculateTotal(subtotal: number, discount: number): number {
@@ -92,13 +93,45 @@ export async function getCart(cartId?: string | null, locale?: string): Promise<
   };
 
   const subtotal = calculateSubtotal(cartWithConvertedPrices.items || []);
-  const discount = cartWithConvertedPrices.appliedCoupon ? calculateDiscount(subtotal, cartWithConvertedPrices.appliedCoupon as Coupon) : 0;
+
+  // Automatic offers (cart rules)
+  const payload = await getPayload({ config: configPromise });
+  let customer: { id: string; groups?: any } | null = null;
+  const customerId = typeof cart!.customer === "object" ? cart!.customer?.id : cart!.customer;
+  if (customerId) {
+    customer = await payload.findByID({ collection: "customers", id: customerId, depth: 0, select: { groups: true } }).catch(() => null);
+  }
+  const rules = await evaluateCartRules(payload, cartWithConvertedPrices.items || [], subtotal, customer, locale);
+
+  // The coupon applies to what is left after the offers. A coupon that can't be combined with other discounts
+  // and an offer discount don't add up: the customer gets the larger of the two.
+  const coupon = cartWithConvertedPrices.appliedCoupon as Coupon | null | undefined;
+  let rulesDiscount = rules.discount;
+  let couponDiscount = coupon && typeof coupon === "object" ? calculateDiscount(subtotal - rulesDiscount, coupon) : 0;
+  let offers = rules.appliedRules;
+  if (coupon && typeof coupon === "object" && coupon.canCombineWithProductDiscounts === false && rulesDiscount > 0) {
+    const couponAlone = calculateDiscount(subtotal, coupon);
+    if (couponAlone > rulesDiscount) {
+      couponDiscount = couponAlone;
+      rulesDiscount = 0;
+      offers = offers.filter((o) => o.discount === 0);
+    } else {
+      couponDiscount = 0;
+    }
+  }
+  const discount = Math.round(Math.min(subtotal, rulesDiscount + couponDiscount) * 100) / 100;
   const convertedTotal = calculateTotal(subtotal, discount);
 
   return {
     ...cartWithConvertedPrices,
     subtotal: subtotal,
     discount: discount,
+    couponDiscount,
+    rulesDiscount,
     total: convertedTotal,
+    freeDelivery: rules.freeDelivery,
+    gifts: rules.gifts,
+    offers,
+    offerMessages: rules.messages,
   };
 }

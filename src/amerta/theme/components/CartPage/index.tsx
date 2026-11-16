@@ -6,7 +6,7 @@ import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { TrashIcon } from "lucide-react";
-import { CouponForm } from "@/amerta/theme/components/CouponForm";
+import { CartDiscountLines, CartGiftLines, CartOfferMessages, CouponForm, CartBundleContents } from "@/amerta/theme/components/CouponForm";
 import { Button } from "@/amerta/theme/ui/button";
 import { getURL } from "@/amerta/utilities/getURL";
 import { fetchCart, removeFromCart, updateQuantity } from "@/amerta/core/utilities/cart.client";
@@ -148,6 +148,7 @@ export default function CartPage() {
                             ))}
                           </div>
                         )}
+                        <CartBundleContents item={item} />
                         <p className="mt-1.5 text-sm/6 uppercase font-medium">{formatPrice(product.salePrice || product.price || 0, currency, exchangeRate)}</p>
                       </div>
                       <div className="mt-4 sm:mt-0 sm:pr-9">
@@ -183,11 +184,13 @@ export default function CartPage() {
               );
             })}
           </ul>
+          <CartGiftLines cart={cart} className="border-b border-zinc-200 dark:border-zinc-700" />
         </section>
 
         {/* Order Summary Section */}
         <section aria-labelledby="summary-heading" className="px-4 py-6 mt-16 border rounded border-zinc-900/10 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 bg-zinc-50 dark:bg-zinc-900">
           <h3 className="text-2xl font-medium">{__("Order summary")}</h3>
+          <CartOfferMessages cart={cart} currency={currency} className="mt-4" />
           <CouponForm showLabel={false} cart={cart} onCartUpdate={setCart} currency={currency} className={"border-t border-b mt-6 border-zinc-200 py-4 bg-zinc-50 mb-0 dark:border-zinc-700 dark:bg-zinc-900"} />
 
           <dl className="mt-8 space-y-5">
@@ -196,13 +199,12 @@ export default function CartPage() {
               <dd className="text-sm font-medium">{formatPrice(cart.subtotal || 0, currency, exchangeRate)}</dd>
             </div>
             <hr className="w-full border-t border-zinc-950/10 dark:border-zinc-700/50" />
-            <>
-              <div className="flex items-center justify-between text-green-600">
-                <dt className="text-sm font-medium uppercase">{__("Discount")}</dt>
-                <dd className="text-sm font-medium">-{formatPrice(cart.discount || 0, currency, exchangeRate)}</dd>
-              </div>
-              <hr className="w-full border-t border-zinc-950/10 dark:border-zinc-700/50" />
-            </>
+            {(cart.discount > 0 || cart.freeDelivery) && (
+              <>
+                <CartDiscountLines cart={cart} currency={currency} definitionList labelClassName="text-sm font-medium uppercase" valueClassName="text-sm font-medium" />
+                <hr className="w-full border-t border-zinc-950/10 dark:border-zinc-700/50" />
+              </>
+            )}
             <div className="flex items-center justify-between pt-4">
               <dt className="text-base font-bold uppercase">{__("Order total")}</dt>
               <dd className="text-base font-bold uppercase">{formatPrice(cart.total || 0, currency, exchangeRate)}</dd>

@@ -194,7 +194,8 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
   const selectedShippingMethod = deliveryMethods.find((m) => m.id === watchDeliveryMethod);
   const subtotal = cart?.subtotal || 0;
   const discount = cart?.discount || 0;
-  const qualifiesForFree = selectedShippingMethod?.freeThreshold && subtotal >= selectedShippingMethod.freeThreshold;
+  // Free when an offer (cart rule) gives free delivery, or the order reaches the method's free threshold
+  const qualifiesForFree = !!cart?.freeDelivery || (selectedShippingMethod?.freeThreshold && subtotal >= selectedShippingMethod.freeThreshold);
   const shippingCost = qualifiesForFree ? 0 : selectedShippingMethod?.cost || 0;
 
   const shippingTax = selectedShippingMethod?.taxable ? shippingCost * ((selectedShippingMethod.taxRate || 0) / 100) : 0;

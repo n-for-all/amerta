@@ -34,8 +34,8 @@ export const Settings: GlobalConfig = {
         revalidatePath("/(.*)", "layout");
         revalidatePath("/manifest.webmanifest");
         revalidatePath("/manifest.json");
-        revalidateTag("global_settings", "max");
-        revalidateTag("layout", "max");
+        revalidateTag("global_settings", { expire: 0 });
+        revalidateTag("layout", { expire: 0 });
       },
     ],
   },

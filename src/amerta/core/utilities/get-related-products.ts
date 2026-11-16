@@ -25,10 +25,28 @@ export const getRelatedProducts = async (product: Product, salesChannel: SalesCh
       "salesChannels.id": {
         equals: salesChannel.id,
       },
+      notSoldSeparately: { not_equals: true },
     },
     limit: relatedProductIds.length,
     locale: locale as LocaleCode,
   });
 
+  return docs;
+};
+
+/** Published bundles a product is part of (as an included product or a customer choice), e.g. for "not sold separately" pages. */
+export const getBundlesIncluding = async (productId: string, locale?: string): Promise<Product[]> => {
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "products",
+    where: {
+      type: { equals: "bundle" },
+      _status: { equals: "published" },
+      or: [{ "bundleChoices.products": { in: [productId] } }, { "bundleItems.product": { equals: productId } }],
+    },
+    depth: 1,
+    limit: 10,
+    locale: locale as LocaleCode,
+  });
   return docs;
 };

@@ -243,6 +243,33 @@ export const Orders: CollectionConfig = {
               type: "row",
               fields: [
                 {
+                  name: "appliedRules",
+                  type: "relationship",
+                  relationTo: "cart-rules",
+                  hasMany: true,
+                  admin: {
+                    width: "50%",
+                    readOnly: true,
+                    description: "Offers (cart rules) applied to this order",
+                  },
+                },
+                {
+                  name: "rulesDiscount",
+                  type: "number",
+                  defaultValue: 0,
+                  min: 0,
+                  admin: {
+                    width: "50%",
+                    readOnly: true,
+                    description: "Part of the discount that comes from offers (the rest is the coupon)",
+                  },
+                },
+              ],
+            },
+            {
+              type: "row",
+              fields: [
+                {
                   name: "total",
                   type: "number",
                   required: true,
@@ -412,6 +439,15 @@ export const Orders: CollectionConfig = {
                   },
                 },
                 {
+                  name: "bundleChoices",
+                  type: "array",
+                  admin: { readOnly: true, description: "Products the customer chose for a bundle" },
+                  fields: [
+                    { name: "group", type: "text", required: true },
+                    { name: "product", type: "relationship", relationTo: "products", required: true },
+                  ],
+                },
+                {
                   name: "variantText",
                   type: "text",
                   admin: {
@@ -438,6 +474,15 @@ export const Orders: CollectionConfig = {
                       defaultValue: 1,
                     },
                   ],
+                },
+                {
+                  name: "isGift",
+                  type: "checkbox",
+                  defaultValue: false,
+                  admin: {
+                    readOnly: true,
+                    description: "Added for free by an offer",
+                  },
                 },
               ],
             },

@@ -8,7 +8,7 @@ import { removeFromCart, updateQuantity, fetchCart } from "@/amerta/core/utiliti
 import { CartWithCalculations } from "@/amerta/core/types";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { formatPrice } from "@/amerta/core/utilities/format-price";
-import { CouponForm } from "@/amerta/theme/components/CouponForm";
+import { CartDiscountLines, CartGiftLines, CartOfferMessages, CouponForm, CartBundleContents } from "@/amerta/theme/components/CouponForm";
 import { getURL } from "@/amerta/utilities/getURL";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { Product, ProductMedia } from "@/payload-types";
@@ -235,11 +235,12 @@ export default function Cart({ onClose }: CartProps) {
                                           </div>
                                         )}
 
+                                        <CartBundleContents item={item} />
                                         <p className="mt-1 text-xs uppercase text-zinc-500 text-sm/6">
                                           {salePrice < price ? <span className="mr-1 text-red-400 line-through rtl:ml-1 rtl:mr-0">{formatPrice(price, currency, exchangeRate)}</span> : null}
                                           {formatPrice(salePrice, currency, exchangeRate)}
                                         </p>
-                                        {!isInStock(product, item.variantOptions) && <p className="mt-1 text-xs text-red-600">{__("This item is out of stock.")}</p>}
+                                        {!isInStock(product, item.variantOptions, 1, item.bundleChoices) && <p className="mt-1 text-xs text-red-600">{__("This item is out of stock.")}</p>}
                                         <div className="flex items-center justify-between pt-2 mt-1 text-sm">
                                           <div className="inline-grid w-full grid-cols-1 max-w-16">
                                             <select
@@ -293,6 +294,7 @@ export default function Cart({ onClose }: CartProps) {
                                 })}
                               </ul>
                             )}
+                            <CartGiftLines cart={cart} className="border-t border-zinc-900/10 dark:border-white/10" />
                           </div>
                         </div>
 
@@ -304,6 +306,7 @@ export default function Cart({ onClose }: CartProps) {
                             </h2>
 
                             <div>
+                              <CartOfferMessages cart={cart} currency={currency} className="mb-3" />
                               {/* Coupon Section */}
                               <CouponForm
                                 cart={cart}
@@ -323,12 +326,7 @@ export default function Cart({ onClose }: CartProps) {
                                   <p className="font-medium uppercase text-sm/6 text-zinc-900 dark:text-white">{formatPrice(subtotal, currency, exchangeRate)}</p>
                                 </div>
 
-                                {discountAmount > 0 && (
-                                  <div className="flex justify-between text-sm text-green-600 dark:text-green-400">
-                                    <p className="uppercase text-sm/6">{__("Discount")}</p>
-                                    <p className="uppercase text-sm/6">-{formatPrice(discountAmount, currency, exchangeRate)}</p>
-                                  </div>
-                                )}
+                                {(discountAmount > 0 || cart.freeDelivery) && <CartDiscountLines cart={cart} currency={currency} labelClassName="uppercase text-sm/6" valueClassName="uppercase text-sm/6" />}
 
                                 <div className="flex justify-between pt-2 text-base font-semibold border-t border-zinc-900/10 dark:border-white/10">
                                   <p className="uppercase text-sm/6 text-zinc-900 dark:text-white">{__("Total")}</p>

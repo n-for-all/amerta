@@ -367,7 +367,38 @@ export interface Product {
    */
   callout?: string | null;
   images?: (string | ProductMedia)[] | null;
-  type?: ('simple' | 'variant') | null;
+  type?: ('simple' | 'variant' | 'bundle') | null;
+  /**
+   * What the bundle itself is, shown under its image, e.g. 7 Wonders Duel. The product title stays the bundle's name.
+   */
+  bundleItemName?: string | null;
+  /**
+   * Optional second line, e.g. 2 players · 30 min.
+   */
+  bundleItemDetail?: string | null;
+  /**
+   * Products that come with this bundle, e.g. 4 × Kopi Luwak 100g. The bundle itself is a normal product (its own price, images, SKU and stock, e.g. the game); it can be bought while it and every included product are in stock, and an order takes stock from all of them. Tick Main on the product to show first; otherwise the bundle's own image comes first.
+   */
+  bundleItems?:
+    | {
+        product: string | Product;
+        variant?: string | null;
+        quantity: number;
+        isMain?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Let the customer pick one product per choice, e.g. Choose your game from several games. The chosen product's stock is checked and reduced like the included products. Products only sold this way can be marked Not sold separately.
+   */
+  bundleChoices?:
+    | {
+        label: string;
+        products: (string | Product)[];
+        quantity: number;
+        id?: string | null;
+      }[]
+    | null;
   excerpt?: string | null;
   description?: {
     root: {
@@ -416,6 +447,10 @@ export interface Product {
   salePrice?: number | null;
   sku?: string | null;
   barcode?: string | null;
+  /**
+   * Only sold as a choice inside a bundle (e.g. a game in Game Time). Its page says so and links to the bundle; it is hidden from the shop and can't be added to the cart alone.
+   */
+  notSoldSeparately?: boolean | null;
   trackInventory?: boolean | null;
   stockStatus?: ('in_stock' | 'out_of_stock' | 'on_backorder') | null;
   quantity?: number | null;
@@ -2497,6 +2532,14 @@ export interface Order {
    */
   isFreeShipping?: boolean | null;
   /**
+   * Offers (cart rules) applied to this order
+   */
+  appliedRules?: (string | CartRule)[] | null;
+  /**
+   * Part of the discount that comes from offers (the rest is the coupon)
+   */
+  rulesDiscount?: number | null;
+  /**
    * Automatically calculated: subtotal - discount + shipping
    */
   total: number;
@@ -2549,11 +2592,25 @@ export interface Order {
         productName?: string | null;
         productSKU?: string | null;
         /**
+         * Products the customer chose for a bundle
+         */
+        bundleChoices?:
+          | {
+              group: string;
+              product: string | Product;
+              id?: string | null;
+            }[]
+          | null;
+        /**
          * Human readable variant options (e.g., 'Color: Red, Size: Large')
          */
         variantText?: string | null;
         price: number;
         quantity?: number | null;
+        /**
+         * Added for free by an offer
+         */
+        isGift?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -2724,6 +2781,131 @@ export interface CustomerTag {
   id: string;
   name: string;
   description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cart-rules".
+ */
+export interface CartRule {
+  id: string;
+  /**
+   * Internal name for this rule (e.g., Free Delivery Over $50)
+   */
+  name: string;
+  /**
+   * Name of the offer shown to customers in the cart and order (e.g. 'Free delivery over AED 300'). Falls back to the internal name.
+   */
+  description?: string | null;
+  /**
+   * Type of cart rule
+   */
+  ruleType: 'free_delivery' | 'discount' | 'free_gift' | 'buy_x_get_y';
+  /**
+   * What triggers this rule
+   */
+  triggerType: 'min_amount' | 'min_quantity' | 'specific_product' | 'collection';
+  /**
+   * Who this rule applies to
+   */
+  applicability: 'all' | 'specific_customers' | 'customer_groups';
+  /**
+   * Minimum amount or quantity required
+   */
+  triggerValue?: number | null;
+  /**
+   * Select specific products that trigger this rule
+   */
+  triggerProducts?: (string | Product)[] | null;
+  /**
+   * Select categories that trigger this rule
+   */
+  triggerCollection?: (string | Collection)[] | null;
+  /**
+   * Type of discount
+   */
+  discountType?: ('fixed' | 'percentage') | null;
+  /**
+   * Discount amount or percentage
+   */
+  discountValue?: number | null;
+  /**
+   * When several discount rules match the cart, only the largest one applies, unless they are marked to combine (e.g. 2 bags -10% and 3 bags -15% should not add up).
+   */
+  stackable?: boolean | null;
+  /**
+   * Product to give for free
+   */
+  freeGiftProduct?: (string | null) | Product;
+  /**
+   * Quantity of gift to give
+   */
+  freeGiftQuantity?: number | null;
+  /**
+   * Buy quantity
+   */
+  buyXGetYBuyQuantity?: number | null;
+  /**
+   * Product to buy (leave empty for any product)
+   */
+  buyXGetYBuyProduct?: (string | null) | Product;
+  /**
+   * Get quantity (discount or free)
+   */
+  buyXGetYGetQuantity?: number | null;
+  /**
+   * Product the customer gets (leave empty for the same product). A free reward that isn't in the cart is added automatically.
+   */
+  buyXGetYGetProduct?: (string | null) | Product;
+  /**
+   * Discount type for the get product
+   */
+  buyXGetYDiscountType?: ('free' | 'fixed' | 'percentage') | null;
+  /**
+   * Discount amount or percentage
+   */
+  buyXGetYDiscountValue?: number | null;
+  /**
+   * Select specific customers
+   */
+  customers?: (string | Customer)[] | null;
+  /**
+   * Select customer groups
+   */
+  customerGroups?: (string | CustomerGroup)[] | null;
+  /**
+   * Higher priority rules are applied first (0 = lowest)
+   */
+  priority: number;
+  /**
+   * Shown in the cart until the rule applies, for amount/quantity triggers. Use {amount} or {quantity} for what is missing, e.g. 'Add {amount} more for free delivery'
+   */
+  upsellMessage?: string | null;
+  /**
+   * Message shown when rule is active (e.g., 'You qualify for free delivery!')
+   */
+  activeMessage?: string | null;
+  /**
+   * Rule status
+   */
+  status: 'active' | 'inactive' | 'expired';
+  /**
+   * Date when rule becomes active
+   */
+  startDate: string;
+  /**
+   * Date when rule expires (leave empty for no expiry)
+   */
+  expiryDate?: string | null;
+  /**
+   * Total usage limit (leave empty for unlimited)
+   */
+  usageLimit?: number | null;
+  /**
+   * Number of times this rule has been used
+   */
+  timesUsed: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -3063,6 +3245,16 @@ export interface Cart {
               id?: string | null;
             }[]
           | null;
+        /**
+         * Products the customer chose for a bundle
+         */
+        bundleChoices?:
+          | {
+              group: string;
+              product: string | Product;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -3163,127 +3355,6 @@ export interface Coupon {
    * Date when coupon expires (leave empty for no expiry)
    */
   expiryDate?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cart-rules".
- */
-export interface CartRule {
-  id: string;
-  /**
-   * Internal name for this rule (e.g., Free Delivery Over $50)
-   */
-  name: string;
-  /**
-   * Description shown to customers
-   */
-  description?: string | null;
-  /**
-   * Type of cart rule
-   */
-  ruleType: 'free_delivery' | 'discount' | 'free_gift' | 'buy_x_get_y';
-  /**
-   * What triggers this rule
-   */
-  triggerType: 'min_amount' | 'min_quantity' | 'specific_product' | 'collection';
-  /**
-   * Who this rule applies to
-   */
-  applicability: 'all' | 'specific_customers' | 'customer_groups';
-  /**
-   * Minimum amount or quantity required
-   */
-  triggerValue?: number | null;
-  /**
-   * Select specific products that trigger this rule
-   */
-  triggerProducts?: (string | Product)[] | null;
-  /**
-   * Select categories that trigger this rule
-   */
-  triggerCollection?: (string | Collection)[] | null;
-  /**
-   * Type of discount
-   */
-  discountType?: ('fixed' | 'percentage') | null;
-  /**
-   * Discount amount or percentage
-   */
-  discountValue?: number | null;
-  /**
-   * Product to give for free
-   */
-  freeGiftProduct?: (string | null) | Product;
-  /**
-   * Quantity of gift to give
-   */
-  freeGiftQuantity?: number | null;
-  /**
-   * Buy quantity
-   */
-  buyXGetYBuyQuantity?: number | null;
-  /**
-   * Product to buy
-   */
-  buyXGetYBuyProduct?: (string | null) | Product;
-  /**
-   * Get quantity (discount or free)
-   */
-  buyXGetYGetQuantity?: number | null;
-  /**
-   * Product to get
-   */
-  buyXGetYGetProduct?: (string | null) | Product;
-  /**
-   * Discount type for the get product
-   */
-  buyXGetYDiscountType?: ('free' | 'fixed' | 'percentage') | null;
-  /**
-   * Discount amount or percentage
-   */
-  buyXGetYDiscountValue?: number | null;
-  /**
-   * Select specific customers
-   */
-  customers?: (string | User)[] | null;
-  /**
-   * Select customer groups
-   */
-  customerGroups?: (string | CustomerGroup)[] | null;
-  /**
-   * Higher priority rules are applied first (0 = lowest)
-   */
-  priority: number;
-  /**
-   * Message shown to encourage customers (e.g., 'Add $X more to get free delivery')
-   */
-  upsellMessage?: string | null;
-  /**
-   * Message shown when rule is active (e.g., 'You qualify for free delivery!')
-   */
-  activeMessage?: string | null;
-  /**
-   * Rule status
-   */
-  status: 'active' | 'inactive' | 'expired';
-  /**
-   * Date when rule becomes active
-   */
-  startDate: string;
-  /**
-   * Date when rule expires (leave empty for no expiry)
-   */
-  expiryDate?: string | null;
-  /**
-   * Total usage limit (leave empty for unlimited)
-   */
-  usageLimit?: number | null;
-  /**
-   * Number of times this rule has been used
-   */
-  timesUsed: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -3763,9 +3834,13 @@ export interface PayloadMcpApiKey {
   };
   'payload-mcp-tool'?: {
     /**
-     * Upload an image/video/PDF from a public https URL into `media` (site/blog) or `product-media` (product images). Returns the new document id to use in products.images, posts, pages, etc.
+     * Upload an image/video/PDF into `media` (site/blog) or `product-media` (product images), from a public https `url` or as `base64` file contents (max 25 MB). Returns the document id to use in products.images, posts, pages, etc. Pass `replaceId` to replace the file of an existing document instead (same id, so everything using it updates).
      */
     uploadMedia?: boolean | null;
+    /**
+     * Replace the blocks `layout` of a page, post or product. Pass the full array of blocks (each with its `blockType`); relationship/upload fields take ids. Use the normal update tools for every other field.
+     */
+    updateLayout?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -4103,6 +4178,25 @@ export interface ProductsSelect<T extends boolean = true> {
   callout?: T;
   images?: T;
   type?: T;
+  bundleItemName?: T;
+  bundleItemDetail?: T;
+  bundleItems?:
+    | T
+    | {
+        product?: T;
+        variant?: T;
+        quantity?: T;
+        isMain?: T;
+        id?: T;
+      };
+  bundleChoices?:
+    | T
+    | {
+        label?: T;
+        products?: T;
+        quantity?: T;
+        id?: T;
+      };
   excerpt?: T;
   description?: T;
   variants?:
@@ -4128,6 +4222,7 @@ export interface ProductsSelect<T extends boolean = true> {
   salePrice?: T;
   sku?: T;
   barcode?: T;
+  notSoldSeparately?: T;
   trackInventory?: T;
   stockStatus?: T;
   quantity?: T;
@@ -5062,6 +5157,8 @@ export interface OrdersSelect<T extends boolean = true> {
   discountTotal?: T;
   couponCode?: T;
   isFreeShipping?: T;
+  appliedRules?: T;
+  rulesDiscount?: T;
   total?: T;
   tax?: T;
   customerTotal?: T;
@@ -5083,9 +5180,17 @@ export interface OrdersSelect<T extends boolean = true> {
         metaData?: T;
         productName?: T;
         productSKU?: T;
+        bundleChoices?:
+          | T
+          | {
+              group?: T;
+              product?: T;
+              id?: T;
+            };
         variantText?: T;
         price?: T;
         quantity?: T;
+        isGift?: T;
         id?: T;
       };
   address?:
@@ -5555,6 +5660,13 @@ export interface CartSelect<T extends boolean = true> {
               value?: T;
               id?: T;
             };
+        bundleChoices?:
+          | T
+          | {
+              group?: T;
+              product?: T;
+              id?: T;
+            };
         id?: T;
       };
   cartId?: T;
@@ -5582,6 +5694,7 @@ export interface CartRulesSelect<T extends boolean = true> {
   triggerCollection?: T;
   discountType?: T;
   discountValue?: T;
+  stackable?: T;
   freeGiftProduct?: T;
   freeGiftQuantity?: T;
   buyXGetYBuyQuantity?: T;
@@ -6027,6 +6140,7 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | T
     | {
         uploadMedia?: T;
+        updateLayout?: T;
       };
   updatedAt?: T;
   createdAt?: T;

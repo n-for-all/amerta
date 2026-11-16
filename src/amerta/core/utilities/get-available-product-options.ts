@@ -11,7 +11,7 @@ export const getAvailableProductOptions = (
       };
     }[]
   | null => {
-  if (product.type === "simple") {
+  if (product.type === "simple" || product.type === "bundle") {
     return null;
   }
 

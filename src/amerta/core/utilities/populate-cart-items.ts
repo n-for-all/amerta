@@ -1,6 +1,7 @@
 import { Cart } from "@/payload-types";
 import { Payload } from "payload";
 import { hasStock } from "./has-stock";
+import { isInStock } from "./is-in-stock";
 import { variantsMatch } from "./variants-match";
 import { getAllProductOptions } from "./get-product-options";
 
@@ -27,6 +28,9 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
               variants: true,
               images: true,
               stockStatus: true,
+              collections: true, // cart rules triggered by a collection
+              bundleItems: true, // bundle stock comes from the products inside
+              bundleChoices: true,
               _status: true,
             },
           });
@@ -72,7 +76,7 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
             price: price,
             salePrice: salePrice,
             product: productDoc,
-            inStock: hasStock(productDoc, item.quantity),
+            inStock: productDoc.type === "bundle" ? isInStock(productDoc, null, item.quantity, item.bundleChoices) : hasStock(productDoc, item.quantity),
           };
         } catch (e) {
           console.error("Error populating cart item:", e);

@@ -1,6 +1,6 @@
 import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
-import { CouponForm } from "@/amerta/theme/components/CouponForm";
+import { CartDiscountLines, CartGiftLines, CartOfferMessages, CouponForm, CartBundleContents } from "@/amerta/theme/components/CouponForm";
 import { CircleAlert, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/amerta/theme/ui/button";
@@ -74,6 +74,7 @@ export const OrderSummary = ({
                         ))}
                       </div>
                     )}
+                    <CartBundleContents item={item} />
                     <p className="mt-1 text-xs uppercase text-zinc-500 dark:text-zinc-400">
                       {__("Qty:")} {item.quantity}
                     </p>
@@ -87,6 +88,8 @@ export const OrderSummary = ({
             );
           })}
         </ul>
+        <CartGiftLines cart={cart} className="px-4 border-t border-zinc-200 sm:px-6 dark:border-zinc-800" />
+        <CartOfferMessages cart={cart} currency={currency} className="px-4 py-3 border-t border-zinc-200 sm:px-6 dark:border-zinc-800" />
         <CouponForm showLabel={false} cart={cart} onCartUpdate={onCartUpdate} currency={currency} className={"px-6 border-t border-zinc-200 py-4 bg-zinc-50 mb-0 dark:bg-zinc-900 dark:border-zinc-800"} />
         <AppSlot target="checkout.order_summary.before_totals" className="px-4 py-3 border-t border-zinc-200 sm:px-6 dark:border-zinc-800" />
         <dl className="px-4 py-6 space-y-2 border-t border-zinc-200 sm:px-6 dark:border-zinc-800">
@@ -103,12 +106,7 @@ export const OrderSummary = ({
             </dd>
           </div>
 
-          {cart.discount > 0 && (
-            <div className="flex items-center justify-between">
-              <dt className="text-sm uppercase">{__("Discount")}</dt>
-              <dd className="text-sm font-medium text-green-600">-{formatPrice(cart.discount, currency, exchangeRate)}</dd>
-            </div>
-          )}
+          <CartDiscountLines cart={cart} currency={currency} definitionList labelClassName="text-sm uppercase" valueClassName="text-sm font-medium" />
 
           <div className="flex items-center justify-between">
             <dt className="text-sm uppercase">{__("Taxes")}</dt>

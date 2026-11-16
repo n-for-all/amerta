@@ -2,7 +2,7 @@ import { Currency, Product } from "@/payload-types";
 
 export const getProductPricing = (product: Product, currency: Currency) => {
   // For simple products
-  if (product.type === "simple") {
+  if (product.type === "simple" || product.type === "bundle") {
     return {
       type: "simple",
       price: product.price || 0,

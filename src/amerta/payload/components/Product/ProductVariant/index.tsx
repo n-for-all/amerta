@@ -68,7 +68,7 @@ const ProductVariant: React.FC<{ path: string }> = ({ path }) => {
         const res = await fetch(`/api/products/${productID}`);
         const product: Product = await res.json();
 
-        if (product.type === "simple") {
+        if (product.type === "simple" || product.type === "bundle") {
           setOptions([]);
           setValue(null); // Clear variant selection for simple products
           // Auto-fill price for simple products

@@ -2,7 +2,7 @@ import { Product, ProductOption } from "@/payload-types";
 import { variantsMatch } from "./variants-match";
 
 export const getProductPrice = (product: Product, variantOptions?: { option: string | ProductOption; value: string }[], options?: ProductOption[]) => {
-  if (product.type === "simple") {
+  if (product.type === "simple" || product.type === "bundle") {
     return {
       type: "simple",
       price: product.price || 0,

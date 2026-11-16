@@ -29,7 +29,7 @@ export const parseSearchFilters = (query: { [key: string]: string | string[] | u
     const val = parseFloat(minPrice as string);
     whereQuery.and.push({
       or: [
-        { type: { equals: "simple" }, price: { greater_than_equal: val } },
+        { type: { in: ["simple", "bundle"] }, price: { greater_than_equal: val } },
         { type: { equals: "variant" }, "variants.price": { greater_than_equal: val } },
       ],
     });
@@ -39,7 +39,7 @@ export const parseSearchFilters = (query: { [key: string]: string | string[] | u
     const val = parseFloat(maxPrice as string);
     whereQuery.and.push({
       or: [
-        { type: { equals: "simple" }, price: { less_than_equal: val } },
+        { type: { in: ["simple", "bundle"] }, price: { less_than_equal: val } },
         { type: { equals: "variant" }, "variants.price": { less_than_equal: val } },
       ],
     });

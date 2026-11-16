@@ -84,6 +84,121 @@ export const Products: CollectionConfig = {
                   label: "Variant",
                   value: "variant",
                 },
+                {
+                  label: "Bundle",
+                  value: "bundle",
+                },
+              ],
+            },
+            {
+              type: "row",
+              admin: { condition: (data) => data.type === "bundle" },
+              fields: [
+                {
+                  name: "bundleItemName",
+                  label: "This product's item",
+                  type: "text",
+                  localized: true,
+                  admin: { width: "50%", description: "What the bundle itself is, shown under its image, e.g. 7 Wonders Duel. The product title stays the bundle's name." },
+                },
+                {
+                  name: "bundleItemDetail",
+                  label: "Item detail",
+                  type: "text",
+                  localized: true,
+                  admin: { width: "50%", description: "Optional second line, e.g. 2 players · 30 min." },
+                },
+              ],
+            },
+            {
+              name: "bundleItems",
+              label: "Included products",
+              type: "array",
+              minRows: 1,
+              labels: { singular: "Product", plural: "Products" },
+              validate: (rows: any) => (Array.isArray(rows) && rows.filter((r) => r?.isMain).length > 1 ? "Only one included product can be the main one" : true),
+              admin: {
+                condition: (data) => data.type === "bundle",
+                description: "Products that come with this bundle, e.g. 4 × Kopi Luwak 100g. The bundle itself is a normal product (its own price, images, SKU and stock, e.g. the game); it can be bought while it and every included product are in stock, and an order takes stock from all of them. Tick Main on the product to show first; otherwise the bundle's own image comes first.",
+              },
+              fields: [
+                {
+                  type: "row",
+                  fields: [
+                    {
+                      name: "product",
+                      type: "relationship",
+                      relationTo: "products",
+                      required: true,
+                      filterOptions: { type: { in: ["simple", "variant"] } },
+                      admin: { width: "40%" },
+                    },
+                    {
+                      // Which variant of a variant product (its id); empty for a simple product
+                      name: "variant",
+                      type: "text",
+                      admin: {
+                        width: "30%",
+                        components: { Field: "@/amerta/components/Product/ProductVariant" },
+                      },
+                    },
+                    {
+                      name: "quantity",
+                      type: "number",
+                      required: true,
+                      defaultValue: 1,
+                      min: 1,
+                      admin: { width: "15%" },
+                    },
+                    {
+                      name: "isMain",
+                      label: "Main (shown first)",
+                      type: "checkbox",
+                      admin: { width: "15%", style: { alignSelf: "center" } },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: "bundleChoices",
+              label: "Customer choices",
+              type: "array",
+              labels: { singular: "Choice", plural: "Choices" },
+              admin: {
+                condition: (data) => data.type === "bundle",
+                description: "Let the customer pick one product per choice, e.g. Choose your game from several games. The chosen product's stock is checked and reduced like the included products. Products only sold this way can be marked Not sold separately.",
+              },
+              fields: [
+                {
+                  type: "row",
+                  fields: [
+                    {
+                      name: "label",
+                      type: "text",
+                      required: true,
+                      localized: true,
+                      admin: { width: "35%", placeholder: "Choose your game" },
+                    },
+                    {
+                      name: "products",
+                      type: "relationship",
+                      relationTo: "products",
+                      hasMany: true,
+                      required: true,
+                      filterOptions: { type: { equals: "simple" } },
+                      admin: { width: "45%" },
+                    },
+                    {
+                      name: "quantity",
+                      type: "number",
+                      required: true,
+                      defaultValue: 1,
+                      min: 1,
+                      admin: { width: "20%" },
+                    },
+                  ],
+                },
               ],
             },
             {
@@ -298,7 +413,7 @@ export const Products: CollectionConfig = {
               type: "row",
               admin: {
                 condition: (data) => {
-                  if (data.type == "simple") {
+                  if (data.type == "simple" || data.type == "bundle") {
                     return true;
                   } else {
                     return false;
@@ -345,12 +460,21 @@ export const Products: CollectionConfig = {
               ],
             },
             {
+              name: "notSoldSeparately",
+              label: "Not sold separately",
+              type: "checkbox",
+              admin: {
+                condition: (data) => data.type !== "bundle",
+                description: "Only sold as a choice inside a bundle (e.g. a game in Game Time). Its page says so and links to the bundle; it is hidden from the shop and can't be added to the cart alone.",
+              },
+            },
+            {
               name: "trackInventory",
               label: "Track Inventory",
               type: "checkbox",
               admin: {
                 condition: (data) => {
-                  if (data.type == "simple") {
+                  if (data.type == "simple" || data.type == "bundle") {
                     return true;
                   } else {
                     return false;
@@ -380,7 +504,7 @@ export const Products: CollectionConfig = {
               ],
               admin: {
                 condition: (data) => {
-                  if (!data.trackInventory && data.type == "simple") {
+                  if (!data.trackInventory && (data.type == "simple" || data.type == "bundle")) {
                     return true;
                   } else {
                     return false;
@@ -394,7 +518,7 @@ export const Products: CollectionConfig = {
               type: "number",
               admin: {
                 condition: (data) => {
-                  if (data.type == "simple" && data.trackInventory) {
+                  if ((data.type == "simple" || data.type == "bundle") && data.trackInventory) {
                     return true;
                   } else {
                     return false;
@@ -407,7 +531,7 @@ export const Products: CollectionConfig = {
               label: "Dimensions (HxWxL in cm/inch, Weight in kg/lb)",
               admin: {
                 condition: (data) => {
-                  if (data.type == "simple") {
+                  if (data.type == "simple" || data.type == "bundle") {
                     return true;
                   } else {
                     return false;

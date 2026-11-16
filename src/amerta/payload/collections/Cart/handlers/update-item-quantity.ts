@@ -60,7 +60,7 @@ export const updateItemQuantity = async (req: PayloadRequest) => {
       return Response.json({ error: __("Product not found"), code: "PRODUCT_NOT_FOUND" }, { status: 404 });
     }
 
-    if (!isInStock(productDoc, itemToUpdate.variantOptions, quantity)) {
+    if (!isInStock(productDoc, itemToUpdate.variantOptions, quantity, itemToUpdate.bundleChoices)) {
       return Response.json({ error: printf(__("%s is out of stock"), productDoc.title), code: "OUT_OF_STOCK" }, { status: 400 });
     }
 

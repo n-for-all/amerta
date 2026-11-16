@@ -4,7 +4,61 @@ import { getAllProductOptions } from "@/amerta/core/utilities/get-product-option
 import { hasStock } from "@/amerta/core/utilities/has-stock";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";
 import { RelatedProducts } from "@/amerta/theme/components/RelatedProducts";
-import { getRelatedProducts } from "@/amerta/core/utilities/get-related-products";
+import { getBundlesIncluding, getRelatedProducts } from "@/amerta/core/utilities/get-related-products";
+import { getProductOffers } from "@/amerta/core/utilities/cart";
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
+import { BundlePart, bundleParts } from "@/amerta/core/utilities/is-in-stock";
+import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
+import { getURL } from "@/amerta/utilities/getURL";
+
+/** Bundle: its items side by side ("+" between them), then a list of what's in the box. */
+const BundleArt = ({ parts, locale, __ }: { parts: BundlePart[]; locale: string; __: (k: string) => string }) => (
+  <div className="py-6">
+    <div className="flex flex-wrap items-center justify-center gap-y-6">
+      {parts.map((p, i) => (
+        <div key={p.key} className="contents">
+          {i > 0 && (
+            <span aria-hidden className="mx-2 shrink-0 text-3xl font-light opacity-50 sm:mx-3">
+              +
+            </span>
+          )}
+          <figure className="flex flex-col items-center text-center" style={{ width: i === 0 ? (parts.length <= 2 ? "44%" : "34%") : parts.length <= 2 ? "36%" : parts.length === 3 ? "24%" : "17%" }}>
+            <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800">
+              {p.image?.url && <ImageMedia src={p.image.url} alt={p.image.alt || p.title} fill imgClassName="object-contain p-[6%]" />}
+              {p.quantity > 1 && <span className="absolute end-2 top-2 rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-semibold text-white">×{p.quantity}</span>}
+            </div>
+            <figcaption className="mt-3 text-xs/5 uppercase">
+              {p.title}
+              {p.detail && <span className="block normal-case text-zinc-500">{p.detail}</span>}
+            </figcaption>
+          </figure>
+        </div>
+      ))}
+    </div>
+    <div className="mt-10 border-t border-zinc-200 pt-6 dark:border-zinc-700">
+      <p className="uppercase text-sm/6 font-semibold">{__("In the box")}</p>
+      <ul className="mt-3 divide-y divide-zinc-200 dark:divide-zinc-700">
+        {parts.map((p) => (
+          <li key={p.key} className="flex items-center gap-4 py-3">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md bg-zinc-100 dark:bg-zinc-800">{p.image?.url && <ImageMedia src={p.image.url} alt={p.image.alt || p.title} fill imgClassName="object-contain" />}</div>
+            <span className="w-10 shrink-0 tabular-nums font-semibold">×{p.quantity}</span>
+            <div className="min-w-0 text-sm/6">
+              {p.slug && !p.choice ? (
+                <a href={getURL(`/product/${p.slug}`, locale)} className="font-medium hover:underline">
+                  {p.title}
+                </a>
+              ) : (
+                <span className="font-medium">{p.title}</span>
+              )}
+              {p.detail && <span className="block text-zinc-500">{p.detail}</span>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
 import { getProductReviews } from "@/amerta/core/utilities/get-product-reviews";
 import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { createTranslator } from "@/amerta/core/utilities/translation";
@@ -18,7 +72,7 @@ const CartIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export default async function ProductDetail({ product, locale, options }: { product: Product; locale: string; options: ProductOption[] | null }) {
+export default async function ProductDetail({ product, locale, options, choices }: { product: Product; locale: string; options: ProductOption[] | null; choices?: string[] }) {
   const productImages = product.images && product.images.length > 0 ? product.images : [];
   const productName = product.title;
   const brand = product.brand as ProductBrand | undefined;
@@ -29,6 +83,9 @@ export default async function ProductDetail({ product, locale, options }: { prod
   const allOptions = await getAllProductOptions(locale);
   const relatedProducts = await getRelatedProducts(product, salesChannel!, locale);
   const __ = await createTranslator(locale);
+  const bundle = product.type === "bundle" ? bundleParts(product, choices) : null;
+  const bundles = product.notSoldSeparately ? await getBundlesIncluding(product.id, locale) : undefined;
+  const offers = product.notSoldSeparately ? [] : await getProductOffers(await getPayload({ config: configPromise }), product, locale);
 
   return (
     <div className="relative space-y-12 product-page sm:space-y-16">
@@ -37,7 +94,7 @@ export default async function ProductDetail({ product, locale, options }: { prod
         <div className="lg:flex">
           <div className="relative w-full lg:w-1/2">
             <div className="sticky top-0">
-              <ProductImageGallery productImages={productImages} productName={productName} />
+              {bundle ? <BundleArt parts={bundle.parts} locale={locale} __={__} /> : <ProductImageGallery productImages={productImages} productName={productName} />}
               <div className=""></div>
             </div>
           </div>
@@ -45,7 +102,7 @@ export default async function ProductDetail({ product, locale, options }: { prod
           <div className="w-full pt-10 lg:w-1/2 ltr:lg:pt-16 ltr:lg:pl-10 ltr:xl:pl-14 ltr:2xl:pl-16 rtl:lg:pt-16 rtl:lg:pr-10 rtl:xl:pr-14 rtl:2xl:pr-16">
             <div className="sticky top-16">
               <div>
-                <ProductContext product={product} locale={locale} collections={collections} brand={brand} inStock={inStock} options={allOptions} />
+                <ProductContext product={product} locale={locale} collections={collections} brand={brand} inStock={inStock} options={allOptions} choices={choices} bundles={bundles} offers={offers} />
 
                 {product.showPairWith && product.pairWithProducts && Array.isArray(product.pairWithProducts) && product.pairWithProducts.length > 0 ? (
                   <div className="p-5 mt-10 rounded-lg bg-zinc-100">

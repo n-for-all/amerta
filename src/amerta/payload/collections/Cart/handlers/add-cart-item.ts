@@ -10,7 +10,7 @@ import { createCartIfNotExists } from "@/amerta/core/utilities/create-cart-if-no
 import { getCart } from "@/amerta/core/utilities/get-cart";
 import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { getProductPrice } from "@/amerta/core/utilities/get-product-price";
-import { isInStock } from "@/amerta/core/utilities/is-in-stock";
+import { isInStock, resolveBundleChoices } from "@/amerta/core/utilities/is-in-stock";
 import { variantsMatch } from "@/amerta/core/utilities/variants-match";
 import { PayloadRequest } from "payload";
 import z from "zod";
@@ -27,6 +27,8 @@ const addToCartSchema = z.object({
   product: z.string().min(1, "Product ID is required"),
   quantity: z.number().int().positive().optional().default(1),
   variantOptions: z.array(variantOptionSchema).optional(),
+  // Bundles: the product chosen for each choice ({ group: choice id, product: product id }) or plain product ids
+  bundleChoices: z.array(z.union([z.string(), z.object({ group: z.string().optional(), product: z.string() })])).optional(),
   locale: z.string().optional(),
 });
 
@@ -46,7 +48,7 @@ export const addCartItem = async (req: PayloadRequest) => {
       return Response.json({ error: __("Error adding item to cart") }, { status: 400 });
     }
 
-    const { product, quantity = 1, variantOptions } = validation.data;
+    const { product, quantity = 1, variantOptions, bundleChoices: wantedChoices } = validation.data;
     const productDoc = await req.payload.findByID({
       collection: "products",
       id: product,
@@ -56,12 +58,31 @@ export const addCartItem = async (req: PayloadRequest) => {
       return Response.json({ error: __("Product not found") }, { status: 404 });
     }
 
+    if (productDoc.notSoldSeparately) {
+      return Response.json({ error: printf(__("%s is only sold as part of a bundle"), productDoc.title) }, { status: 400 });
+    }
+
+    // Bundles: every choice needs an allowed, published product
+    let bundleChoices: { group: string; product: string }[] = [];
+    if (productDoc.type === "bundle") {
+      const resolved = resolveBundleChoices(productDoc, wantedChoices as any);
+      const missing = resolved.find((c) => !c.chosen || c.chosen._status !== "published");
+      if (missing) {
+        return Response.json({ error: printf(__("Please choose: %s"), missing.label) }, { status: 400 });
+      }
+      bundleChoices = resolved.map((c) => ({ group: c.group, product: c.chosen!.id }));
+    }
+    const choiceKey = (list?: any[] | null) => (list || []).map((c) => `${c.group}:${typeof c.product === "string" ? c.product : c.product?.id}`).sort().join("|");
+
     const items: Cart["items"] = cart?.items || [];
     const existingItemIndex = items!.findIndex((item: any) => {
       const itemProductId = typeof item.product === "string" ? item.product : item.product.id;
       if (itemProductId === product) {
         if (productDoc.type === "variant") {
           return variantsMatch(item.variantOptions, variantOptions);
+        }
+        if (productDoc.type === "bundle") {
+          return choiceKey(item.bundleChoices) === choiceKey(bundleChoices);
         }
         return true;
       }
@@ -90,7 +111,7 @@ export const addCartItem = async (req: PayloadRequest) => {
       }
     }
 
-    if (!isInStock(productDoc, variantOptions, existingItemIndex >= 0 ? items![existingItemIndex]!.quantity + quantity : quantity)) {
+    if (!isInStock(productDoc, variantOptions, existingItemIndex >= 0 ? items![existingItemIndex]!.quantity + quantity : quantity, bundleChoices)) {
       return Response.json({ error: printf(__("%s is out of stock"), productDoc.title) }, { status: 400 });
     }
 
@@ -103,7 +124,7 @@ export const addCartItem = async (req: PayloadRequest) => {
         return Response.json({ error: printf(__(`Selected variant is out of stock`)) }, { status: 400 });
       }
       
-      items!.push({ product: productDoc, price: pricing.price, salePrice: pricing.salePrice, quantity, variantOptions: variantOptions || [] });
+      items!.push({ product: productDoc, price: pricing.price, salePrice: pricing.salePrice, quantity, variantOptions: variantOptions || [], bundleChoices });
     }
 
     // if this passes it will return correct items wth pricing

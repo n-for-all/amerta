@@ -1,4 +1,5 @@
 import { type Product } from "@/payload-types";
+import { hasStock } from "@/amerta/core/utilities/has-stock";
 
 export const generateProductJSONLD = (product: Product, currency: any, url: string) => {
   const brandName = typeof product.brand === 'object' && product.brand ? product.brand.title : undefined;
@@ -102,7 +103,7 @@ export const generateProductJSONLD = (product: Product, currency: any, url: stri
         "url": url,
         "priceCurrency": currencyCode,
         "price": product.price?.toString(),
-        "availability": product.stockStatus === 'in_stock' ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        "availability": (product.type === "bundle" ? hasStock(product) : product.stockStatus === 'in_stock') ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       }
     };
   }

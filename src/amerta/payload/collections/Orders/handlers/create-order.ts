@@ -19,13 +19,14 @@ import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
 import { cookies } from "next/headers";
 
-function getActualComputedTotal(calculatedItems: Array<{ price: number; quantity: number }>, shippingTotal: number, taxAmount: number): number {
+function getActualComputedTotal(calculatedItems: Array<{ price: number; quantity: number }>, discount: number, shippingTotal: number, taxAmount: number): number {
   // 1. Loop through all items and sum up the actual item total
   const itemsSubtotal = calculatedItems.reduce((acc, currentItem) => {
     return acc + currentItem.price * currentItem.quantity;
   }, 0);
 
-  const finalTotal = itemsSubtotal + shippingTotal + taxAmount;
+  // Coupon and offer discounts come off the items, like in the cart
+  const finalTotal = Math.max(0, itemsSubtotal - discount) + shippingTotal + taxAmount;
   return finalTotal;
 }
 
@@ -179,7 +180,11 @@ export const createOrder = async (req: PayloadRequest) => {
       return NextResponse.json({ error: "Your cart is empty" }, { status: 400 });
     }
 
-    const shipping = await calculateShippingById(validationData.deliveryMethodId, address.country, address.city, cart.subtotal);
+    let shipping = await calculateShippingById(validationData.deliveryMethodId, address.country, address.city, cart.subtotal);
+    // An offer (cart rule) makes delivery free
+    if (cart.freeDelivery) {
+      shipping = { baseCost: 0, tax: 0, total: 0, isFree: true };
+    }
     const currency = await getCurrentCurrency(salesChannel);
     if (!currency) {
       return NextResponse.json({ error: "Sales channel currency is not properly configured." }, { status: 500 });
@@ -243,7 +248,7 @@ export const createOrder = async (req: PayloadRequest) => {
           return null;
         }
         const product = productsMap[populatedProduct.id];
-        if (!product || !isInStock(product, item.variantOptions, item.quantity || 1)) {
+        if (!product || !isInStock(product, item.variantOptions, item.quantity || 1, item.bundleChoices)) {
           return null;
         }
         const image = product.images && product.images.length > 0 ? (product.images[0] as ProductMedia).id : null;
@@ -255,9 +260,23 @@ export const createOrder = async (req: PayloadRequest) => {
           quantity: item.quantity || 1,
           price: salePrice || 0,
           metaData: item.variantOptions || null,
+          ...(item.bundleChoices?.length && { bundleChoices: item.bundleChoices.map((c) => ({ group: c.group, product: typeof c.product === "string" ? c.product : c.product.id })) }),
         };
       })
       .filter((itm) => itm !== null); // Remove null items
+
+    // Free gifts from offers: separate lines at price 0 (reduced from stock like any other item)
+    const giftItems = (cart.gifts || [])
+      .filter((gift) => isInStock(gift.product, gift.variantOptions, gift.quantity))
+      .map((gift) => ({
+        product: gift.product.id,
+        variantOptions: gift.variantOptions || null,
+        image: gift.product.images && gift.product.images.length > 0 ? ((gift.product.images[0] as ProductMedia)?.id ?? (gift.product.images[0] as string)) : null,
+        quantity: gift.quantity,
+        price: 0,
+        metaData: gift.variantOptions || null,
+        isGift: true,
+      }));
 
     if (cart.items.length !== items.length) {
       const unavailableProducts = cart.items
@@ -266,7 +285,7 @@ export const createOrder = async (req: PayloadRequest) => {
           if (!populatedProduct || populatedProduct._status !== "published") {
             return true;
           }
-          return !populatedProduct || !isInStock(populatedProduct, item.variantOptions, item.quantity || 1);
+          return !populatedProduct || !isInStock(productsMap[populatedProduct.id] || populatedProduct, item.variantOptions, item.quantity || 1, item.bundleChoices);
         })
         .map((item) => {
           const product = productsMap[(item.product as Product).id];
@@ -298,7 +317,7 @@ export const createOrder = async (req: PayloadRequest) => {
       customerId = newCustomer.id;
     }
 
-    const backendCalculatedTotal = getActualComputedTotal(items, shipping.total, tax.taxAmount);
+    const backendCalculatedTotal = getActualComputedTotal(items, cart.discount, shipping.total, tax.taxAmount);
 
     if (backendCalculatedTotal.toFixed(1) !== validationData.cartTotal.toFixed(1)) {
       console.error("Cart total mismatch. Backend Computed total:", backendCalculatedTotal);
@@ -317,6 +336,8 @@ export const createOrder = async (req: PayloadRequest) => {
         status: "pending",
         isTest: isTestOrder,
         discountTotal: cart.discount,
+        rulesDiscount: cart.rulesDiscount || 0,
+        appliedRules: (cart.offers || []).map((offer) => offer.id),
         couponCode: typeof cart.appliedCoupon === "string" ? cart.appliedCoupon : cart.appliedCoupon?.code || "",
         subtotal: cart.subtotal,
         shippingTotal: shipping.total,
@@ -330,7 +351,7 @@ export const createOrder = async (req: PayloadRequest) => {
         customerCurrency: currency,
         customerTotal: computedCartTotal,
         salesChannel,
-        items,
+        items: [...items, ...giftItems],
         address: {
           firstName: address.firstName,
           lastName: address.lastName,

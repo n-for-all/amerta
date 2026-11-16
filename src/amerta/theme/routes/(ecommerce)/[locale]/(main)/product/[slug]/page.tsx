@@ -15,8 +15,11 @@ import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency
 import { generateProductJSONLD } from "@/amerta/utilities/generateProductJSONLD";
 import { getURL } from "@/amerta/utilities/getURL";
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+export default async function ProductPage({ params, searchParams }: { params: Promise<{ slug: string; locale: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> }) {
   const { slug, locale } = await params;
+  // Bundles: ?choice=<product id>[,<product id>] preselects the customer's choices
+  const choiceParam = (await searchParams)?.choice;
+  const choices = (Array.isArray(choiceParam) ? choiceParam.join(",") : choiceParam || "").split(",").filter(Boolean);
   let product: Product | null = null;
 
   try {
@@ -50,7 +53,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ProductDetail product={product} locale={locale} options={options} />
+      <ProductDetail product={product} locale={locale} options={options} choices={choices} />
     </>
   );
 }

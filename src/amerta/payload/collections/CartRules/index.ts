@@ -28,7 +28,7 @@ export const CartRules: CollectionConfig = {
       localized: true,
       required: false,
       admin: {
-        description: "Description shown to customers",
+        description: "Name of the offer shown to customers in the cart and order (e.g. 'Free delivery over AED 300'). Falls back to the internal name.",
       },
     },
     {
@@ -172,6 +172,16 @@ export const CartRules: CollectionConfig = {
       },
     },
     {
+      name: "stackable",
+      type: "checkbox",
+      label: "Combine with other discounts",
+      defaultValue: false,
+      admin: {
+        condition: (data) => data.ruleType === "discount",
+        description: "When several discount rules match the cart, only the largest one applies, unless they are marked to combine (e.g. 2 bags -10% and 3 bags -15% should not add up).",
+      },
+    },
+    {
       name: "freeGiftProduct",
       type: "relationship",
       relationTo: "products",
@@ -209,7 +219,7 @@ export const CartRules: CollectionConfig = {
       required: false,
       admin: {
         condition: (data) => data.ruleType === "buy_x_get_y",
-        description: "Product to buy",
+        description: "Leave empty to count every product of the trigger above, e.g. any coffee size from the selected products or collection",
       },
     },
     {
@@ -229,7 +239,7 @@ export const CartRules: CollectionConfig = {
       required: false,
       admin: {
         condition: (data) => data.ruleType === "buy_x_get_y",
-        description: "Product to get",
+        description: "Product the customer gets (leave empty for the same product). A free reward that isn't in the cart is added automatically.",
       },
     },
     {
@@ -268,7 +278,7 @@ export const CartRules: CollectionConfig = {
     {
       name: "customers",
       type: "relationship",
-      relationTo: "users",
+      relationTo: "customers",
       hasMany: true,
       required: false,
       admin: {
@@ -303,15 +313,17 @@ export const CartRules: CollectionConfig = {
         {
           name: "upsellMessage",
           type: "textarea",
+          localized: true,
           required: false,
           admin: {
-            description: "Message shown to encourage customers (e.g., 'Add $X more to get free delivery')",
+            description: "Shown in the cart until the rule applies, for amount/quantity triggers. Use {amount} or {quantity} for what is missing, e.g. 'Add {amount} more for free delivery'",
             width: "50%",
           },
         },
         {
           name: "activeMessage",
           type: "textarea",
+          localized: true,
           required: false,
           admin: {
             description: "Message shown when rule is active (e.g., 'You qualify for free delivery!')",

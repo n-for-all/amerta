@@ -10,6 +10,107 @@ import { ProductListingPrice } from "@/amerta/theme/components/ProductPrice";
 import { useState, useEffect, createContext, useContext } from "react";
 import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
 import { AppSlot } from "@/amerta/apps/components/AppSlot";
+import Link from "next/link";
+import { resolveBundleChoices, isInStock } from "@/amerta/core/utilities/is-in-stock";
+import type { ProductOffer } from "@/amerta/core/utilities/cart";
+import { cn } from "@/amerta/utilities/ui";
+
+/** Bundle: one picker per customer choice (e.g. Choose your game). Picking updates ?choice= so the page shows that product. */
+export const BundleChoicePicker = ({ product, choices, className }: { product: Product; choices?: string[]; className?: string }) => {
+  const { __ } = useEcommerce();
+  const resolved = resolveBundleChoices(product, choices, true);
+  if (!resolved.length) return null;
+  return (
+    <div className={cn("mt-8 space-y-6", className)}>
+      {resolved.map((group) => (
+        <fieldset key={group.group}>
+          <legend className="mb-3 uppercase text-sm/6">{group.label}</legend>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {group.options.map((option) => {
+              const selected = group.chosen?.id === option.id;
+              const available = isInStock(option, null, group.quantity);
+              const ids = resolved.map((g) => (g.group === group.group ? option.id : g.chosen?.id)).filter(Boolean);
+              const image = (option.images || []).find((m: any) => m && typeof m === "object") as any;
+              const body = (
+                <>
+                  <span className="relative block aspect-square w-full overflow-hidden rounded-md bg-current/5">{image?.url && <img src={image.url} alt={image.alt || option.title} className="absolute inset-0 h-full w-full object-contain" />}</span>
+                  <span className="mt-2 block text-xs/5 font-medium">{option.title}</span>
+                  {!available && <span className="block text-[11px] uppercase opacity-60">{__("Sold out")}</span>}
+                </>
+              );
+              const cls = cn("block rounded-lg border p-2 text-center transition", selected ? "border-current ring-1 ring-current" : "border-current/20 hover:border-current/50", !available && "pointer-events-none opacity-40");
+              return available ? (
+                <Link key={option.id} href={{ query: { choice: ids.join(",") } }} scroll={false} replace aria-current={selected ? "true" : undefined} className={cls}>
+                  {body}
+                </Link>
+              ) : (
+                <span key={option.id} aria-disabled className={cls}>
+                  {body}
+                </span>
+              );
+            })}
+          </div>
+        </fieldset>
+      ))}
+    </div>
+  );
+};
+
+/** Offers (cart rules) this product is part of, e.g. "Buy 2 coffees, get Keto Cream free". */
+export const ProductOffers = ({ offers, locale, className }: { offers?: ProductOffer[]; locale: string; className?: string }) => {
+  const { __ } = useEcommerce();
+  if (!offers?.length) return null;
+  return (
+    <ul className={cn("mt-6 space-y-3", className)}>
+      {offers.map((offer) => (
+        <li key={offer.id} className="flex items-center gap-4 rounded-lg border border-current/20 p-3">
+          {offer.gift?.image?.url ? (
+            <span className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-md bg-current/5">
+              <img src={offer.gift.image.url} alt={offer.gift.image.alt || offer.gift.title} className="absolute inset-0 h-full w-full object-contain" />
+            </span>
+          ) : (
+            <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-current/10 text-lg">%</span>
+          )}
+          <div className="min-w-0 text-sm/6">
+            <p className="text-[11px] font-semibold uppercase tracking-wider opacity-60">{offer.gift ? __("Free gift offer") : __("Offer")}</p>
+            <p className="font-medium">{offer.title}</p>
+            {offer.gift?.slug && (
+              <Link href={getURL(`/product/${offer.gift.slug}`, locale)} className="text-xs underline underline-offset-4 opacity-70 hover:opacity-100">
+                {offer.gift.title}
+              </Link>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+/** Products only sold inside a bundle: say so and link to the bundle(s), with this product already chosen. */
+export const NotSoldSeparately = ({ product, bundles, locale, className }: { product: Product; bundles?: Product[]; locale: string; className?: string }) => {
+  const { __ } = useEcommerce();
+  return (
+    <div role="note" className={cn("mt-8 rounded-lg border border-current/20 p-5", className)}>
+      <p className="font-semibold uppercase text-sm/6">{__("Not sold separately")}</p>
+      {bundles && bundles.length > 0 ? (
+        <>
+          <p className="mt-1 text-sm/6 opacity-70">{__("Available as part of:")}</p>
+          <ul className="mt-3 space-y-2">
+            {bundles.map((b) => (
+              <li key={b.id}>
+                <Link href={getURL(`/product/${b.slug}?choice=${product.id}`, locale)} className="inline-flex items-center gap-2 font-medium underline underline-offset-4">
+                  {b.title} <span aria-hidden className="rtl:-scale-x-100">→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p className="mt-1 text-sm/6 opacity-70">{__("It is only available as part of a bundle.")}</p>
+      )}
+    </div>
+  );
+};
 
 export interface ProductDetailContextType {
   product: Product;
@@ -22,7 +123,8 @@ const ProductDetailContext = createContext<ProductDetailContextType | null>(null
 
 export const useProductDetail = () => useContext(ProductDetailContext);
 
-export const ProductContext = ({ product, locale, collections, brand, inStock, options }: { product: Product; locale: string; collections: any[]; brand?: any; inStock: boolean; options: any }) => {
+export const ProductContext = ({ product, locale, collections, brand, inStock, options, choices, bundles, offers }: { product: Product; locale: string; collections: any[]; brand?: any; inStock: boolean; options: any; choices?: string[]; bundles?: Product[]; offers?: ProductOffer[] }) => {
+  const bundleChoices = product.type === "bundle" ? resolveBundleChoices(product, choices, true).filter((c) => c.chosen).map((c) => ({ group: c.group, product: c.chosen!.id })) : undefined;
   const { __, currency, exchangeRate } = useEcommerce();
   const [selectedVariant, setSelectedVariant] = useState<NonNullable<Product["variants"]>[number] | null>(null);
 
@@ -84,10 +186,14 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
             </p>
           </div>
         )}
-        <ProductListingPrice product={product} selectedVariant={selectedVariant} />
-        <p data-slot="text" className="font-light uppercase text-zinc-400 text-sm/6">
-          /
-        </p>
+        {!product.notSoldSeparately && (
+          <>
+            <ProductListingPrice product={product} selectedVariant={selectedVariant} />
+            <p data-slot="text" className="font-light uppercase text-zinc-400 text-sm/6">
+              /
+            </p>
+          </>
+        )}
 
         <div className="flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
@@ -108,11 +214,19 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
           </a>
         </div>
       </div>
-      <AppSlot target="product.price.after" />
-      {!inStock ? <p className="mt-2 text-xs text-red-600 uppercase dark:text-red-400 text-sm/6">{__("Out of Stock")}</p> : null}
+      {!product.notSoldSeparately && <AppSlot target="product.price.after" />}
+      {!inStock && !product.notSoldSeparately ? <p className="mt-2 text-xs text-red-600 uppercase dark:text-red-400 text-sm/6">{__("Out of Stock")}</p> : null}
 
       <div className="mt-6 mb-4">{product.excerpt}</div>
-      <AddToCartForm product={product} options={options} onVariantChange={onVariantChange} />
+      {product.notSoldSeparately ? (
+        <NotSoldSeparately product={product} bundles={bundles} locale={locale} />
+      ) : (
+        <>
+          <ProductOffers offers={offers} locale={locale} />
+          {product.type === "bundle" && <BundleChoicePicker product={product} choices={choices} />}
+          <AddToCartForm product={product} options={options} onVariantChange={onVariantChange} bundleChoices={bundleChoices} />
+        </>
+      )}
     </div>
     </ProductDetailContext.Provider>
   );

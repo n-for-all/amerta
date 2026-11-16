@@ -86,6 +86,16 @@ export const Cart: CollectionConfig = {
             description: "Selected variant options",
           },
         },
+        {
+          name: "bundleChoices",
+          type: "array",
+          required: false,
+          admin: { description: "Products the customer chose for a bundle" },
+          fields: [
+            { name: "group", type: "text", required: true },
+            { name: "product", type: "relationship", relationTo: "products", required: true },
+          ],
+        },
       ],
     },
     {

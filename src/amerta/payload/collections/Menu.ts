@@ -71,7 +71,7 @@ export const Menu: CollectionConfig = {
     afterRead: [populateNavItems],
     afterChange: [
       () => {
-        revalidateTag("globals", "max");
+        revalidateTag("globals", { expire: 0 });
       },
     ],
   },

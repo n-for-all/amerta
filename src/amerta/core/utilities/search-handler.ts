@@ -21,6 +21,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
         or: [{ title: { like: query } }],
         salesChannels: { equals: salesChannel!.id },
         _status: { equals: "published" },
+        notSoldSeparately: { not_equals: true },
       },
       limit: 10,
       locale: locale as LocaleCode,
