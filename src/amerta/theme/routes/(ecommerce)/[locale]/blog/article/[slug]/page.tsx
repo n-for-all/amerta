@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PostCard from "@/amerta/theme/components/PostCard";
-import { generateMeta } from "@/amerta/utilities/generateMeta";
+import { articleJSONLD, breadcrumbJSONLD, generateMeta, jsonLdString } from "@/amerta/utilities/generateMeta";
 import Avatar from "@/amerta/theme/components/Avatar";
 import SocialsList from "@/amerta/theme/components/Blog/SocialsList";
 import { calculateTimeToRead } from "@/amerta/core/utilities/calculate-time-to-read";
@@ -60,6 +60,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const timeToRead = timeToReadPost > 0 ? timeToReadPost + " min read" : null;
   const categories = post.categories && Array.isArray(post.categories) ? post.categories.filter((cat) => typeof cat === "object") : [];
   const tags = post.tags && Array.isArray(post.tags) ? post.tags : [];
+  const articleURL = getURL(`/blog/article/${post.slug}`, locale);
+  const jsonLd = [
+    await articleJSONLD(post, articleURL, locale).catch(() => null),
+    breadcrumbJSONLD([
+      { name: __("Home"), url: getURL("/", locale) },
+      { name: __("Blog"), url: getURL("/blog", locale) },
+      { name: title || "", url: articleURL },
+    ]),
+  ].filter(Boolean);
   const renderHeader = () => {
     return (
       <header className="px-4 mx-auto max-w-7xl rounded-xl xl:px-0">
@@ -152,6 +161,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="pt-8 lg:pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       {renderHeader()}
 
       {typeof heroImage === "object" && heroImage !== null && heroImage.url && (
@@ -187,7 +197,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug, locale } = await params;
   const post = await getBlogPostByHandle(slug, locale);
   if (!post) {
-    return {};
+    // Not translated yet: the page shows the default-language article, so point Google to that original
+    // and keep this copy out of search results (avoids duplicate content).
+    const original = locale && locale !== DEFAULT_LOCALE ? await getBlogPostByHandle(slug, DEFAULT_LOCALE) : null;
+    if (!original) return {};
+    const meta = await generateMeta({ doc: original, type: "post", locale: DEFAULT_LOCALE });
+    return { ...meta, robots: { index: false, follow: true } };
   }
   return await generateMeta({ doc: post, type: "post", locale });
 }

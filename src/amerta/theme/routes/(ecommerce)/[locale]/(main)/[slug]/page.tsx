@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 import { type Page } from "@/payload-types";
 import { Blocks } from "@/amerta/theme/blocks/Blocks";
-import { generateMeta } from "@/amerta/utilities/generateMeta";
+import { generateMeta, jsonLdString, organizationJSONLD } from "@/amerta/utilities/generateMeta";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { LivePreviewListener } from "@/amerta/components/LivePreviewListener";
@@ -41,9 +41,12 @@ export default async function Page({ params: pageParams }: { params: Promise<{ s
   }
 
   const { layout } = page;
+  // Home page: tell Google who the shop is (name, logo, social profiles)
+  const jsonLd = page.isFrontPage || url === "/" ? await organizationJSONLD(locale || "").catch(() => null) : null;
 
   return (
     <React.Fragment>
+      {jsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />}
       {draft && <LivePreviewListener />}
       <Blocks blocks={layout} params={{ slug, locale }} />
     </React.Fragment>

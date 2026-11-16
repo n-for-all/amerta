@@ -31,8 +31,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       switch (collection) {
         case "pages":
           Object.assign(whereQuery, {
+            // not_equals: pages created before the field existed have no isFrontPage value at all
             isFrontPage: {
-              equals: false,
+              not_equals: true,
             },
             _status: {
               equals: "published",

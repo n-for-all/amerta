@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { type Product } from "@/payload-types";
-import { generateMeta } from "@/amerta/utilities/generateMeta";
+import { breadcrumbJSONLD, generateMeta, jsonLdString } from "@/amerta/utilities/generateMeta";
+import { createTranslator } from "@/amerta/core/utilities/translation";
 
 import ProductDetail from "@/amerta/theme/components/ProductDetail";
 import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
@@ -36,23 +37,30 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
 
   const salesChannel = await getSalesChannel();
   const currency = getDefaultCurrency(salesChannel!);
-  const url = getURL(`/${locale}/product/${slug}`);
+  const url = getURL(`/product/${slug}`, locale);
   
-  let jsonLd = null;
+  let jsonLd: any = null;
   try {
     jsonLd = generateProductJSONLD(product, currency, url);
   } catch (err) {
     console.error("Failed to generate product JSON-LD:", err);
   }
+  const __ = await createTranslator(locale);
+  const breadcrumbs = breadcrumbJSONLD([
+    { name: __("Home"), url: getURL("/", locale) },
+    { name: __("Products"), url: getURL("/products", locale) },
+    { name: product.title || "", url },
+  ]);
 
   return (
     <>
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }}
         />
       )}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbs) }} />
       <ProductDetail product={product} locale={locale} options={options} choices={choices} />
     </>
   );

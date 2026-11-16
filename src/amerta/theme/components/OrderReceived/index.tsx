@@ -46,9 +46,12 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
       localStorage.setItem(key, "1");
     } catch {}
     const rate = Number(initialOrder.exchangeRate) || 1;
+    // Amounts below are in the currency the customer paid in (order total × the order's exchange rate),
+    // so label them with that currency, not the shop's default one.
+    const paidCurrency = typeof initialOrder.customerCurrency === "object" && initialOrder.customerCurrency?.code ? initialOrder.customerCurrency.code : currency?.code || "";
     trackEcommerce("purchase", {
       transaction_id: transactionId,
-      currency: currency?.code || "",
+      currency: paidCurrency,
       value: initialOrder.customerTotal || initialOrder.total * rate,
       tax: (initialOrder.tax || 0) * rate,
       shipping: (initialOrder.shippingTotal || 0) * rate,

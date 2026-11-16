@@ -100,7 +100,9 @@ export const generateMeta = async (args: { doc: Partial<Page> | Partial<Post> | 
     title = titleTemplate.replace("%s", pageTitle as string).replace("{siteName}", siteTitle);
   }
 
-  const ogImage = await getImageURL(doc?.meta?.image, settings, locale);
+  // No share image set (e.g. only filled in for one language): use the post's main image before the site default
+  const fallbackImage = doc && "heroImage" in doc && doc.heroImage && typeof doc.heroImage === "object" ? doc.heroImage : null;
+  const ogImage = await getImageURL(doc?.meta?.image || fallbackImage, settings, locale);
 
   let originalText: any = null;
   if (doc) {
@@ -334,5 +336,67 @@ const getPageSeoMeta = (settings: Settings | null, pageName: PageName): { title?
   return {
     title: (title || undefined) as string | undefined,
     description: (description || undefined) as string | undefined,
+  };
+};
+
+/* ------------------------------------------------------------------------------------------------
+ * Structured data (JSON-LD): extra facts Google reads from the page (brand, articles, breadcrumbs).
+ * Render as an inline script:
+ *   <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(data) }} />
+ * ---------------------------------------------------------------------------------------------- */
+
+/** Safe JSON for a <script> tag (no "</script>" breakouts). */
+export const jsonLdString = (data: unknown) => JSON.stringify(data).replace(/</g, "\\u003c");
+
+const absoluteURL = (url?: string | null) => (!url ? undefined : /^https?:\/\//.test(url) ? url : getServerSideURL() + url);
+const mediaURL = (media: unknown) => (media && typeof media === "object" && "url" in media ? absoluteURL((media as Media).url) : undefined);
+const homeURL = (locale?: string) => (!locale || locale === DEFAULT_LOCALE ? getServerSideURL() : `${getServerSideURL()}/${locale}`);
+
+/** "Home › Blog › Article" trail. Items are { name, url }; the last one is the current page. */
+export const breadcrumbJSONLD = (items: { name: string; url: string }[]) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.filter((i) => i.name).map((item, i) => ({ "@type": "ListItem", position: i + 1, name: striptags(item.name), item: item.url })),
+});
+
+/** The shop itself (name, logo, social profiles) and the website, for the home page. */
+export const organizationJSONLD = async (locale: string) => {
+  const settings = (await getCachedGlobal("settings" as never, 1, locale)()) as Settings;
+  const header = (await getCachedGlobal("header" as never, 1, locale)()) as any;
+  const footer = (await getCachedGlobal("footer" as never, 1, locale)()) as any;
+  const name = settings?.siteTitle || "";
+  const logo = mediaURL(header?.logoLight) || mediaURL(settings?.androidIcon) || mediaURL(settings?.appleTouchIcon) || mediaURL(settings?.defaultSeoImage);
+  const sameAs = (footer?.socialMedia || []).map((s: any) => s?.url).filter(Boolean);
+  const organization: Record<string, any> = { "@context": "https://schema.org", "@type": "Organization", "@id": `${getServerSideURL()}/#organization`, name, url: getServerSideURL() };
+  if (logo) organization.logo = logo;
+  if (sameAs.length) organization.sameAs = sameAs;
+  if (settings?.emailFooterEmail) organization.email = settings.emailFooterEmail;
+  if (settings?.emailFooterPhone) organization.telephone = settings.emailFooterPhone;
+  const website = { "@context": "https://schema.org", "@type": "WebSite", "@id": `${homeURL(locale)}/#website`, name, url: homeURL(locale), inLanguage: locale, publisher: { "@id": `${getServerSideURL()}/#organization` } };
+  return [organization, website];
+};
+
+/** A blog article: headline, image, dates, author and publisher. */
+export const articleJSONLD = async (post: Post, url: string, locale: string) => {
+  const settings = (await getCachedGlobal("settings" as never, 1, locale)()) as Settings;
+  const header = (await getCachedGlobal("header" as never, 1, locale)()) as any;
+  const image = mediaURL(post.meta?.image) || mediaURL(post.heroImage);
+  const authors = (post.populatedAuthors || []).map((a) => a?.name).filter(Boolean);
+  const publisher: Record<string, any> = { "@type": "Organization", "@id": `${getServerSideURL()}/#organization`, name: settings?.siteTitle || "" };
+  const logo = mediaURL(header?.logoLight) || mediaURL(settings?.androidIcon);
+  if (logo) publisher.logo = { "@type": "ImageObject", url: logo };
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: striptags(post.meta?.title || post.title || "").substring(0, 110),
+    description: post.meta?.description || post.excerpt || undefined,
+    image: image ? [image] : undefined,
+    datePublished: post.publishedAt || post.createdAt,
+    dateModified: post.updatedAt,
+    inLanguage: locale,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    url,
+    author: authors.length ? authors.map((name) => ({ "@type": "Person", name })) : publisher,
+    publisher,
   };
 };

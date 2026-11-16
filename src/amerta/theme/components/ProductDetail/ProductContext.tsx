@@ -129,7 +129,11 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
   const [selectedVariant, setSelectedVariant] = useState<NonNullable<Product["variants"]>[number] | null>(null);
 
   useEffect(() => {
-    const price = (product.salePrice || product.price || 0) * (Number(exchangeRate) || 1);
+    // Products with sizes/options keep their prices on the variants (the product's own price is empty):
+    // report the lowest variant price, i.e. the "from" price the customer sees first.
+    const variantPrices = product.type === "variant" ? (product.variants || []).map((v) => v.salePrice || v.price || 0).filter((p) => p > 0) : [];
+    const basePrice = variantPrices.length ? Math.min(...variantPrices) : product.salePrice || product.price || 0;
+    const price = basePrice * (Number(exchangeRate) || 1);
     trackEcommerce("view_item", {
       currency: currency?.code || "",
       value: price,
