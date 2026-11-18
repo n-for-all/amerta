@@ -1,6 +1,6 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
-import nodemailer from "nodemailer";
+import nodemailer, { type Transporter } from "nodemailer";
 import { Settings } from "@/payload-types";
 
 const buildLogData = (inputData: any, formattedFrom: string, status: "sent" | "failed", error?: string) => ({
@@ -45,10 +45,10 @@ export const dynamicTransport = {
         result = await transporter.sendMail({ ...inputData, from: formattedFrom });
       } else {
         const transporter = nodemailer.createTransport({
-          host: settings.smtpHost,
+          host: settings.smtpHost ?? undefined,
           port: Number(settings.smtpPort),
           secure: Number(settings.smtpPort) === 465,
-          auth: { user: settings.smtpUsername, pass: settings.smtpPassword },
+          auth: { user: settings.smtpUsername ?? undefined, pass: settings.smtpPassword ?? undefined },
         });
 
         formattedFrom = settings.fromName ? `"${settings.fromName}" <${settings.fromEmail}>` : settings.fromEmail || "";
@@ -89,4 +89,4 @@ export const dynamicTransport = {
     }
     return result;
   },
-};
+} as unknown as Transporter; // Payload's nodemailer adapter only calls verify() and sendMail()

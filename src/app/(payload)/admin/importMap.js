@@ -75,6 +75,7 @@ import { SettingsView as SettingsView_631a5ced33b988f2dcac771f8e6d22ec } from '@
 import { LoyaltySettingsView as LoyaltySettingsView_529dfbc1819d5e59f192fed1067fbd37 } from '@/amerta/apps/loyalty/components/LoyaltySettingsView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@/amerta/components/Product/ProductVariant#default": default_0dccb26643971045d66d36c52aa9af99,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,

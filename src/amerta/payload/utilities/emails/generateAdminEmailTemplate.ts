@@ -79,8 +79,8 @@ export async function generateAdminEmailTemplate(name: AdminEmail) {
     try {
       const emailResult = await payload.sendEmail({
         to,
-        from: defaultTemplateSettings.fromEmail,
-        replyTo: defaultTemplateSettings.fromEmail,
+        from: defaultTemplateSettings.fromEmail || undefined,
+        replyTo: defaultTemplateSettings.fromEmail || undefined,
         bcc: templateDoc.bccAddress || undefined,
         subject,
         html,
