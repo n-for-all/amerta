@@ -97,7 +97,7 @@ async function resolveVids(lines: CJLine[]): Promise<void> {
 async function mapAddress(payload: Payload, order: any) {
   const a = order.address || {};
   const country: any = a.country ? await payload.findByID({ collection: "country", id: idOf(a.country), depth: 0 }).catch(() => null) : null;
-  const phone = [a.phoneCountryCode, a.phone].filter(Boolean).join(" ");
+  const phone = a.phone ? [a.phoneCountryCode, a.phone].filter(Boolean).join(" ") : "";
   const fields = {
     shippingCustomerName: [a.firstName, a.lastName].filter(Boolean).join(" "),
     shippingCountryCode: String(country?.iso_2 || "").toUpperCase(),
