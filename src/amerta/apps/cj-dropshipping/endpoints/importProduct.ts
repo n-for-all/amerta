@@ -10,6 +10,7 @@ export const importProductEndpoint: Endpoint = {
 
       const body = req.json ? await req.json() : req.body;
       const { pid, pids, customTitle, customPrice, salesChannelId, categoryId, collectionId, publishStatus, selectedVariantVids } = body || {};
+      const ignoreRules = body?.ignoreRules === true;
 
       if (!pid && (!Array.isArray(pids) || pids.length === 0)) {
         return Response.json({ error: "Please provide a 'pid' or 'pids' array to import." }, { status: 400 });
@@ -26,6 +27,7 @@ export const importProductEndpoint: Endpoint = {
           collectionId,
           publishStatus,
           selectedVariantVids,
+          ignoreRules,
         });
 
         return Response.json(result);
@@ -43,6 +45,7 @@ export const importProductEndpoint: Endpoint = {
             categoryId,
             collectionId,
             publishStatus,
+            ignoreRules,
           });
           results.push({ pid: singlePid, ...res });
         } catch (err: any) {

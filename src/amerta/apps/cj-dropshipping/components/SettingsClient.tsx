@@ -175,6 +175,7 @@ export const SettingsClient = () => {
   const [isBulkImporting, setIsBulkImporting] = useState(false);
   const [bulkCollectionId, setBulkCollectionId] = useState("__auto__");
   const [bulkPublishStatus, setBulkPublishStatus] = useState<"published" | "draft">("published");
+  const [bulkIgnoreRules, setBulkIgnoreRules] = useState(false);
   const [bulkProgress, setBulkProgress] = useState<BulkImportProgress>({
     current: 0,
     total: 0,
@@ -1175,8 +1176,24 @@ export const SettingsClient = () => {
     }
   };
 
+  // Blocked by a shipping rule: say why and offer to import anyway
+  const offerImportAnyway = (pid: string, message: string) => {
+    toast.error(message, {
+      duration: 10000,
+      action: { label: "Import anyway", onClick: () => handleImportProduct(pid, { ignoreRules: true }) },
+    } as any);
+  };
+
+  // After an import: show the products as in the store and take them out of the selection
+  const markImported = (items: { pid: string; productId?: string }[]) => {
+    const ids = new Map(items.map((i) => [i.pid, i.productId || "imported"]));
+    setSearchResults((prev) => prev.map((r) => (ids.has(r.pid) ? { ...r, importedProductId: ids.get(r.pid) } : r)));
+    setSelectedPids((prev) => prev.filter((id) => !ids.has(id)));
+    fetchImportedProducts();
+  };
+
   // Trigger Import
-  const handleImportProduct = async (pid: string) => {
+  const handleImportProduct = async (pid: string, opts: { ignoreRules?: boolean } = {}) => {
     const activeRules = shippingImportRules.filter((r) => r.enabled);
     if (activeRules.length === 0) {
       toast.error("No active shipping rules configured. At least one active shipping rule is required to allow imports.");
@@ -1190,10 +1207,10 @@ export const SettingsClient = () => {
 
     // Check rules: if blocked, notify that product will not be imported
     const targetProduct = previewProduct?.pid === pid ? previewProduct : searchResults.find((r) => r.pid === pid);
-    if (targetProduct) {
+    if (targetProduct && !opts.ignoreRules) {
       const ruleEval = evaluateRulesClient(targetProduct);
       if (ruleEval.blocked) {
-        toast.error(`Product will not be imported: ${ruleEval.reason}`);
+        offerImportAnyway(pid, `Product will not be imported: ${ruleEval.reason}`);
         return;
       }
     }
@@ -1211,6 +1228,7 @@ export const SettingsClient = () => {
           collectionId: modalCollectionId && modalCollectionId !== "__auto__" ? modalCollectionId : undefined,
           publishStatus: autoPublish ? "published" : "draft",
           selectedVariantVids: previewProduct?.pid === pid && selectedVids.length > 0 ? selectedVids : undefined,
+          ignoreRules: opts.ignoreRules || undefined,
         }),
       });
 
@@ -1220,9 +1238,15 @@ export const SettingsClient = () => {
       }
 
       toast.success(data.message || "Product imported successfully into Amerta!");
+      markImported([{ pid, productId: data.productId }]);
       setPreviewProduct(null);
     } catch (err: any) {
-      toast.error(err.message || "Failed to import product.");
+      const message = err.message || "Failed to import product.";
+      if (!opts.ignoreRules && /blocked by shipping rules/i.test(message)) {
+        offerImportAnyway(pid, message);
+      } else {
+        toast.error(message);
+      }
     } finally {
       setImportingPid(null);
     }
@@ -1271,6 +1295,10 @@ export const SettingsClient = () => {
 
   // Selection Handlers for Bulk Import
   const handleToggleSelect = (pid: string) => {
+    if (searchResults.find((r) => r.pid === pid)?.importedProductId && !selectedPids.includes(pid)) {
+      toast.info("Already in your store. Use Re-import to update it.");
+      return;
+    }
     setSelectedPids((prev) =>
       prev.includes(pid) ? prev.filter((id) => id !== pid) : [...prev, pid]
     );
@@ -1290,7 +1318,7 @@ export const SettingsClient = () => {
   const handleToggleSelectAllVisible = () => {
     // Only select items that are allowed by shipping rules among displayed products
     const allowedVisiblePids = displayedProducts
-      .filter((r) => !evaluateRulesClient(r).blocked)
+      .filter((r) => !evaluateRulesClient(r).blocked && !r.importedProductId)
       .map((r) => r.pid);
     const areAllSelected = allowedVisiblePids.length > 0 && allowedVisiblePids.every((id) => selectedPids.includes(id));
 
@@ -1308,7 +1336,7 @@ export const SettingsClient = () => {
 
   const isAllVisibleSelected = useMemo(() => {
     const allowedVisiblePids = displayedProducts
-      .filter((r) => !evaluateRulesClient(r).blocked)
+      .filter((r) => !evaluateRulesClient(r).blocked && !r.importedProductId)
       .map((r) => r.pid);
     return allowedVisiblePids.length > 0 && allowedVisiblePids.every((id) => selectedPids.includes(id));
   }, [displayedProducts, selectedPids, evaluateRulesClient]);
@@ -1395,8 +1423,8 @@ export const SettingsClient = () => {
 
       const item = bulkItems[i]!;
 
-      // If item is already blocked by shipping rules, skip it
-      if (item.status === "failed") {
+      // If item is already blocked by shipping rules, skip it (unless rules are ignored)
+      if (item.status === "failed" && !bulkIgnoreRules) {
         failures++;
         setBulkProgress((prev) => ({
           ...prev,
@@ -1419,6 +1447,7 @@ export const SettingsClient = () => {
             salesChannelId: salesChannelId || undefined,
             collectionId: bulkCollectionId !== "__auto__" ? bulkCollectionId : undefined,
             publishStatus: bulkPublishStatus,
+            ignoreRules: bulkIgnoreRules || undefined,
           }),
         });
 
@@ -1429,6 +1458,7 @@ export const SettingsClient = () => {
 
         successes++;
         succeededPids.push(item.pid);
+        markImported([{ pid: item.pid, productId: data.productId }]);
 
         setBulkItems((prev) =>
           prev.map((it, idx) =>
@@ -1891,7 +1921,7 @@ export const SettingsClient = () => {
                     return (
                       <div
                         key={item.pid}
-                        className={`cj-product-card ${isSelected ? "cj-card-selected" : ""}`}
+                        className={`cj-product-card ${isSelected ? "cj-card-selected" : ""} ${item.importedProductId ? "cj-card-imported" : ""}`}
                       >
                         <div
                           className="cj-card-image"
@@ -1909,11 +1939,13 @@ export const SettingsClient = () => {
                               type="checkbox"
                               className="cj-custom-checkbox"
                               checked={isSelected}
+                              disabled={Boolean(item.importedProductId) && !isSelected}
                               onChange={() => handleToggleSelect(item.pid)}
                               onClick={(e) => e.stopPropagation()}
                             />
                           </div>
                           <img src={item.productImage} alt={item.productNameEn} />
+                          {item.importedProductId && <div className="cj-imported-badge">✓ In store</div>}
                           <div className="cj-profit-badge">+{channelCurrency.symbol} {estimatedProfit} est. profit</div>
                         </div>
                         <div className="cj-card-body">
@@ -1958,7 +1990,17 @@ export const SettingsClient = () => {
                             </div>
                             <div className="cj-rule-check-details">
                               {isBlocked ? (
-                                <span>Product will not be imported ({blockedReason})</span>
+                                <span>
+                                  Product will not be imported ({blockedReason}){" "}
+                                  <button
+                                    type="button"
+                                    className="cj-import-anyway"
+                                    disabled={importingPid === item.pid}
+                                    onClick={() => handleImportProduct(item.pid, { ignoreRules: true })}
+                                  >
+                                    Import anyway
+                                  </button>
+                                </span>
                               ) : (
                                 <span>
                                   Price after import: <strong>{channelCurrency.symbol} {retailPrice.toFixed(2)}</strong> (${retailPriceUSD} USD)
@@ -1978,12 +2020,24 @@ export const SettingsClient = () => {
                             >
                               Preview
                             </Button>
+                            {item.importedProductId && item.importedProductId !== "imported" && (
+                              <Button
+                                size="small"
+                                buttonStyle="secondary"
+                                el="anchor"
+                                url={`/admin/collections/products/${item.importedProductId}`}
+                                newTab
+                              >
+                                View
+                              </Button>
+                            )}
                             <Button
                               size="small"
-                              onClick={() => handleImportProduct(item.pid)}
+                              buttonStyle={item.importedProductId ? "secondary" : "primary"}
+                              onClick={() => handleImportProduct(item.pid, { ignoreRules: isBlocked && Boolean(item.importedProductId) })}
                               disabled={importingPid === item.pid}
                             >
-                              {importingPid === item.pid ? "Importing..." : "Import"}
+                              {importingPid === item.pid ? "Importing..." : item.importedProductId ? "Re-import" : "Import"}
                             </Button>
                           </div>
                         </div>
@@ -2076,6 +2130,7 @@ export const SettingsClient = () => {
                               >
                                 {item.productNameEn}
                               </div>
+                              {item.importedProductId && <span className="cj-imported-inline">✓ In store</span>}
                               <div className="cj-table-sku">
                                 <span>{item.productSku || item.pid}</span>
                               </div>
@@ -2139,10 +2194,11 @@ export const SettingsClient = () => {
                                 </Button>
                                 <Button
                                   size="small"
+                                  buttonStyle={item.importedProductId ? "secondary" : "primary"}
                                   onClick={() => handleImportProduct(item.pid)}
                                   disabled={importingPid === item.pid}
                                 >
-                                  {importingPid === item.pid ? "Importing..." : "Import"}
+                                  {importingPid === item.pid ? "Importing..." : item.importedProductId ? "Re-import" : "Import"}
                                 </Button>
                               </div>
                             </td>
@@ -3442,6 +3498,15 @@ export const SettingsClient = () => {
                   />
                 </div>
               </div>
+              <label className="cj-bulk-ignore-rules">
+                <input
+                  type="checkbox"
+                  checked={bulkIgnoreRules}
+                  disabled={isBulkImporting}
+                  onChange={(e) => setBulkIgnoreRules(e.target.checked)}
+                />
+                Ignore shipping rules (also import products the rules block)
+              </label>
             </div>
 
             {/* Progress Bar & Status (shown when importing or after running) */}

@@ -357,7 +357,7 @@ export class CJImporter {
       settings?.shippingImportRules
     );
 
-    if (!evaluation.allowed) {
+    if (!evaluation.allowed && !options.ignoreRules) {
       throw new Error(`Import blocked by Shipping Rules: ${evaluation.reason}`);
     }
 

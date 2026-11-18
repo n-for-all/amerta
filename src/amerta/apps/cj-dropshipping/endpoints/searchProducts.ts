@@ -48,6 +48,33 @@ export const searchProductsEndpoint: Endpoint = {
         productType,
       });
 
+      // Mark results that are already in the store. Imported products keep CJ's SKU, and their slug ends
+      // with the last 6 characters of the CJ product id (see CJImporter.importProduct).
+      const importedByPid = new Map<string, string>();
+      if (results.list.length > 0) {
+        const skus = results.list.map((i) => i.productSku).filter(Boolean);
+        const existing = await req.payload.find({
+          collection: "products",
+          where: {
+            or: [
+              ...(skus.length ? [{ sku: { in: skus } }] : []),
+              ...results.list.map((i) => ({ slug: { like: `-${i.pid.slice(-6).toLowerCase()}` } })),
+            ],
+          },
+          limit: results.list.length * 2,
+          depth: 0,
+          pagination: false,
+          select: { sku: true, slug: true },
+        } as any);
+        for (const item of results.list) {
+          const suffix = `-${item.pid.slice(-6).toLowerCase()}`;
+          const match = existing.docs.find(
+            (d: any) => (item.productSku && d.sku === item.productSku) || (typeof d.slug === "string" && d.slug.endsWith(suffix)),
+          );
+          if (match) importedByPid.set(item.pid, String(match.id));
+        }
+      }
+
       // Resolve channel exchange rate
       const channelInfo = await CJImporter.getChannelExchangeRate(req.payload, settings?.defaultSalesChannelId);
       const exchangeRate = channelInfo.rate;
@@ -76,6 +103,7 @@ export const searchProductsEndpoint: Endpoint = {
 
         return {
           ...item,
+          importedProductId: importedByPid.get(item.pid),
           calculatedRetailPrice: price,
           shippingBufferUSD: ruleEval.bufferUSD,
           matchedRuleName: ruleEval.matchedRuleName,

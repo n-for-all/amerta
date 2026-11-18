@@ -1535,6 +1535,64 @@
   }
 
   /* Bulk Import Modal */
+  // Products already in the store
+  .cj-product-card.cj-card-imported {
+    .cj-card-image img,
+    .cj-prod-title,
+    .cj-pricing-row {
+      opacity: 0.55;
+    }
+
+    .cj-card-image {
+      position: relative;
+    }
+  }
+
+  .cj-imported-badge {
+    position: absolute;
+    left: 0.6rem;
+    bottom: 0.6rem;
+    padding: 0.2rem 0.55rem;
+    background: var(--theme-text);
+    color: var(--theme-bg);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .cj-imported-inline {
+    display: inline-block;
+    margin: 0.15rem 0;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--theme-success-500, #2f9e6b);
+  }
+
+  .cj-import-anyway {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  .cj-bulk-ignore-rules {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
   .cj-search-history {
     display: flex;
     flex-wrap: wrap;

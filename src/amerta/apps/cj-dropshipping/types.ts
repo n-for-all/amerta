@@ -66,6 +66,8 @@ export interface CJProductListItem {
   categoryName?: string;
   /** CJ category levels, top first (e.g. Health, Beauty & Hair > Food & Health > Health Care Products) */
   categoryPath?: { id: string; name: string }[];
+  /** Set by the search endpoint when this CJ product is already in the store */
+  importedProductId?: string;
   categoryId?: string;
   sourceFrom?: number;
   addMarkStatus?: number;
@@ -139,6 +141,8 @@ export interface ImportProductOptions {
   collectionId?: string;
   publishStatus?: "published" | "draft";
   selectedVariantVids?: string[];
+  /** Import even if a shipping rule blocks the product */
+  ignoreRules?: boolean;
 }
 
 export interface BulkImportItem {
