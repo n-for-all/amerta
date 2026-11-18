@@ -7,7 +7,7 @@ import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import CollectionsDropdown from "@/amerta/theme/components/CollectionsDropdown";
 import AddToCartForm from "@/amerta/theme/components/AddToCartForm";
 import { ProductListingPrice } from "@/amerta/theme/components/ProductPrice";
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, type ReactNode } from "react";
 import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
 import { AppSlot } from "@/amerta/apps/components/AppSlot";
 import Link from "next/link";
@@ -123,7 +123,10 @@ const ProductDetailContext = createContext<ProductDetailContextType | null>(null
 
 export const useProductDetail = () => useContext(ProductDetailContext);
 
-export const ProductContext = ({ product, locale, collections, brand, inStock, options, choices, bundles, offers }: { product: Product; locale: string; collections: any[]; brand?: any; inStock: boolean; options: any; choices?: string[]; bundles?: Product[]; offers?: ProductOffer[] }) => {
+/**
+ * `afterRating`: optional content a theme shows right under the price and rating line (e.g. a review ticker).
+ */
+export const ProductContext = ({ product, locale, collections, brand, inStock, options, choices, bundles, offers, afterRating }: { product: Product; locale: string; collections: any[]; brand?: any; inStock: boolean; options: any; choices?: string[]; bundles?: Product[]; offers?: ProductOffer[]; afterRating?: ReactNode }) => {
   const bundleChoices = product.type === "bundle" ? resolveBundleChoices(product, choices, true).filter((c) => c.chosen).map((c) => ({ group: c.group, product: c.chosen!.id })) : undefined;
   const { __, currency, exchangeRate } = useEcommerce();
   const [selectedVariant, setSelectedVariant] = useState<NonNullable<Product["variants"]>[number] | null>(null);
@@ -218,6 +221,7 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
           </a>
         </div>
       </div>
+      {afterRating}
       {!product.notSoldSeparately && <AppSlot target="product.price.after" />}
       {!inStock && !product.notSoldSeparately ? <p className="mt-2 text-xs text-red-600 uppercase dark:text-red-400 text-sm/6">{__("Out of Stock")}</p> : null}
 
