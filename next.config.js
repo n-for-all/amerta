@@ -45,6 +45,8 @@ const nextConfig = (phase, { defaultConfig }) => {
         },
         productionBrowserSourceMaps: allowSourceMaps,
         output: "standalone",
+        // Next 16.4+ writes an AGENTS.md into the project on every `next dev` unless this is off
+        agentRules: false,
         typescript: {
           ignoreBuildErrors: isProdBuild,
         },
