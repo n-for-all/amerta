@@ -9,6 +9,7 @@ import AddToCartForm from "@/amerta/theme/components/AddToCartForm";
 import { ProductListingPrice } from "@/amerta/theme/components/ProductPrice";
 import { useState, useEffect, createContext, useContext, type ReactNode } from "react";
 import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
+import { unitPrice } from "@/amerta/core/utilities/cart";
 import { AppSlot } from "@/amerta/apps/components/AppSlot";
 import Link from "next/link";
 import { resolveBundleChoices, isInStock } from "@/amerta/core/utilities/is-in-stock";
@@ -133,9 +134,9 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
 
   useEffect(() => {
     // Products with sizes/options keep their prices on the variants (the product's own price is empty):
-    // report the lowest variant price, i.e. the "from" price the customer sees first.
-    const variantPrices = product.type === "variant" ? (product.variants || []).map((v) => v.salePrice || v.price || 0).filter((p) => p > 0) : [];
-    const basePrice = variantPrices.length ? Math.min(...variantPrices) : product.salePrice || product.price || 0;
+    // report the lowest variant price (after sale): the size the page selects first and the "from" price the customer sees.
+    const variantPrices = product.type === "variant" ? (product.variants || []).map((v) => unitPrice(v)).filter((p) => p > 0) : [];
+    const basePrice = variantPrices.length ? Math.min(...variantPrices) : unitPrice(product);
     const price = basePrice * (Number(exchangeRate) || 1);
     trackEcommerce("view_item", {
       currency: currency?.code || "",

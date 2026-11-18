@@ -14,6 +14,8 @@ import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
 import { addToCart } from "@/amerta/core/utilities/cart.client";
 import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
+import { unitPrice } from "@/amerta/core/utilities/cart";
+import { variantsMatch } from "@/amerta/core/utilities/variants-match";
 import { useRouter } from "next/navigation";
 import { getURL } from "@/amerta/utilities/getURL";
 
@@ -93,7 +95,8 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
         options.some((opt) => opt.id === vo.option)
       );
 
-      const { cart, error } = await addToCart(product, Math.min(quantity, maxQuantity), filteredOptions, locale!, bundleChoices);
+      const added = Math.min(quantity, maxQuantity);
+      const { cart, error } = await addToCart(product, added, filteredOptions, locale!, bundleChoices);
       if(error) {
         throw new Error(error.message);
       }
@@ -102,17 +105,19 @@ export default function AddToCartForm({ product, options, noDefaults, compact, i
       setQuantity(1);
 
       if (cart) {
-        const line = cart.items?.find((i) => (typeof i.product === "string" ? i.product : i.product?.id) === product.id);
-        const unitPrice = line ? line.salePrice || line.price : product.salePrice || product.price;
+        // The cart line for this product with the options just chosen (e.g. 200g, not another size already in the cart):
+        // its price is the chosen variant's price, after sale
+        const line = cart.items?.find((i) => (typeof i.product === "string" ? i.product : i.product?.id) === product.id && variantsMatch(i.variantOptions || [], filteredOptions));
+        const price = (line ? unitPrice(line) : unitPrice(product)) * (Number(exchangeRate) || 1);
         trackEcommerce("add_to_cart", {
           currency: currency?.code || "",
-          value: unitPrice * quantity * (Number(exchangeRate) || 1),
+          value: price * added,
           items: [
             {
               item_id: product.sku || product.id,
               item_name: product.title,
-              price: unitPrice * (Number(exchangeRate) || 1),
-              quantity,
+              price,
+              quantity: added,
               ...(filteredOptions.length && { item_variant: filteredOptions.map((o) => o.value).join(" / ") }),
             },
           ],

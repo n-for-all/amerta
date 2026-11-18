@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { trackEcommerce } from "@/amerta/components/GTM/GTM.client";
+import { unitPrice } from "@/amerta/core/utilities/cart";
 import Link from "next/link";
 import * as z from "zod";
 import { CartWithCalculations, PaymentMethod } from "@/amerta/core/types";
@@ -60,7 +61,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
       ...(typeof cartData.appliedCoupon === "object" && cartData.appliedCoupon?.code && { coupon: cartData.appliedCoupon.code }),
       items: cartData.items.map((i) => {
         const p = typeof i.product === "object" ? i.product : null;
-        return { item_id: p?.sku || p?.id || String(i.product), item_name: p?.title || "", price: (i.salePrice || i.price) * rate, quantity: i.quantity };
+        return { item_id: p?.sku || p?.id || String(i.product), item_name: p?.title || "", price: unitPrice(i) * rate, quantity: i.quantity, ...(i.variantOptions?.length && { item_variant: i.variantOptions.map((o) => o.value).join(" / ") }) };
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
