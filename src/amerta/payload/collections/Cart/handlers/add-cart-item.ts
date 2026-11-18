@@ -10,7 +10,7 @@ import { createCartIfNotExists } from "@/amerta/core/utilities/create-cart-if-no
 import { getCart } from "@/amerta/core/utilities/get-cart";
 import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { getProductPrice } from "@/amerta/core/utilities/get-product-price";
-import { isInStock, resolveBundleChoices } from "@/amerta/core/utilities/is-in-stock";
+import { availableQuantity, isInStock, resolveBundleChoices } from "@/amerta/core/utilities/is-in-stock";
 import { variantsMatch } from "@/amerta/core/utilities/variants-match";
 import { PayloadRequest } from "payload";
 import z from "zod";
@@ -111,7 +111,13 @@ export const addCartItem = async (req: PayloadRequest) => {
       }
     }
 
-    if (!isInStock(productDoc, variantOptions, existingItemIndex >= 0 ? items![existingItemIndex]!.quantity + quantity : quantity, bundleChoices)) {
+    const inCart = existingItemIndex >= 0 ? items![existingItemIndex]!.quantity : 0;
+    if (!isInStock(productDoc, variantOptions, inCart + quantity, bundleChoices)) {
+      // e.g. a one-of-a-kind item that is already in the cart: say so instead of "out of stock"
+      const available = availableQuantity(productDoc, variantOptions, bundleChoices);
+      if (inCart > 0 && Number.isFinite(available) && available > 0 && available <= inCart) {
+        return Response.json({ error: printf(__("%s is already in your cart. Only %s available."), productDoc.title, String(available)) }, { status: 400 });
+      }
       return Response.json({ error: printf(__("%s is out of stock"), productDoc.title) }, { status: 400 });
     }
 

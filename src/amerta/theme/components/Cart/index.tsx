@@ -12,7 +12,7 @@ import { CartDiscountLines, CartGiftLines, CartOfferMessages, CouponForm, CartBu
 import { getURL } from "@/amerta/utilities/getURL";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { Product, ProductMedia } from "@/payload-types";
-import { isInStock } from "@/amerta/core/utilities/is-in-stock";
+import { availableQuantity, isInStock } from "@/amerta/core/utilities/is-in-stock";
 
 interface CartProps {
   onClose?: () => void;
@@ -249,7 +249,8 @@ export default function Cart({ onClose }: CartProps) {
                                               disabled={updatingItemId === item.id}
                                               className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-0.5 ps-3 pe-8 text-xs/6 outline-1 -outline-offset-1 outline-zinc-900/10 focus:outline-1 dark:bg-zinc-800 dark:text-white dark:outline-white/10 disabled:opacity-50"
                                             >
-                                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((qty) => (
+                                              {/* Only quantities in stock (at most 10), but always the current one */}
+                                              {Array.from({ length: Math.max(item.quantity, Math.min(10, availableQuantity(product, item.variantOptions as any, item.bundleChoices as any))) }, (_, i) => i + 1).map((qty) => (
                                                 <option key={qty} value={qty}>
                                                   {qty}
                                                 </option>
