@@ -2971,7 +2971,7 @@ export const SettingsClient = () => {
                                   {rate.origin ? ` (from ${rate.origin})` : ""}
                                 </td>
                                 <td className="rate-time">{rate.aging}</td>
-                                <td className="rate-cost">${rate.price.toFixed(2)}</td>
+                                <td className="rate-cost">{rate.price === 0 ? "Free" : `$${rate.price.toFixed(2)}`}</td>
                                 <td className="rate-track">{rate.trackingType}</td>
                               </tr>
                             ))}
@@ -2996,7 +2996,7 @@ export const SettingsClient = () => {
                             </div>
                             <div className="cj-landed-row">
                               <span>Estimated Shipping ({shippingRates[0]?.name}):</span>
-                              <span>+${cheapestRate.toFixed(2)}</span>
+                              <span>{cheapestRate === 0 ? "Free" : `+$${cheapestRate.toFixed(2)}`}</span>
                             </div>
                             <div className="cj-landed-row total">
                               <span>Total Landed Cost:</span>

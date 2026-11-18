@@ -45,8 +45,9 @@ export const calculateShippingEndpoint: Endpoint = {
           });
 
           for (const opt of rawOptions) {
+            // 0 is a real rate: free shipping (e.g. USPS US→US is included in the product cost)
             const price = Number(opt.logisticPrice ?? opt.price ?? 0);
-            if (!(price > 0)) continue;
+            if (!Number.isFinite(price) || price < 0) continue;
             normalizedOptions.push({
               name: opt.logisticName || opt.name || "Standard Shipping",
               price,
