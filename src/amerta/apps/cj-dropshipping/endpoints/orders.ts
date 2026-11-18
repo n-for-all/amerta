@@ -100,8 +100,8 @@ async function mapAddress(payload: Payload, order: any) {
   const phone = [a.phoneCountryCode, a.phone].filter(Boolean).join(" ");
   const fields = {
     shippingCustomerName: [a.firstName, a.lastName].filter(Boolean).join(" "),
-    shippingCountryCode: country?.iso_2 || "",
-    shippingCountry: country?.name || a.countryName || "",
+    shippingCountryCode: String(country?.iso_2 || "").toUpperCase(),
+    shippingCountry: country?.display_name || country?.name || a.countryName || "",
     shippingProvince: a.state || "",
     shippingCity: a.city || "",
     shippingAddress: [a.building, a.street].filter(Boolean).join(" ") || a.address || "",
