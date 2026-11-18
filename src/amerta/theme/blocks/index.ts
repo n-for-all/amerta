@@ -17,6 +17,7 @@ import { ThemeShopImageBlock } from "@/amerta/theme/blocks/general/Image/config"
 import { ThemeShopSpacerBlock } from "@/amerta/theme/blocks/general/Spacer/config";
 import { ThemeShopHeroVideoBlock } from "@/amerta/theme/blocks/general/HeroVideo/config";
 import { ThemeShopIntegrationGridBlock } from "@/amerta/theme/blocks/general/IntegrationGrid/config";
+import { ThemeShopReviewsBlock } from "@/amerta/theme/blocks/general/Reviews/config";
 
 const ThemeBlocks = [
   ThemeShopHero,
@@ -38,6 +39,7 @@ const ThemeBlocks = [
   ThemeShopImageBlock,
   ThemeShopSpacerBlock,
   ThemeShopIntegrationGridBlock,
+  ThemeShopReviewsBlock,
 ];
 
 export default ThemeBlocks;

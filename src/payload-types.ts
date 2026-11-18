@@ -479,6 +479,7 @@ export interface Product {
         | ThemeShopImageBlock
         | ThemeShopSpacerBlock
         | ThemeShopIntegrationGridBlock
+        | ThemeShopReviewsBlock
       )[]
     | null;
   showProductDetails?: boolean | null;
@@ -903,6 +904,7 @@ export interface Page {
         | ThemeShopImageBlock
         | ThemeShopSpacerBlock
         | ThemeShopIntegrationGridBlock
+        | ThemeShopReviewsBlock
       )[]
     | null;
   slug?: string | null;
@@ -2364,6 +2366,32 @@ export interface ThemeShopIntegrationGridBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'themeShopIntegrationGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopReviewsBlock".
+ */
+export interface ThemeShopReviewsBlock {
+  /**
+   * Toggle to hide this section from the live website.
+   */
+  hideOnFrontend?: boolean | null;
+  /**
+   * Small label above the heading
+   */
+  eyebrow?: string | null;
+  heading?: string | null;
+  description?: string | null;
+  source: 'all' | 'products';
+  products?: (string | Product)[] | null;
+  /**
+   * Most recent first
+   */
+  limit?: number | null;
+  showSummary?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'themeShopReviews';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4260,6 +4288,7 @@ export interface ProductsSelect<T extends boolean = true> {
         themeShopImageBlock?: T | ThemeShopImageBlockSelect<T>;
         themeShopSpacerBlock?: T | ThemeShopSpacerBlockSelect<T>;
         themeShopIntegrationGrid?: T | ThemeShopIntegrationGridBlockSelect<T>;
+        themeShopReviews?: T | ThemeShopReviewsBlockSelect<T>;
       };
   showProductDetails?: T;
   productDetails?:
@@ -4783,6 +4812,22 @@ export interface ThemeShopIntegrationGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThemeShopReviewsBlock_select".
+ */
+export interface ThemeShopReviewsBlockSelect<T extends boolean = true> {
+  hideOnFrontend?: T;
+  eyebrow?: T;
+  heading?: T;
+  description?: T;
+  source?: T;
+  products?: T;
+  limit?: T;
+  showSummary?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_select".
  */
 export interface CollectionsSelect<T extends boolean = true> {
@@ -4999,6 +5044,7 @@ export interface PagesSelect<T extends boolean = true> {
         themeShopImageBlock?: T | ThemeShopImageBlockSelect<T>;
         themeShopSpacerBlock?: T | ThemeShopSpacerBlockSelect<T>;
         themeShopIntegrationGrid?: T | ThemeShopIntegrationGridBlockSelect<T>;
+        themeShopReviews?: T | ThemeShopReviewsBlockSelect<T>;
       };
   slug?: T;
   slugLock?: T;

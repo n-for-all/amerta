@@ -19,6 +19,7 @@ import { ThemeShopImageBlock } from "@/amerta/theme/blocks/general/Image/Compone
 import { ThemeShopSpacerBlock } from "@/amerta/theme/blocks/general/Spacer/Component";
 import { ThemeShopHeroVideoBlock } from "@/amerta/theme/blocks/general/HeroVideo/Component";
 import { ThemeShopIntegrationGridBlock } from "@/amerta/theme/blocks/general/IntegrationGrid/Component";
+import { ThemeShopReviewsBlock } from "@/amerta/theme/blocks/general/Reviews/Component";
 
 const blockComponents = {
   themeShopHero: ThemeShopHeroBlock,
@@ -36,6 +37,7 @@ const blockComponents = {
   themeShopSpacerBlock: ThemeShopSpacerBlock,
   themeShopHeroVideo: ThemeShopHeroVideoBlock,
   themeShopIntegrationGrid: ThemeShopIntegrationGridBlock,
+  themeShopReviews: ThemeShopReviewsBlock,
 };
 
 export const Blocks: React.FC<{
