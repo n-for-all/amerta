@@ -11,9 +11,10 @@ export const getProductsBy = async ({ limit = 12, page = 1, whereQuery = {}, sor
     whereQuery.and.push({ salesChannels: { in: [salesChannel!.id] } });
   }
 
-  // Products only sold inside a bundle aren't listed
+  // Products only sold inside a bundle aren't listed, and neither are drafts
   if (!whereQuery.and) whereQuery.and = [];
   whereQuery.and.push({ notSoldSeparately: { not_equals: true } });
+  whereQuery.and.push({ _status: { equals: "published" } });
 
   const productsResult = await payload.find({
     collection: "products",

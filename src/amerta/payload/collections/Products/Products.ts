@@ -14,6 +14,7 @@ import { PreviewField } from "@payloadcms/plugin-seo/dist/fields/Preview";
 import { CollectionConfig } from "payload";
 import { revalidateProduct } from "./hooks/revalidateProduct";
 import { admins } from "@/amerta/access/admins";
+import { adminsOrPublished } from "@/amerta/access/adminsOrPublished";
 import { slugField } from "@/amerta/fields/slug";
 
 export const Products: CollectionConfig = {
@@ -37,7 +38,8 @@ export const Products: CollectionConfig = {
     drafts: true,
   },
   access: {
-    read: () => true,
+    // Drafts are for admins only; everyone else sees published products
+    read: adminsOrPublished,
     create: admins,
     update: admins,
     delete: admins,

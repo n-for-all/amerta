@@ -26,6 +26,7 @@ export const getRelatedProducts = async (product: Product, salesChannel: SalesCh
         equals: salesChannel.id,
       },
       notSoldSeparately: { not_equals: true },
+      _status: { equals: "published" },
     },
     limit: relatedProductIds.length,
     locale: locale as LocaleCode,
