@@ -60,6 +60,7 @@ export const searchProductsEndpoint: Endpoint = {
         const ruleEval = CJImporter.evaluateShippingRules(
           {
             productWeight: item.productWeight,
+            weightPending: item.weightPending,
             sellPrice: item.sellPrice,
             variantsCount: item.variants?.length || 0,
             variants: item.variants,

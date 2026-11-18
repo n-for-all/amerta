@@ -173,14 +173,18 @@ export class CJClient {
     list: CJProductListItem[];
   }> {
     const pageNum = query.pageNum || 1;
-    const pageSize = query.pageSize || 24;
+    const pageSize = Math.min(query.pageSize || 24, 100); // listV2 max page size is 100
 
+    // Uses Product List V2 (/product/listV2). The old /product/list is deprecated and its
+    // countryCode filter misses warehouse stock (e.g. UAE). V2 does not return weight, so
+    // items are flagged weightPending and weight rules run on preview/import.
     const params = new URLSearchParams();
-    params.append("pageNum", String(pageNum));
-    params.append("pageSize", String(pageSize));
+    params.append("page", String(pageNum));
+    params.append("size", String(pageSize));
+    params.append("features", "enable_category");
 
     if (query.keyword && query.keyword.trim()) {
-      params.append("productNameEn", query.keyword.trim());
+      params.append("keyWord", query.keyword.trim());
     }
 
     // Only append categoryId if it's a real CJ ID (not placeholder 1-2 digit IDs)
@@ -211,22 +215,20 @@ export class CJClient {
     }
 
     const queryString = params.toString() ? `?${params.toString()}` : "";
-    const response = await this.request<any>(`/product/list${queryString}`);
+    const response = await this.request<any>(`/product/listV2${queryString}`);
 
-    // Parse list from CJ response
+    // V2 shape: { totalRecords, content: [{ productList: [...] }, ...] } (one content entry per keyword group)
     let items: any[] = [];
     let total = 0;
 
     if (response) {
-      total = response.total || 0;
-      if (Array.isArray(response.list)) {
+      total = response.totalRecords || response.total || 0;
+      if (Array.isArray(response.content)) {
+        items = response.content.flatMap((group: any) =>
+          Array.isArray(group?.productList) ? group.productList : group?.id || group?.pid ? [group] : [],
+        );
+      } else if (Array.isArray(response.list)) {
         items = response.list;
-      } else if (Array.isArray(response.content?.productList)) {
-        items = response.content.productList;
-      } else if (Array.isArray(response.content)) {
-        items = response.content;
-      } else if (Array.isArray(response)) {
-        items = response;
       }
     }
 
@@ -245,7 +247,14 @@ export class CJClient {
         productImage: image,
         sellPrice: price,
         productWeight: weight,
-        categoryName: item.categoryName || item.entryNameEn || "",
+        weightPending: weight <= 0,
+        categoryName:
+          item.categoryName ||
+          item.threeCategoryName ||
+          item.twoCategoryName ||
+          item.oneCategoryName ||
+          item.entryNameEn ||
+          "",
         categoryId: item.categoryId || "",
         variants: item.variants || item.variantList || item.skuList || undefined,
       };

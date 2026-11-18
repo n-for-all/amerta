@@ -107,6 +107,7 @@ export class CJImporter {
       variantsCount?: number;
       variants?: any[];
       weight?: any;
+      weightPending?: boolean;
     },
     rules?: CJShippingImportRule[]
   ): {
@@ -139,6 +140,9 @@ export class CJImporter {
 
       if (rule.field === "all" || rule.operator === "always") {
         matches = true;
+      } else if (product.weightPending && (rule.field === "weight_not_set" || rule.field === "weight")) {
+        // Weight not loaded yet (search results); weight rules run on preview/import
+        matches = false;
       } else if (rule.field === "weight_not_set") {
         matches = !weight || weight <= 0;
       } else if (rule.field === "weight") {

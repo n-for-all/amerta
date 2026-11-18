@@ -585,6 +585,7 @@ export const SettingsClient = () => {
       variantsCount?: number;
       variants?: any[];
       weight?: any;
+      weightPending?: boolean;
     }) => {
       const activeRules = shippingImportRules.filter((r) => r.enabled);
 
@@ -606,6 +607,9 @@ export const SettingsClient = () => {
 
         if (rule.field === "all" || rule.operator === "always") {
           matches = true;
+        } else if (product.weightPending && (rule.field === "weight_not_set" || rule.field === "weight")) {
+          // Weight not loaded yet (search results); weight rules run on preview/import
+          matches = false;
         } else if (rule.field === "weight_not_set") {
           matches = !weight || weight <= 0;
         } else if (rule.field === "weight") {
@@ -839,6 +843,7 @@ export const SettingsClient = () => {
               ? {
                   ...p,
                   productWeight: resolvedW || p.productWeight,
+                  weightPending: false,
                   variants: data.product.variants || p.variants,
                 }
               : p
@@ -1637,6 +1642,7 @@ export const SettingsClient = () => {
                                 <span>
                                   Price after import: <strong>{channelCurrency.symbol} {retailPrice.toFixed(2)}</strong> (${retailPriceUSD} USD)
                                   {ruleEval.bufferUSD > 0 ? ` (+$${ruleEval.bufferUSD.toFixed(2)} buffer)` : ""}
+                                  {item.weightPending ? " · Weight rules checked on preview/import" : ""}
                                 </span>
                               )}
                             </div>
@@ -1761,7 +1767,7 @@ export const SettingsClient = () => {
                                   </span>
                                 ) : (
                                   <span className="cj-rule-check-text allowed">
-                                    Allowed • Price after import: <strong>{channelCurrency.symbol} {retailPrice.toFixed(2)}</strong> (${retailPriceUSD} USD){ruleEval.bufferUSD > 0 ? ` (+$${ruleEval.bufferUSD.toFixed(2)} buffer)` : ""}
+                                    Allowed • Price after import: <strong>{channelCurrency.symbol} {retailPrice.toFixed(2)}</strong> (${retailPriceUSD} USD){ruleEval.bufferUSD > 0 ? ` (+$${ruleEval.bufferUSD.toFixed(2)} buffer)` : ""}{item.weightPending ? " · Weight rules checked on preview/import" : ""}
                                   </span>
                                 )}
                               </div>

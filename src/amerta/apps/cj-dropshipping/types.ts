@@ -60,6 +60,8 @@ export interface CJProductListItem {
   productSku: string;
   productImage: string;
   productWeight: number;
+  /** True when the list endpoint returned no weight; weight rules run on preview/import instead */
+  weightPending?: boolean;
   sellPrice: string;
   categoryName?: string;
   categoryId?: string;
