@@ -127,6 +127,9 @@ export const SettingsClient = () => {
 
   // Sentinel for Infinite Scrolling
   const observerTarget = useRef<HTMLDivElement | null>(null);
+  // Each new search gets a number; responses from an older search are ignored
+  const searchSeq = useRef(0);
+  const SEARCH_PAGE_SIZE = 60; // CJ listV2 allows up to 100
 
   // Preview & Import State
   const [previewProduct, setPreviewProduct] = useState<CJProductDetail | null>(null);
@@ -684,6 +687,9 @@ export const SettingsClient = () => {
       productTypeFilter?: string;
     }
   ) => {
+    const seq = isNew ? ++searchSeq.current : searchSeq.current;
+    const isStale = () => seq !== searchSeq.current;
+
     if (isNew) {
       setIsSearching(true);
       setSearchResults([]);
@@ -715,10 +721,11 @@ export const SettingsClient = () => {
       if (pt !== "") params.append("productType", pt);
 
       params.append("pageNum", String(page));
-      params.append("pageSize", "24");
+      params.append("pageSize", String(SEARCH_PAGE_SIZE));
 
       const res = await fetch(`/api/cj-dropshipping/search?${params.toString()}`);
       const data = await res.json();
+      if (isStale()) return; // a newer search started meanwhile
 
       if (!res.ok) {
         throw new Error(data.error || "Search failed.");
@@ -758,10 +765,12 @@ export const SettingsClient = () => {
         );
       }
     } catch (err: any) {
-      toast.error(err.message || "Failed to search CJ catalog.");
+      if (!isStale()) toast.error(err.message || "Failed to search CJ catalog.");
     } finally {
-      setIsSearching(false);
-      setIsLoadingMore(false);
+      if (!isStale()) {
+        setIsSearching(false);
+        setIsLoadingMore(false);
+      }
     }
   };
 
@@ -2138,6 +2147,15 @@ export const SettingsClient = () => {
                 <div className="cj-infinite-scroll-status">
                   <div className="cj-spinner" />
                   <span>Loading more products...</span>
+                </div>
+              )}
+
+              {/* Load more (also loads on scroll) */}
+              {!isSearching && !isLoadingMore && searchResults.length > 0 && searchResults.length < totalResults && (
+                <div className="cj-infinite-scroll-status">
+                  <Button buttonStyle="secondary" size="small" onClick={() => handleSearch(currentPage + 1, false)}>
+                    Load more ({searchResults.length} of {totalResults})
+                  </Button>
                 </div>
               )}
 
