@@ -164,7 +164,8 @@ export const StripeAdapter: PaymentAdapter = {
   async onSaveSettings({ data }) {
     const settings = data.stripeSettings;
     if (!settings) return data;
-    const webhookUrl = getServerSideURL() + "/api/payments/stripe/webhook/";
+    // No trailing slash: Next redirects it (308) and Stripe counts a redirect as a failed delivery
+    const webhookUrl = getServerSideURL() + "/api/payments/stripe/webhook";
     const events: Stripe.WebhookEndpointCreateParams.EnabledEvent[] = ["payment_intent.succeeded", "payment_intent.payment_failed", "charge.refunded"];
 
     // Live endpoint (skipped when the main key is itself a test key)
