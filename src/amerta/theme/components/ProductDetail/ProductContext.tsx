@@ -214,7 +214,7 @@ export const ProductContext = ({ product, locale, collections, brand, inStock, o
             ·
           </p>
           <a className="!capitalize underline text-sm/6 uppercase" href="#reviews">
-            {product.reviewCount ? `${product.reviewCount} review${product.reviewCount !== 1 ? "s" : ""}` : __("No reviews")}
+            {product.reviewCount ? `${product.reviewCount} ${product.reviewCount !== 1 ? __("reviews") : __("review")}` : __("No reviews")}
           </a>
         </div>
       </div>

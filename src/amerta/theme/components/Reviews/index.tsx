@@ -15,7 +15,7 @@ export default function Reviews({ reviews }: ReviewsProps) {
       <div className="mt-6 border-t border-b divide-y divide-zinc-900/10 border-zinc-900/10">
         {reviews && reviews.length > 0 ? (
           reviews.map((review: any, idx: number) => (
-            <div key={idx} className="py-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
+            <div key={idx} dir="auto" className="py-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
               <div className="lg:col-span-8 lg:col-start-5 xl:col-span-9 xl:col-start-4 xl:grid xl:grid-cols-3 xl:items-start xl:gap-x-8">
                 <div className="flex items-center xl:col-span-1">
                   <div className="flex items-center">

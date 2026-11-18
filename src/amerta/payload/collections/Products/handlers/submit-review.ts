@@ -62,21 +62,7 @@ export const submitReview = async (req: PayloadRequest) => {
       );
     }
 
-    const oldRating = product.rating || 0;
-    const oldReviewCount = product.reviewCount || 0;
-
-    const newReviewCount = oldReviewCount + 1;
-    const newRating = (oldRating * oldReviewCount + rating) / newReviewCount;
-
-    await req.payload.update({
-      collection: "products",
-      id: productId,
-      data: {
-        rating: newRating,
-        reviewCount: newReviewCount,
-      },
-    });
-
+    // The product's rating and review count are recalculated by the collection's hooks once the review is approved
     const savedReview = await req.payload.create({
       collection: "product-reviews",
       data: {

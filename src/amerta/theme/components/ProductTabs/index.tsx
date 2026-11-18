@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Product, ProductReview } from "@/payload-types";
 import ProductReviewForm from "@/amerta/theme/components/ProductReviewForm";
 import Reviews from "@/amerta/theme/components/Reviews";
@@ -19,6 +19,23 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>("about");
   const { locale, __ } = useEcommerce();
 
+  // Links to #reviews (e.g. the rating next to the price) open the Reviews tab and scroll to it
+  useEffect(() => {
+    const openReviews = () => {
+      setActiveTab("reviews");
+      document.getElementById("reviews")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    const onClick = (e: MouseEvent) => {
+      if (!(e.target as Element | null)?.closest?.('a[href="#reviews"]')) return;
+      e.preventDefault();
+      history.replaceState(null, "", "#reviews");
+      openReviews();
+    };
+    if (window.location.hash === "#reviews") openReviews();
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   let tabs = [
     { id: "about" as TabType, label: __("About") },
     { id: "reviews" as TabType, label: __("Reviews") },
@@ -36,7 +53,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
     return true;
   });
   return (
-    <>
+    <div id="reviews" className="scroll-mt-24">
       <div className="flex justify-center w-auto max-w-4xl gap-4 p-1 mx-auto rounded-full bg-zinc-50">
         {tabs.map((tab) => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`w-full rounded-full focus-visible:outline-none transition-colors ${activeTab === tab.id ? "bg-zinc-900 text-white" : "text-zinc-900 hover:bg-zinc-100"}`}>
@@ -154,6 +171,6 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
           ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 }
