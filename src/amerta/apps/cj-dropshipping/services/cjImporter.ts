@@ -1,5 +1,6 @@
 import { Payload } from "payload";
 import sharp from "sharp";
+import { createHash } from "crypto";
 import { CJClient } from "./cjClient";
 import {
   CJProductDetail,
@@ -202,7 +203,9 @@ export class CJImporter {
   static async uploadMediaWithDetails(
     payload: Payload,
     url: string,
-    title: string
+    title: string,
+    /** Skip (return null) when the downloaded file is byte-identical to one of these sha1 hashes */
+    skipHashes?: Set<string>,
   ): Promise<{ id: string; url: string; buffer: Buffer } | null> {
     try {
       if (!url) return null;
@@ -211,6 +214,7 @@ export class CJImporter {
 
       const arrayBuffer = await res.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
+      if (skipHashes?.has(this.hashBuffer(buffer))) return null;
       const cleanUrl = url.split("?")[0] || "";
       const ext = cleanUrl.endsWith(".png") ? ".png" : cleanUrl.endsWith(".webp") ? ".webp" : ".jpg";
       const filename = `cj-${Date.now()}-${Math.random().toString(36).slice(2, 7)}${ext}`;
@@ -238,6 +242,10 @@ export class CJImporter {
       console.error(`[CJ Importer] Failed to upload image from ${url}:`, err);
       return null;
     }
+  }
+
+  static hashBuffer(buffer: Buffer): string {
+    return createHash("sha1").update(buffer).digest("hex");
   }
 
   /**
@@ -505,29 +513,30 @@ export class CJImporter {
         }
       }
 
-      // Download and upload each description image into product-media
+      // Download and upload each description image into product-media. CJ descriptions usually repeat the
+      // gallery photos, so those are dropped from the description instead of being stored twice.
+      const galleryHashes = new Set(imageBuffers.map((b) => this.hashBuffer(b)));
       const uploadedMediaByUrl = new Map<string, { id: string; url: string }>();
       for (const imgUrl of descImgUrls) {
-        const uploaded = await this.uploadMediaWithDetails(payload, imgUrl, `${title} - Details`);
+        if (uniqueImages.includes(imgUrl)) continue;
+        const uploaded = await this.uploadMediaWithDetails(payload, imgUrl, `${title} - Details`, galleryHashes);
         if (uploaded) {
           uploadedMediaByUrl.set(imgUrl, uploaded);
         }
       }
 
       // Replace each <img> in rawDescription with a clean placeholder block referencing the media id
-      let processedDescriptionHtml = rawDescription;
-      if (uploadedMediaByUrl.size > 0) {
-        processedDescriptionHtml = processedDescriptionHtml.replace(
-          /<img\b[^>]*?\bsrc=["'](https?:\/\/[^"'\s>]+)["'][^>]*>/gi,
-          (fullTag, src) => {
-            const uploaded = uploadedMediaByUrl.get(src);
-            if (uploaded) {
-              return `</p><p>__CJ_UPLOAD_PLACEHOLDER_${uploaded.id}__</p><p>`;
-            }
-            return ""; // Remove un-uploaded broken images
+      // (gallery duplicates and failed downloads are removed)
+      const processedDescriptionHtml = rawDescription.replace(
+        /<img\b[^>]*?\bsrc=["'](https?:\/\/[^"'\s>]+)["'][^>]*>/gi,
+        (_fullTag: string, src: string) => {
+          const uploaded = uploadedMediaByUrl.get(src);
+          if (uploaded) {
+            return `</p><p>__CJ_UPLOAD_PLACEHOLDER_${uploaded.id}__</p><p>`;
           }
-        );
-      }
+          return "";
+        },
+      );
 
       // Sanitize HTML by stripping unsupported tags while preserving our upload placeholders
       const sanitizedHtml = this.sanitizeHtmlForLexical(processedDescriptionHtml);
