@@ -738,6 +738,94 @@ export const SettingsClient = () => {
     }
   };
 
+  // Selected products as Markdown/JSON (pricing snapshot to paste into an AI chat or a doc)
+  const buildSelectionExport = () => {
+    const rate = channelCurrency.exchangeRate || 1;
+    const items = searchResults.filter((r) => selectedPids.includes(r.pid));
+    const products = items.map((item) => {
+      const costUSD = parseFloat(item.sellPrice) || 0;
+      const ruleEval = evaluateRulesClient(item);
+      const retail = item.calculatedRetailPrice || computePriceWithMarkup(costUSD, ruleEval.bufferUSD);
+      const costStore = costUSD * rate;
+      const profit = retail - costStore;
+      const weight = resolveEffectiveProductWeight(item);
+      return {
+        pid: item.pid,
+        sku: item.productSku || "",
+        name: item.productNameEn,
+        category: (item.categoryPath || []).map((c) => c.name).join(" > ") || item.categoryName || "",
+        supplierCostUSD: Number(costUSD.toFixed(2)),
+        retailPrice: Number(retail.toFixed(2)),
+        retailPriceUSD: Number((retail / rate).toFixed(2)),
+        estProfit: Number(profit.toFixed(2)),
+        marginPct: retail > 0 ? Number(((profit / retail) * 100).toFixed(1)) : 0,
+        shippingBufferUSD: ruleEval.bufferUSD || 0,
+        ruleCheck: ruleEval.blocked ? `Blocked: ${ruleEval.reason || "shipping rule"}` : `Allowed (${ruleEval.matchedRuleName || "default"})`,
+        weightGrams: weight > 0 ? weight : null,
+        image: item.productImage,
+      };
+    });
+    const context = {
+      exportedAt: new Date().toISOString(),
+      storeCurrency: channelCurrency.code,
+      exchangeRateFromUSD: rate,
+      pricing: { markupType, markupValue, roundTo99 },
+      searchFilters: {
+        keyword: searchKeyword || null,
+        warehouse: warehouseCountry || "All",
+        categoryId: selectedCategory || null,
+        shippingCountry: defaultShippingCountry,
+      },
+      note: "Supplier cost excludes shipping unless a shipping buffer is shown. Weight is null when CJ search did not return it (open Preview to load it).",
+    };
+
+    const json = JSON.stringify({ ...context, products }, null, 2);
+
+    const cur = channelCurrency.code;
+    const md = [
+      `# CJ products (${products.length} selected)`,
+      "",
+      `- Exported: ${context.exportedAt}`,
+      `- Store currency: ${cur} (1 USD = ${rate} ${cur})`,
+      `- Pricing: ${markupType} ${markupValue}${roundTo99 ? ", rounded to .99" : ""}`,
+      `- Filters: keyword "${searchKeyword || "-"}", warehouse ${warehouseCountry || "All"}, shipping to ${defaultShippingCountry}`,
+      `- ${context.note}`,
+      "",
+      `| # | Product | Category | Cost (USD) | Retail (${cur}) | Profit (${cur}) | Margin | Weight | Rule check | PID |`,
+      "|---|---|---|---|---|---|---|---|---|---|",
+      ...products.map((p, i) =>
+        `| ${i + 1} | ${p.name.replace(/\|/g, "/")} | ${p.category.replace(/\|/g, "/") || "-"} | ${p.supplierCostUSD.toFixed(2)} | ${p.retailPrice.toFixed(2)} | ${p.estProfit.toFixed(2)} | ${p.marginPct}% | ${p.weightGrams ? `${p.weightGrams}g` : "?"} | ${p.ruleCheck.replace(/\|/g, "/")} | ${p.pid} |`,
+      ),
+      "",
+    ].join("\n");
+
+    return { md, json, count: products.length };
+  };
+
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [exportFormat, setExportFormat] = useState<"md" | "json">("md");
+  const selectionExport = isExportOpen ? buildSelectionExport() : null;
+  const exportText = selectionExport ? (exportFormat === "md" ? selectionExport.md : selectionExport.json) : "";
+
+  const handleCopyExport = async () => {
+    try {
+      await navigator.clipboard.writeText(exportText);
+      toast.success("Copied to clipboard");
+    } catch {
+      toast.error("Could not copy. Select the text and copy it manually.");
+    }
+  };
+
+  const handleDownloadExport = () => {
+    const blob = new Blob([exportText], { type: exportFormat === "md" ? "text/markdown" : "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `cj-products-${new Date().toISOString().slice(0, 10)}.${exportFormat}`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   // Search a product's category (any level) when its category link is clicked
   const handleCategoryClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
@@ -1508,6 +1596,12 @@ export const SettingsClient = () => {
                     </button>
                   </div>
                   <div className="cj-bulk-bar-right">
+                    <Button
+                      buttonStyle="secondary"
+                      onClick={() => setIsExportOpen(true)}
+                    >
+                      Copy as MD / JSON
+                    </Button>
                     <Button
                       buttonStyle="primary"
                       onClick={handleOpenBulkModal}
@@ -3028,6 +3122,50 @@ export const SettingsClient = () => {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Selected products export (Markdown / JSON) */}
+      {isExportOpen && selectionExport && (
+        <div className="cj-modal-overlay" onClick={() => setIsExportOpen(false)}>
+          <div className="cj-modal-content cj-export-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="cj-modal-header">
+              <div>
+                <h2>Selected Products ({selectionExport.count})</h2>
+                <p className="cj-bulk-modal-subtitle">Pricing snapshot to paste into a chat or doc.</p>
+              </div>
+              <button type="button" className="cj-modal-close-btn" onClick={() => setIsExportOpen(false)}>
+                ×
+              </button>
+            </div>
+            <div className="cj-export-toolbar">
+              <div className="cj-modal-tabs">
+                <button
+                  type="button"
+                  className={`cj-modal-tab-btn ${exportFormat === "md" ? "active" : ""}`}
+                  onClick={() => setExportFormat("md")}
+                >
+                  Markdown
+                </button>
+                <button
+                  type="button"
+                  className={`cj-modal-tab-btn ${exportFormat === "json" ? "active" : ""}`}
+                  onClick={() => setExportFormat("json")}
+                >
+                  JSON
+                </button>
+              </div>
+              <div className="cj-export-actions">
+                <Button buttonStyle="secondary" size="small" onClick={handleDownloadExport}>
+                  Download .{exportFormat}
+                </Button>
+                <Button buttonStyle="primary" size="small" onClick={handleCopyExport}>
+                  Copy
+                </Button>
+              </div>
+            </div>
+            <textarea className="cj-export-text" readOnly value={exportText} onFocus={(e) => e.currentTarget.select()} />
           </div>
         </div>
       )}
