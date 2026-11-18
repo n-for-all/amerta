@@ -254,6 +254,14 @@ export class CJClient {
         sellPrice: price,
         productWeight: weight,
         weightPending: weight <= 0,
+        // listV2 returns every level's id and name; CJ's categoryId filter accepts any of them
+        categoryPath: [
+          { id: item.oneCategoryId, name: item.oneCategoryName },
+          { id: item.twoCategoryId, name: item.twoCategoryName },
+          { id: item.categoryId, name: item.threeCategoryName },
+        ]
+          .filter((c) => c.id && c.name)
+          .map((c) => ({ id: String(c.id), name: String(c.name) })),
         categoryName:
           item.categoryName ||
           item.threeCategoryName ||

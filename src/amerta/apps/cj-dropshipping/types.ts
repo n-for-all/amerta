@@ -64,6 +64,8 @@ export interface CJProductListItem {
   weightPending?: boolean;
   sellPrice: string;
   categoryName?: string;
+  /** CJ category levels, top first (e.g. Health, Beauty & Hair > Food & Health > Health Care Products) */
+  categoryPath?: { id: string; name: string }[];
   categoryId?: string;
   sourceFrom?: number;
   addMarkStatus?: number;

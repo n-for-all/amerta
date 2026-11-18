@@ -186,6 +186,40 @@
           min-height: 2.6rem;
         }
 
+        .cj-category-path {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.15rem 0.3rem;
+          margin: -0.25rem 0 0.6rem;
+          font-size: 0.72rem;
+          line-height: 1.3;
+          color: var(--theme-elevation-500);
+        }
+
+        .cj-category-link {
+          padding: 0;
+          border: 0;
+          background: none;
+          font: inherit;
+          color: inherit;
+          cursor: pointer;
+          text-decoration: underline;
+          text-decoration-color: transparent;
+          text-underline-offset: 2px;
+          transition: color 0.15s, text-decoration-color 0.15s;
+
+          &:hover,
+          &.active {
+            color: var(--theme-text);
+            text-decoration-color: currentColor;
+          }
+        }
+
+        .cj-category-sep {
+          opacity: 0.6;
+        }
+
         .cj-pricing-row {
           display: flex;
           justify-content: space-between;

@@ -738,6 +738,37 @@ export const SettingsClient = () => {
     }
   };
 
+  // Search a product's category (any level) when its category link is clicked
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    handleSearch(1, true, { categoryId });
+  };
+
+  // Small clickable category trail under a product: Top › Middle › Leaf
+  const renderCategoryPath = (item: { categoryPath?: { id: string; name: string }[] }) => {
+    if (!item.categoryPath?.length) return null;
+    return (
+      <div className="cj-category-path">
+        {item.categoryPath.map((cat, idx) => (
+          <React.Fragment key={cat.id}>
+            {idx > 0 && <span className="cj-category-sep">›</span>}
+            <button
+              type="button"
+              className={`cj-category-link ${selectedCategory === cat.id ? "active" : ""}`}
+              title={`Show products in ${cat.name}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCategoryClick(cat.id);
+              }}
+            >
+              {cat.name}
+            </button>
+          </React.Fragment>
+        ))}
+      </div>
+    );
+  };
+
   // Reset all filters back to default
   const handleResetFilters = () => {
     setSearchKeyword("");
@@ -1601,6 +1632,7 @@ export const SettingsClient = () => {
                           <div className="cj-prod-title" title={item.productNameEn}>
                             {item.productNameEn}
                           </div>
+                          {renderCategoryPath(item)}
                           <div className="cj-pricing-row">
                             <div className="cj-cost">
                               Supplier Cost {channelCurrency.code !== "USD" ? `(${channelCurrency.code})` : ""}
@@ -1774,7 +1806,7 @@ export const SettingsClient = () => {
                               </div>
                             </td>
                             <td className="cj-table-meta">
-                              {item.categoryName || "—"}
+                              {item.categoryPath?.length ? renderCategoryPath(item) : item.categoryName || "—"}
                             </td>
                             <td className="cj-table-meta">
                               {(() => {
