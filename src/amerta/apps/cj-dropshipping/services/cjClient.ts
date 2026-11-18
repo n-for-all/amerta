@@ -348,6 +348,23 @@ export class CJClient {
   }
 
   /**
+   * Warehouse countries that hold stock for a product (e.g. ["US"]), most stock first.
+   * Returns [] if CJ has no inventory data for it.
+   */
+  static async getStockCountries(pid: string): Promise<{ countryCode: string; areaEn: string; total: number }[]> {
+    const data = await this.request<any>(`/product/stock/getInventoryByPid?pid=${encodeURIComponent(pid)}`);
+    const inventories: any[] = Array.isArray(data?.inventories) ? data.inventories : [];
+    return inventories
+      .map((inv) => ({
+        countryCode: String(inv.countryCode || "").toUpperCase(),
+        areaEn: inv.areaEn || inv.countryNameEn || inv.countryCode || "",
+        total: Number(inv.totalInventoryNum ?? inv.totalInventory ?? 0),
+      }))
+      .filter((inv) => inv.countryCode && inv.total > 0)
+      .sort((a, b) => b.total - a.total);
+  }
+
+  /**
    * Calculate shipping / freight estimates via CJ API
    */
   static async calculateFreight(options: {

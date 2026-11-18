@@ -926,7 +926,8 @@ export const SettingsClient = () => {
       setShippingRates(data.options || []);
       setIsShippingOpen(true);
       if (!data.options || data.options.length === 0) {
-        toast.error(`No shipping options found for ${country}.`);
+        const from = Array.isArray(data.stockOrigins) && data.stockOrigins.length ? ` from ${data.stockOrigins.join(", ")} warehouse` : "";
+        toast.error(`No shipping options to ${country}${from}. This product can't be delivered there.`);
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to calculate shipping rates.");
@@ -2670,7 +2671,10 @@ export const SettingsClient = () => {
                           <tbody>
                             {shippingRates.slice(0, 6).map((rate, idx) => (
                               <tr key={idx}>
-                                <td className="rate-method">{rate.name}</td>
+                                <td className="rate-method">
+                                  {rate.name}
+                                  {rate.origin ? ` (from ${rate.origin})` : ""}
+                                </td>
                                 <td className="rate-time">{rate.aging}</td>
                                 <td className="rate-cost">${rate.price.toFixed(2)}</td>
                                 <td className="rate-track">{rate.trackingType}</td>
