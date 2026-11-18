@@ -7,7 +7,8 @@
 import { admins } from "@/amerta/access/admins";
 import { PAYMENT_ADAPTERS } from "@/amerta/payments";
 import { CollectionConfig, Field } from "payload";
-import { getPaymentMethods } from "./handlers/get-payment-methods";
+import { getPaymentMethods, stripPaymentSecrets } from "./handlers/get-payment-methods";
+import { checkRole } from "@/amerta/access/checkRole";
 import { executePaymentMethodAction } from "./handlers/execute-payment-method-action";
 import { saveAdapterSettings } from "./hooks/save-adapter-settings";
 import { filterCurrencies } from "./filters/filter-currencies";
@@ -30,6 +31,9 @@ export const PaymentMethods: CollectionConfig = {
   },
   hooks: {
     beforeChange: [preventDuplicate, saveAdapterSettings],
+    // read is public (the checkout lists methods), so secret keys are removed from anything served over
+    // REST/GraphQL to non-admins. Server code reads through the local API and still gets them.
+    afterRead: [({ doc, req }) => (req.payloadAPI === "local" || checkRole(["admin"], req.user as any) ? doc : stripPaymentSecrets(doc))],
   },
   fields: [
     {

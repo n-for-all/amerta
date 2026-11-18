@@ -17,6 +17,23 @@ const sendUncachedResponse = (status: number, body: any) => {
   });
 };
 
+/**
+ * Gateway settings that must never reach a browser: secret/API keys and webhook secrets.
+ * Publishable keys, test-mode flags and COD instructions stay (the checkout needs them).
+ */
+const SECRET_SETTING = /(secret|apikey|webhook)/i;
+
+export function stripPaymentSecrets<T extends Record<string, any>>(doc: T): T {
+  if (!doc || typeof doc !== "object") return doc;
+  const clean: Record<string, any> = { ...doc };
+  for (const [key, value] of Object.entries(clean)) {
+    if (key.endsWith("Settings") && value && typeof value === "object") {
+      clean[key] = Object.fromEntries(Object.entries(value).filter(([name]) => !SECRET_SETTING.test(name)));
+    }
+  }
+  return clean as T;
+}
+
 export const getPaymentMethods = async (req) => {
   const { payload } = req;
   try {
@@ -43,7 +60,7 @@ export const getPaymentMethods = async (req) => {
 
     return sendUncachedResponse(200, {
       success: true,
-      data: response.docs,
+      data: response.docs.map((doc) => stripPaymentSecrets(doc)),
     });
   } catch (error) {
     console.error("Error fetching payment methods:", error);
