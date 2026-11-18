@@ -492,27 +492,46 @@ export const SettingsClient = () => {
     }
   };
 
+  // Save only the shipping rules (each rule change is saved right away)
+  const persistShippingRules = async (rules: CJShippingImportRule[], message: string) => {
+    setShippingImportRules(rules);
+    try {
+      const res = await fetch("/api/globals/apps");
+      const currentGlobal = await res.json();
+      const currentSettings = currentGlobal.appSettings || {};
+      const updateRes = await fetch("/api/globals/apps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          appSettings: {
+            ...currentSettings,
+            "cj-dropshipping": { ...(currentSettings["cj-dropshipping"] || {}), shippingImportRules: rules },
+          },
+        }),
+      });
+      if (!updateRes.ok) throw new Error("Failed to save shipping rules.");
+      toast.success(`${message} and saved`);
+    } catch (err: any) {
+      toast.error(`${err.message || "Failed to save shipping rules."} Click "Save Shipping Rules" to retry.`);
+    }
+  };
+
   // Toggle a single rule's enabled state
   const handleToggleRule = (id: string) => {
-    setShippingImportRules((prev) => {
-      const next = prev.map((r) => (r.id === id ? { ...r, enabled: !r.enabled } : r));
-      if (next.filter((r) => r.enabled).length === 0) {
-        toast.warning("Warning: No active shipping rules! Imports are disabled until at least 1 rule is active.");
-      }
-      return next;
-    });
+    const next = shippingImportRules.map((r) => (r.id === id ? { ...r, enabled: !r.enabled } : r));
+    if (next.filter((r) => r.enabled).length === 0) {
+      toast.warning("Warning: No active shipping rules! Imports are disabled until at least 1 rule is active.");
+    }
+    persistShippingRules(next, "Rule updated");
   };
 
   // Delete a rule
   const handleDeleteRule = (id: string) => {
-    setShippingImportRules((prev) => {
-      const next = prev.filter((r) => r.id !== id);
-      if (next.filter((r) => r.enabled).length === 0) {
-        toast.warning("Warning: All shipping rules removed! Imports are disabled until at least 1 rule is added.");
-      }
-      return next;
-    });
-    toast.success("Rule removed");
+    const next = shippingImportRules.filter((r) => r.id !== id);
+    if (next.filter((r) => r.enabled).length === 0) {
+      toast.warning("Warning: All shipping rules removed! Imports are disabled until at least 1 rule is added.");
+    }
+    persistShippingRules(next, "Rule removed");
   };
 
   // Open modal to add rule
@@ -556,22 +575,20 @@ export const SettingsClient = () => {
     const value = isAll || isWeightNotSet ? undefined : parseFloat(ruleFormValue) || 0;
 
     if (editingRuleId) {
-      setShippingImportRules((prev) =>
-        prev.map((r) =>
-          r.id === editingRuleId
-            ? {
-                ...r,
-                name: generatedName,
-                field: ruleFormField,
-                operator,
-                value,
-                action: ruleFormAction,
-                bufferUSD: bufferVal,
-              }
-            : r
-        )
+      const next = shippingImportRules.map((r) =>
+        r.id === editingRuleId
+          ? {
+              ...r,
+              name: generatedName,
+              field: ruleFormField,
+              operator,
+              value,
+              action: ruleFormAction,
+              bufferUSD: bufferVal,
+            }
+          : r
       );
-      toast.success("Rule updated");
+      persistShippingRules(next, "Rule updated");
     } else {
       const newRule: CJShippingImportRule = {
         id: `rule-${Date.now()}`,
@@ -583,8 +600,7 @@ export const SettingsClient = () => {
         bufferUSD: bufferVal,
         enabled: true,
       };
-      setShippingImportRules((prev) => [...prev, newRule]);
-      toast.success("Rule added");
+      persistShippingRules([...shippingImportRules, newRule], "Rule added");
     }
     setIsRuleModalOpen(false);
   };
