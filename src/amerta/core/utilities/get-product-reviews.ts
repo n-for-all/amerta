@@ -7,7 +7,7 @@ export const getProductReviews = async (productId: string, page: number = 1, lim
     collection: "product-reviews",
     where: {
       product: {
-        equals: productId,
+        in: [productId],
       },
       status: {
         equals: "approved",

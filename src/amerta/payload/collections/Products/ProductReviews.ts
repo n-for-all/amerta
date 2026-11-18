@@ -27,9 +27,15 @@ const ProductReviews: CollectionConfig = {
       name: "product",
       type: "relationship",
       relationTo: "products",
+      hasMany: true,
       required: true,
       admin: {
         position: "sidebar",
+        description: "The review shows on every product selected here.",
+      },
+      hooks: {
+        // Reviews saved before this field allowed several products hold a single id
+        afterRead: [({ value }) => (value && !Array.isArray(value) ? [value] : value)],
       },
     },
     {
@@ -52,7 +58,6 @@ const ProductReviews: CollectionConfig = {
                 {
                   name: "email",
                   type: "email",
-                  required: true,
                   admin: {
                     placeholder: "reviewer@example.com",
                   },
@@ -69,6 +74,10 @@ const ProductReviews: CollectionConfig = {
               admin: {
                 step: 1,
               },
+            },
+            {
+              name: "title",
+              type: "text",
             },
             {
               name: "content",

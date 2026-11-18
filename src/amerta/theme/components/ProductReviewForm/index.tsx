@@ -40,12 +40,19 @@ export default function ProductReviewForm({ productId }: ProductReviewFormProps)
           } as any,
           {
             name: "email",
-            placeholder: "Email Address, ex: user@example.com",
-            required: true,
+            placeholder: "Email Address (optional)",
+            required: false,
             blockType: "email",
           } as any,
         ],
       },
+      {
+        name: "title",
+        placeholder: "Review Title (optional)",
+        width: 100,
+        required: false,
+        blockType: "text",
+      } as any,
       {
         name: "content",
         placeholder: "Your Review",

@@ -2461,10 +2461,14 @@ export interface ProductOption {
  */
 export interface ProductReview {
   id: string;
-  product: string | Product;
+  /**
+   * The review shows on every product selected here.
+   */
+  product: (string | Product)[];
   author: string;
-  email: string;
+  email?: string | null;
   rating: number;
+  title?: string | null;
   content: string;
   verified?: boolean | null;
   status: 'pending' | 'approved' | 'rejected';
@@ -2847,7 +2851,7 @@ export interface CartRule {
    */
   buyXGetYBuyQuantity?: number | null;
   /**
-   * Product to buy (leave empty for any product)
+   * Leave empty to count every product of the trigger above, e.g. any coffee size from the selected products or collection
    */
   buyXGetYBuyProduct?: (string | null) | Product;
   /**
@@ -3841,6 +3845,10 @@ export interface PayloadMcpApiKey {
      * Replace the blocks `layout` of a page, post or product. Pass the full array of blocks (each with its `blockType`); relationship/upload fields take ids. Use the normal update tools for every other field.
      */
     updateLayout?: boolean | null;
+    /**
+     * Find & replace exact text in a page, post or product (one locale): rich text content, excerpt and SEO title/description. Returns how many times each replacement matched. Set dryRun to preview without saving.
+     */
+    replaceText?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -4953,6 +4961,7 @@ export interface ProductReviewsSelect<T extends boolean = true> {
   author?: T;
   email?: T;
   rating?: T;
+  title?: T;
   content?: T;
   verified?: T;
   status?: T;
@@ -6141,6 +6150,7 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | {
         uploadMedia?: T;
         updateLayout?: T;
+        replaceText?: T;
       };
   updatedAt?: T;
   createdAt?: T;

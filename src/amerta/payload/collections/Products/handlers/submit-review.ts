@@ -32,7 +32,8 @@ export const submitReview = async (req: PayloadRequest) => {
 
     // Validate individual fields with detailed errors
     const author = z.string().min(2, "Author must be at least 2 characters").parse(formData.author);
-    const email = z.string().email("Invalid email address").parse(formData.email);
+    const email = formData.email ? z.string().email("Invalid email address").parse(formData.email) : undefined;
+    const title = typeof formData.title === "string" && formData.title.trim() ? formData.title.trim() : undefined;
     const ratingValue = parseFloat(formData.rating);
     const rating = z.number().min(1, "Rating must be at least 1 star").max(5, "Rating cannot exceed 5 stars").parse(ratingValue);
     const content = z.string().min(10, "Review content must be at least 10 characters").parse(formData.content);
@@ -79,9 +80,10 @@ export const submitReview = async (req: PayloadRequest) => {
     const savedReview = await req.payload.create({
       collection: "product-reviews",
       data: {
-        product: productId,
+        product: [productId],
         author,
         email,
+        title,
         rating,
         content,
         status: "pending",
