@@ -1,3 +1,5 @@
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
 import { getAppSettings } from "@/amerta/core/utilities/get-app-settings";
 import {
   CJCategory,
@@ -40,6 +42,47 @@ export class CJClient {
     };
   }
 
+  /**
+   * Fetch a fresh access token with the stored apiKey and persist it.
+   * Used when the stored token is expired or rejected (e.g. after API access was re-enabled on CJ).
+   */
+  private static async refreshAccessToken(settings: CJSettings): Promise<string> {
+    if (!settings.apiKey) {
+      throw new Error("CJ Dropshipping is not connected. Please enter your API credentials in Settings.");
+    }
+    const auth = await CJClient.getAccessToken(settings.email || "", settings.apiKey);
+
+    const payload = await getPayload({ config: configPromise });
+    const appsGlobal = await payload.findGlobal({ slug: "apps", depth: 0 });
+    const appSettings = (appsGlobal?.appSettings as Record<string, any>) || {};
+    await payload.updateGlobal({
+      slug: "apps",
+      data: {
+        appSettings: {
+          ...appSettings,
+          "cj-dropshipping": {
+            ...(appSettings["cj-dropshipping"] || {}),
+            accessToken: auth.accessToken,
+            tokenExpiryDate: auth.accessTokenExpiryDate,
+          },
+        },
+      },
+    });
+    return auth.accessToken;
+  }
+
+  private static isTokenExpired(settings: CJSettings): boolean {
+    if (!settings.tokenExpiryDate) return false;
+    const expiry = new Date(settings.tokenExpiryDate).getTime();
+    // Refresh a little early to avoid using a token that dies mid-request
+    return Number.isFinite(expiry) && expiry - Date.now() < 60 * 60 * 1000;
+  }
+
+  private static isAuthError(data: any, status: number): boolean {
+    const msg = String(data?.message || "").toLowerCase();
+    return status === 401 || msg.includes("token") || msg.includes("api access") || msg.includes("disabled") || msg.includes("unauthori");
+  }
+
   private static lastRequestTime = 0;
   private static queuePromise: Promise<any> = Promise.resolve();
 
@@ -58,48 +101,66 @@ export class CJClient {
    */
   private static async request<T = any>(endpoint: string, options: RequestInit = {}, retries = 3): Promise<T> {
     const settings = (await getAppSettings("cj-dropshipping")) as CJSettings | undefined;
-    const token = settings?.accessToken;
+    let token = settings?.accessToken;
 
-    if (!token) {
+    if (!settings || (!token && !settings.apiKey)) {
       throw new Error("CJ Dropshipping is not connected. Please enter your API credentials in Settings.");
     }
 
-    // Queue all requests sequentially to guarantee 1 QPS
-    return (CJClient.queuePromise = CJClient.queuePromise.then(async () => {
-      await CJClient.throttle();
+    if (!token || CJClient.isTokenExpired(settings)) {
+      token = await CJClient.refreshAccessToken(settings);
+    }
 
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-        "CJ-Access-Token": token,
-        ...(options.headers as Record<string, string> || {}),
-      };
+    const url = endpoint.startsWith("http") ? endpoint : `${CJ_API_BASE}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
 
-      const url = endpoint.startsWith("http") ? endpoint : `${CJ_API_BASE}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
-      const res = await fetch(url, {
-        ...options,
-        headers,
-      });
+    // Queue all requests sequentially to guarantee 1 QPS. Retries loop inside the same
+    // queue slot (re-calling request() here would wait on itself and deadlock).
+    const run = CJClient.queuePromise.then(async () => {
+      let qpsRetries = retries;
+      let authRetried = false;
 
-      const data = await res.json();
+      while (true) {
+        await CJClient.throttle();
 
-      // Handle CJ QPS limit with automatic backoff retry
-      const isQpsError =
-        (data.code !== 200 && data.result !== true) &&
-        (String(data.message || "").toLowerCase().includes("qps") ||
-          String(data.message || "").toLowerCase().includes("too many requests"));
+        const res = await fetch(url, {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            "CJ-Access-Token": token as string,
+            ...((options.headers as Record<string, string>) || {}),
+          },
+        });
+        const data = await res.json();
+        const failed = !res.ok || (data.code !== 200 && data.result !== true);
+        const message = String(data.message || "").toLowerCase();
 
-      if (isQpsError && retries > 0) {
-        console.warn(`[CJ API Rate Limit] QPS hit on ${endpoint}. Waiting 1500ms before retry (${retries} retries left)...`);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        return CJClient.request<T>(endpoint, options, retries - 1);
+        // CJ QPS limit: back off and retry
+        if (failed && (message.includes("qps") || message.includes("too many requests")) && qpsRetries > 0) {
+          console.warn(`[CJ API Rate Limit] QPS hit on ${endpoint}. Waiting 1500ms before retry (${qpsRetries} retries left)...`);
+          qpsRetries--;
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          continue;
+        }
+
+        // Stored token rejected (e.g. API access was disabled and re-enabled): get a fresh one once and retry
+        if (failed && !authRetried && CJClient.isAuthError(data, res.status)) {
+          console.warn(`[CJ API] Token rejected on ${endpoint} ("${data.message}"). Refreshing access token...`);
+          authRetried = true;
+          token = await CJClient.refreshAccessToken(settings);
+          continue;
+        }
+
+        if (failed) {
+          throw new Error(data.message || `CJ API Error (${res.status})`);
+        }
+
+        return (data.data !== undefined ? data.data : data) as T;
       }
+    });
 
-      if (!res.ok || (data.code !== 200 && data.result !== true)) {
-        throw new Error(data.message || `CJ API Error (${res.status})`);
-      }
-
-      return (data.data !== undefined ? data.data : data) as T;
-    }));
+    // Keep the queue alive: a failed request must not reject every request after it
+    CJClient.queuePromise = run.catch(() => undefined);
+    return run;
   }
 
   /**
