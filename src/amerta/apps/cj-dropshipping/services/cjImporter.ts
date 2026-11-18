@@ -1,4 +1,5 @@
 import { Payload } from "payload";
+import sharp from "sharp";
 import { CJClient } from "./cjClient";
 import {
   CJProductDetail,
@@ -202,7 +203,7 @@ export class CJImporter {
     payload: Payload,
     url: string,
     title: string
-  ): Promise<{ id: string; url: string } | null> {
+  ): Promise<{ id: string; url: string; buffer: Buffer } | null> {
     try {
       if (!url) return null;
       const res = await fetch(url);
@@ -231,6 +232,7 @@ export class CJImporter {
       return {
         id: media.id,
         url: (media as any).url || `/products/${filename}`,
+        buffer,
       };
     } catch (err) {
       console.error(`[CJ Importer] Failed to upload image from ${url}:`, err);
@@ -268,6 +270,60 @@ export class CJImporter {
     };
     const all = [...toList(cjProduct?.bigImage), ...toList(cjProduct?.productImage), ...toList(cjProduct?.productImageSet)];
     return Array.from(new Set(all.filter((img) => typeof img === "string" && img.startsWith("http"))));
+  }
+
+  /**
+   * Share of the frame the subject covers (0-1), measured against the colour at the image edges.
+   * Returns null for images that are not square (labels, size charts) or cannot be read.
+   */
+  static async subjectArea(buffer: Buffer): Promise<number | null> {
+    try {
+      const meta = await sharp(buffer).metadata();
+      if (!meta.width || !meta.height || Math.abs(meta.width - meta.height) > meta.width * 0.02) return null;
+      const size = 100;
+      const { data } = await sharp(buffer).removeAlpha().resize(size, size, { fit: "fill" }).raw().toBuffer({ resolveWithObject: true });
+      const px = (x: number, y: number) => {
+        const i = (y * size + x) * 3;
+        return [data[i]!, data[i + 1]!, data[i + 2]!];
+      };
+      const edge: number[][] = [];
+      for (let k = 0; k < size; k++) {
+        for (let d = 0; d < 4; d++) edge.push(px(k, d), px(k, size - 1 - d), px(d, k), px(size - 1 - d, k));
+      }
+      const median = (vals: number[]) => vals.sort((a, b) => a - b)[Math.floor(vals.length / 2)]!;
+      const bg = [0, 1, 2].map((c) => median(edge.map((e) => e[c]!)));
+      let fg = 0;
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const [r, g, b] = px(x, y);
+          if (Math.abs(r! - bg[0]!) + Math.abs(g! - bg[1]!) + Math.abs(b! - bg[2]!) > 40) fg++;
+        }
+      }
+      return fg / (size * size);
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Move the close-up shot (the image whose subject fills the least of the frame, e.g. pills or powder
+   * without the bottle) to the second position, which storefronts show on hover. Only moves it when it
+   * clearly stands out (under 60% of the median subject size), so sets of near-identical shots stay as they are.
+   */
+  static async moveCloseupToSecond(ids: string[], buffers: Buffer[]): Promise<string[]> {
+    if (ids.length < 3) return ids;
+    const areas = await Promise.all(buffers.map((b) => this.subjectArea(b)));
+    const candidates = areas
+      .map((area, i) => ({ area, i }))
+      .filter((c): c is { area: number; i: number } => c.i > 0 && c.area !== null)
+      .sort((a, b) => a.area - b.area);
+    if (candidates.length < 2) return ids;
+    const pick = candidates[0]!;
+    const others = [...candidates.slice(1).map((c) => c.area), ...(areas[0] !== null ? [areas[0]!] : [])].sort((a, b) => a - b);
+    const median = others[Math.floor(others.length / 2)]!;
+    if (pick.i === 1 || pick.area >= median * 0.6) return ids;
+    const rest = ids.filter((_, i) => i !== pick.i);
+    return [rest[0]!, ids[pick.i]!, ...rest.slice(1)];
   }
 
   /**
@@ -408,10 +464,17 @@ export class CJImporter {
     const imageList = this.resolveImageList(cjProduct);
 
     const uniqueImages = imageList.slice(0, 10);
-    const imageIds: string[] = [];
+    let imageIds: string[] = [];
+    const imageBuffers: Buffer[] = [];
     for (const imgUrl of uniqueImages) {
-      const mediaId = await this.uploadMedia(payload, imgUrl, title);
-      if (mediaId) imageIds.push(mediaId);
+      const media = await this.uploadMediaWithDetails(payload, imgUrl, title);
+      if (media) {
+        imageIds.push(media.id);
+        imageBuffers.push(media.buffer);
+      }
+    }
+    if (settings?.closeupSecondImage) {
+      imageIds = await this.moveCloseupToSecond(imageIds, imageBuffers);
     }
 
     // 4. Convert description to Lexical safely and import embedded images

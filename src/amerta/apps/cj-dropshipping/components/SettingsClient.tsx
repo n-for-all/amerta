@@ -30,6 +30,7 @@ export const SettingsClient = () => {
   const [markupValue, setMarkupValue] = useState<number>(2.5);
   const [roundTo99, setRoundTo99] = useState(true);
   const [autoPublish, setAutoPublish] = useState(true);
+  const [closeupSecondImage, setCloseupSecondImage] = useState(false);
   const [defaultStock, setDefaultStock] = useState<number>(100);
   const [salesChannelId, setSalesChannelId] = useState("");
   const [defaultShippingCountry, setDefaultShippingCountry] = useState("US");
@@ -247,6 +248,7 @@ export const SettingsClient = () => {
             setMarkupValue(cj.markupValue !== undefined ? cj.markupValue : 2.5);
             setRoundTo99(cj.roundTo99 !== undefined ? cj.roundTo99 : true);
             setAutoPublish(cj.autoPublish !== undefined ? cj.autoPublish : true);
+            setCloseupSecondImage(cj.closeupSecondImage === true);
             setDefaultStock(cj.defaultStock || 100);
             setSalesChannelId(cj.defaultSalesChannelId || "");
             const savedCountry = cj.defaultShippingCountry || "US";
@@ -450,6 +452,7 @@ export const SettingsClient = () => {
         markupValue: Number(markupValue) || 1,
         roundTo99,
         autoPublish,
+        closeupSecondImage,
         defaultStock: Number(defaultStock) || 100,
         defaultSalesChannelId: salesChannelId,
         defaultShippingCountry: defaultShippingCountry || "US",
@@ -2718,6 +2721,21 @@ export const SettingsClient = () => {
                 />
                 <label htmlFor="autoPublish" style={{ fontSize: "0.9rem", cursor: "pointer" }}>
                   Publish products immediately upon import (otherwise save as Draft)
+                </label>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
+                <input
+                  type="checkbox"
+                  id="closeupSecondImage"
+                  checked={closeupSecondImage}
+                  onChange={(e) => setCloseupSecondImage(e.target.checked)}
+                  style={{ marginTop: "0.2rem" }}
+                />
+                <label htmlFor="closeupSecondImage" style={{ fontSize: "0.9rem", cursor: "pointer" }}>
+                  Use the close-up as the second (hover) image
+                  <span style={{ display: "block", color: "var(--theme-elevation-500)", fontSize: "0.8rem" }}>
+                    Picks the photo where the item fills the least of the frame (pills, powder, a detail shot). Works well for supplements; check the result for other products.
+                  </span>
                 </label>
               </div>
               <div>

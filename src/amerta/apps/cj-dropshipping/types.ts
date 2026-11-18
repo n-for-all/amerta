@@ -8,6 +8,8 @@ export interface CJSettings {
   roundTo99?: boolean;
   defaultSalesChannelId?: string;
   autoPublish?: boolean;
+  /** Move the close-up shot (pills, powder, fabric detail) to the second image, used as the hover image */
+  closeupSecondImage?: boolean;
   defaultStock?: number;
   defaultShippingCountry?: string;
   categoryMappingMode?: "auto_create" | "single_collection";
