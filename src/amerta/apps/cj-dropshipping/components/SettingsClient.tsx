@@ -838,7 +838,7 @@ export const SettingsClient = () => {
   // Selected products as Markdown/JSON (pricing snapshot to paste into an AI chat or a doc)
   const buildSelectionExport = () => {
     const rate = channelCurrency.exchangeRate || 1;
-    const items = searchResults.filter((r) => selectedPids.includes(r.pid));
+    const items = selectedPids.map((pid) => getSelectedItem(pid)).filter((r): r is CJProductListItem => Boolean(r));
     const products = items.map((item) => {
       const costUSD = parseFloat(item.sellPrice) || 0;
       const ruleEval = evaluateRulesClient(item);
@@ -901,8 +901,6 @@ export const SettingsClient = () => {
 
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [exportFormat, setExportFormat] = useState<"md" | "json">("md");
-  const selectionExport = isExportOpen ? buildSelectionExport() : null;
-  const exportText = selectionExport ? (exportFormat === "md" ? selectionExport.md : selectionExport.json) : "";
 
   const handleCopyExport = async () => {
     try {
@@ -1205,6 +1203,47 @@ export const SettingsClient = () => {
     }
   };
 
+  // ---- Saved selection (this browser only) ----
+  // Selected products are kept with their data, so a selection survives reloads and new searches.
+  const SELECTION_KEY = "cj-dropshipping-selection";
+  const [selectedCache, setSelectedCache] = useState<Record<string, CJProductListItem>>({});
+  // Saving starts only once the restored selection is in state (otherwise the first run would save an empty one)
+  const [selectionLoaded, setSelectionLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(SELECTION_KEY) || "null");
+      if (saved && Array.isArray(saved.pids)) {
+        setSelectedCache(saved.items || {});
+        setSelectedPids(saved.pids);
+      }
+    } catch {}
+    setSelectionLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!selectionLoaded) return;
+    setSelectedCache((prev) => {
+      const next: Record<string, CJProductListItem> = {};
+      for (const pid of selectedPids) {
+        const item = searchResults.find((r) => r.pid === pid) || prev[pid];
+        if (item) next[pid] = item;
+      }
+      try {
+        localStorage.setItem(SELECTION_KEY, JSON.stringify({ pids: selectedPids, items: next }));
+      } catch {}
+      return next;
+    });
+  }, [selectedPids, searchResults, selectionLoaded]);
+
+  /** A selected product's data: from the current results, else from the saved selection. */
+  const getSelectedItem = (pid: string): CJProductListItem | undefined =>
+    searchResults.find((r) => r.pid === pid) || selectedCache[pid];
+
+  // Export panel content (computed here, after the saved selection it reads from)
+  const selectionExport = isExportOpen ? buildSelectionExport() : null;
+  const exportText = selectionExport ? (exportFormat === "md" ? selectionExport.md : selectionExport.json) : "";
+
   // Selection Handlers for Bulk Import
   const handleToggleSelect = (pid: string) => {
     setSelectedPids((prev) =>
@@ -1263,7 +1302,7 @@ export const SettingsClient = () => {
     }
 
     const items: BulkImportItem[] = selectedPids.map((pid) => {
-      const found = searchResults.find((r) => r.pid === pid);
+      const found = getSelectedItem(pid);
       const supplierCost = parseFloat(found?.sellPrice || "0") || 0;
       const ruleEval = found ? evaluateRulesClient(found) : { bufferUSD: 0, blocked: false, reason: "" };
       const retailPrice = found?.calculatedRetailPrice || computePriceWithMarkup(supplierCost, ruleEval.bufferUSD);
