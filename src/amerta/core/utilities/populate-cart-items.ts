@@ -5,7 +5,8 @@ import { isInStock } from "./is-in-stock";
 import { variantsMatch } from "./variants-match";
 import { getAllProductOptions } from "./get-product-options";
 
-export async function populateCartItems(items: Cart["items"], payload: Payload): Promise<Cart["items"]> {
+/** `locale`: the shopper's language, so titles (and bundle contents) show translated in the cart, checkout and order. */
+export async function populateCartItems(items: Cart["items"], payload: Payload, locale?: string): Promise<Cart["items"]> {
   const allOptions = await getAllProductOptions();
   return (await Promise.all(
     (items || [])
@@ -16,6 +17,7 @@ export async function populateCartItems(items: Cart["items"], payload: Payload):
             collection: "products",
             id: productId,
             depth: 2,
+            ...(locale && { locale: locale as any }),
             select: {
               id: true,
               title: true,

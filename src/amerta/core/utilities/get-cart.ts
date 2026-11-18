@@ -38,7 +38,7 @@ export async function getCart(cartId?: string | null, locale?: string): Promise<
     if (carts.docs.length > 0) {
       cart = {
         ...(carts.docs[0] as Cart),
-        items: await populateCartItems(carts.docs[0]?.items || [], payload),
+        items: await populateCartItems(carts.docs[0]?.items || [], payload, locale),
       };
     } else {
       createNewCart = true;

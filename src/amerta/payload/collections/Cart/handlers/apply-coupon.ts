@@ -10,7 +10,7 @@ import { PayloadRequest } from "payload";
 
 export const applyCoupon = async (req: PayloadRequest) => {
   try {
-    const { code } = await req.json!();
+    const { code, locale } = await req.json!();
 
     const coupons = await req.payload.find({
       collection: "coupons",
@@ -55,7 +55,7 @@ export const applyCoupon = async (req: PayloadRequest) => {
       return Response.json({ error: "You don't have any products in your cart to apply the coupon" }, { status: 400 });
     }
 
-    const cart = await getCart(cartIdCookie);
+    const cart = await getCart(cartIdCookie, locale);
     if (cart.items?.length === 0) {
       return Response.json({ error: "You don't have any products in your cart to apply the coupon" }, { status: 400 });
     }
@@ -70,7 +70,7 @@ export const applyCoupon = async (req: PayloadRequest) => {
       },
     });
 
-    const cartWithCoupon = await getCart(cart.id);
+    const cartWithCoupon = await getCart(cart.id, locale);
     const subtotal = cartWithCoupon.subtotal || 0;
 
     if (coupon.minimumPurchase && subtotal < coupon.minimumPurchase) {

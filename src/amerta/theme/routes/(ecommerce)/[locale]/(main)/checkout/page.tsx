@@ -14,7 +14,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ local
   const ecommerceSettings: EcommerceSettings = await getCachedGlobal("ecommerce-settings" as keyof Config["globals"], 1, locale)();
   return (
     <div className="px-4 pt-16 pb-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <Checkout data={data} cart={await getCurrentCart()} ecommerceSettings={ecommerceSettings} logo={<Logo logoClassName="flex justify-center h-10 md:h-10" locale={locale} />} />
+      <Checkout data={data} cart={await getCurrentCart(locale)} ecommerceSettings={ecommerceSettings} logo={<Logo logoClassName="flex justify-center h-10 md:h-10" locale={locale} />} />
     </div>
   );
 }

@@ -2,8 +2,8 @@ import { cookies } from "next/headers";
 import { CartWithCalculations } from "../types";
 import { getCart } from "./get-cart";
 
-export async function getCurrentCart(): Promise<CartWithCalculations> {
+export async function getCurrentCart(locale?: string): Promise<CartWithCalculations> {
   const cookieStore = await cookies();
   const cartIdCookie = cookieStore.get("cartId")?.value;
-  return getCart(cartIdCookie);
+  return getCart(cartIdCookie, locale);
 }
