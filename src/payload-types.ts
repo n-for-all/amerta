@@ -18,9 +18,9 @@ export type Address =
       lastName: string;
       country: string | Country;
       city: string;
-      address: string;
+      address?: string | null;
       street: string;
-      apartment: string;
+      apartment?: string | null;
       building?: string | null;
       floor?: string | null;
       state?: string | null;
@@ -2657,9 +2657,9 @@ export interface Order {
     lastName: string;
     country: string | Country;
     city: string;
-    address: string;
+    address?: string | null;
     street: string;
-    apartment: string;
+    apartment?: string | null;
     building?: string | null;
     floor?: string | null;
     state?: string | null;
@@ -2682,9 +2682,9 @@ export interface Order {
     lastName: string;
     country: string | Country;
     city: string;
-    address: string;
+    address?: string | null;
     street: string;
-    apartment: string;
+    apartment?: string | null;
     building?: string | null;
     floor?: string | null;
     state?: string | null;

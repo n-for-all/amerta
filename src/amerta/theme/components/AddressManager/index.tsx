@@ -21,6 +21,7 @@ import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { Country, Customer } from "@/payload-types";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { printf } from "fast-printf";
+import { addressRefinement, getAddressRules } from "@/amerta/core/utilities/address-rules";
 
 // --- 1. Unified Schema (Contains flags for BOTH) ---
 const addressSchema = z.object({
@@ -29,11 +30,12 @@ const addressSchema = z.object({
   lastName: z.string("Please enter a last name").trim().min(1, "Please enter a last name"),
   country: z.string("Please select a country").trim().min(1, "Please select a country"),
   city: z.string("Please enter your city").trim().min(1, "Please enter your city"),
-  address: z.string("Please enter your address").trim().min(1, "Please enter your address"),
+  // address, apartment, state and postalCode: required or not depends on the country (see address-rules.ts)
+  address: z.string().trim().optional(),
   street: z.string("Please enter your street").trim().min(1, "Please enter your street"),
   state: z.string().trim().optional(),
   building: z.string().trim().optional(),
-  apartment: z.string("Please enter your apartment/unit number").trim().min(1, "Please enter your apartment/unit number"),
+  apartment: z.string().trim().optional(),
   postalCode: z.string().trim().optional(),
   phone: z.number().refine((val) => val !== undefined && val !== null && !isNaN(val), { message: "Please enter a valid phone number" }),
   phoneCountryCode: z.string(),
@@ -62,7 +64,7 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
   const { __ } = useEcommerce();
 
   const form = useForm<AddressFormData>({
-    resolver: zodResolver(addressSchema),
+    resolver: zodResolver(addressSchema.superRefine(addressRefinement((id) => (countries.find((c) => String(c.id) === id) as any)?.iso_2)) as unknown as typeof addressSchema),
     defaultValues: {
       title: "",
       firstName: "",
@@ -130,6 +132,9 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
       }
     }
   }, [isOpen, initialData, form]);
+
+  const rules = getAddressRules((countries.find((c) => String(c.id) === String(form.watch("country"))) as any)?.iso_2);
+  const req = <span className="text-red-500">*</span>;
 
   const handleCountryLogic = (countryId: string) => {
     if (!countryId) {
@@ -337,59 +342,63 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
                     </div>
 
                     {/* Address Text */}
-                    <FormField
-                      control={form.control}
-                      name="address"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {__("Address (Area/Landmark)")} <span className="text-red-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea placeholder={__("Details")} {...field} className="resize-none" rows={3} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    {rules.showArea && (
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {__("Address (Area/Landmark)")} {rules.areaRequired && req}
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea placeholder={__("Details")} {...field} className="resize-none" rows={3} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
 
                     {/* Details Grid */}
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                    <div className={rules.showBuilding ? "grid grid-cols-1 gap-4 lg:grid-cols-3" : "grid grid-cols-1 gap-4 lg:grid-cols-2"}>
                       <FormField
                         control={form.control}
                         name="street"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {__("Street")} <span className="text-red-500">*</span>
+                              {__(rules.labels.street)} {req}
                             </FormLabel>
                             <FormControl>
-                              <Input placeholder={__("Street name")} {...field} />
+                              <Input placeholder={rules.labels.streetPlaceholder ? __(rules.labels.streetPlaceholder) : undefined} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name="building"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{__("Building")}</FormLabel>
-                            <FormControl>
-                              <Input placeholder="123" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      {rules.showBuilding && (
+                        <FormField
+                          control={form.control}
+                          name="building"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>{__("Building")}</FormLabel>
+                              <FormControl>
+                                <Input placeholder="123" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
                       <FormField
                         control={form.control}
                         name="apartment"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              {__("Apartment/Unit")} <span className="text-red-500">*</span>
+                              {__(rules.labels.apartment)} {rules.apartmentRequired && req}
                             </FormLabel>
                             <FormControl>
                               <Input placeholder={__("Apt 456")} {...field} />
@@ -406,9 +415,11 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
                         name="postalCode"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{__("Postal Code")}</FormLabel>
+                            <FormLabel>
+                              {__(rules.labels.postal)} {rules.postalRequired && req}
+                            </FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input {...field} placeholder={rules.labels.postalPlaceholder} inputMode={rules.postalPattern ? "numeric" : undefined} autoComplete="postal-code" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -419,10 +430,29 @@ function AddressDialog({ isOpen, type, initialData, countries, loading, onClose,
                         name="state"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{__("State")}</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
+                            <FormLabel>
+                              {__(rules.labels.state)} {rules.stateRequired && req}
+                            </FormLabel>
+                            {rules.stateOptions ? (
+                              <Select value={field.value || ""} onValueChange={field.onChange}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={__("Select a state")} />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {rules.stateOptions.map((s) => (
+                                    <SelectItem key={s.code} value={s.code}>
+                                      {s.name}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            ) : (
+                              <FormControl>
+                                <Input {...field} />
+                              </FormControl>
+                            )}
                             <FormMessage />
                           </FormItem>
                         )}
@@ -685,7 +715,7 @@ export function AddressManager({
     return country?.name || __("Unknown");
   };
 
-  if(!customerId){
+  if (!customerId) {
     return null;
   }
   return (
@@ -704,7 +734,9 @@ export function AddressManager({
                           <div className="flex-1">
                             <h4 className="text-base font-semibold">{address.title}</h4>
                             {/* Badges for Default */}
-                            <div className="flex flex-col gap-1 mb-1 text-sm opacity-40">{address.type == "0" ? __("Shipping") : address.type == "1" ? __("Billing") : __("Shipping & Billing")} {__("Address")}</div>
+                            <div className="flex flex-col gap-1 mb-1 text-sm opacity-40">
+                              {address.type == "0" ? __("Shipping") : address.type == "1" ? __("Billing") : __("Shipping & Billing")} {__("Address")}
+                            </div>
                           </div>
                           <div className="flex gap-2">
                             <Button
@@ -747,8 +779,16 @@ export function AddressManager({
                         </p>
                         {address.address && <p className="text-zinc-700 dark:text-zinc-500">{address.address}</p>}
                         <p className="flex flex-wrap gap-4 text-zinc-700 dark:text-zinc-500">
-                          {address.street ? <span>{__("St:")} {address.street}</span> : null}
-                          {address.apartment ? <span>{__("Apt:")} {address.apartment}</span> : null}
+                          {address.street ? (
+                            <span>
+                              {__("St:")} {address.street}
+                            </span>
+                          ) : null}
+                          {address.apartment ? (
+                            <span>
+                              {__("Apt:")} {address.apartment}
+                            </span>
+                          ) : null}
                           {address.phone ? (
                             <span>
                               <Phone className="inline-block w-3 h-3 mr-1" />

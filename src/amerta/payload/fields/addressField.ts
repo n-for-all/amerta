@@ -1,5 +1,27 @@
-import { Field } from "payload";
+import { Field, Validate } from "payload";
 import { phoneField } from "./phoneField";
+import { addressCountryErrors } from "@/amerta/core/utilities/address-rules";
+
+/** ISO-2 of the address's country (cached per request) */
+async function countryIso(req: any, country: any): Promise<string | null> {
+  if (!country) return null;
+  if (typeof country === "object") return country.iso_2 || null;
+  const cache: Record<string, string | null> = (req.context.countryIsoCache ||= {});
+  if (!(country in cache)) {
+    const doc: any = await req.payload.findByID({ collection: "country", id: country, depth: 0, req }).catch(() => null);
+    cache[country] = doc?.iso_2 || null;
+  }
+  return cache[country] ?? null;
+}
+
+/** Required/format rules that depend on the country (e.g. US: state + ZIP required, no apartment needed) */
+const byCountry =
+  (field: "address" | "apartment" | "state" | "postalCode"): Validate =>
+  async (value, { siblingData, req }: any) => {
+    const iso = await countryIso(req, siblingData?.country);
+    const errors = addressCountryErrors({ ...siblingData, [field]: value }, iso);
+    return errors[field] || true;
+  };
 
 export const addressField: Field = {
   type: "group",
@@ -70,7 +92,7 @@ export const addressField: Field = {
       name: "address",
       type: "textarea",
       label: "Address (Area/Landmark)",
-      required: true,
+      validate: byCountry("address"),
     },
     {
       name: "street",
@@ -85,7 +107,7 @@ export const addressField: Field = {
           name: "apartment",
           type: "text",
           label: "Apartment/Villa No.",
-          required: true,
+          validate: byCountry("apartment"),
         },
         {
           name: "building",
@@ -106,11 +128,13 @@ export const addressField: Field = {
           name: "state",
           type: "text",
           label: "State / Province",
+          validate: byCountry("state"),
         },
         {
           name: "postalCode",
           type: "text",
           label: "Postal code",
+          validate: byCountry("postalCode"),
         },
       ],
     },

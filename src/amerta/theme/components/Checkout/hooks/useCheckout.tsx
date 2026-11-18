@@ -10,6 +10,7 @@ import { useGuestAddressStorage, SavedAddress } from "@/amerta/theme/components/
 import { PaymentHandle } from "@/amerta/theme/components/Payment/gateways/types";
 import { CheckoutFormValues } from "@/amerta/theme/components/Checkout";
 import { OrderSubmissionPayload } from "@/amerta/core/types/order-submission";
+import { addressRefinement } from "@/amerta/core/utilities/address-rules";
 
 export const requiredString = (message: string) => z.string({ error: message }).min(1, message);
 
@@ -18,10 +19,11 @@ export const checkoutSchema = z.object({
   firstName: requiredString("First name is required"),
   lastName: requiredString("Last name is required"),
   company: z.string().optional(),
-  address: requiredString("Address is required"),
+  // address, apartment, state and postalCode: required or not depends on the country (see address-rules.ts)
+  address: z.string().optional(),
   street: requiredString("Street is required"),
   floor: z.string().optional(),
-  apartment: requiredString("Apartment/Unit is required"),
+  apartment: z.string().optional(),
   building: z.string().optional(),
   city: requiredString("City is required"),
   country: requiredString("Country is required"),
@@ -80,7 +82,11 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
   const [showErrorDialog, setShowErrorDialog] = useState(false);
 
   const form = useForm<CheckoutFormValues>({
-    resolver: zodResolver(customer ? loggedInCheckoutSchema : checkoutSchema),
+    resolver: zodResolver(
+      customer
+        ? loggedInCheckoutSchema
+        : (checkoutSchema.superRefine(addressRefinement((id) => data.countries.find((c) => c.id === id)?.iso_2)) as unknown as typeof checkoutSchema),
+    ),
     mode: "onSubmit",
     defaultValues: {
       email: customer?.email || "",
@@ -271,9 +277,9 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
           firstName: guestValues.firstName,
           lastName: guestValues.lastName,
           email: guestValues.email,
-          address: guestValues.address,
+          address: guestValues.address || "",
           street: guestValues.street,
-          apartment: guestValues.apartment,
+          apartment: guestValues.apartment || "",
           building: guestValues.building,
           floor: guestValues.floor,
           city: guestValues.city,

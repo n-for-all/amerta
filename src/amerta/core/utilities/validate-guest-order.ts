@@ -24,9 +24,10 @@ export const GuestOrderSchema = z.object({
     id: z.string().min(1),
     firstName: z.string().min(1),
     lastName: z.string().min(1),
-    address: z.string().min(1),
+    // Required or not depends on the country; enforced by the order's address field (address-rules.ts)
+    address: z.string().optional(),
     street: z.string().min(1),
-    apartment: z.string().min(1),
+    apartment: z.string().optional(),
     building: z.string().optional(),
     floor: z.string().optional(),
     city: z.string().min(1),

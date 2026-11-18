@@ -8,6 +8,7 @@ import { PhoneInput } from "@/amerta/theme/ui/phone-input";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutFormGuestValues } from "@/amerta/theme/components/Checkout";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { getAddressRules } from "@/amerta/core/utilities/address-rules";
 
 export interface SupportedCountry {
   id: string;
@@ -28,6 +29,9 @@ interface AddressFormProps {
 
 export function AddressForm({ form, countries, hasSpecificCities, cities }: AddressFormProps) {
   const { __ } = useEcommerce();
+  // Fields and labels follow the selected country (e.g. US: state list, ZIP, no area/landmark)
+  const rules = getAddressRules(countries.find((c) => c.id === form.watch("country"))?.iso_2);
+  const req = <span className="text-red-500">*</span>;
   return (
     <div className="grid grid-cols-1 gap-6">
       {/* First and Last Name */}
@@ -127,21 +131,23 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
       </div>
 
       {/* Address (Area/Landmark) */}
-      <FormField
-        control={form.control}
-        name="address"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>
-              {__("Address (Area/Landmark)")} <span className="text-red-500">*</span>
-            </FormLabel>
-            <FormControl>
-              <Textarea placeholder={__("Enter area or landmark details")} {...field} className="resize-none" rows={3} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      {rules.showArea && (
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {__("Address (Area/Landmark)")} {rules.areaRequired && req}
+              </FormLabel>
+              <FormControl>
+                <Textarea placeholder={__("Enter area or landmark details")} {...field} className="resize-none" rows={3} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
 
       {/* Street */}
       <FormField
@@ -150,10 +156,10 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              {__("Street")} <span className="text-red-500">*</span>
+              {__(rules.labels.street)} {req}
             </FormLabel>
             <FormControl>
-              <Input placeholder={__("Street name")} {...field} />
+              <Input placeholder={rules.labels.streetPlaceholder ? __(rules.labels.streetPlaceholder) : undefined} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -161,14 +167,14 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
       />
 
       {/* Building and Apartment */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className={rules.showBuilding ? "grid grid-cols-2 gap-4" : "grid grid-cols-1 gap-4"}>
         <FormField
           control={form.control}
           name="apartment"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                {__("Apartment/Unit")} <span className="text-red-500">*</span>
+                {__(rules.labels.apartment)} {rules.apartmentRequired && req}
               </FormLabel>
               <FormControl>
                 <Input {...field} />
@@ -177,19 +183,21 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="building"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{__("Building")}</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {rules.showBuilding && (
+          <FormField
+            control={form.control}
+            name="building"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{__("Building")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
       </div>
 
       {/* Postal Code and Area */}
@@ -199,9 +207,11 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           name="postalCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{__("Postal Code")}</FormLabel>
+              <FormLabel>
+                {__(rules.labels.postal)} {rules.postalRequired && req}
+              </FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder={rules.labels.postalPlaceholder} inputMode={rules.postalPattern ? "numeric" : undefined} autoComplete="postal-code" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -212,10 +222,29 @@ export function AddressForm({ form, countries, hasSpecificCities, cities }: Addr
           name="state"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{__("State/Province")}</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
+              <FormLabel>
+                {__(rules.labels.state)} {rules.stateRequired && req}
+              </FormLabel>
+              {rules.stateOptions ? (
+                <Select onValueChange={field.onChange} value={field.value || ""}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder={__("Select a state")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {rules.stateOptions.map((s) => (
+                      <SelectItem key={s.code} value={s.code}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              )}
               <FormMessage />
             </FormItem>
           )}
