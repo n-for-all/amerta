@@ -232,6 +232,12 @@ export class CJClient {
       }
     }
 
+    if (process.env.NODE_ENV !== "production") {
+      console.log(
+        `[CJ listV2] page=${pageNum} size=${pageSize} -> items=${items.length} groups=${Array.isArray(response?.content) ? response.content.length : 0} totalRecords=${response?.totalRecords} totalPages=${response?.totalPages}`,
+      );
+    }
+
     const normalizedList: CJProductListItem[] = items.map((item: any) => {
       const pid = String(item.pid || item.id || "");
       const name = item.productNameEn || item.nameEn || item.productName || item.name || "";
