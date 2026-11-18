@@ -247,6 +247,30 @@ export class CJImporter {
   }
 
   /**
+   * CJ product images in display order, main image first.
+   * productImageSet comes back in no particular order (often a label or size chart first). productImage is a
+   * JSON-encoded array in the seller's order, and bigImage is the main image, so those lead.
+   */
+  static resolveImageList(cjProduct: any): string[] {
+    const toList = (val: any): string[] => {
+      if (Array.isArray(val)) return val;
+      if (typeof val !== "string" || !val.trim()) return [];
+      const str = val.trim();
+      if (str.startsWith("[")) {
+        try {
+          const parsed = JSON.parse(str);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+      return str.split(",").map((s) => s.trim());
+    };
+    const all = [...toList(cjProduct?.bigImage), ...toList(cjProduct?.productImage), ...toList(cjProduct?.productImageSet)];
+    return Array.from(new Set(all.filter((img) => typeof img === "string" && img.startsWith("http"))));
+  }
+
+  /**
    * Helper to slugify a string
    */
   static slugify(text: string): string {
@@ -381,24 +405,9 @@ export class CJImporter {
 
     const existingProduct = existing.docs.length > 0 ? existing.docs[0]! : null;
 
-    let imageList: string[] = [];
-    if (Array.isArray(cjProduct.productImageSet)) {
-      imageList = cjProduct.productImageSet;
-    } else if (typeof cjProduct.productImageSet === "string" && (cjProduct.productImageSet as string).trim()) {
-      try {
-        const parsed = JSON.parse(cjProduct.productImageSet);
-        if (Array.isArray(parsed)) imageList = parsed;
-        else imageList = [cjProduct.productImageSet];
-      } catch {
-        imageList = (cjProduct.productImageSet as string).split(",").map((s) => s.trim()).filter(Boolean);
-      }
-    }
+    const imageList = this.resolveImageList(cjProduct);
 
-    if (cjProduct.productImage && !imageList.includes(cjProduct.productImage)) {
-      imageList.unshift(cjProduct.productImage);
-    }
-
-    const uniqueImages = Array.from(new Set(imageList.filter((img) => typeof img === "string" && img.startsWith("http")))).slice(0, 10);
+    const uniqueImages = imageList.slice(0, 10);
     const imageIds: string[] = [];
     for (const imgUrl of uniqueImages) {
       const mediaId = await this.uploadMedia(payload, imgUrl, title);

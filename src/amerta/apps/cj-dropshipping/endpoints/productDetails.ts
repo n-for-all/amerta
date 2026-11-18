@@ -21,26 +21,8 @@ export const productDetailsEndpoint: Endpoint = {
       const settings = (await getAppSettings("cj-dropshipping")) as CJSettings | undefined;
       const product = await CJClient.getProductDetails(pid);
 
-      // Normalize images from productImage, productImageSet, and variants
-      let imageList: string[] = [];
-      if (Array.isArray(product.productImageSet)) {
-        imageList = product.productImageSet;
-      } else if (typeof product.productImageSet === "string" && (product.productImageSet as string).trim()) {
-        try {
-          const parsed = JSON.parse(product.productImageSet);
-          if (Array.isArray(parsed)) {
-            imageList = parsed;
-          } else {
-            imageList = [product.productImageSet];
-          }
-        } catch {
-          imageList = (product.productImageSet as string).split(",").map((s) => s.trim()).filter(Boolean);
-        }
-      }
-
-      if (product.productImage && !imageList.includes(product.productImage)) {
-        imageList.unshift(product.productImage);
-      }
+      // Images in display order, main image first (see CJImporter.resolveImageList)
+      const imageList = CJImporter.resolveImageList(product);
 
       if (Array.isArray(product.variants)) {
         for (const v of product.variants) {
@@ -51,7 +33,7 @@ export const productDetailsEndpoint: Endpoint = {
       }
 
       const validImages = imageList.filter((img) => typeof img === "string" && img.startsWith("http"));
-      const primaryImage = validImages[0] || product.productImage || "";
+      const primaryImage = validImages[0] || "";
 
       // Resolve channel exchange rate
       const channelInfo = await CJImporter.getChannelExchangeRate(req.payload, settings?.defaultSalesChannelId);
