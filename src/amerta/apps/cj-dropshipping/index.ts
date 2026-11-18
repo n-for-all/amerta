@@ -6,6 +6,7 @@ import { importProductEndpoint } from "./endpoints/importProduct";
 import { getCategoriesEndpoint } from "./endpoints/getCategories";
 import { calculateShippingEndpoint } from "./endpoints/calculateShipping";
 import { importedProductsEndpoint } from "./endpoints/importedProducts";
+import { cjOrderEndpoints } from "./endpoints/orders";
 
 export const cjDropshippingApp: AmertaApp = {
   name: "CJ Dropshipping",
@@ -17,8 +18,52 @@ export const cjDropshippingApp: AmertaApp = {
     path: "/admin/cj-dropshipping-settings",
   },
   extendConfig: (config) => {
+    // Products remember their CJ product id, orders keep the CJ order state and show the
+    // "Send to CJ" panel (it renders nothing on orders without CJ products).
+    const collections = (config.collections || []).map((collection) => {
+      if (collection.slug === "products") {
+        return {
+          ...collection,
+          fields: [
+            ...collection.fields,
+            {
+              name: "cjProductId",
+              type: "text",
+              index: true,
+              label: "CJ Product ID",
+              admin: { position: "sidebar", readOnly: true, description: "Dropshipped from CJ Dropshipping", condition: (data: any) => Boolean(data?.cjProductId) },
+            },
+          ],
+        } as typeof collection;
+      }
+      if (collection.slug === "orders") {
+        return {
+          ...collection,
+          fields: [
+            ...collection.fields,
+            {
+              name: "cjDropshippingPanel",
+              type: "ui",
+              admin: {
+                position: "sidebar",
+                components: { Field: "@/amerta/apps/cj-dropshipping/components/OrderPanel#CJOrderPanel" },
+              },
+            },
+            {
+              name: "cjOrder",
+              type: "json",
+              // Not part of the admin form, so saving an order that was open during a CJ sync can't overwrite it
+              admin: { disabled: true },
+            },
+          ],
+        } as typeof collection;
+      }
+      return collection;
+    });
+
     return {
       ...config,
+      collections,
       admin: {
         ...(config.admin || {}),
         components: {
@@ -41,6 +86,7 @@ export const cjDropshippingApp: AmertaApp = {
         getCategoriesEndpoint,
         calculateShippingEndpoint,
         importedProductsEndpoint,
+        ...cjOrderEndpoints,
       ],
     };
   },

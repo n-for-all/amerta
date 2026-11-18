@@ -678,6 +678,7 @@ export class CJImporter {
       slug,
       type: isVariantProduct ? "variant" : "simple",
       sku: cjProduct.productSku || `CJ-${cjProduct.pid}`,
+      cjProductId: cjProduct.pid,
       price: finalPrice,
       images: imageIds,
       salesChannels: salesChannelId ? [salesChannelId] : [],

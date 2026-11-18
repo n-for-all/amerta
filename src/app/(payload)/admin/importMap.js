@@ -1,3 +1,4 @@
+import { default as default_0dccb26643971045d66d36c52aa9af99 } from '@/amerta/components/Product/ProductVariant'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -43,8 +44,8 @@ import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { AIBulkTranslateButton as AIBulkTranslateButton_dfda55403b80c8859d6e8bf0cc691a5b } from '@/amerta/fields/translate/AIBulkTranslateButton'
 import { AITranslateButton as AITranslateButton_6b5e411106171f4df368bdf10bad55f2 } from '@/amerta/fields/translate/AITranslateButton'
 import { OrderAdmin as OrderAdmin_18a50d419bd44b124c382b13f5e7610d } from '@/amerta/components/Order'
-import { default as default_0dccb26643971045d66d36c52aa9af99 } from '@/amerta/components/Product/ProductVariant'
 import { default as default_730fb1b5206d51ba3a4a24c948c8c7e3 } from '@/amerta/fields/phone/PhoneFieldComponent'
+import { CJOrderPanel as CJOrderPanel_7b336c538caeb9b2a4b53334974858a6 } from '@/amerta/apps/cj-dropshipping/components/OrderPanel'
 import { OrderActions as OrderActions_02135cdcbc0c9326a6ba3c2660c4c740 } from '@/amerta/components/Order/Actions/index'
 import { RowLabel as RowLabel_9f89a51446befc05f6190d7c481d0d20 } from '@/amerta/fields/link/RowLabel'
 import { UnsplashImport as UnsplashImport_87eec4ae3a925586386d06209c58fdaa } from '@/amerta/components/UnsplashImport'
@@ -75,6 +76,7 @@ import { LoyaltySettingsView as LoyaltySettingsView_529dfbc1819d5e59f192fed1067f
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
+  "@/amerta/components/Product/ProductVariant#default": default_0dccb26643971045d66d36c52aa9af99,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -120,8 +122,8 @@ export const importMap = {
   "@/amerta/fields/translate/AIBulkTranslateButton#AIBulkTranslateButton": AIBulkTranslateButton_dfda55403b80c8859d6e8bf0cc691a5b,
   "@/amerta/fields/translate/AITranslateButton#AITranslateButton": AITranslateButton_6b5e411106171f4df368bdf10bad55f2,
   "@/amerta/components/Order#OrderAdmin": OrderAdmin_18a50d419bd44b124c382b13f5e7610d,
-  "@/amerta/components/Product/ProductVariant#default": default_0dccb26643971045d66d36c52aa9af99,
   "@/amerta/fields/phone/PhoneFieldComponent#default": default_730fb1b5206d51ba3a4a24c948c8c7e3,
+  "@/amerta/apps/cj-dropshipping/components/OrderPanel#CJOrderPanel": CJOrderPanel_7b336c538caeb9b2a4b53334974858a6,
   "@/amerta/components/Order/Actions/index#OrderActions": OrderActions_02135cdcbc0c9326a6ba3c2660c4c740,
   "@/amerta/fields/link/RowLabel#RowLabel": RowLabel_9f89a51446befc05f6190d7c481d0d20,
   "@/amerta/components/UnsplashImport#UnsplashImport": UnsplashImport_87eec4ae3a925586386d06209c58fdaa,

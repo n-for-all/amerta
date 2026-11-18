@@ -410,4 +410,58 @@ export class CJClient {
     if (Array.isArray(response?.data)) return response.data;
     return [];
   }
+
+  // ---------------------------------------------------------------------------------------------
+  // Orders (https://developers.cjdropshipping.com/en/api/api2/api/shopping.html)
+  // ---------------------------------------------------------------------------------------------
+
+  /** Create an order on CJ. payType 3 = create only (pay afterwards with payBalance) */
+  static async createOrder(body: Record<string, any>): Promise<any> {
+    return this.request<any>("/shopping/order/createOrderV2", {
+      method: "POST",
+      body: JSON.stringify({ payType: 3, ...body }),
+    });
+  }
+
+  /** Pay a CJ order from the CJ wallet balance */
+  static async payOrder(ids: { orderId?: string; shipmentOrderId?: string }): Promise<void> {
+    if (ids.shipmentOrderId) {
+      await this.request<any>("/shopping/pay/payBalanceV2", {
+        method: "POST",
+        body: JSON.stringify({ shipmentOrderId: ids.shipmentOrderId }),
+      });
+      return;
+    }
+    await this.request<any>("/shopping/pay/payBalance", {
+      method: "POST",
+      body: JSON.stringify({ orderId: ids.orderId }),
+    });
+  }
+
+  /** Order status, amounts and tracking. orderId accepts CJ's id or our order number */
+  static async getOrderDetail(orderId: string): Promise<any> {
+    return this.request<any>(`/shopping/order/getOrderDetail?orderId=${encodeURIComponent(orderId)}`);
+  }
+
+  /** Delete an order on CJ. Only works before it is paid (CREATED / IN_CART) */
+  static async deleteOrder(orderId: string): Promise<void> {
+    await this.request<any>(`/shopping/order/deleteOrder?orderId=${encodeURIComponent(orderId)}`, { method: "DELETE" });
+  }
+
+  /** CJ wallet balance in USD */
+  static async getBalance(): Promise<number> {
+    const data = await this.request<any>("/shopping/pay/getBalance");
+    return Number(data?.amount) || 0;
+  }
+
+  /** Freight options for several CJ variants shipped together */
+  static async calculateFreightForItems(startCountryCode: string, endCountryCode: string, products: { vid: string; quantity: number }[]): Promise<any[]> {
+    const response = await this.request<any>("/logistic/freightCalculate", {
+      method: "POST",
+      body: JSON.stringify({ startCountryCode, endCountryCode, products }),
+    });
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.list)) return response.list;
+    return [];
+  }
 }

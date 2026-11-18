@@ -545,6 +545,10 @@ export interface Product {
   updatedAt: string;
   rating?: number | null;
   reviewCount?: number | null;
+  /**
+   * Dropshipped from CJ Dropshipping
+   */
+  cjProductId?: string | null;
   _status?: ('draft' | 'published') | null;
 }
 /**
@@ -2696,6 +2700,15 @@ export interface Order {
     isDefaultBilling?: boolean | null;
     countryName?: string | null;
   };
+  cjOrder?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -4346,6 +4359,7 @@ export interface ProductsSelect<T extends boolean = true> {
   updatedAt?: T;
   rating?: T;
   reviewCount?: T;
+  cjProductId?: T;
   _status?: T;
 }
 /**
@@ -5296,6 +5310,7 @@ export interface OrdersSelect<T extends boolean = true> {
         isDefaultBilling?: T;
         countryName?: T;
       };
+  cjOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
