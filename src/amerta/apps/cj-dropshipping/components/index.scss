@@ -1535,6 +1535,66 @@
   }
 
   /* Bulk Import Modal */
+  .cj-search-history {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--theme-elevation-150);
+    font-size: 0.78rem;
+
+    .cj-search-history-label {
+      color: var(--theme-elevation-500);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.7rem;
+      margin-right: 0.25rem;
+    }
+
+    .cj-history-chip {
+      display: inline-flex;
+      align-items: stretch;
+      border: 1px solid var(--theme-elevation-200);
+      background: var(--theme-elevation-0, transparent);
+
+      button {
+        border: 0;
+        background: none;
+        font: inherit;
+        color: var(--theme-text);
+        cursor: pointer;
+        padding: 0.3rem 0.55rem;
+
+        &:hover:not(:disabled) {
+          background: var(--theme-elevation-100);
+        }
+      }
+
+      .cj-history-count {
+        margin-left: 0.4rem;
+        color: var(--theme-elevation-500);
+      }
+
+      .cj-history-remove {
+        padding: 0.3rem 0.45rem;
+        color: var(--theme-elevation-500);
+        border-left: 1px solid var(--theme-elevation-150);
+      }
+    }
+
+    .cj-history-clear {
+      border: 0;
+      background: none;
+      font: inherit;
+      color: var(--theme-elevation-500);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
   .cj-export-modal {
     max-width: 1100px;
 

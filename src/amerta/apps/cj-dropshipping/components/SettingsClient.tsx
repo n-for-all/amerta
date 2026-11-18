@@ -340,7 +340,16 @@ export const SettingsClient = () => {
     fetchCollections();
     fetchCategories();
     fetchImportedProducts();
-    handleSearch(1, true);
+
+    // Re-run the last search (saved in this browser) instead of starting blank
+    const history = loadSearchHistory();
+    setSearchHistory(history);
+    if (history[0]) {
+      applySearchFilters(history[0].filters);
+      handleSearch(1, true, history[0].filters);
+    } else {
+      handleSearch(1, true);
+    }
   }, []);
 
   // Fetch imported products on tab switch
@@ -730,12 +739,100 @@ export const SettingsClient = () => {
         setSearchResults((prev) => [...prev, ...newProducts]);
       }
       setTotalResults(data.total || 0);
+
+      if (isNew) {
+        rememberSearch(
+          {
+            keyword: kw || "",
+            categoryId: cat || "",
+            minPrice: minP || "",
+            maxPrice: maxP || "",
+            warehouseCountry: wh || "",
+            productFlag: pf || "",
+            shippingFilter: ship || "",
+            minInventory: inv || "",
+            productTypeFilter: pt || "",
+          },
+          data.total || 0,
+          (newProducts[0]?.categoryPath || []).find((c: { id: string }) => c.id === cat)?.name,
+        );
+      }
     } catch (err: any) {
       toast.error(err.message || "Failed to search CJ catalog.");
     } finally {
       setIsSearching(false);
       setIsLoadingMore(false);
     }
+  };
+
+  // ---- Search history (this browser only) ----
+  const SEARCH_HISTORY_KEY = "cj-dropshipping-search-history";
+  type SearchFilters = {
+    keyword: string;
+    categoryId: string;
+    minPrice: string;
+    maxPrice: string;
+    warehouseCountry: string;
+    productFlag: string;
+    shippingFilter: string;
+    minInventory: string;
+    productTypeFilter: string;
+  };
+  type SearchHistoryEntry = { filters: SearchFilters; total: number; categoryName?: string; at: string };
+
+  const [searchHistory, setSearchHistory] = useState<SearchHistoryEntry[]>([]);
+
+  function loadSearchHistory(): SearchHistoryEntry[] {
+    try {
+      const raw = localStorage.getItem(SEARCH_HISTORY_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveSearchHistory(entries: SearchHistoryEntry[]) {
+    setSearchHistory(entries);
+    try {
+      localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(entries));
+    } catch {}
+  }
+
+  function applySearchFilters(f: SearchFilters) {
+    setSearchKeyword(f.keyword);
+    setSelectedCategory(f.categoryId);
+    setMinPrice(f.minPrice);
+    setMaxPrice(f.maxPrice);
+    setWarehouseCountry(f.warehouseCountry);
+    setProductFlag(f.productFlag);
+    setShippingFilter(f.shippingFilter);
+    setMinInventory(f.minInventory);
+    setProductTypeFilter(f.productTypeFilter);
+  }
+
+  function rememberSearch(filters: SearchFilters, total: number, categoryName?: string) {
+    const key = JSON.stringify(filters);
+    const previous = loadSearchHistory().filter((e) => JSON.stringify(e.filters) !== key);
+    const prevName = loadSearchHistory().find((e) => JSON.stringify(e.filters) === key)?.categoryName;
+    saveSearchHistory([{ filters, total, categoryName: categoryName || prevName, at: new Date().toISOString() }, ...previous].slice(0, 10));
+  }
+
+  const describeSearch = (e: SearchHistoryEntry) => {
+    const f = e.filters;
+    const parts: string[] = [f.keyword ? `"${f.keyword}"` : "All products"];
+    if (f.categoryId) {
+      parts.push(e.categoryName || categories.find((c) => c.categoryId === f.categoryId)?.categoryName?.split(" > ").pop() || "Category");
+    }
+    if (f.warehouseCountry) parts.push(f.warehouseCountry);
+    if (f.minPrice || f.maxPrice) parts.push(`$${f.minPrice || 0}–${f.maxPrice || "∞"}`);
+    if (f.productFlag || f.shippingFilter || f.minInventory || f.productTypeFilter) parts.push("+ filters");
+    return parts.join(" · ");
+  };
+
+  const handleHistoryClick = (entry: SearchHistoryEntry) => {
+    applySearchFilters(entry.filters);
+    handleSearch(1, true, entry.filters);
   };
 
   // Selected products as Markdown/JSON (pricing snapshot to paste into an AI chat or a doc)
@@ -1566,6 +1663,39 @@ export const SettingsClient = () => {
                   {isSearching ? "Searching..." : "Search Catalog"}
                 </Button>
               </div>
+
+              {searchHistory.length > 0 && (
+                <div className="cj-search-history">
+                  <span className="cj-search-history-label">Recent</span>
+                  {searchHistory.map((entry) => {
+                    const key = JSON.stringify(entry.filters);
+                    return (
+                      <span key={key} className="cj-history-chip">
+                        <button
+                          type="button"
+                          disabled={isSearching}
+                          title={`Run again (${entry.total} results, ${new Date(entry.at).toLocaleString()})`}
+                          onClick={() => handleHistoryClick(entry)}
+                        >
+                          {describeSearch(entry)}
+                          <span className="cj-history-count">{entry.total}</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="cj-history-remove"
+                          title="Remove from history"
+                          onClick={() => saveSearchHistory(searchHistory.filter((e) => JSON.stringify(e.filters) !== key))}
+                        >
+                          ×
+                        </button>
+                      </span>
+                    );
+                  })}
+                  <button type="button" className="cj-history-clear" onClick={() => saveSearchHistory([])}>
+                    Clear
+                  </button>
+                </div>
+              )}
             </form>
           </div>
 
