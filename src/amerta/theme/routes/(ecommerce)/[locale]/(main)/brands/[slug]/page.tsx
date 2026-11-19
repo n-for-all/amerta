@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { Button } from "@/amerta/theme/ui/button";
 import { ProductCard } from "@/amerta/theme/components/ProductCard";
 import { Pagination } from "@/amerta/theme/components/Pagination";
+import { InfiniteProducts } from "@/amerta/theme/components/InfiniteProducts";
 import { getAllProductOptions } from "@/amerta/core/utilities/get-product-options";
 import { BrandFilters } from "@/amerta/theme/components/BrandFilters";
 import { parseSearchFilters } from "@/amerta/core/utilities/parse-search-filters";
@@ -114,12 +115,21 @@ export default async function BrandPage({ params, searchParams }: { params: Prom
             </div>
           ) : (
             <section>
-              <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-7 xl:grid-cols-4">
+              <InfiniteProducts
+                scope={{ type: "brand", id: String(brand!.id) }}
+                initialPage={currentPage}
+                totalPages={totalPages}
+                searchParams={resolvedSearchParams as any}
+                locale={locale}
+                perPage={itemsPerPage}
+                baseUrl={getURL(`/brands/${slug}`, locale)}
+                className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-7 xl:grid-cols-4"
+                pagination={<Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/brands/${slug}`, locale)} locale={locale} />}
+              >
                 {products.map((product: Product) => {
                   return <ProductCard key={product.id} product={product} locale={locale} options={allOptions} />;
                 })}
-              </div>
-              <Pagination currentPage={currentPage} totalPages={totalPages} searchParams={resolvedSearchParams} baseUrl={getURL(`/brands/${slug}`, locale)} locale={locale} />
+              </InfiniteProducts>
             </section>
           )}
         </div>
