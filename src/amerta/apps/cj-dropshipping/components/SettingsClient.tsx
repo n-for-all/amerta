@@ -1452,26 +1452,39 @@ export const SettingsClient = () => {
     }
   };
 
-  // Re-import failed/blocked queue items, ignoring shipping rules
-  const handleRetryIgnoringRules = async (pids: string[]) => {
-    if (pids.length === 0) return;
-    setIsBulkImporting(true);
-    bulkAbortRef.current = false;
+  // "Import anyway" queue: every click is queued immediately (no waiting for the previous one);
+  // a single worker imports them in order, ignoring shipping rules.
+  const retryQueueRef = useRef<string[]>([]);
+  const retryPidsRef = useRef<Set<string>>(new Set());
+  const retryRunningRef = useRef(false);
+
+  const runRetryQueue = async () => {
+    retryRunningRef.current = true;
     let ok = 0;
-    for (const pid of pids) {
-      if (bulkAbortRef.current) break;
+    let done = 0;
+    while (retryQueueRef.current.length > 0) {
+      const pid = retryQueueRef.current.shift()!;
+      done++;
       if (await importBulkItem(pid, true)) {
         ok++;
+        setSelectedPids((prev) => prev.filter((id) => id !== pid));
         setBulkProgress((prev) => ({ ...prev, successCount: prev.successCount + 1, failCount: Math.max(0, prev.failCount - 1) }));
       }
+      retryPidsRef.current.delete(pid);
     }
-    setIsBulkImporting(false);
-    if (ok > 0) {
-      setSelectedPids((prev) => prev.filter((id) => !pids.includes(id)));
-      fetchImportedProducts();
-    }
-    if (ok === pids.length) toast.success(`Imported ${ok} product(s), ignoring shipping rules.`);
-    else toast.error(`Imported ${ok} of ${pids.length}. The rest failed for other reasons, see each row.`);
+    retryRunningRef.current = false;
+    if (ok > 0) fetchImportedProducts();
+    if (ok === done) toast.success(`Imported ${ok} product(s), ignoring shipping rules.`);
+    else toast.error(`Imported ${ok} of ${done}. The rest failed for other reasons, see each row.`);
+  };
+
+  const queueImportAnyway = (pids: string[]) => {
+    const fresh = pids.filter((pid) => !retryPidsRef.current.has(pid));
+    if (fresh.length === 0) return;
+    fresh.forEach((pid) => retryPidsRef.current.add(pid));
+    retryQueueRef.current.push(...fresh);
+    setBulkItems((prev) => prev.map((it) => (fresh.includes(it.pid) ? { ...it, status: "pending", message: "Queued, importing anyway…" } : it)));
+    if (!retryRunningRef.current) void runRetryQueue();
   };
 
   // Execute bulk import sequentially with real-time feedback
@@ -1493,11 +1506,12 @@ export const SettingsClient = () => {
 
       const item = bulkItems[i]!;
 
-      // Already imported from its row ("Import anyway")
+      // Already imported, or queued, from its row ("Import anyway")
       if (item.status === "success") {
         successes++;
         continue;
       }
+      if (retryPidsRef.current.has(item.pid)) continue;
 
       // If item is already blocked by shipping rules, skip it (unless rules are ignored)
       if (item.status === "failed" && !bulkIgnoreRules) {
@@ -3680,7 +3694,7 @@ export const SettingsClient = () => {
                                 type="button"
                                 className="cj-import-anyway"
                                 title="Import this product even though a shipping rule blocks it"
-                                onClick={() => handleRetryIgnoringRules([item.pid])}
+                                onClick={() => queueImportAnyway([item.pid])}
                               >
                                 Import anyway
                               </button>
@@ -3735,7 +3749,7 @@ export const SettingsClient = () => {
                   {bulkItems.some((it) => it.status === "failed") && (
                     <Button
                       buttonStyle="secondary"
-                      onClick={() => handleRetryIgnoringRules(bulkItems.filter((it) => it.status === "failed").map((it) => it.pid))}
+                      onClick={() => queueImportAnyway(bulkItems.filter((it) => it.status === "failed").map((it) => it.pid))}
                     >
                       Import {bulkItems.filter((it) => it.status === "failed").length} failed anyway
                     </Button>
