@@ -35,6 +35,7 @@ export const CatalogClient = () => {
   const [pagination, setPagination] = useState<any>(null);
   const [meta, setMeta] = useState<{ authenticated?: boolean; catalogId?: string | null } | null>(null);
   const [selected, setSelected] = useState<any>(null);
+  const [showShops, setShowShops] = useState(false);
 
   useEffect(() => {
     fetch("/api/globals/apps")
@@ -83,21 +84,34 @@ export const CatalogClient = () => {
     }
   };
 
-  const search = async (cursor?: string) => {
-    if (!query.trim() && !shops.trim()) {
-      toast.error("Enter a search term, or limit the search to some shops.");
-      return;
+  // Next pages reuse the filters of the search that produced the results, not what's typed in the form now
+  const lastParamsRef = useRef<Record<string, any> | null>(null);
+  const requestIdRef = useRef(0);
+
+  const search = async (cursor?: string, overrides: Record<string, any> = {}) => {
+    let params: Record<string, any>;
+    if (cursor) {
+      if (loadingRef.current || !lastParamsRef.current) return;
+      params = lastParamsRef.current;
+    } else {
+      params = { query, country, currency, minPrice, maxPrice, shipsTo, shops, useCatalog, ...overrides };
+      if (!String(params.query).trim() && !String(params.shops).trim()) {
+        toast.error("Enter a search term, or limit the search to some shops.");
+        return;
+      }
+      lastParamsRef.current = params;
     }
-    if (cursor && loadingRef.current) return;
+    const requestId = ++requestIdRef.current;
     loadingRef.current = true;
     setLoading(true);
     try {
       const res = await fetch("/api/shopify-catalog/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, country, currency, minPrice, maxPrice, shipsTo, shops, useCatalog, cursor, limit: 12 }),
+        body: JSON.stringify({ ...params, cursor, limit: 12 }),
       });
       const data = await res.json();
+      if (requestId !== requestIdRef.current) return; // a newer search started meanwhile
       if (!res.ok) throw new Error(res.status === 401 ? "You're logged out of this admin. Refresh the page and log in again." : data.error || "Search failed");
       // Later pages can repeat products Shopify already returned; keep the first one
       setProducts((prev) => {
@@ -111,8 +125,10 @@ export const CatalogClient = () => {
     } catch (e: any) {
       toast.error(e.message);
     } finally {
-      loadingRef.current = false;
-      setLoading(false);
+      if (requestId === requestIdRef.current) {
+        loadingRef.current = false;
+        setLoading(false);
+      }
     }
   };
 
@@ -132,6 +148,29 @@ export const CatalogClient = () => {
   }, [products.length, pagination?.has_next_page]); // re-observe after each page, so a sentinel still in view loads the next one
 
   const promotedCount = products.filter((p) => p.variants?.some((v: any) => v.placement)).length;
+
+  // Shops among the results loaded so far (Shopify doesn't report a total)
+  const shopList = (() => {
+    const map = new Map<string, { name: string; host: string; url?: string; count: number }>();
+    for (const p of products) {
+      const seller = p.variants?.[0]?.seller || {};
+      let host = seller.domain || "";
+      try {
+        if (seller.url) host = new URL(seller.url).host;
+      } catch {}
+      const key = seller.id || host || seller.name;
+      if (!key) continue;
+      const entry = map.get(key) || { name: seller.name || host, host, url: seller.url, count: 0 };
+      entry.count++;
+      map.set(key, entry);
+    }
+    return [...map.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  })();
+  const browseShop = (host: string) => {
+    setShops(host);
+    setShowShops(false);
+    search(undefined, { shops: host });
+  };
 
   return (
     <Gutter className="shopify-catalog">
@@ -228,6 +267,35 @@ export const CatalogClient = () => {
               <span>{meta.authenticated ? "Authenticated" : "Keyless"}</span>
               <span>{meta.catalogId ? `Catalog ${meta.catalogId}` : "No catalog: organic results only, no commission"}</span>
               <span>{promotedCount} promoted</span>
+              {shopList.length > 0 && (
+                <button type="button" className="sc-link" onClick={() => setShowShops(!showShops)}>
+                  from {shopList.length} shop{shopList.length === 1 ? "" : "s"} {showShops ? "▴" : "▾"}
+                </button>
+              )}
+            </div>
+          )}
+
+          {showShops && shopList.length > 0 && (
+            <div className="sc-card sc-shops">
+              <p className="sc-help">
+                Shops in the {products.length} results loaded so far. Shopify doesn&apos;t say how many shops match in total; scrolling loads more. Click a shop to search only its products.
+              </p>
+              <div className="sc-shop-list">
+                {shopList.map((shop) => (
+                  <div key={shop.host + shop.name} className="sc-shop">
+                    <button type="button" onClick={() => browseShop(shop.host)} title={`Search only ${shop.host}`}>
+                      <strong>{shop.name}</strong>
+                      <span>{shop.host}</span>
+                    </button>
+                    <em>{shop.count}</em>
+                    {shop.url && (
+                      <a href={shop.url} target="_blank" rel="noopener" title="Open store">
+                        ↗
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
