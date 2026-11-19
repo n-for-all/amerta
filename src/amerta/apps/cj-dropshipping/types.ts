@@ -145,7 +145,20 @@ export interface ImportProductOptions {
   selectedVariantVids?: string[];
   /** Import even if a shipping rule blocks the product */
   ignoreRules?: boolean;
+  /** Re-import of a product already in the store: only these parts are replaced (nothing when empty) */
+  replaceFields?: CJReplaceField[];
 }
+
+export type CJReplaceField = "title" | "description" | "images" | "prices" | "stock" | "variants" | "collections";
+export const CJ_REPLACE_FIELDS: { value: CJReplaceField; label: string; hint: string }[] = [
+  { value: "prices", label: "Prices", hint: "Recalculate from CJ's current cost and your pricing rules" },
+  { value: "stock", label: "Stock", hint: "CJ's current stock per variant" },
+  { value: "title", label: "Title", hint: "CJ's product name" },
+  { value: "description", label: "Description & summary", hint: "CJ's description, re-downloads its images" },
+  { value: "images", label: "Images", hint: "Replace the gallery with CJ's photos" },
+  { value: "variants", label: "Variants", hint: "Rebuild all variants (options, SKUs, prices, stock, images)" },
+  { value: "collections", label: "Categories", hint: "Put it back in the CJ category collections" },
+];
 
 export interface BulkImportItem {
   pid: string;

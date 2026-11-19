@@ -16,6 +16,7 @@ import {
   parseCJWeight,
   resolveEffectiveProductWeight,
 } from "../types";
+import { CJ_REPLACE_FIELDS, type CJReplaceField } from "../types";
 import { allShippingCountries } from "../constants/countries";
 import "./index.scss";
 
@@ -177,6 +178,9 @@ export const SettingsClient = () => {
   const [bulkCollectionId, setBulkCollectionId] = useState("__auto__");
   const [bulkPublishStatus, setBulkPublishStatus] = useState<"published" | "draft">("published");
   const [bulkIgnoreRules, setBulkIgnoreRules] = useState(false);
+  // Re-import of a product already in the store: choose what to replace
+  const [reimportTarget, setReimportTarget] = useState<{ pid: string; title: string } | null>(null);
+  const [reimportFields, setReimportFields] = useState<CJReplaceField[]>([]);
   const [bulkProgress, setBulkProgress] = useState<BulkImportProgress>({
     current: 0,
     total: 0,
@@ -1196,7 +1200,17 @@ export const SettingsClient = () => {
   };
 
   // Trigger Import
-  const handleImportProduct = async (pid: string, opts: { ignoreRules?: boolean } = {}) => {
+  const handleImportProduct = async (pid: string, opts: { ignoreRules?: boolean; replaceFields?: CJReplaceField[] } = {}) => {
+    // Already in the store: ask what to replace first (nothing is overwritten without a choice)
+    const listed = searchResults.find((r) => r.pid === pid);
+    if (listed?.importedProductId && !opts.replaceFields) {
+      setReimportFields([]);
+      setReimportTarget({ pid, title: listed.productNameEn });
+      return;
+    }
+    // Updating an existing product isn't an import, so shipping rules don't apply
+    if (opts.replaceFields) opts = { ...opts, ignoreRules: true };
+
     const activeRules = shippingImportRules.filter((r) => r.enabled);
     if (activeRules.length === 0) {
       toast.error("No active shipping rules configured. At least one active shipping rule is required to allow imports.");
@@ -1232,6 +1246,9 @@ export const SettingsClient = () => {
           publishStatus: autoPublish ? "published" : "draft",
           selectedVariantVids: previewProduct?.pid === pid && selectedVids.length > 0 ? selectedVids : undefined,
           ignoreRules: opts.ignoreRules || undefined,
+          replaceFields: opts.replaceFields,
+          // An update keeps the store's title unless "title" is chosen
+          ...(opts.replaceFields ? { customTitle: undefined, customPrice: undefined } : {}),
         }),
       });
 
@@ -3462,6 +3479,57 @@ export const SettingsClient = () => {
               </div>
             </div>
             <textarea className="cj-export-text" readOnly value={exportText} onFocus={(e) => e.currentTarget.select()} />
+          </div>
+        </div>
+      )}
+
+      {/* Re-import: choose what to replace */}
+      {reimportTarget && (
+        <div className="cj-modal-overlay" onClick={() => setReimportTarget(null)}>
+          <div className="cj-modal-content cj-reimport-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="cj-modal-header">
+              <div>
+                <h2>Update from CJ</h2>
+                <p className="cj-bulk-modal-subtitle">{reimportTarget.title}</p>
+              </div>
+              <button type="button" className="cj-modal-close-btn" onClick={() => setReimportTarget(null)}>
+                ×
+              </button>
+            </div>
+            <p className="cj-reimport-note">Already in your store. Only what you tick is replaced; everything else stays as you edited it.</p>
+            <div className="cj-reimport-fields">
+              {CJ_REPLACE_FIELDS.map((f) => (
+                <label key={f.value} className="cj-reimport-field">
+                  <input
+                    type="checkbox"
+                    checked={reimportFields.includes(f.value)}
+                    onChange={(e) =>
+                      setReimportFields((prev) => (e.target.checked ? [...prev, f.value] : prev.filter((x) => x !== f.value)))
+                    }
+                  />
+                  <span>
+                    <strong>{f.label}</strong>
+                    <small>{f.hint}</small>
+                  </span>
+                </label>
+              ))}
+            </div>
+            <div className="cj-reimport-footer">
+              <Button buttonStyle="secondary" onClick={() => setReimportTarget(null)}>
+                Cancel
+              </Button>
+              <Button
+                buttonStyle="primary"
+                disabled={reimportFields.length === 0 || importingPid === reimportTarget.pid}
+                onClick={async () => {
+                  const target = reimportTarget;
+                  setReimportTarget(null);
+                  await handleImportProduct(target.pid, { replaceFields: reimportFields });
+                }}
+              >
+                {reimportFields.length ? `Update ${reimportFields.length} item${reimportFields.length > 1 ? "s" : ""}` : "Choose what to update"}
+              </Button>
+            </div>
           </div>
         </div>
       )}

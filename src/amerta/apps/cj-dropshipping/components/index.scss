@@ -1568,6 +1568,49 @@
     color: var(--theme-success-500, #2f9e6b);
   }
 
+  .cj-reimport-modal {
+    max-width: 32rem;
+
+    .cj-reimport-note {
+      margin: 0 0 1rem;
+      color: var(--theme-elevation-500);
+      font-size: 0.9rem;
+    }
+
+    .cj-reimport-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .cj-reimport-field {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      cursor: pointer;
+
+      input {
+        margin-top: 0.25rem;
+      }
+
+      span {
+        display: flex;
+        flex-direction: column;
+      }
+
+      small {
+        color: var(--theme-elevation-500);
+      }
+    }
+
+    .cj-reimport-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+  }
+
   .cj-import-anyway {
     padding: 0;
     border: 0;

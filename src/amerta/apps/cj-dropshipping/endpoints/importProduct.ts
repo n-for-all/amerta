@@ -11,6 +11,8 @@ export const importProductEndpoint: Endpoint = {
       const body = req.json ? await req.json() : req.body;
       const { pid, pids, customTitle, customPrice, salesChannelId, categoryId, collectionId, publishStatus, selectedVariantVids } = body || {};
       const ignoreRules = body?.ignoreRules === true;
+      // Products already in the store only get these parts replaced (none = refuse, so nothing is overwritten by accident)
+      const replaceFields = Array.isArray(body?.replaceFields) ? body.replaceFields : undefined;
 
       if (!pid && (!Array.isArray(pids) || pids.length === 0)) {
         return Response.json({ error: "Please provide a 'pid' or 'pids' array to import." }, { status: 400 });
@@ -28,6 +30,7 @@ export const importProductEndpoint: Endpoint = {
           publishStatus,
           selectedVariantVids,
           ignoreRules,
+          replaceFields,
         });
 
         return Response.json(result);
@@ -46,6 +49,7 @@ export const importProductEndpoint: Endpoint = {
             collectionId,
             publishStatus,
             ignoreRules,
+            replaceFields,
           });
           results.push({ pid: singlePid, ...res });
         } catch (err: any) {

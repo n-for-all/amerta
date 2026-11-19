@@ -4,6 +4,7 @@ import { createHash } from "crypto";
 import { CJClient } from "./cjClient";
 import {
   CJProductDetail,
+  CJReplaceField,
   CJSettings,
   ImportProductOptions,
   CJVariant,
@@ -476,28 +477,40 @@ export class CJImporter {
       collection: "products",
       where: {
         or: [
+          { cjProductId: { equals: cjProduct.pid } },
           { slug: { equals: slug } },
           { sku: { equals: cjProduct.productSku } },
         ],
       },
       limit: 1,
+      depth: 0,
     });
 
-    const existingProduct = existing.docs.length > 0 ? existing.docs[0]! : null;
+    const existingProduct: any = existing.docs.length > 0 ? existing.docs[0]! : null;
+
+    // Re-importing a product that is already in the store only changes the parts you choose,
+    // so your own titles, descriptions and photo choices are never overwritten by accident.
+    const isUpdate = Boolean(existingProduct);
+    const replace = new Set(options.replaceFields || []);
+    const want = (field: CJReplaceField) => !isUpdate || replace.has(field);
+    if (isUpdate && replace.size === 0) {
+      throw new Error("This product is already in your store. Choose what to update (title, description, images, prices, stock, variants or categories).");
+    }
 
     const imageList = this.resolveImageList(cjProduct);
 
     const uniqueImages = imageList.slice(0, 10);
-    let imageIds: string[] = [];
+    // Not replacing images: keep the product's current gallery (also the fallback for variant images)
+    let imageIds: string[] = want("images") ? [] : ((existingProduct?.images || []) as any[]).map((i) => String(typeof i === "object" ? i.id : i));
     const imageBuffers: Buffer[] = [];
-    for (const imgUrl of uniqueImages) {
+    for (const imgUrl of want("images") ? uniqueImages : []) {
       const media = await this.uploadMediaWithDetails(payload, imgUrl, title);
       if (media) {
         imageIds.push(media.id);
         imageBuffers.push(media.buffer);
       }
     }
-    if (settings?.closeupSecondImage) {
+    if (settings?.closeupSecondImage && want("images")) {
       imageIds = await this.moveCloseupToSecond(imageIds, imageBuffers);
     }
 
@@ -514,7 +527,7 @@ export class CJImporter {
     let lexicalDescription: any = null;
     let cleanExcerpt = "";
 
-    if (rawDescription && typeof rawDescription === "string" && rawDescription.trim().length > 0) {
+    if (want("description") && rawDescription && typeof rawDescription === "string" && rawDescription.trim().length > 0) {
       // Generate clean plain text excerpt (up to 300 chars)
       cleanExcerpt = this.extractPlainText(rawDescription).slice(0, 300);
 
@@ -644,7 +657,7 @@ export class CJImporter {
 
         // Upload variant image if distinct
         let variantImgId: string | null = null;
-        if (v.variantImage && !uniqueImages.includes(v.variantImage)) {
+        if (want("variants") && v.variantImage && !uniqueImages.includes(v.variantImage)) {
           variantImgId = await this.uploadMedia(payload, v.variantImage, `${title} - ${v.variantNameEn || v.variantSku}`);
         }
 
@@ -678,13 +691,9 @@ export class CJImporter {
     const publishStatus = options.publishStatus || (settings?.autoPublish ? "published" : "draft");
 
     // Resolve Collection / Category based on settings & options
-    const targetCollectionIds = await this.resolveCollections(
-      payload,
-      cjProduct,
-      settings,
-      options.collectionId || options.categoryId,
-      salesChannelId,
-    );
+    const targetCollectionIds = want("collections")
+      ? await this.resolveCollections(payload, cjProduct, settings, options.collectionId || options.categoryId, salesChannelId)
+      : [];
 
     const isVariantProduct = variantsData.length > 0;
 
@@ -725,11 +734,44 @@ export class CJImporter {
 
     let finalProduct: any;
     if (existingProduct) {
+      const data: any = { cjProductId: cjProduct.pid };
+      if (want("title")) data.title = title;
+      if (want("description")) {
+        if (productData.description) data.description = productData.description;
+        if (productData.excerpt) data.excerpt = productData.excerpt;
+      }
+      if (want("images")) data.images = imageIds;
+      if (want("collections")) data.collections = targetCollectionIds;
+      if (want("variants")) {
+        for (const key of ["type", "price", "variants", "trackInventory", "quantity", "stockStatus", "weight"]) {
+          if (key in productData) data[key] = productData[key];
+        }
+      } else if (want("prices") || want("stock")) {
+        // Keep the store's variants; refresh price and/or stock on the ones CJ still has (matched by SKU)
+        const current: any[] = existingProduct.variants || [];
+        if (current.length > 0) {
+          data.variants = current.map((ev) => {
+            const fresh = variantsData.find((nv) => nv.sku === ev.sku);
+            if (!fresh) return ev;
+            return {
+              ...ev,
+              ...(want("prices") ? { price: fresh.price } : {}),
+              ...(want("stock") ? { quantity: fresh.quantity, stockStatus: fresh.stockStatus } : {}),
+            };
+          });
+        }
+        if (want("prices")) data.price = finalPrice;
+      }
       finalProduct = await payload.update({
         collection: "products",
         id: existingProduct.id,
-        data: productData,
+        data,
       });
+      return {
+        success: true,
+        productId: finalProduct.id,
+        message: `Updated ${[...replace].join(", ")} on "${existingProduct.title || title}".`,
+      };
     } else {
       finalProduct = await payload.create({
         collection: "products",
