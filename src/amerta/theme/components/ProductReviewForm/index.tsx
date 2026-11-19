@@ -3,26 +3,33 @@
 import { useState } from "react";
 import type { Form as FormType } from "@payloadcms/plugin-form-builder/types";
 import { FormBlock } from "@/amerta/components/Form/Component";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
 interface ProductReviewFormProps {
   productId: string;
+  /** Themes: wrapper around the button / form, and the look of the "Write a Review" and "Submit Review" buttons */
+  className?: string;
+  buttonClassName?: string;
 }
 
-export default function ProductReviewForm({ productId }: ProductReviewFormProps) {
+const defaultButtonClassName = "inline-flex items-center justify-center px-6 py-3 text-sm font-medium uppercase transition-colors bg-white border rounded-full border-zinc-900 text-zinc-900 hover:bg-zinc-50";
+
+export default function ProductReviewForm({ productId, className, buttonClassName }: ProductReviewFormProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { __ } = useEcommerce();
 
   // Mock form structure - this would ideally come from Payload CMS
   const reviewForm: FormType = {
     id: "product-review-form",
     title: "Product Review",
-    submitButtonLabel: "Submit Review",
+    submitButtonLabel: __("Submit Review"),
     confirmationType: "message",
     emails: [], // we will manage this field from the endpoint
-    confirmationMessage: "Thank you for your review! Your review will be displayed after moderation.",
+    confirmationMessage: __("Thank you for your review! Your review will be displayed after moderation.") as any,
     fields: [
       {
         name: "rating",
-        label: "How would you rate this product?",
+        label: __("How would you rate this product?"),
         width: 100,
         required: true,
         blockType: "rating",
@@ -34,13 +41,13 @@ export default function ProductReviewForm({ productId }: ProductReviewFormProps)
           {
             className: "flex-1",
             name: "author",
-            placeholder: "Your Name...",
+            placeholder: __("Your Name..."),
             required: true,
             blockType: "text",
           } as any,
           {
             name: "email",
-            placeholder: "Email Address (optional)",
+            placeholder: __("Email Address (optional)"),
             required: false,
             blockType: "email",
           } as any,
@@ -48,14 +55,14 @@ export default function ProductReviewForm({ productId }: ProductReviewFormProps)
       },
       {
         name: "title",
-        placeholder: "Review Title (optional)",
+        placeholder: __("Review Title (optional)"),
         width: 100,
         required: false,
         blockType: "text",
       } as any,
       {
         name: "content",
-        placeholder: "Your Review",
+        placeholder: __("Your Review"),
         width: 100,
         required: true,
         blockType: "textarea",
@@ -65,19 +72,19 @@ export default function ProductReviewForm({ productId }: ProductReviewFormProps)
 
   if (!isOpen) {
     return (
-      <div className="mt-8">
-        <button onClick={() => setIsOpen(true)} className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium uppercase transition-colors bg-white border rounded-full border-zinc-900 text-zinc-900 hover:bg-zinc-50">
-          Write a Review
+      <div className={className ?? "mt-8"}>
+        <button onClick={() => setIsOpen(true)} className={buttonClassName ?? defaultButtonClassName}>
+          {__("Write a Review")}
         </button>
       </div>
     );
   }
 
   return (
-    <div className="pt-8 mt-8">
+    <div className={className ? `${className} pt-8` : "pt-8 mt-8"}>
       <div className="mb-4">
         <button onClick={() => setIsOpen(false)} className="text-sm text-zinc-500 hover:text-zinc-700">
-          ← Back to Reviews
+          {__("← Back to Reviews")}
         </button>
       </div>
       <FormBlock
@@ -87,8 +94,8 @@ export default function ProductReviewForm({ productId }: ProductReviewFormProps)
         className="w-full"
         form={reviewForm as any}
         renderSubmitButton={(formId, label, { isLoading, hasSubmitted }) => (
-          <button disabled={isLoading || hasSubmitted} form={formId} className="mt-4" type="submit">
-            {isLoading ? "Submitting..." : label || "Submit Review"}
+          <button disabled={isLoading || hasSubmitted} form={formId} className={buttonClassName ? `mt-6 ${buttonClassName} disabled:opacity-50` : "mt-4"} type="submit">
+            {isLoading ? __("Submitting...") : label || __("Submit Review")}
           </button>
         )}
       />
