@@ -1407,6 +1407,56 @@ export const SettingsClient = () => {
     toast.info("Stopping bulk import after current item...");
   };
 
+  // Import one queued product; updates its row. Returns true on success.
+  const importBulkItem = async (pid: string, ignoreRules: boolean): Promise<boolean> => {
+    setBulkItems((prev) => prev.map((it) => (it.pid === pid ? { ...it, status: "importing", message: undefined } : it)));
+    try {
+      const res = await fetch("/api/cj-dropshipping/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pid,
+          salesChannelId: salesChannelId || undefined,
+          collectionId: bulkCollectionId !== "__auto__" ? bulkCollectionId : undefined,
+          publishStatus: bulkPublishStatus,
+          ignoreRules: ignoreRules || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Import failed.");
+      markImported([{ pid, productId: data.productId }]);
+      setBulkItems((prev) =>
+        prev.map((it) => (it.pid === pid ? { ...it, status: "success", message: data.message || "Imported successfully" } : it)),
+      );
+      return true;
+    } catch (err: any) {
+      setBulkItems((prev) => prev.map((it) => (it.pid === pid ? { ...it, status: "failed", message: err.message || "Import failed" } : it)));
+      return false;
+    }
+  };
+
+  // Re-import failed/blocked queue items, ignoring shipping rules
+  const handleRetryIgnoringRules = async (pids: string[]) => {
+    if (pids.length === 0) return;
+    setIsBulkImporting(true);
+    bulkAbortRef.current = false;
+    let ok = 0;
+    for (const pid of pids) {
+      if (bulkAbortRef.current) break;
+      if (await importBulkItem(pid, true)) {
+        ok++;
+        setBulkProgress((prev) => ({ ...prev, successCount: prev.successCount + 1, failCount: Math.max(0, prev.failCount - 1) }));
+      }
+    }
+    setIsBulkImporting(false);
+    if (ok > 0) {
+      setSelectedPids((prev) => prev.filter((id) => !pids.includes(id)));
+      fetchImportedProducts();
+    }
+    if (ok === pids.length) toast.success(`Imported ${ok} product(s), ignoring shipping rules.`);
+    else toast.error(`Imported ${ok} of ${pids.length}. The rest failed for other reasons, see each row.`);
+  };
+
   // Execute bulk import sequentially with real-time feedback
   const handleStartBulkImport = async () => {
     if (bulkItems.length === 0) return;
@@ -1426,6 +1476,12 @@ export const SettingsClient = () => {
 
       const item = bulkItems[i]!;
 
+      // Already imported from its row ("Import anyway")
+      if (item.status === "success") {
+        successes++;
+        continue;
+      }
+
       // If item is already blocked by shipping rules, skip it (unless rules are ignored)
       if (item.status === "failed" && !bulkIgnoreRules) {
         failures++;
@@ -1437,48 +1493,11 @@ export const SettingsClient = () => {
         continue;
       }
 
-      setBulkItems((prev) =>
-        prev.map((it, idx) => (idx === i ? { ...it, status: "importing" } : it))
-      );
-
-      try {
-        const res = await fetch("/api/cj-dropshipping/import", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            pid: item.pid,
-            salesChannelId: salesChannelId || undefined,
-            collectionId: bulkCollectionId !== "__auto__" ? bulkCollectionId : undefined,
-            publishStatus: bulkPublishStatus,
-            ignoreRules: bulkIgnoreRules || undefined,
-          }),
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || "Import failed.");
-        }
-
+      if (await importBulkItem(item.pid, bulkIgnoreRules)) {
         successes++;
         succeededPids.push(item.pid);
-        markImported([{ pid: item.pid, productId: data.productId }]);
-
-        setBulkItems((prev) =>
-          prev.map((it, idx) =>
-            idx === i
-              ? { ...it, status: "success", message: data.message || "Imported successfully" }
-              : it
-          )
-        );
-      } catch (err: any) {
+      } else {
         failures++;
-        setBulkItems((prev) =>
-          prev.map((it, idx) =>
-            idx === i
-              ? { ...it, status: "failed", message: err.message || "Import failed" }
-              : it
-          )
-        );
       }
 
       setBulkProgress({
@@ -3596,6 +3615,16 @@ export const SettingsClient = () => {
                       )}
                       {item.status === "success" && <span className="badge-success">✓ Imported</span>}
                       {item.status === "failed" && <span className="badge-failed">✕ Failed</span>}
+                      {item.status === "failed" && !isBulkImporting && (
+                        <button
+                          type="button"
+                          className="cj-import-anyway"
+                          title="Import this product even though a shipping rule blocks it"
+                          onClick={() => handleRetryIgnoringRules([item.pid])}
+                        >
+                          Import anyway
+                        </button>
+                      )}
 
                       {!isBulkImporting && bulkProgress.current === 0 && (
                         <button
@@ -3630,6 +3659,14 @@ export const SettingsClient = () => {
                   >
                     Close
                   </Button>
+                  {bulkItems.some((it) => it.status === "failed") && (
+                    <Button
+                      buttonStyle="secondary"
+                      onClick={() => handleRetryIgnoringRules(bulkItems.filter((it) => it.status === "failed").map((it) => it.pid))}
+                    >
+                      Import {bulkItems.filter((it) => it.status === "failed").length} failed anyway
+                    </Button>
+                  )}
                   <Button
                     buttonStyle="primary"
                     onClick={() => {
