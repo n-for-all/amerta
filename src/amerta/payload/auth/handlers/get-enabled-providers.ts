@@ -14,14 +14,12 @@ export const getEnabledAuthProviders = async () => {
     return true;
   });
 
-  const enabledProviders = enabledAuthProviders.map((provider) => {
-    const key = `${camelSlug(provider.slug)}Settings`;
-    const providerSettings = authSettings[key] || null;
-    return {
-      type: provider.slug,
-      ...providerSettings,
-    };
-  });
+  // Public endpoint: return only what the login buttons need. The settings hold secrets
+  // (e.g. the Google client secret) and must never be sent to the browser.
+  const enabledProviders = enabledAuthProviders.map((provider) => ({
+    type: provider.slug,
+    label: provider.label,
+  }));
 
   return NextResponse.json({ providers: enabledProviders });
 };
