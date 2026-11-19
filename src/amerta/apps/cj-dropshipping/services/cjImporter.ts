@@ -1137,16 +1137,20 @@ export class CJImporter {
       let optDoc = cache ? cache.get(cacheKey) : null;
 
       if (!optDoc) {
+        // Match the name case-insensitively, so "Color" from CJ reuses an existing "color" option instead of
+        // creating a second filter with the same label
         const existing = await payload.find({
           collection: "product-options",
           where: {
-            name: { equals: cleanName },
+            name: { like: cleanName },
           },
-          limit: 1,
+          limit: 50,
+          depth: 0,
         });
+        const match = existing.docs.find((doc: any) => String(doc.name || "").trim().toLowerCase() === cacheKey);
 
-        if (existing.docs.length > 0) {
-          optDoc = existing.docs[0]!;
+        if (match) {
+          optDoc = match;
           if (cache) cache.set(cacheKey, optDoc);
         }
       }
