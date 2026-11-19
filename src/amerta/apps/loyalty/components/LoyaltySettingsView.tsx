@@ -1,5 +1,6 @@
 import { DefaultTemplate } from "@payloadcms/next/templates";
 import { AdminViewServerProps } from "payload";
+import { redirectUnlessAdmin } from "@/amerta/apps/components/redirectUnlessAdmin";
 import { LoyaltySettingsClient } from "./LoyaltySettingsClient";
 
 
@@ -8,6 +9,7 @@ export const LoyaltySettingsView = ({
   params,
   searchParams,
 }: AdminViewServerProps) => {
+  redirectUnlessAdmin(initPageResult, params);
   return (
     <DefaultTemplate
       i18n={initPageResult.req.i18n}
