@@ -164,7 +164,7 @@ export default function CheckoutNew({ ecommerceSettings, data, cart: cartData, l
                 {ecommerceSettings?.allowOrderNotes ? <OrderNote form={form} /> : null}
               </div>
               <div className="mt-10 lg:mt-0">
-                <OrderSummary exchangeRate={exchangeRate} cart={cartData!} currency={currency} locale={locale} shippingCost={shippingCost} onCartUpdate={setCart} orderTaxPercentage={orderTaxPercentage} tax={tax} loadingTaxes={loadingTaxes} qualifiesForFree={!!qualifiesForFree} total={total} isSubmitting={form.formState.isSubmitting} isValid={form.formState.isValid} />
+                <OrderSummary exchangeRate={exchangeRate} cart={cartData!} currency={currency} locale={locale} shippingCost={shippingCost} onCartUpdate={setCart} orderTaxPercentage={orderTaxPercentage} tax={tax} loadingTaxes={loadingTaxes} qualifiesForFree={!!qualifiesForFree} total={total} isSubmitting={form.formState.isSubmitting} isValid={form.formState.isValid || !form.formState.isSubmitted} />
               </div>
             </div>
           </form>
