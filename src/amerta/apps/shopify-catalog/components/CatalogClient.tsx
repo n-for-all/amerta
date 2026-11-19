@@ -2,21 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { Gutter, toast, Button, TextInput } from "@payloadcms/ui";
+import { formatMoney } from "./money";
+import { ProductModal } from "./ProductModal";
 import "./index.scss";
-
-type Money = { amount: number; currency: string };
-
-// Catalog amounts are in minor units (cents, fils)
-const formatMoney = (m?: Money) => {
-  if (!m || m.amount === undefined) return "";
-  try {
-    const f = new Intl.NumberFormat(undefined, { style: "currency", currency: m.currency });
-    const digits = f.resolvedOptions().maximumFractionDigits ?? 2;
-    return f.format(m.amount / Math.pow(10, digits));
-  } catch {
-    return `${(m.amount / 100).toFixed(2)} ${m.currency}`;
-  }
-};
 
 const SETTINGS_KEY = "shopify-catalog";
 
@@ -46,7 +34,7 @@ export const CatalogClient = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [pagination, setPagination] = useState<any>(null);
   const [meta, setMeta] = useState<{ authenticated?: boolean; catalogId?: string | null } | null>(null);
-  const [rawOpen, setRawOpen] = useState<string | null>(null);
+  const [selected, setSelected] = useState<any>(null);
 
   useEffect(() => {
     fetch("/api/globals/apps")
@@ -238,13 +226,13 @@ export const CatalogClient = () => {
               const image = p.media?.find((m: any) => m.type === "image") || v.media?.[0];
               return (
                 <div key={p.id} className={`sc-product ${promoted ? "promoted" : ""}`}>
-                  <div className="sc-image">
+                  <div className="sc-image" onClick={() => setSelected(p)}>
                     {image?.url ? <img src={image.url} alt={image.alt_text || p.title} loading="lazy" /> : <span>No image</span>}
                     {promoted && <span className="sc-badge">Promoted · {promoted.placement?.commission?.percentage?.value ?? "?"}%</span>}
                   </div>
                   <div className="sc-body">
                     <div className="sc-seller">{v.seller?.name || v.seller?.domain || "Unknown seller"}</div>
-                    <h3>{p.title}</h3>
+                    <h3 onClick={() => setSelected(p)}>{p.title}</h3>
                     <div className="sc-price">
                       {p.price_range && p.price_range.min?.amount !== p.price_range.max?.amount
                         ? `${formatMoney(p.price_range.min)} – ${formatMoney(p.price_range.max)}`
@@ -258,7 +246,6 @@ export const CatalogClient = () => {
                     ) : null}
                     <div className="sc-meta">
                       {p.variants?.length || 0} variant{p.variants?.length === 1 ? "" : "s"}
-                      {v.eligible?.native_checkout === false && " · buy on brand site"}
                       {v.availability?.available === false && " · unavailable"}
                     </div>
                     <div className="sc-actions">
@@ -272,16 +259,17 @@ export const CatalogClient = () => {
                           Checkout
                         </a>
                       )}
-                      <button type="button" onClick={() => setRawOpen(rawOpen === p.id ? null : p.id)}>
-                        {rawOpen === p.id ? "Hide data" : "Raw data"}
+                      <button type="button" onClick={() => setSelected(p)}>
+                        Details
                       </button>
                     </div>
-                    {rawOpen === p.id && <pre className="sc-raw">{JSON.stringify(p, null, 2)}</pre>}
                   </div>
                 </div>
               );
             })}
           </div>
+
+          {selected && <ProductModal product={selected} country={country} currency={currency} useCatalog={useCatalog} onClose={() => setSelected(null)} />}
 
           {pagination?.has_next_page && products.length > 0 && (
             <div className="sc-more">

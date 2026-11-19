@@ -1,5 +1,6 @@
 import { AmertaApp } from "../types";
 import { searchCatalogEndpoint } from "./endpoints/search";
+import { productDetailsEndpoint } from "./endpoints/product";
 
 export const shopifyCatalogApp: AmertaApp = {
   name: "Shopify Catalog",
@@ -25,6 +26,6 @@ export const shopifyCatalogApp: AmertaApp = {
         },
       },
     },
-    endpoints: [...(config.endpoints || []), searchCatalogEndpoint],
+    endpoints: [...(config.endpoints || []), searchCatalogEndpoint, productDetailsEndpoint],
   }),
 };
