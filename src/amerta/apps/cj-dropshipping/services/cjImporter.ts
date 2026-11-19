@@ -458,6 +458,15 @@ export class CJImporter {
       return settings?.defaultCollectionId ? [settings.defaultCollectionId] : [];
     }
 
+    // A collection can claim CJ categories ("CJ categories" field): anything under a claimed path
+    // imports into that collection (and its parents) instead of rebuilding CJ's tree
+    try {
+      const claimed = await this.findClaimingCollection(payload, levels);
+      if (claimed) return claimed;
+    } catch (err) {
+      console.warn("[CJ Importer] Category alias lookup failed:", err);
+    }
+
     const ids: string[] = [];
     let parentId: string | null = null;
     let parentSlug = "";
@@ -476,6 +485,50 @@ export class CJImporter {
     }
   }
 
+  /** Spelling-insensitive key: "Women's Luggage & Bags" and "Womens Luggage Bag" match, as do "Bag & Shoes" / "Bags & Shoes" */
+  static categoryKey(name: string): string {
+    return name
+      .toLowerCase()
+      .replace(/['’]/g, "")
+      .replace(/\band\b/g, " ")
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim()
+      .split(" ")
+      .map((w) => (w.length > 3 ? w.replace(/s$/, "") : w))
+      .join(" ");
+  }
+
+  /**
+   * The collection that claims the deepest prefix of this CJ category path (field cjCategories, e.g. "Bags & Shoes"
+   * or "Bags & Shoes/Women's Luggage & Bags"), returned with its parents, top first.
+   */
+  private static async findClaimingCollection(payload: Payload, levels: string[]): Promise<string[] | null> {
+    const claiming = await payload.find({ collection: "collections", where: { cjCategories: { exists: true } }, depth: 0, limit: 500, pagination: false });
+    if (claiming.docs.length === 0) return null;
+    const key = (parts: string[]) => parts.map((p) => this.categoryKey(p)).join("/");
+    for (let n = levels.length; n > 0; n--) {
+      const prefix = key(levels.slice(0, n));
+      const match: any = claiming.docs.find((c: any) =>
+        String(c.cjCategories || "")
+          .split(/\n|,/)
+          .map((line) => key(line.split(/\s*[/>]\s*/).filter(Boolean)))
+          .includes(prefix),
+      );
+      if (match) {
+        const chain: string[] = [String(match.id)];
+        let parent = match.parent;
+        while (parent) {
+          const pid = String(typeof parent === "object" ? parent.id : parent);
+          chain.unshift(pid);
+          const doc: any = await payload.findByID({ collection: "collections", id: pid, depth: 0 }).catch(() => null);
+          parent = doc?.parent;
+        }
+        return chain;
+      }
+    }
+    return null;
+  }
+
   /** A collection with this title under this parent (top level when parentId is null), created if missing */
   private static async findOrCreateCollection(
     payload: Payload,
@@ -484,13 +537,16 @@ export class CJImporter {
     parentSlug: string,
     salesChannelId?: string,
   ): Promise<string> {
-    const existing = await payload.find({
+    const siblings = await payload.find({
       collection: "collections",
-      where: { and: [{ title: { equals: title } }, parentId ? { parent: { equals: parentId } } : { parent: { exists: false } }] },
-      limit: 1,
+      where: parentId ? { parent: { equals: parentId } } : { parent: { exists: false } },
+      limit: 500,
       depth: 0,
+      pagination: false,
     });
-    if (existing.docs[0]) return String(existing.docs[0].id);
+    const wanted = this.categoryKey(title);
+    const same = siblings.docs.find((c: any) => this.categoryKey(String(c.title || "")) === wanted);
+    if (same) return String(same.id);
 
     // Same name elsewhere in the tree (e.g. "Accessories"): keep slugs unique with the parent's slug
     let slug = this.slugify(title);

@@ -1309,6 +1309,10 @@ export interface Collection {
     image?: (string | null) | Media;
     description?: string | null;
   };
+  /**
+   * CJ categories that import into this collection, one per line (e.g. Bags & Shoes). Everything under them lands here instead of creating new collections.
+   */
+  cjCategories?: string | null;
   breadcrumbs?:
     | {
         doc?: (string | null) | Collection;
@@ -4859,6 +4863,7 @@ export interface CollectionsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  cjCategories?: T;
   breadcrumbs?:
     | T
     | {

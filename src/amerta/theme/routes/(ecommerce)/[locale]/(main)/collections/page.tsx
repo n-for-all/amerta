@@ -56,7 +56,7 @@ export default async function CollectionsPage({ params, searchParams }: Props) {
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
                 {collections.map((collection: any) => {
                   return (
-                    <div key={collection.id} className="embla__slide basis-[86%] ps-5 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4">
+                    <div key={collection.id}>
                       <div className="relative w-full group/collection">
                         <div className="relative z-0 w-full overflow-hidden rounded-lg aspect-3/4">
                           <ImageOrPlaceholder image={collection.image} className="z-0 object-cover rounded-lg" />
@@ -82,6 +82,9 @@ export default async function CollectionsPage({ params, searchParams }: Props) {
                     </div>
                   );
                 })}
+              </div>
+              {/* Outside the grid, otherwise it is laid out as one of the cards */}
+              <div className="mt-12">
                 <Pagination locale={locale} currentPage={parseInt(page as string, 10)} totalPages={totalPages} baseUrl={getURL(`/collections`, locale)} />
               </div>
             </>

@@ -36,6 +36,24 @@ export const cjDropshippingApp: AmertaApp = {
           ],
         } as typeof collection;
       }
+      if (collection.slug === "collections") {
+        return {
+          ...collection,
+          fields: [
+            ...collection.fields,
+            {
+              name: "cjCategories",
+              type: "textarea",
+              label: "CJ categories",
+              admin: {
+                position: "sidebar",
+                description:
+                  "CJ categories that import into this collection, one per line (e.g. Bags & Shoes). Everything under them lands here instead of creating new collections.",
+              },
+            },
+          ],
+        } as typeof collection;
+      }
       if (collection.slug === "orders") {
         return {
           ...collection,
