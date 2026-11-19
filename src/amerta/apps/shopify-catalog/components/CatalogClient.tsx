@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Gutter, toast, Button, TextInput } from "@payloadcms/ui";
 import { formatMoney } from "./money";
 import { ProductModal } from "./ProductModal";
@@ -88,6 +88,8 @@ export const CatalogClient = () => {
       toast.error("Enter a search term, or limit the search to some shops.");
       return;
     }
+    if (cursor && loadingRef.current) return;
+    loadingRef.current = true;
     setLoading(true);
     try {
       const res = await fetch("/api/shopify-catalog/search", {
@@ -105,9 +107,25 @@ export const CatalogClient = () => {
     } catch (e: any) {
       toast.error(e.message);
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
   };
+
+  // Infinite scroll: load the next page when the bottom of the grid comes into view
+  const loadingRef = useRef(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<() => void>(() => {});
+  loadMoreRef.current = () => {
+    if (pagination?.has_next_page && pagination.cursor && !loadingRef.current) search(pagination.cursor);
+  };
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver((entries) => entries[0]?.isIntersecting && loadMoreRef.current(), { rootMargin: "600px 0px" });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [products.length, pagination?.has_next_page]); // re-observe after each page, so a sentinel still in view loads the next one
 
   const promotedCount = products.filter((p) => p.variants?.some((v: any) => v.placement)).length;
 
@@ -272,7 +290,7 @@ export const CatalogClient = () => {
           {selected && <ProductModal product={selected} country={country} currency={currency} useCatalog={useCatalog} onClose={() => setSelected(null)} />}
 
           {pagination?.has_next_page && products.length > 0 && (
-            <div className="sc-more">
+            <div className="sc-more" ref={sentinelRef}>
               <Button buttonStyle="secondary" disabled={loading} onClick={() => search(pagination.cursor)}>
                 {loading ? "Loading..." : "Load more"}
               </Button>
