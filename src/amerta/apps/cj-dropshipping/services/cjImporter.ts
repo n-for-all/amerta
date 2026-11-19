@@ -350,71 +350,87 @@ export class CJImporter {
   }
 
   /**
-   * Determine target collection ID based on settings & product category
+   * Collections to put the product in, based on settings & the CJ category.
+   * In auto mode the CJ category path ("Health, Beauty & Hair/Food & Health/Health Care Products") becomes
+   * nested collections, and the product goes into every level so each category page lists it.
    */
-  static async resolveCollection(
+  static async resolveCollections(
     payload: Payload,
     cjProduct: CJProductDetail,
     settings?: CJSettings,
     overrideCollectionId?: string,
     salesChannelId?: string,
-  ): Promise<string | null> {
-    // 1. If an explicit collection was passed in the import options, use that
+  ): Promise<string[]> {
+    // 1. An explicit collection passed in the import options
     if (overrideCollectionId && overrideCollectionId !== "__auto__") {
-      return overrideCollectionId;
+      return [overrideCollectionId];
     }
 
-    // 2. If setting is "single_collection" and defaultCollectionId is configured
+    // 2. "single_collection" mode
     if (settings?.categoryMappingMode === "single_collection" && settings?.defaultCollectionId) {
-      return settings.defaultCollectionId;
+      return [settings.defaultCollectionId];
     }
 
-    // 3. Mode "auto_create" (default):
-    // Get the CJ category name (categoryName or entryNameEn)
+    // 3. "auto_create" (default): one collection per category level, CJ separates levels with "/" (or ">")
     const rawCategoryName = cjProduct.categoryName || cjProduct.entryNameEn || "";
-    const leafCategoryName = rawCategoryName.includes(">")
-      ? rawCategoryName.split(">").pop()!.trim()
-      : rawCategoryName.trim();
-
-    const categoryName = leafCategoryName || rawCategoryName.trim();
-    if (!categoryName) {
-      return settings?.defaultCollectionId || null;
+    const levels = rawCategoryName
+      .split(/\s*[/>]\s*/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+    if (levels.length === 0) {
+      return settings?.defaultCollectionId ? [settings.defaultCollectionId] : [];
     }
 
-    // Check if a collection already exists in Amerta with matching title or slug
-    const catSlug = this.slugify(categoryName);
+    const ids: string[] = [];
+    let parentId: string | null = null;
+    let parentSlug = "";
     try {
-      const existing = await payload.find({
-        collection: "collections",
-        where: {
-          or: [
-            { title: { equals: categoryName } },
-            { slug: { equals: catSlug } },
-          ],
-        },
-        limit: 1,
-      });
-
-      if (existing.docs.length > 0) {
-        return existing.docs[0]!.id;
+      for (const name of levels) {
+        const id: string = await this.findOrCreateCollection(payload, name, parentId, parentSlug, salesChannelId);
+        const doc: any = await payload.findByID({ collection: "collections", id, depth: 0 });
+        ids.push(id);
+        parentId = id;
+        parentSlug = doc?.slug || this.slugify(name);
       }
-
-      // If it doesn't exist, create it automatically in Amerta!
-      const newCollection = await payload.create({
-        collection: "collections",
-        data: {
-          title: categoryName,
-          slug: catSlug,
-          _status: "published",
-          salesChannels: salesChannelId ? [salesChannelId] : [],
-        },
-      });
-
-      return newCollection.id;
+      return ids;
     } catch (err) {
-      console.warn(`[CJ Importer] Failed to resolve/create collection '${categoryName}':`, err);
-      return settings?.defaultCollectionId || null;
+      console.warn(`[CJ Importer] Failed to resolve/create collections for '${rawCategoryName}':`, err);
+      return ids.length ? ids : settings?.defaultCollectionId ? [settings.defaultCollectionId] : [];
     }
+  }
+
+  /** A collection with this title under this parent (top level when parentId is null), created if missing */
+  private static async findOrCreateCollection(
+    payload: Payload,
+    title: string,
+    parentId: string | null,
+    parentSlug: string,
+    salesChannelId?: string,
+  ): Promise<string> {
+    const existing = await payload.find({
+      collection: "collections",
+      where: { and: [{ title: { equals: title } }, parentId ? { parent: { equals: parentId } } : { parent: { exists: false } }] },
+      limit: 1,
+      depth: 0,
+    });
+    if (existing.docs[0]) return String(existing.docs[0].id);
+
+    // Same name elsewhere in the tree (e.g. "Accessories"): keep slugs unique with the parent's slug
+    let slug = this.slugify(title);
+    const taken = await payload.count({ collection: "collections", where: { slug: { equals: slug } } });
+    if (taken.totalDocs > 0 && parentSlug) slug = `${parentSlug}-${slug}`;
+
+    const created = await payload.create({
+      collection: "collections",
+      data: {
+        title,
+        slug,
+        ...(parentId ? { parent: parentId } : {}),
+        _status: "published",
+        salesChannels: salesChannelId ? [salesChannelId] : [],
+      } as any,
+    });
+    return String(created.id);
   }
 
   /**
@@ -662,7 +678,7 @@ export class CJImporter {
     const publishStatus = options.publishStatus || (settings?.autoPublish ? "published" : "draft");
 
     // Resolve Collection / Category based on settings & options
-    const targetCollectionId = await this.resolveCollection(
+    const targetCollectionIds = await this.resolveCollections(
       payload,
       cjProduct,
       settings,
@@ -682,7 +698,7 @@ export class CJImporter {
       price: finalPrice,
       images: imageIds,
       salesChannels: salesChannelId ? [salesChannelId] : [],
-      collections: targetCollectionId ? [targetCollectionId] : [],
+      collections: targetCollectionIds,
       _status: publishStatus,
       publishedOn: publishStatus === "published" ? new Date() : undefined,
     };
