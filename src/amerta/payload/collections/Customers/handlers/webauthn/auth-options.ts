@@ -21,6 +21,12 @@ function deriveRpIdFromHost(host?: string) {
 }
 
 export default async function authOptionsHandler(req: PayloadRequest) {
+
+  // Passkeys are off unless enabled in Settings → Authentication
+  const passkeySettings: any = ((await getCachedGlobal("settings" as keyof Config["globals"], 1)()) as any)?.webauthnSettings;
+  if (!passkeySettings?.enabled) {
+    return new Response(JSON.stringify({ message: "Passkeys are not enabled" }), { status: 404 });
+  }
   const { payload } = req;
   const body = req.json ? await req.json() : {};
   const email = body?.email;

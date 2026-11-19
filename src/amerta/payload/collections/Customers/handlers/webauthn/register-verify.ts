@@ -24,20 +24,26 @@ function deriveRpIdFromHost(host?: string) {
 }
 
 export default async function registerVerifyHandler(req: PayloadRequest) {
+
+  // Passkeys are off unless enabled in Settings → Authentication
+  const passkeySettings: any = ((await getCachedGlobal("settings" as keyof Config["globals"], 1)()) as any)?.webauthnSettings;
+  if (!passkeySettings?.enabled) {
+    return new Response(JSON.stringify({ message: "Passkeys are not enabled" }), { status: 404 });
+  }
+
+  // Only a signed-in customer can add a passkey, and only to their own account
+  if (!req.user || (req.user as any).collection !== "customers") {
+    return new Response(JSON.stringify({ message: "Log in to add a passkey" }), { status: 401 });
+  }
     const { payload } = req;
     const body = req.json ? await req.json() : {};
 
-    const { id: userIdFromBody, attestationResponse } = body || {};
+    const { attestationResponse } = body || {};
 
-    // Find user via req.user or id in body
+    // The signed-in customer (checked above)
     let user: Customer | null = null;
     if (req.user && req.user.id) {
         user = await payload.findByID({ collection: "customers", id: req.user.id });
-    } else if (userIdFromBody) {
-        user = await payload.findByID({
-            collection: "customers",
-            id: userIdFromBody,
-        });
     }
 
     if (!user) {
