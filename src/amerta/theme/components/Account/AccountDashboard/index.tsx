@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getURL } from "@/amerta/utilities/getURL";
 import { createTranslator } from "@/amerta/core/utilities/translation";
 import { AppSlot } from "@/amerta/apps/components/AppSlot";
+import { PasskeyPrompt } from "@/amerta/theme/components/PasskeyManager";
 
 const AccountDashboard = async ({ locale }) => {
   //count user order
@@ -20,6 +21,7 @@ const AccountDashboard = async ({ locale }) => {
   return (
     <>
       <div className="mb-10 space-y-6">
+        <PasskeyPrompt />
         <div>
           <h1 className="mb-2 text-3xl font-bold">{__("Dashboard")}</h1>
           <p className="text-muted-foreground">{__("Welcome to your account dashboard")}</p>

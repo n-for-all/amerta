@@ -61,7 +61,8 @@ const CreateAccountForm: React.FC<{ logo: React.ReactNode; innerClassName?: stri
       try {
         const response = await fetch(`/api/auth/providers`);
         const data = await response.json();
-        setProviders(data.providers || []);
+        // Passkeys sign in to an existing account; they can't create one
+        setProviders((data.providers || []).filter((p: { type: string }) => p.type !== "webauthn"));
       } catch (e) {
         console.error("Failed to fetch auth providers", e);
       }

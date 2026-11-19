@@ -2,197 +2,68 @@ import { PayloadRequest } from "payload";
 import { verifyAuthenticationResponse } from "@simplewebauthn/server";
 import jwt from "jsonwebtoken";
 import { CUSTOMER_AUTH_TOKEN } from "@/amerta/constants";
-import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
-import { Config } from "payload";
-import { Settings } from "@/payload-types";
+import { clearChallengeCookie, expectedOrigin, getPasskeySettings, json, readChallenge, rpIdFor } from "./shared";
 
-function deriveOriginFromRequest(req: PayloadRequest) {
-  const proto = req.headers.get("x-forwarded-proto") || undefined;
-  const host =
-    req.headers.get("x-forwarded-host") || req.headers.get("host") || undefined;
-  if (!host) return null;
-  const scheme =
-    proto || (req.url && req.url.startsWith("https") ? "https" : "http");
-  return `${scheme}://${host}`;
-}
-
-function deriveRpIdFromHost(host?: string) {
-  if (!host) return undefined;
-  if (/^localhost(:|$)/i.test(host) || /^\d+\.\d+\.\d+\.\d+/.test(host))
-    return host.split(":")[0];
-  const parts = host.split(".");
-  if (parts.length >= 2) return parts.slice(-2).join(".");
-  return host;
-}
-
+// Finish a passkey sign-in: find the customer who owns the passkey, verify the signature, start a session.
 export default async function authVerifyHandler(req: PayloadRequest) {
+  const settings = await getPasskeySettings();
+  if (!settings) return json({ message: "Passkeys are not enabled" }, 404);
 
-  // Passkeys are off unless enabled in Settings → Authentication
-  const passkeySettings: any = ((await getCachedGlobal("settings" as keyof Config["globals"], 1)()) as any)?.webauthnSettings;
-  if (!passkeySettings?.enabled) {
-    return new Response(JSON.stringify({ message: "Passkeys are not enabled" }), { status: 404 });
-  }
   const { payload } = req;
-  const body = req.json ? await req.json() : {};
-  const { email, assertionResponse } = body || {};
+  const body = req.json ? await req.json().catch(() => ({})) : {};
+  const assertionResponse = body?.assertionResponse;
+  if (!assertionResponse?.id) return json({ message: "Missing parameters" }, 400);
 
-  if (!email || !assertionResponse) {
-    return new Response(JSON.stringify({ message: "Missing parameters" }), {
-      status: 400,
-    });
-  }
+  const expectedChallenge = readChallenge(req, payload.secret);
+  if (!expectedChallenge) return json({ message: "Sign-in timed out, please try again" }, 400);
 
   const found = await payload.find({
     collection: "customers",
-    where: { email: { equals: email } },
+    where: { "passkeys.credentialID": { equals: assertionResponse.id } },
+    limit: 1,
+    depth: 0,
   });
-  const user = found?.docs?.[0];
-  if (!user) {
-    return new Response(JSON.stringify({ message: "User not found" }), {
-      status: 404,
-    });
-  }
-
-  // load provider settings
-  const authSettings: Settings = await getCachedGlobal(
-    "settings" as keyof Config["globals"],
-    1,
-  )();
-  const providerSettings = authSettings?.webauthnSettings || null;
-
-  const envOrigin = process.env.NEXT_PUBLIC_SERVER_URL;
-  const derivedOrigin = deriveOriginFromRequest(req);
-  const expectedOrigin = envOrigin || derivedOrigin || "";
-
-  let expectedRPID: string | string[] | undefined = providerSettings?.rpID || process.env.WEBAUTHN_RP_ID;
-  if (!expectedRPID) {
-    const host =
-      req.headers.get("x-forwarded-host") ||
-      req.headers.get("host") ||
-      (envOrigin ? new URL(envOrigin).host : undefined);
-    expectedRPID = deriveRpIdFromHost(host || undefined);
-  }
-  if (!expectedRPID) {
-    return new Response(JSON.stringify({ message: "Could not determine RPID" }), { status: 500 });
-  }
-
-  const expectedChallenge = user.webauthnAuthenticationChallenge;
-  if (!expectedChallenge) {
-    return new Response(
-      JSON.stringify({ message: "No authentication challenge found" }),
-      { status: 400 },
-    );
-  }
-
-  // Challenge TTL check
-  try {
-    const createdAt = user.webauthnAuthenticationChallengeCreatedAt;
-    if (createdAt) {
-      const ageMs = Date.now() - new Date(createdAt).getTime();
-      const ttlSeconds = providerSettings?.challengeTTLSeconds ?? 300;
-      const TTL_MS = Number(ttlSeconds) * 1000;
-      if (ageMs > TTL_MS) {
-        try {
-          await payload.update({
-            collection: "customers",
-            id: user.id,
-            data: {
-              webauthnAuthenticationChallenge: null,
-              webauthnAuthenticationChallengeCreatedAt: null,
-            },
-          });
-        } catch (e) {
-          console.warn("Failed to clear expired authentication challenge", e);
-        }
-
-        return new Response(
-          JSON.stringify({ message: "Authentication challenge expired" }),
-          { status: 400 },
-        );
-      }
-    }
-  } catch (e) {
-    console.warn("Error while checking authentication challenge TTL", e);
-  }
+  const user: any = found.docs[0];
+  const dbCred = user?.passkeys?.find((c: any) => c.credentialID === assertionResponse.id);
+  if (!user || !dbCred) return json({ message: "This passkey isn't linked to an account here" }, 400, { "Set-Cookie": clearChallengeCookie() });
 
   try {
-    const dbCred = (user.passkeys || []).find(
-      (c: any) =>
-        c.credentialID === assertionResponse.id ||
-        c.credentialID === assertionResponse.rawId,
-    );
-    if (!dbCred) {
-      return new Response(
-        JSON.stringify({ message: "Credential not registered" }),
-        { status: 400 },
-      );
-    }
-
     const verification = await verifyAuthenticationResponse({
       response: assertionResponse,
-      expectedChallenge: expectedChallenge,
-      expectedOrigin: expectedOrigin,
-      expectedRPID: expectedRPID,
+      expectedChallenge,
+      expectedOrigin: expectedOrigin(req),
+      expectedRPID: rpIdFor(req, settings),
       credential: {
-        id: dbCred.credentialID as string,
-        publicKey: Buffer.from(dbCred.publicKey!, "base64url"),
+        id: dbCred.credentialID,
+        publicKey: Buffer.from(dbCred.publicKey, "base64url"),
         counter: dbCred.counter || 0,
+        transports: dbCred.transports || undefined,
       },
+      requireUserVerification: settings.userVerification === "required",
     });
+    if (!verification.verified) return json({ message: "Passkey could not be verified" }, 400, { "Set-Cookie": clearChallengeCookie() });
 
-    if (!verification.verified) {
-      return new Response(
-        JSON.stringify({ message: "Assertion verification failed" }),
-        { status: 400 },
-      );
-    }
-
-    // Update counter
-    const newCounter = verification.authenticationInfo?.newCounter ?? dbCred.counter;
-    const updatedCredentials = (user.passkeys || []).map((c: any) =>
-      c.credentialID === dbCred.credentialID
-        ? { ...c, counter: newCounter }
-        : c,
-    );
-
-    // Save new counter and clear challenge
     await payload.update({
       collection: "customers",
       id: user.id,
       data: {
-        passkeys: updatedCredentials,
-        webauthnAuthenticationChallenge: null,
-        webauthnAuthenticationChallengeCreatedAt: null,
+        passkeys: user.passkeys.map((c: any) =>
+          c.credentialID === dbCred.credentialID ? { ...c, counter: verification.authenticationInfo.newCounter, lastUsedAt: new Date().toISOString() } : c,
+        ),
       },
+      depth: 0,
     });
 
-    // Create session token and set cookie (reuse same approach as OAuth)
-    const token = jwt.sign(
-      { email: user.email, id: user.id, collection: "customers" },
-      payload.secret,
-      { expiresIn: "7d" },
-    );
+    const token = jwt.sign({ email: user.email, id: user.id, collection: "customers" }, payload.secret, { expiresIn: "7d" });
+    const session = [`${CUSTOMER_AUTH_TOKEN}=${token}`, "Path=/", "HttpOnly", "SameSite=Lax", "Max-Age=604800"];
+    if (process.env.NODE_ENV === "production") session.push("Secure");
 
-    const response = new Response(
-      JSON.stringify({ user: { id: user.id, email: user.email }, token }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
-
-    // set cookie header
-    const cookieOptions = [`${CUSTOMER_AUTH_TOKEN}=${token}`];
-    cookieOptions.push("Path=/");
-    cookieOptions.push("HttpOnly");
-    if (process.env.NODE_ENV === "production") cookieOptions.push("Secure");
-    cookieOptions.push("SameSite=Lax");
-    cookieOptions.push("Max-Age=604800"); // 7 days
-
-    response.headers.set("Set-Cookie", cookieOptions.join("; "));
-
-    return response;
-  } catch (e) {
-    console.error("Auth verify error", e);
-    return new Response(JSON.stringify({ message: "Verification error" }), {
-      status: 500,
-    });
+    const headers = new Headers({ "Content-Type": "application/json" });
+    headers.append("Set-Cookie", session.join("; "));
+    headers.append("Set-Cookie", clearChallengeCookie());
+    return new Response(JSON.stringify({ user: { id: user.id, email: user.email } }), { status: 200, headers });
+  } catch (e: any) {
+    console.error("Passkey sign-in error", e);
+    return json({ message: "Passkey could not be verified" }, 400, { "Set-Cookie": clearChallengeCookie() });
   }
 }

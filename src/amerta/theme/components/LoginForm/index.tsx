@@ -23,6 +23,9 @@ import { Message } from "@/amerta/components/Message";
 import { getURL } from "@/amerta/utilities/getURL";
 import { loginWith } from "@/amerta/core/utilities/login-with";
 import { printf } from "fast-printf";
+import { KeyRound } from "lucide-react";
+import { PasskeyCancelled, passkeysSupported, signInWithPasskey } from "@/amerta/core/utilities/passkeys";
+import { getServerSideURL } from "@/amerta/utilities/getURL";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -48,7 +51,7 @@ const LoginForm: React.FC<{
   params.delete("code");
   const allParams = params.toString() ? `${params.toString()}` : "";
   const redirect = useRef(searchParams.get("redirect"));
-  const { login } = useAuth();
+  const { login, setUser } = useAuth();
   const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -60,6 +63,12 @@ const LoginForm: React.FC<{
       [key: string]: any;
     }[]
   >([]);
+
+  const [passkeyLoading, setPasskeyLoading] = React.useState(false);
+  const [canUsePasskeys, setCanUsePasskeys] = React.useState(false);
+  useEffect(() => setCanUsePasskeys(passkeysSupported()), []);
+  const passkeyEnabled = canUsePasskeys && providers.some((p) => p.type === "webauthn");
+  const oauthProviders = providers.filter((p) => p.type !== "webauthn");
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -81,6 +90,39 @@ const LoginForm: React.FC<{
       password: "",
     },
   });
+
+  const afterLogin = useCallback(() => {
+    if (onLoginSuccess) {
+      return onLoginSuccess();
+    }
+    const routerRedirect = redirectTo || redirect?.current || getURL(`/account`, locale);
+    setTimeout(() => {
+      router.refresh();
+      router.push(routerRedirect);
+    }, 200);
+  }, [onLoginSuccess, redirectTo, locale, router]);
+
+  const onPasskeyLogin = useCallback(
+    async (e: React.MouseEvent) => {
+      e.preventDefault();
+      setError(null);
+      setVerification(false);
+      setPasskeyLoading(true);
+      try {
+        await signInWithPasskey();
+        const me = await fetch(`${getServerSideURL()}/api/customers/me`, { credentials: "include", cache: "no-store" });
+        const data = me.ok ? await me.json() : null;
+        if (!data?.customer) throw new Error(__("Login failed. Please try again."));
+        setUser(data.customer);
+        afterLogin();
+      } catch (err: any) {
+        if (!(err instanceof PasskeyCancelled)) setError(__(err.message) || __("Login failed. Please try again."));
+      } finally {
+        setPasskeyLoading(false);
+      }
+    },
+    [afterLogin, setUser, __],
+  );
 
   const onSubmit = useCallback(
     async (data: LoginFormType) => {
@@ -107,23 +149,7 @@ const LoginForm: React.FC<{
           setError(__("Login failed. Please try again."));
           return;
         }
-        if (onLoginSuccess) {
-          return onLoginSuccess();
-        }
-
-        let routerRedirect: string | null = null;
-        if (redirectTo) {
-          routerRedirect = redirectTo;
-        } else if (redirect?.current) {
-          routerRedirect = redirect.current;
-        } else {
-          routerRedirect = getURL(`/account`, locale);
-        }
-
-        setTimeout(() => {
-          router.refresh();
-          router.push(routerRedirect);
-        }, 200);
+        afterLogin();
       } catch (e: any) {
         setVerification(false);
         setError(
@@ -135,7 +161,7 @@ const LoginForm: React.FC<{
         setIsLoading(false);
       }
     },
-    [login, router, onLoginSuccess, locale, redirectTo],
+    [login, afterLogin, __],
   );
 
   let errorMessage: React.ReactNode = error;
@@ -191,9 +217,15 @@ const LoginForm: React.FC<{
                 }}
               />
               {errorMessage && <Message error={errorMessage} />}
-              {providers && providers.length > 0 ? (
+              {passkeyEnabled || oauthProviders.length > 0 ? (
                 <>
-                  {providers.map((provider) => {
+                  {passkeyEnabled && (
+                    <Button type="button" variant="outline" onClick={onPasskeyLogin} disabled={passkeyLoading} className="w-full">
+                      <KeyRound className="w-5 h-5 mr-2 rtl:ml-2 rtl:mr-0" />
+                      {passkeyLoading ? __("Waiting for your passkey...") : __("Sign in with a passkey")}
+                    </Button>
+                  )}
+                  {oauthProviders.map((provider) => {
                     const handleProviderLogin = async (e) => {
                       e.preventDefault();
                       try {
@@ -253,7 +285,7 @@ const LoginForm: React.FC<{
                   <div className="relative flex items-center justify-center w-full py-2">
                     <div className="border-border absolute h-[1px] w-full border-t border-zinc-300 dark:border-zinc-700" />
                     <span className="relative px-2 text-xs bg-background text-muted-foreground">
-                      OR
+                      {__("OR")}
                     </span>
                   </div>
                 </>

@@ -16,6 +16,7 @@ import { PhoneInput } from "@/amerta/theme/ui/phone-input";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 import { Customer } from "@/payload-types";
 import { useToast } from "@/amerta/theme/ui/toast";
+import PasskeyManager from "@/amerta/theme/components/PasskeyManager";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 
 const formSchema = z
@@ -249,6 +250,7 @@ const ProfileForm: React.FC = () => {
               </div>
             </form>
           </Form>
+          <PasskeyManager />
         </div>
       </main>
     </>

@@ -7124,7 +7124,7 @@ export interface App {
   /**
    * Select which apps should be active.
    */
-  activeApps?: ('google-merchant' | 'cj-dropshipping' | 'loyalty')[] | null;
+  activeApps?: ('google-merchant' | 'cj-dropshipping' | 'loyalty' | 'shopify-catalog')[] | null;
   /**
    * Internal JSON store for all app configurations. (Key = App Slug, Value = App Settings)
    */

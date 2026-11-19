@@ -1,168 +1,69 @@
 import { PayloadRequest } from "payload";
 import { verifyRegistrationResponse } from "@simplewebauthn/server";
-import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
-import { Config } from "payload";
-import { Customer, Settings } from "@/payload-types";
+import { expectedOrigin, getPasskeySettings, json, rpIdFor } from "./shared";
 
-function deriveOriginFromRequest(req: PayloadRequest) {
-    const proto = req.headers.get("x-forwarded-proto") || undefined;
-    const host =
-        req.headers.get("x-forwarded-host") || req.headers.get("host") || undefined;
-    if (!host) return null;
-    const scheme =
-        proto || (req.url && req.url.startsWith("https") ? "https" : "http");
-    return `${scheme}://${host}`;
-}
-
-function deriveRpIdFromHost(host?: string) {
-    if (!host) return undefined;
-    if (/^localhost(:|$)/i.test(host) || /^\d+\.\d+\.\d+\.\d+/.test(host))
-        return host.split(":")[0];
-    const parts = host.split(".");
-    if (parts.length >= 2) return parts.slice(-2).join(".");
-    return host;
-}
-
+// Finish adding a passkey to the signed-in customer's account
 export default async function registerVerifyHandler(req: PayloadRequest) {
+  const settings = await getPasskeySettings();
+  if (!settings) return json({ message: "Passkeys are not enabled" }, 404);
+  if (!req.user || (req.user as any).collection !== "customers") return json({ message: "Log in to add a passkey" }, 401);
 
-  // Passkeys are off unless enabled in Settings → Authentication
-  const passkeySettings: any = ((await getCachedGlobal("settings" as keyof Config["globals"], 1)()) as any)?.webauthnSettings;
-  if (!passkeySettings?.enabled) {
-    return new Response(JSON.stringify({ message: "Passkeys are not enabled" }), { status: 404 });
+  const { payload } = req;
+  const body = req.json ? await req.json().catch(() => ({})) : {};
+  const attestationResponse = body?.attestationResponse;
+  if (!attestationResponse) return json({ message: "Missing parameters" }, 400);
+
+  const user: any = await payload.findByID({ collection: "customers", id: req.user.id, depth: 0 });
+  const expectedChallenge = user?.webauthnRegistrationChallenge;
+  if (!expectedChallenge) return json({ message: "No passkey setup in progress, please try again" }, 400);
+
+  const clearChallenge = () =>
+    payload.update({ collection: "customers", id: user.id, data: { webauthnRegistrationChallenge: null, webauthnRegistrationChallengeCreatedAt: null }, depth: 0 });
+
+  const ttlMs = (Number(settings.challengeTTLSeconds) || 300) * 1000;
+  if (user.webauthnRegistrationChallengeCreatedAt && Date.now() - new Date(user.webauthnRegistrationChallengeCreatedAt).getTime() > ttlMs) {
+    await clearChallenge();
+    return json({ message: "Passkey setup timed out, please try again" }, 400);
   }
 
-  // Only a signed-in customer can add a passkey, and only to their own account
-  if (!req.user || (req.user as any).collection !== "customers") {
-    return new Response(JSON.stringify({ message: "Log in to add a passkey" }), { status: 401 });
-  }
-    const { payload } = req;
-    const body = req.json ? await req.json() : {};
+  try {
+    const verification = await verifyRegistrationResponse({
+      response: attestationResponse,
+      expectedChallenge,
+      expectedOrigin: expectedOrigin(req),
+      expectedRPID: rpIdFor(req, settings),
+      requireUserVerification: settings.userVerification === "required",
+    });
+    if (!verification.verified || !verification.registrationInfo) return json({ message: "Passkey could not be verified" }, 400);
 
-    const { attestationResponse } = body || {};
+    const { credential } = verification.registrationInfo;
+    const name = typeof body.name === "string" && body.name.trim() ? body.name.trim().slice(0, 60) : "Passkey";
 
-    // The signed-in customer (checked above)
-    let user: Customer | null = null;
-    if (req.user && req.user.id) {
-        user = await payload.findByID({ collection: "customers", id: req.user.id });
-    }
-
-    if (!user) {
-        return new Response(JSON.stringify({ message: "User not found" }), {
-            status: 404,
-        });
-    }
-
-    // provider settings
-    const authSettings: Settings = await getCachedGlobal(
-        "settings" as keyof Config["globals"],
-        1,
-    )();
-    const providerSettings = authSettings?.webauthnSettings || null;
-
-    const envOrigin = process.env.NEXT_PUBLIC_SERVER_URL;
-    const derivedOrigin = deriveOriginFromRequest(req);
-    const expectedOrigin = envOrigin || derivedOrigin || "";
-
-    let expectedRPID = providerSettings?.rpID || process.env.WEBAUTHN_RP_ID;
-    if (!expectedRPID) {
-        const host =
-            req.headers.get("x-forwarded-host") ||
-            req.headers.get("host") ||
-            (envOrigin ? new URL(envOrigin).host : undefined);
-        expectedRPID = deriveRpIdFromHost(host || undefined) || undefined;
-    }
-
-    const expectedChallenge = user.webauthnRegistrationChallenge;
-    if (!expectedChallenge) {
-        return new Response(
-            JSON.stringify({ message: "No registration challenge found" }),
-            { status: 400 },
-        );
-    }
-
-    // Challenge TTL check
-    try {
-        const createdAt = user.webauthnRegistrationChallengeCreatedAt;
-        if (createdAt) {
-            const ageMs = Date.now() - new Date(createdAt).getTime();
-            const ttlSeconds = providerSettings?.challengeTTLSeconds ?? 300;
-            const TTL_MS = Number(ttlSeconds) * 1000;
-            if (ageMs > TTL_MS) {
-                // Optionally clear the expired challenge
-                try {
-                    await payload.update({
-                        collection: "customers",
-                        id: user.id,
-                        data: {
-                            webauthnRegistrationChallenge: null,
-                            webauthnRegistrationChallengeCreatedAt: null,
-                        },
-                    });
-                } catch (e) {
-                    console.warn("Failed to clear expired registration challenge", e);
-                }
-
-                return new Response(
-                    JSON.stringify({ message: "Registration challenge expired" }),
-                    { status: 400 },
-                );
-            }
-        }
-    } catch (e) {
-        console.warn("Error while checking registration challenge TTL", e);
-    }
-
-    try {
-        const verification = await verifyRegistrationResponse({
-            response: attestationResponse,
-            expectedChallenge: expectedChallenge,
-            expectedOrigin: expectedOrigin,
-            expectedRPID: expectedRPID,
-        });
-
-        if (!verification.verified) {
-            return new Response(
-                JSON.stringify({ message: "Registration verification failed" }),
-                { status: 400 },
-            );
-        }
-
-        const { registrationInfo } = verification;
-        if (!registrationInfo) {
-            return new Response(
-                JSON.stringify({ message: "Missing registration info" }),
-                { status: 500 },
-            );
-        }
-
-        // Build credential record
-        const credential = {
-            credentialID: Buffer.from(registrationInfo.credential.id).toString("base64url"),
-            publicKey: Buffer.from(registrationInfo.credential.publicKey).toString("base64url"),
-            counter: registrationInfo.credential.counter,
-            transports: attestationResponse.transports || [],
-            name: attestationResponse?.name || "passkey",
+    await payload.update({
+      collection: "customers",
+      id: user.id,
+      data: {
+        passkeys: [
+          ...(user.passkeys || []),
+          {
+            credentialID: credential.id, // already base64url
+            publicKey: Buffer.from(credential.publicKey).toString("base64url"),
+            counter: credential.counter,
+            transports: credential.transports || attestationResponse.response?.transports || [],
+            name,
             createdAt: new Date().toISOString(),
-        };
+          },
+        ],
+        webauthnRegistrationChallenge: null,
+        webauthnRegistrationChallengeCreatedAt: null,
+      },
+      depth: 0,
+    });
 
-        const updatedPasskeys = (user.passkeys || []).concat([credential]);
-
-        // Save credential and remove the challenge
-        await payload.update({
-            collection: "customers",
-            id: user.id,
-            data: {
-                passkeys: updatedPasskeys,
-                webauthnRegistrationChallenge: null,
-                webauthnRegistrationChallengeCreatedAt: null,
-            },
-        });
-
-        return new Response(JSON.stringify({ success: true }), { status: 200 });
-    } catch (e) {
-        console.error("Registration verify error", e);
-        return new Response(JSON.stringify({ message: "Verification error" }), {
-            status: 500,
-        });
-    }
+    return json({ success: true });
+  } catch (e: any) {
+    console.error("Passkey registration error", e);
+    await clearChallenge().catch(() => {});
+    return json({ message: "Passkey could not be verified" }, 400);
+  }
 }

@@ -21,6 +21,7 @@ import registerOptions from "./handlers/webauthn/register-options";
 import registerVerify from "./handlers/webauthn/register-verify";
 import authOptions from "./handlers/webauthn/auth-options";
 import authVerify from "./handlers/webauthn/auth-verify";
+import { deletePasskeyHandler, listPasskeysHandler } from "./handlers/webauthn/passkeys";
 import jwt from "jsonwebtoken";
 import { parse } from "cookie";
 import { cookies } from "next/headers";
@@ -432,6 +433,8 @@ const Customers: CollectionConfig = {
         { name: "counter", type: "number" },
         { name: "transports", type: "json" },
         { name: "name", type: "text" },
+        { name: "createdAt", type: "date" },
+        { name: "lastUsedAt", type: "date" },
       ],
     },
     {
@@ -491,6 +494,16 @@ const Customers: CollectionConfig = {
       path: "/webauthn/authenticate/verify",
       method: "post",
       handler: authVerify,
+    },
+    {
+      path: "/webauthn/passkeys",
+      method: "get",
+      handler: listPasskeysHandler,
+    },
+    {
+      path: "/webauthn/passkeys/:id",
+      method: "delete",
+      handler: deletePasskeyHandler,
     },
     {
       path: "/login",
