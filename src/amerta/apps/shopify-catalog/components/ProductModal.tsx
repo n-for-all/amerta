@@ -51,7 +51,7 @@ export const ProductModal = ({ product: summary, country, currency, useCatalog, 
     })
       .then(async (r) => {
         const data = await r.json();
-        if (!r.ok) throw new Error(data.error || "Failed to load product");
+        if (!r.ok) throw new Error(r.status === 401 ? "You're logged out of this admin. Refresh the page and log in again." : data.error || "Failed to load product");
         if (!cancelled) setProduct(data.product);
       })
       .catch((e) => !cancelled && setError(e.message))

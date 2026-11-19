@@ -96,7 +96,7 @@ export const CatalogClient = () => {
         body: JSON.stringify({ query, country, currency, minPrice, maxPrice, shipsTo, shops, useCatalog, cursor, limit: 12 }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Search failed");
+      if (!res.ok) throw new Error(res.status === 401 ? "You're logged out of this admin. Refresh the page and log in again." : data.error || "Search failed");
       setProducts((prev) => (cursor ? [...prev, ...(data.products || [])] : data.products || []));
       setMessages(data.messages || []);
       setPagination(data.pagination || null);
