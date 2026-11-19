@@ -99,7 +99,11 @@ export const CatalogClient = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(res.status === 401 ? "You're logged out of this admin. Refresh the page and log in again." : data.error || "Search failed");
-      setProducts((prev) => (cursor ? [...prev, ...(data.products || [])] : data.products || []));
+      // Later pages can repeat products Shopify already returned; keep the first one
+      setProducts((prev) => {
+        const seen = new Set<string>();
+        return [...(cursor ? prev : []), ...(data.products || [])].filter((p: any) => !seen.has(p.id) && seen.add(p.id));
+      });
       setMessages(data.messages || []);
       setPagination(data.pagination || null);
       setMeta({ authenticated: data.authenticated, catalogId: data.catalogId });
