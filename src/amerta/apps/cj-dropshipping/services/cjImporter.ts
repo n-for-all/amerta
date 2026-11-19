@@ -335,6 +335,82 @@ export class CJImporter {
     return [rest[0]!, ids[pick.i]!, ...rest.slice(1)];
   }
 
+  /** Readable plain text of a Lexical AST (line breaks become ". ") */
+  static lexicalPlainText(ast: any): string {
+    const textOf = (n: any): string =>
+      n?.type === "text" ? n.text || "" : n?.type === "linebreak" ? ". " : (n?.children || []).map(textOf).join("");
+    return (ast?.root?.children || [])
+      .map((n: any) => textOf(n).trim())
+      .filter(Boolean)
+      .join(" ")
+      .replace(/\s*\.\s*\.\s*/g, ". ")
+      .replace(/:\s*\./g, ":")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  /** Lines meant for resellers, not shoppers (e.g. "Prohibited sales channel: TEMU", "Prohibit TK sales") */
+  static SUPPLIER_NOTE = /prohibit|not accept specified shipping|\btemu\b|tik\s?tok|\btk\s+sales|dropshipping|wholesale/i;
+
+  /**
+   * Clean an imported description: drop supplier notes (line by line, so the real details stay) and empty
+   * paragraphs, and when moveImages is set take the embedded images out so they can go into the gallery.
+   */
+  static tidyDescription(ast: any, moveImages: boolean): { ast: any; imageIds: string[] } {
+    const imageIds: string[] = [];
+    if (!ast?.root?.children) return { ast, imageIds };
+    const textOf = (n: any): string => (n?.type === "text" ? n.text || "" : (n?.children || []).map(textOf).join(""));
+    const isNote = (t: string) => this.SUPPLIER_NOTE.test(t);
+
+    const cleanParagraph = (node: any) => {
+      // Split on line breaks, drop note lines, join the rest back together
+      const lines: any[][] = [[]];
+      for (const child of node.children || []) {
+        if (child.type === "linebreak") lines.push([]);
+        else lines[lines.length - 1]!.push(child);
+      }
+      const kept = lines.filter((l) => l.some((c) => textOf(c).trim() || c.type === "upload") && !isNote(l.map(textOf).join("")));
+      const children: any[] = [];
+      kept.forEach((l, i) => {
+        if (i > 0) children.push({ type: "linebreak", version: 1 });
+        children.push(...l);
+      });
+      return { ...node, children };
+    };
+
+    const walk = (nodes: any[]): any[] => {
+      const out: any[] = [];
+      for (const node of nodes) {
+        if (!node) continue;
+        if (node.type === "upload") {
+          if (moveImages) {
+            const id = typeof node.value === "object" ? node.value?.id : node.value;
+            if (id) imageIds.push(String(id));
+            continue;
+          }
+          out.push(node);
+          continue;
+        }
+        if (node.type === "paragraph") {
+          const cleaned = cleanParagraph({ ...node, children: walk(node.children || []) });
+          if (cleaned.children.length) out.push(cleaned);
+          continue;
+        }
+        if (Array.isArray(node.children)) {
+          if (node.type !== "list" && isNote(textOf(node))) continue;
+          const children = walk(node.children);
+          if (children.length === 0 && node.type !== "horizontalrule") continue;
+          out.push({ ...node, children });
+          continue;
+        }
+        out.push(node);
+      }
+      return out;
+    };
+
+    return { ast: { ...ast, root: { ...ast.root, children: walk(ast.root.children) } }, imageIds };
+  }
+
   /**
    * Helper to slugify a string
    */
@@ -605,6 +681,20 @@ export class CJImporter {
           title
         );
       }
+    }
+
+    // Description photos go into the gallery (CJ often lists only one photo and puts the rest in the
+    // description), and supplier notes ("Prohibited sales channel: TEMU") are removed
+    if (lexicalDescription) {
+      const moveImages = want("images");
+      const tidy = this.tidyDescription(lexicalDescription, moveImages);
+      lexicalDescription = tidy.ast;
+      for (const id of tidy.imageIds) {
+        if (!imageIds.includes(id) && imageIds.length < 15) imageIds.push(id);
+      }
+      // Summary from the cleaned text, so supplier notes don't end up in it
+      const plain = this.lexicalPlainText(lexicalDescription);
+      if (plain) cleanExcerpt = plain.slice(0, 300);
     }
 
     // 5. Setup Sales Channel
