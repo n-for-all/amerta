@@ -3671,7 +3671,22 @@ export const SettingsClient = () => {
                         {item.categoryName && <span>Cat: {item.categoryName}</span>}
                       </div>
                       {item.message && (
-                        <div className={`cj-bulk-item-msg ${item.status}`}>{item.message}</div>
+                        <div className={`cj-bulk-item-msg ${item.status}`}>
+                          {item.message}
+                          {item.status === "failed" && !isBulkImporting && (
+                            <>
+                              {" · "}
+                              <button
+                                type="button"
+                                className="cj-import-anyway"
+                                title="Import this product even though a shipping rule blocks it"
+                                onClick={() => handleRetryIgnoringRules([item.pid])}
+                              >
+                                Import anyway
+                              </button>
+                            </>
+                          )}
+                        </div>
                       )}
                     </div>
                     <div className="cj-bulk-item-status">
@@ -3683,16 +3698,6 @@ export const SettingsClient = () => {
                       )}
                       {item.status === "success" && <span className="badge-success">✓ Imported</span>}
                       {item.status === "failed" && <span className="badge-failed">✕ Failed</span>}
-                      {item.status === "failed" && !isBulkImporting && (
-                        <button
-                          type="button"
-                          className="cj-import-anyway"
-                          title="Import this product even though a shipping rule blocks it"
-                          onClick={() => handleRetryIgnoringRules([item.pid])}
-                        >
-                          Import anyway
-                        </button>
-                      )}
 
                       {!isBulkImporting && bulkProgress.current === 0 && (
                         <button
