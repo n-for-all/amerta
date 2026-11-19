@@ -19,6 +19,8 @@ import RichText from "@/amerta/theme/components/RichText";
 import { getCollectionBySlug } from "@/amerta/core/utilities/get-collection-by-slug";
 import { getProductsBy } from "@/amerta/core/utilities/get-product-by";
 import { SearchParams } from "next/dist/server/request/search-params";
+import configPromise from "@payload-config";
+import { getPayload } from "payload";
 
 
 
@@ -46,6 +48,27 @@ export default async function CollectionPage({ params, searchParams }: { params:
   } else {
     redirect(getURL(`/collections`, locale));
   }
+
+  // Subcollection links: a parent lists its children; a child lists its siblings, with "All" going to the parent
+  const parentRef: any = (collection as any)?.parent;
+  const parentId = parentRef ? String(typeof parentRef === "object" ? parentRef.id : parentRef) : null;
+  const payload = await getPayload({ config: configPromise });
+  const parentCollection: any = parentId
+    ? typeof parentRef === "object" && parentRef.slug
+      ? parentRef
+      : await payload.findByID({ collection: "collections", id: parentId, depth: 0, locale: locale as any }).catch(() => null)
+    : null;
+  const subCollections = (
+    await payload.find({
+      collection: "collections",
+      where: { parent: { equals: parentCollection ? parentCollection.id : collection!.id }, _status: { equals: "published" } },
+      sort: "title",
+      depth: 0,
+      limit: 50,
+      locale: locale as any,
+    })
+  ).docs as any[];
+  const allCollection: any = parentCollection || collection;
 
   const { whereQuery, sortQuery } = parseSearchFilters(resolvedSearchParams, allOptions, false);
   whereQuery.collections = { equals: collection!.id };
@@ -77,6 +100,18 @@ export default async function CollectionPage({ params, searchParams }: { params:
               </svg>
             </div>
           </li>
+          {parentCollection && (
+            <li>
+              <div className="flex items-center gap-x-2">
+                <a className="uppercase text-zinc-900 dark:text-white" href={getURL(`/collections/${parentCollection.slug}`, locale)}>
+                  {parentCollection.title}
+                </a>
+                <svg viewBox="0 0 6 20" aria-hidden="true" className="w-auto h-5 text-zinc-300 dark:text-zinc-700">
+                  <path d="M4.878 4.34H3.551L.27 16.532h1.327l3.281-12.19z" fill="currentColor"></path>
+                </svg>
+              </div>
+            </li>
+          )}
           <li>
             <span aria-current="page" className="uppercase text-zinc-500 hover:text-zinc-600 dark:text-zinc-400">
               {collectionName}
@@ -97,6 +132,27 @@ export default async function CollectionPage({ params, searchParams }: { params:
           <div className="max-w-xl mt-5 uppercase text-sm/6 text-zinc-600 dark:text-zinc-400">
             <RichText data={collectionDescription} enableProse={false} enableGutter={false} locale={locale} />
           </div>
+          {subCollections.length > 0 && (
+            <nav aria-label={__("Subcollections")} className="flex flex-wrap justify-center gap-2 mt-8">
+              {[{ id: allCollection.id, slug: allCollection.slug, title: __("All") }, ...subCollections].map((sub: any) => {
+                const active = String(sub.id) === String(collection!.id);
+                return (
+                  <Link
+                    key={sub.id}
+                    href={getURL(`/collections/${sub.slug}`, locale)}
+                    aria-current={active ? "page" : undefined}
+                    className={`px-4 py-2 text-xs uppercase border rounded-full transition-colors ${
+                      active
+                        ? "bg-zinc-900 border-zinc-900 text-white dark:bg-white dark:border-white dark:text-zinc-900"
+                        : "border-zinc-950/10 text-zinc-700 hover:border-zinc-950/30 hover:text-zinc-950 dark:border-white/10 dark:text-zinc-300 dark:hover:border-white/30"
+                    }`}
+                  >
+                    {sub.title}
+                  </Link>
+                );
+              })}
+            </nav>
+          )}
         </div>
         <CollectionFilters totalProducts={totalProducts} currentProductCount={products.length} brands={brands} collections={[]} options={allOptions} />
         <hr role="presentation" className="w-full mt-4 border-t border-zinc-950/10 dark:border-white/10" />
