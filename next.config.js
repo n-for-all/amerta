@@ -15,6 +15,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 const url = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
 const host = new URL(url).host;
 const allowSourceMaps = process.env.NODE_ALLOW_SOURCE_MAPS === "true";
+// A site that symlinks src/amerta to a local Amerta checkout (for live core changes in development) sets
+// AMERTA_WORKSPACE_ROOT to a folder containing both projects, so Turbopack may read the linked files
+const workspaceRoot = process.env.AMERTA_WORKSPACE_ROOT ? path.resolve(process.env.AMERTA_WORKSPACE_ROOT) : path.join(dirname, "./");
 
 const nextConfig = (phase, { defaultConfig }) => {
   const isProdBuild = phase === "phase-production-build";
@@ -51,7 +54,8 @@ const nextConfig = (phase, { defaultConfig }) => {
           ignoreBuildErrors: isProdBuild,
         },
         serverExternalPackages: ["mongodb", "mongoose", "pg", "mysql2", "better-sqlite3", "sqlite3", "nodemailer", "nunjucks"],
-        outputFileTracingRoot: path.join(dirname, './'),
+        outputFileTracingRoot: workspaceRoot,
+        turbopack: { root: workspaceRoot },
         experimental: {
           serverActions: {
             bodySizeLimit: "5mb",
