@@ -695,14 +695,18 @@ export class CJImporter {
       ? await this.resolveCollections(payload, cjProduct, settings, options.collectionId || options.categoryId, salesChannelId)
       : [];
 
-    const isVariantProduct = variantsData.length > 0;
+    // CJ lists every product with at least one variant. With only one there is nothing to choose,
+    // so it becomes a simple product (no one-option dropdown) carrying that variant's SKU, price and stock.
+    const isVariantProduct = variantsData.length > 1;
+    const onlyVariant = variantsData.length === 1 ? variantsData[0] : null;
+    if (onlyVariant?.image && !imageIds.includes(String(onlyVariant.image))) imageIds.push(String(onlyVariant.image));
 
     // 7. Create Product Document in Amerta
     const productData: any = {
       title,
       slug,
       type: isVariantProduct ? "variant" : "simple",
-      sku: cjProduct.productSku || `CJ-${cjProduct.pid}`,
+      sku: onlyVariant?.sku || cjProduct.productSku || `CJ-${cjProduct.pid}`,
       cjProductId: cjProduct.pid,
       price: finalPrice,
       images: imageIds,
@@ -724,11 +728,13 @@ export class CJImporter {
     if (isVariantProduct) {
       productData.variants = variantsData;
     } else {
+      productData.variants = [];
       productData.trackInventory = true;
-      productData.quantity = defaultStock;
-      productData.stockStatus = "in_stock";
-      if (resolvedWeight > 0) {
-        productData.weight = resolvedWeight;
+      productData.quantity = onlyVariant ? onlyVariant.quantity : defaultStock;
+      productData.stockStatus = onlyVariant ? onlyVariant.stockStatus : "in_stock";
+      const weight = onlyVariant?.weight || resolvedWeight;
+      if (weight > 0) {
+        productData.weight = weight;
       }
     }
 
@@ -743,7 +749,7 @@ export class CJImporter {
       if (want("images")) data.images = imageIds;
       if (want("collections")) data.collections = targetCollectionIds;
       if (want("variants")) {
-        for (const key of ["type", "price", "variants", "trackInventory", "quantity", "stockStatus", "weight"]) {
+        for (const key of ["type", "sku", "price", "variants", "trackInventory", "quantity", "stockStatus", "weight"]) {
           if (key in productData) data[key] = productData[key];
         }
       } else if (want("prices") || want("stock")) {
@@ -761,6 +767,11 @@ export class CJImporter {
           });
         }
         if (want("prices")) data.price = finalPrice;
+        // Simple product (one CJ variant): stock lives on the product
+        if (want("stock") && current.length === 0 && onlyVariant) {
+          data.quantity = onlyVariant.quantity;
+          data.stockStatus = onlyVariant.stockStatus;
+        }
       }
       finalProduct = await payload.update({
         collection: "products",
