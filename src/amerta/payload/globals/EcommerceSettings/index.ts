@@ -78,6 +78,33 @@ export const EcommerceSettings: GlobalConfig = {
           ],
         },
         {
+          label: "Product Page",
+          fields: [
+            {
+              name: "showProductHighlights",
+              type: "checkbox",
+              label: "Show highlights",
+              defaultValue: true,
+              admin: { description: "Icons with short promises shown under the buy box on every product page." },
+            },
+            {
+              name: "productHighlights",
+              type: "array",
+              label: "Highlights",
+              labels: { singular: "Highlight", plural: "Highlights" },
+              maxRows: 4,
+              admin: {
+                condition: (data) => data?.showProductHighlights !== false,
+                description: "Leave empty to show the built-in four (Best Price, Free Shipping, 100% Quality Guarantee, Rich & Earthy Tones).",
+              },
+              fields: [
+                { name: "title", type: "text", label: "Title", required: true, localized: true },
+                { name: "icon", type: "text", label: "Icon", admin: { components: { Field: "@/amerta/fields/icon/IconField" } } },
+              ],
+            },
+          ],
+        },
+        {
           label: "Announcement Bar",
           name: "announcementBar",
           fields: [

@@ -65,6 +65,9 @@ import { createTranslator } from "@/amerta/core/utilities/translation";
 import { ProductContext } from "@/amerta/theme/components/ProductDetail/ProductContext";
 import { ProductImageGallery } from "@/amerta/theme/components/ProductDetail/ProductImageGallery";
 import { Blocks } from "@/amerta/theme/blocks/Blocks";
+import { DynamicIcon } from "@/amerta/components/Icon/DynamicIcon";
+import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
+import type { Config } from "payload";
 
 const CartIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" color="currentColor" stroke="currentColor" strokeWidth={1}>
@@ -83,6 +86,10 @@ export default async function ProductDetail({ product, locale, options, choices 
   const allOptions = await getAllProductOptions(locale);
   const relatedProducts = await getRelatedProducts(product, salesChannel!, locale);
   const __ = await createTranslator(locale);
+  // Highlights under the buy box: the store's own list from Ecommerce > Settings, else the built-in four
+  const ecommerceSettings: any = await getCachedGlobal("ecommerce-settings" as keyof Config["globals"], 1, locale)();
+  const showHighlights = ecommerceSettings?.showProductHighlights !== false;
+  const highlights: any[] = showHighlights ? ecommerceSettings?.productHighlights || [] : [];
   const bundle = product.type === "bundle" ? bundleParts(product, choices) : null;
   const bundles = product.notSoldSeparately ? await getBundlesIncluding(product.id, locale) : undefined;
   const offers = product.notSoldSeparately ? [] : await getProductOffers(await getPayload({ config: configPromise }), product, locale);
@@ -129,6 +136,20 @@ export default async function ProductDetail({ product, locale, options, choices 
                   </div>
                 ) : null}
 
+                {highlights.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-6 mt-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 lg:mt-16">
+                    {highlights.map((item: any, i: number) => (
+                      <div key={item.id || i} className="flex flex-col items-center justify-start gap-5 text-center">
+                        <div className="flex items-center justify-center rounded-full size-16 bg-zinc-100 dark:bg-zinc-800">
+                          <DynamicIcon className="text-zinc-900 dark:text-white" name={item.icon || ""} />
+                        </div>
+                        <p data-slot="text" className="max-w-xs leading-snug text-center uppercase text-zinc-600 text-sm/6">
+                          {item.title}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : showHighlights ? (
                 <div className="grid grid-cols-2 gap-6 mt-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 lg:mt-16">
                   <div className="flex flex-col items-center justify-start gap-5 text-center">
                     <div className="flex items-center justify-center rounded-full size-16 bg-zinc-100 dark:bg-zinc-800">
@@ -190,6 +211,7 @@ export default async function ProductDetail({ product, locale, options, choices 
                     </p>
                   </div>
                 </div>
+                ) : null}
               </div>
             </div>
           </div>

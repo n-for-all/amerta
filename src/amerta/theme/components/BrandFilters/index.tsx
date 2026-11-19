@@ -12,6 +12,10 @@ import { Button } from "@/amerta/theme/ui/button";
 import { Filter, FunnelX } from "lucide-react";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 
+/** The value variants store for a color: its name. Newer color options keep a CSS color (hex or keyword) in "color" and the name in "label" */
+const colorValue = (opt: any): string => (/^(#|rgb\(|hsl\()|^[a-z]+$/.test(String(opt?.color || "")) ? opt.label : opt.color) || "";
+
+
 type CollectionFiltersProps = {
   totalProducts: number;
   currentProductCount: number;
@@ -197,7 +201,7 @@ export function BrandFilters({ totalProducts, currentProductCount, brands, colle
                   <FilterDropdown key={option.id} label={option.name} count={searchParams.getAll(`opt_${option.id}`).length}>
                     <div className="p-4 grid grid-cols-1 gap-2 min-w-[200px]">
                       {option.colors?.map((opt) => (
-                        <ColorSwatch key={opt.id} color={opt.color || "#000000"} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, opt.color)} onChange={() => updateFilter(`opt_${option.id}`, opt.color)} />
+                        <ColorSwatch key={opt.id} color={opt.color || "#000000"} label={opt.label || ""} checked={isSelected(`opt_${option.id}`, colorValue(opt))} onChange={() => updateFilter(`opt_${option.id}`, colorValue(opt))} />
                       ))}
                     </div>
                   </FilterDropdown>

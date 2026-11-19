@@ -30,7 +30,9 @@ export const ProductVariantSelector = ({ compact, product, noDefaults, options, 
 
       const choices: VariantChoice[] = rawItems
         .map((item) => {
-          const value = typeof item === "string" ? item : item.value || item.option || item.color || item.label || "";
+          // Variants store a color's name; newer color options keep a CSS color (hex or keyword) in "color" and the name in "label"
+          const colorName = opt.type === "color" && typeof item === "object" && /^(#|rgb\(|hsl\()|^[a-z]+$/.test(String(item.color || "")) ? item.label : undefined;
+          const value = typeof item === "string" ? item : item.value || item.option || colorName || item.color || item.label || "";
           const label = typeof item === "string" ? item : item.label || value;
           const meta = opt.type === "color" ? item.color : opt.type === "image" ? item.image : null;
 
