@@ -27,7 +27,7 @@ export default async function CollectionsPage({ params, searchParams }: Props) {
 
   try {
     const salesChannel = await getSalesChannel();
-    const { docs: collections, totalPages } = await getCollections({ page, locale }, salesChannel);
+    const { docs: collections, totalPages } = await getCollections({ page, locale, topLevelOnly: true }, salesChannel);
 
     return (
       <div className="w-full min-h-screen bg-white dark:bg-zinc-950">
