@@ -62,6 +62,41 @@ export const OrderDetails: React.FC = () => {
       .catch(() => setPayment(null));
   }, [order?.id]);
 
+  // "Check payment" button: asks the gateway (Mamo / Stripe) what happened to this order's payment
+  type Lookup = {
+    state: "paid" | "failed" | "processing" | "abandoned" | "not_started";
+    summary: string;
+    testMode: boolean;
+    attempts: { id: string; status: string; amount: number; currencyCode: string; date: string | null; error?: string | null; card?: string | null }[];
+    paymentUrl?: string | null;
+    transactionId?: string | null;
+    recorded?: boolean;
+  };
+  const [checking, setChecking] = useState(false);
+  const [lookup, setLookup] = useState<Lookup | null>(null);
+  const [lookupError, setLookupError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const checkPayment = async () => {
+    if (!order?.id) return;
+    setChecking(true);
+    setLookupError(null);
+    try {
+      const res = await fetch(`/api/orders/${order.id}/check-payment`, { method: "POST", credentials: "include" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || "Could not check the payment");
+      setLookup(data);
+      if (data.recorded) {
+        const p = await fetch(`/api/payments?where[order][equals]=${order.id}&sort=-updatedAt&limit=1&depth=0`, { credentials: "include" }).then((r) => r.json()).catch(() => null);
+        setPayment(p?.docs?.[0] || null);
+      }
+    } catch (e: any) {
+      setLookupError(e.message);
+    } finally {
+      setChecking(false);
+    }
+  };
+
   if (!order) return null;
 
   const paidAt = (order as any).paidAt as string | null | undefined;
@@ -171,8 +206,61 @@ export const OrderDetails: React.FC = () => {
               <span className={`${styles.badge} ${paymentStatus.className}`}>{paymentStatus.label}</span>
               {paymentDate && ` ${new Date(paymentDate).toLocaleString()}`}
               {payment?.transactionId && <div className={styles.valueMuted}>Transaction: {payment.transactionId}</div>}
+              <div>
+                <button type="button" className={styles.checkButton} onClick={checkPayment} disabled={checking}>
+                  {checking ? "Checking…" : `Check payment${order.paymentMethodName ? ` on ${order.paymentMethodName}` : ""}`}
+                </button>
+              </div>
             </div>
           </div>
+
+          {(lookup || lookupError) && (
+            <div className={styles.lookup}>
+              {lookupError ? (
+                <p className={styles.lookupError}>{lookupError}</p>
+              ) : lookup ? (
+                <>
+                  <p className={styles.lookupTitle}>
+                    {{ paid: "✅ Paid", failed: "❌ Declined", processing: "⏳ Processing", abandoned: "🛒 Abandoned", not_started: "🛒 Never reached payment" }[lookup.state]}
+                    {lookup.testMode && <span className={styles.lookupTest}> (sandbox / test mode)</span>}
+                  </p>
+                  <p className={styles.lookupSummary}>{lookup.summary}</p>
+                  {lookup.recorded && <p className={styles.lookupSummary}><strong>The store had missed this payment. It's now recorded: the order moved to Processing and the order emails were sent. Reload the page to see the new status.</strong></p>}
+                  {lookup.attempts.length > 0 && (
+                    <ul className={styles.attempts}>
+                      {lookup.attempts.map((a) => (
+                        <li key={a.id}>
+                          <strong>{a.status}</strong> · {a.amount.toFixed(2)} {a.currencyCode}
+                          {a.card && ` · ${a.card}`}
+                          {a.date && ` · ${new Date(a.date).toLocaleString()}`}
+                          {a.error && <div className={styles.lookupError}>{a.error}</div>}
+                          <div className={styles.valueMuted}>{a.id}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {lookup.paymentUrl && lookup.state !== "paid" && (
+                    <p className={styles.lookupSummary}>
+                      Payment link to send the customer:{" "}
+                      <a href={lookup.paymentUrl} target="_blank" rel="noreferrer">{lookup.paymentUrl}</a>{" "}
+                      <button
+                        type="button"
+                        className={styles.checkButton}
+                        onClick={() => {
+                          navigator.clipboard?.writeText(lookup.paymentUrl!).then(() => {
+                            setCopied(true);
+                            setTimeout(() => setCopied(false), 1500);
+                          });
+                        }}
+                      >
+                        {copied ? "Copied" : "Copy"}
+                      </button>
+                    </p>
+                  )}
+                </>
+              ) : null}
+            </div>
+          )}
 
           <div className={styles.row}>
             <div className={styles.label}>Customer:</div>

@@ -180,4 +180,37 @@ export interface PaymentAdapter {
    * }
    */
   callback?: (req: PayloadRequest, order: Order) => Promise<any>;
+
+  /**
+   * Optional: asks the gateway what happened to an order's payment (admin "Check payment" button).
+   * Read-only on the gateway side; if it reports `paid`, the endpoint records the payment on the order.
+   */
+  lookupPayment?: (order: Order, method: PaymentMethod) => Promise<PaymentLookup>;
+}
+
+/** One payment attempt as reported by the gateway */
+export interface PaymentAttempt {
+  id: string;
+  status: string;
+  amount: number; // main units, e.g. 150.00
+  currencyCode: string;
+  date: string | null;
+  /** Why the gateway declined it, in the gateway's words */
+  error?: string | null;
+  card?: string | null;
+}
+
+export interface PaymentLookup {
+  /**
+   * paid: money captured · failed: every attempt was declined · processing: still being confirmed
+   * abandoned: payment page created but nothing submitted · not_started: the customer never reached payment
+   */
+  state: "paid" | "failed" | "processing" | "abandoned" | "not_started";
+  summary: string;
+  testMode: boolean;
+  attempts: PaymentAttempt[];
+  /** Link the customer can use to finish paying (where the gateway has one) */
+  paymentUrl?: string | null;
+  /** Set when state is "paid" */
+  paid?: { transactionId: string; amount: number; currencyCode: string; raw: any } | null;
 }

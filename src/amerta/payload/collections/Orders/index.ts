@@ -12,7 +12,7 @@ import { populateOrderedBy } from "./hooks/populateOrderedBy";
 import { addressField } from "@/amerta/fields/addressField";
 import { createOrder } from "./handlers/create-order";
 import { populateOrderData } from "./hooks/populateOrderData";
-import { checkPaymentStatus } from "./handlers/check-status";
+import { checkPaymentStatus, lookupOrderPaymentHandler } from "./handlers/check-status";
 import { sendOrderEmailHandler } from "./handlers/send-email-handler";
 import { withGuard } from "@/amerta/utilities/withGuard";
 import { sendToN8N } from "./hooks/sendToN8N";
@@ -536,6 +536,11 @@ export const Orders: CollectionConfig = {
         path: "/:id/send-email",
         method: "post",
         handler: withGuard(sendOrderEmailHandler)
+    },
+    {
+        path: "/:id/check-payment",
+        method: "post",
+        handler: withGuard(lookupOrderPaymentHandler)
     }
   ],
 };

@@ -546,6 +546,75 @@ export const MamoPayAdapter: PaymentAdapter = {
    */
   isTestModeConfigured: (method) => !!method.mamoPaySettings?.testApiKey,
 
+  /**
+   * What happened to this order's payment on Mamo. Every checkout creates a payment link carrying
+   * custom_data.orderId; the link's `charges` list every card attempt (captured or declined, with Mamo's error).
+   */
+  async lookupPayment(order, method) {
+    const { apiKey, baseUrl, isTestMode } = getMamoEnv(method.mamoPaySettings, order);
+    if (!apiKey) throw new Error(`Mamo ${isTestMode ? "sandbox" : "live"} API key is missing`);
+    const get = async (path: string) => {
+      const res = await fetch(`${baseUrl}${path}`, { headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" } });
+      if (!res.ok) throw new Error(`Mamo API error ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      return res.json();
+    };
+
+    // Links come newest first; recent orders are on the first page
+    const ids = [order.orderId, order.id].filter(Boolean).map(String);
+    const links: any[] = [];
+    for (let page = 1; page <= 10; page++) {
+      const data = await get(`/links?per_page=50&page=${page}`);
+      for (const l of data?.data || []) if (ids.includes(String(l?.custom_data?.orderId))) links.push(l);
+      // Stop once we're past links created before the order
+      const last = (data?.data || []).at(-1);
+      if (!data?.pagination_meta?.next_page || (links.length && !ids.includes(String(last?.custom_data?.orderId)))) break;
+    }
+
+    if (!links.length) {
+      return { state: "not_started", summary: "No Mamo payment page was created for this order: the customer never reached the payment step.", testMode: isTestMode, attempts: [] };
+    }
+
+    const details = await Promise.all(links.map((l) => get(`/links/${encodeURIComponent(l.id)}`).catch(() => l)));
+    const toDate = (d?: string) => {
+      const m = d?.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})$/);
+      return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}+04:00` : d || null;
+    };
+    const charges = details.flatMap((l: any) => l.charges || []);
+    const attempts = charges.map((c: any) => ({
+      id: c.id,
+      status: c.status,
+      amount: Number(c.amount) || 0,
+      currencyCode: c.amount_currency || "",
+      date: toDate(c.created_date),
+      error: c.error_message || c.error_code || null,
+      card: c.payment_method ? [c.payment_method.type, c.payment_method.card_last4 && `•••• ${c.payment_method.card_last4}`].filter(Boolean).join(" ") : null,
+    }));
+    const paymentUrl = details[0]?.payment_url || links[0]?.payment_url || null;
+    const captured = charges.find((c: any) => c.status === "captured");
+
+    if (captured) {
+      return {
+        state: "paid",
+        summary: `Paid on Mamo (${captured.id}).`,
+        testMode: isTestMode,
+        attempts,
+        paymentUrl,
+        paid: { transactionId: captured.id, amount: Number(captured.amount) || 0, currencyCode: captured.amount_currency, raw: captured },
+      };
+    }
+    if (attempts.length) {
+      const reason = attempts.find((a) => a.error)?.error;
+      return { state: "failed", summary: `The customer tried to pay ${attempts.length} time(s) and Mamo declined it${reason ? `: ${reason}` : "."}`, testMode: isTestMode, attempts, paymentUrl };
+    }
+    return {
+      state: "abandoned",
+      summary: "The Mamo payment page was created but no card was submitted: the customer left before paying.",
+      testMode: isTestMode,
+      attempts,
+      paymentUrl,
+    };
+  },
+
   async executeAction(actionName, actionData, method, context) {
     const settings = method.mamoPaySettings;
     const { isTestMode } = getMamoEnv(settings, context?.isTest ? { isTest: true } : null);

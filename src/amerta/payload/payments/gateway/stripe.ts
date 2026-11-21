@@ -144,6 +144,61 @@ export const StripeAdapter: PaymentAdapter = {
   isTestModeConfigured: (method) => !!(method.stripeSettings?.testSecretKey && method.stripeSettings?.testPublishableKey),
 
   /**
+   * What happened to this order's payment on Stripe. Checkout's PaymentIntents carry metadata.orderId;
+   * each intent's charges are the card attempts, with Stripe's decline reason.
+   */
+  async lookupPayment(order, method) {
+    const env = getStripeEnv(method.stripeSettings, !!order.isTest);
+    if (!env.secretKey) throw new Error(`Stripe ${env.isTest ? "test" : "live"} secret key is missing`);
+    const stripe = new Stripe(env.secretKey);
+
+    // Search is indexed within about a minute of a change
+    const { data: intents } = await stripe.paymentIntents.search({ query: `metadata['orderId']:'${String(order.id).replace(/'/g, "")}'`, limit: 20 });
+    if (!intents.length) {
+      return { state: "not_started", summary: "No Stripe payment was started for this order: the customer never submitted the card form (or it was less than a minute ago).", testMode: env.isTest, attempts: [] };
+    }
+
+    const toMain = (amount: number, currency: string) => (ZERO_DECIMAL_CURRENCIES.includes(currency.toLowerCase()) ? amount : amount / 100);
+    const chargeLists = await Promise.all(intents.map((pi) => stripe.charges.list({ payment_intent: pi.id, limit: 20 }).then((r) => r.data).catch(() => [] as Stripe.Charge[])));
+    const attempts = chargeLists.flat().map((c) => {
+      const card = c.payment_method_details?.card;
+      const reason = c.failure_message ? [c.failure_message, c.outcome?.reason && `(${c.outcome.reason})`].filter(Boolean).join(" ") : null;
+      return {
+        id: c.id,
+        status: c.status,
+        amount: toMain(c.amount, c.currency),
+        currencyCode: c.currency.toUpperCase(),
+        date: new Date(c.created * 1000).toISOString(),
+        error: reason || (c.status === "failed" ? c.outcome?.seller_message || null : null),
+        card: card ? `${card.brand} •••• ${card.last4}` : null,
+      };
+    });
+
+    const succeeded = intents.find((pi) => pi.status === "succeeded");
+    if (succeeded) {
+      return {
+        state: "paid",
+        summary: `Paid on Stripe (${succeeded.id}).`,
+        testMode: env.isTest,
+        attempts,
+        paid: { transactionId: succeeded.id, amount: toMain(succeeded.amount_received || succeeded.amount, succeeded.currency), currencyCode: succeeded.currency.toUpperCase(), raw: succeeded },
+      };
+    }
+    if (intents.some((pi) => pi.status === "processing")) {
+      return { state: "processing", summary: "Stripe is still confirming the payment (e.g. a bank transfer or a delayed card check).", testMode: env.isTest, attempts };
+    }
+    const lastError = intents.map((pi) => pi.last_payment_error).find(Boolean);
+    if (attempts.some((a) => a.status === "failed") || lastError) {
+      const reason = lastError ? [lastError.message, lastError.decline_code && `(${lastError.decline_code})`].filter(Boolean).join(" ") : attempts.find((a) => a.error)?.error;
+      return { state: "failed", summary: `Stripe declined the payment${reason ? `: ${reason}` : "."}`, testMode: env.isTest, attempts };
+    }
+    if (intents.some((pi) => pi.status === "requires_action")) {
+      return { state: "abandoned", summary: "The customer started paying but didn't finish the bank's verification (3-D Secure).", testMode: env.isTest, attempts };
+    }
+    return { state: "abandoned", summary: "The card form was loaded but no card was submitted: the customer left before paying.", testMode: env.isTest, attempts };
+  },
+
+  /**
    * Validates payment settings and creates webhook on save
    *
    * @param options - Configuration object containing the settings data
