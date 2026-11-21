@@ -105,6 +105,21 @@
     background-color: #9333ea; /* Purple for guests */
 }
 
+.badgePaid {
+    color: white;
+    background-color: #16a34a;
+}
+
+.badgeUnpaid {
+    color: white;
+    background-color: #dc2626;
+}
+
+.badgeRefunded {
+    color: white;
+    background-color: #6b7280;
+}
+
 .customerLink {
     display: inline-flex;
     align-items: center;

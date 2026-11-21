@@ -51,7 +51,28 @@ export const OrderDetails: React.FC = () => {
 
     fetchCustomer();
   }, [currentId, order?.orderedBy]);
+
+  // Latest payment record for this order (created when the gateway confirms or declines the charge)
+  const [payment, setPayment] = useState<{ status: string; transactionId?: string | null; createdAt?: string; updatedAt?: string } | null | undefined>(undefined);
+  useEffect(() => {
+    if (!order?.id) return;
+    fetch(`/api/payments?where[order][equals]=${order.id}&sort=-updatedAt&limit=1&depth=0`, { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setPayment(data?.docs?.[0] || null))
+      .catch(() => setPayment(null));
+  }, [order?.id]);
+
   if (!order) return null;
+
+  const paidAt = (order as any).paidAt as string | null | undefined;
+  const paymentStatus = (() => {
+    if (payment === undefined) return { label: "…", className: "" };
+    if (payment?.status === "refunded") return { label: "Refunded", className: styles.badgeRefunded };
+    if (payment?.status === "success" || paidAt) return { label: "Paid", className: styles.badgePaid };
+    if (payment?.status === "failed") return { label: "Payment failed", className: styles.badgeUnpaid };
+    return { label: "Not paid", className: styles.badgeUnpaid };
+  })();
+  const paymentDate = paidAt || (payment?.status === "success" ? payment.updatedAt : null);
 
   const liveStatus = getValue("status", order.status);
 
@@ -66,8 +87,10 @@ export const OrderDetails: React.FC = () => {
     const firstName = customer.firstName || "";
     const lastName = customer.lastName || "";
     const name = `${firstName} ${lastName}`.trim();
-    const email = customer.email ? `<${customer.email}>` : "";
     const badge = customer.hasAccount === "1" ? "Account" : "Guest";
+    // Guests get a placeholder login email (guest_123@email.com); the address they typed is contact_email
+    const realEmail = badge === "Guest" ? customer.contact_email || customer.email : customer.email;
+    const email = realEmail ? `<${realEmail}>` : "";
     const id = customer.id || null;
 
     return { name, email, badge, id };
@@ -140,6 +163,15 @@ export const OrderDetails: React.FC = () => {
           <div className={styles.row}>
             <div className={styles.label}>Status:</div>
             <div className={styles.value}>{liveStatus ?? "—"}</div>
+          </div>
+
+          <div className={styles.row}>
+            <div className={styles.label}>Payment:</div>
+            <div className={styles.value}>
+              <span className={`${styles.badge} ${paymentStatus.className}`}>{paymentStatus.label}</span>
+              {paymentDate && ` ${new Date(paymentDate).toLocaleString()}`}
+              {payment?.transactionId && <div className={styles.valueMuted}>Transaction: {payment.transactionId}</div>}
+            </div>
           </div>
 
           <div className={styles.row}>
