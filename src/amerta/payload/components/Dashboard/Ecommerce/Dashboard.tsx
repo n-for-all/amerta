@@ -21,6 +21,8 @@ const DashboardStats: React.FC<{ salesChannels: SalesChannel[] }> = ({ salesChan
     ordersCount: 0,
     grossSales: 0,
     netRevenue: 0,
+    unpaidTotal: 0,
+    unpaidCount: 0,
     customersCount: 0,
     sessions: 0,
   });
@@ -182,7 +184,10 @@ const DashboardStats: React.FC<{ salesChannels: SalesChannel[] }> = ({ salesChan
             <div className={styles.cardHeader}>
               <span className={styles.cardTitle}>Total Orders</span>
             </div>
-            <div className={styles.cardValue}>{isLoading ? <Loader2 className={styles.spinner} /> : metrics.ordersCount}</div>
+            <div className={styles.cardValue}>
+              {isLoading ? <Loader2 className={styles.spinner} /> : metrics.ordersCount}
+              {!isLoading && metrics.unpaidCount > 0 && <span className={styles.trendUnpaid}>{metrics.unpaidCount} unpaid</span>}
+            </div>
           </div>
 
           {/* Total Sales */}
@@ -190,7 +195,10 @@ const DashboardStats: React.FC<{ salesChannels: SalesChannel[] }> = ({ salesChan
             <div className={styles.cardHeader}>
               <span className={styles.cardTitle}>Total Sales</span>
             </div>
-            <div className={styles.cardValue}>{isLoading ? <Loader2 className={styles.spinner} /> : formatPrice(metrics.grossSales, currency)}</div>
+            <div className={styles.cardValue}>
+              {isLoading ? <Loader2 className={styles.spinner} /> : formatPrice(metrics.grossSales, currency)}
+              {!isLoading && metrics.unpaidTotal > 0 && <span className={styles.trendUnpaid}>+ {formatPrice(metrics.unpaidTotal, currency)} unpaid</span>}
+            </div>
             <div className={styles.subMetricsContainer} style={{ display: "none" }}>
               <div className={styles.subMetric}>
                 <span className={styles.subLabel}>Revenue</span>
@@ -238,19 +246,19 @@ const DashboardStats: React.FC<{ salesChannels: SalesChannel[] }> = ({ salesChan
                   boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                 }}
               />
-              <Area type="monotone" dataKey="sales" stroke="#3b82f6" fill="url(#colorSales)" strokeWidth={2} activeDot={{ r: 6, strokeWidth: 0 }} name="Total Sales" />
-              <Line type="monotone" dataKey="payments" stroke="#8C9196" strokeWidth={1} strokeDasharray="5 5" dot={false} name="Payments Collected" />
+              <Area type="monotone" dataKey="sales" stroke="#3b82f6" fill="url(#colorSales)" strokeWidth={2} activeDot={{ r: 6, strokeWidth: 0 }} name="Paid Sales" />
+              <Line type="monotone" dataKey="unpaid" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" dot={false} activeDot={{ r: 5, strokeWidth: 0 }} name="Unpaid Orders" />
             </ComposedChart>
           </ResponsiveContainer>
 
           <div className={styles.chartLegend}>
             <div className={styles.legendItem}>
               <span className={styles.dot} style={{ background: "#3b82f6" }}></span>
-              Total Sales
+              Paid Sales
             </div>
             <div className={styles.legendItem}>
-              <span className={styles.dot} style={{ background: "#8C9196" }}></span>
-              Payments Collected
+              <span className={styles.dot} style={{ background: "#f59e0b" }}></span>
+              Unpaid Orders (pending, abandoned or declined)
             </div>
           </div>
         </div>

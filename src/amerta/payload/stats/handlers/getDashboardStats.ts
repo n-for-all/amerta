@@ -63,37 +63,47 @@ export const getDashboardStats = async (request: PayloadRequest) => {
   });
 
   // 6. Data Aggregation
-  const dateMap = new Map<string, { date: string; sales: number; payments: number }>();
+  // Paid = the gateway confirmed the money (paidAt), or staff moved it past pending (COD, manual payments).
+  // Unpaid = still pending: abandoned or declined checkouts. Cancelled / refunded count as neither.
+  const PAID_STATUSES = ["processing", "shipped", "completed"];
+  const isPaid = (order: any) => !!order.paidAt || PAID_STATUSES.includes(order.status);
+  const isUnpaid = (order: any) => !isPaid(order) && (order.status === "pending" || order.status === "on-hold");
+
+  const dateMap = new Map<string, { date: string; sales: number; unpaid: number; orders: number }>();
 
   // Fill gaps
   for (let d = new Date(from); d <= to; d.setDate(d.getDate() + 1)) {
     const key = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-    dateMap.set(key, { date: key, sales: 0, payments: 0 });
+    dateMap.set(key, { date: key, sales: 0, unpaid: 0, orders: 0 });
   }
 
   let grossSales = 0;
   let netRevenue = 0;
+  let unpaidTotal = 0;
+  let unpaidCount = 0;
 
   orders.docs.forEach((order) => {
     const key = new Date(order.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-
     const orderTotal = order.total || 0; // Gross
-    const orderNet = (order.subtotal || orderTotal) - (order.tax || 0); // Approx Net
+    const day = dateMap.get(key);
 
-    grossSales += orderTotal;
-    netRevenue += orderNet;
-
-    if (dateMap.has(key)) {
-      dateMap.get(key)!.sales += orderTotal;
-      if (order.status === "completed") {
-        dateMap.get(key)!.payments += orderTotal;
+    if (isPaid(order)) {
+      grossSales += orderTotal;
+      netRevenue += (order.subtotal || orderTotal) - (order.tax || 0); // Approx Net
+      if (day) {
+        day.sales += orderTotal;
+        day.orders += 1;
       }
+    } else if (isUnpaid(order)) {
+      unpaidTotal += orderTotal;
+      unpaidCount += 1;
+      if (day) day.unpaid += orderTotal;
     }
   });
 
   const productMap = new Map<string, { name: string; revenue: number; quantity: number }>();
 
-  orders.docs.forEach((order) => {
+  orders.docs.filter(isPaid).forEach((order) => {
     // Check if order has items
     if (order.items && Array.isArray(order.items)) {
       order.items.forEach((item) => {
@@ -134,6 +144,8 @@ export const getDashboardStats = async (request: PayloadRequest) => {
       ordersCount: orders.totalDocs,
       grossSales,
       netRevenue,
+      unpaidTotal,
+      unpaidCount,
       customersCount: customers.totalDocs,
       sessions: 0,
     },
