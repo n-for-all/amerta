@@ -2782,6 +2782,8 @@ export interface Customer {
           | boolean
           | null;
         name?: string | null;
+        createdAt?: string | null;
+        lastUsedAt?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -5355,6 +5357,8 @@ export interface CustomersSelect<T extends boolean = true> {
         counter?: T;
         transports?: T;
         name?: T;
+        createdAt?: T;
+        lastUsedAt?: T;
         id?: T;
       };
   webauthnRegistrationChallenge?: T;
@@ -6317,6 +6321,20 @@ export interface EcommerceSettings {
    * Allow customers to add notes to their orders
    */
   allowOrderNotes?: boolean | null;
+  /**
+   * Icons with short promises shown under the buy box on every product page.
+   */
+  showProductHighlights?: boolean | null;
+  /**
+   * Leave empty to show the built-in four (Best Price, Free Shipping, 100% Quality Guarantee, Rich & Earthy Tones).
+   */
+  productHighlights?:
+    | {
+        title: string;
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   announcementBar?: {
     enabled?: boolean | null;
     showButtons?: boolean | null;
@@ -7149,6 +7167,14 @@ export interface EcommerceSettingsSelect<T extends boolean = true> {
   orderIdTemplate?: T;
   startOrderIdFrom?: T;
   allowOrderNotes?: T;
+  showProductHighlights?: T;
+  productHighlights?:
+    | T
+    | {
+        title?: T;
+        icon?: T;
+        id?: T;
+      };
   announcementBar?:
     | T
     | {
