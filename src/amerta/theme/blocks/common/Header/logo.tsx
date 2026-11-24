@@ -10,27 +10,29 @@ export const Logo = async ({ locale, logoClassName }: { locale: string; logoClas
   const headerData: Header = await getCachedGlobal("header" as keyof Config["globals"], 1, locale)();
   const logoLight = headerData?.logoLight;
   const logoDark = headerData?.logoDark;
+  const settings: any = await getCachedGlobal("settings" as keyof Config["globals"], 1, locale)();
+  const siteTitle: string = settings?.siteTitle || "";
 
   return (
     <Link href={getURL(`/`, locale)} className={cn("relative block w-full h-8 md:h-10", logoClassName || "")}>
       {logoLight && (
         <div className="block dark:hidden">
-          <Media resource={logoLight} fill={true} htmlElement={null} imgClassName="!relative" />
+          <Media resource={logoLight} alt={siteTitle} fill={true} htmlElement={null} imgClassName="!relative" />
         </div>
       )}
       {logoDark && (
         <div className="hidden dark:block">
-          <Media resource={logoDark} fill={true} htmlElement={null} imgClassName="!relative" />
+          <Media resource={logoDark} alt={siteTitle} fill={true} htmlElement={null} imgClassName="!relative" />
         </div>
       )}
       {!logoDark && logoLight && (
         <div className="hidden dark:block">
-          <Media resource={logoLight} fill={true} htmlElement={null} imgClassName="!relative" />
+          <Media resource={logoLight} alt={siteTitle} fill={true} htmlElement={null} imgClassName="!relative" />
         </div>
       )}
       {!logoLight && logoDark && (
         <div className="block dark:hidden">
-          <Media resource={logoDark} fill={true} htmlElement={null} imgClassName="!relative" />
+          <Media resource={logoDark} alt={siteTitle} fill={true} htmlElement={null} imgClassName="!relative" />
         </div>
       )}
       {!logoLight && !logoDark && (

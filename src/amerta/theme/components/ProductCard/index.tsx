@@ -32,8 +32,8 @@ export const ProductCard = async ({ product, cartIcon, options, locale, classNam
         <div className="relative flex-shrink-0 w-24 mt-4 ml-4 group/collection">
           {secondImageUrl && <link rel="preload" as="image" href={secondImageUrl} />}
           <a href={getURL(`/product/${productSlug}`, locale)} className="relative block w-full overflow-hidden aspect-3/4">
-            <ImageOrPlaceholder className={"z-0 object-contain w-full h-full transition-opacity duration-300 rounded-lg " + (secondImage ? "group-hover/prd:opacity-0" : "")} image={productImage} />
-            {secondImage && <ImageOrPlaceholder className="absolute inset-0 z-10 object-contain w-full h-full transition-opacity duration-300 rounded-lg opacity-0 group-hover/prd:opacity-100" image={secondImage} />}
+            <ImageOrPlaceholder className={"z-0 object-contain w-full h-full transition-opacity duration-300 rounded-lg " + (secondImage ? "group-hover/prd:opacity-0" : "")} image={productImage} alt={product.title || ""} />
+            {secondImage && <ImageOrPlaceholder className="absolute inset-0 z-10 object-contain w-full h-full transition-opacity duration-300 rounded-lg opacity-0 group-hover/prd:opacity-100" image={secondImage} alt={product.title || ""} />}
           </a>
           {product.brand && (
             <div className="absolute top-3 left-3">
@@ -61,8 +61,8 @@ export const ProductCard = async ({ product, cartIcon, options, locale, classNam
     <div key={product.id} className={cn("relative w-full group/prd hover:bg-gray-50 h-full dark:hover:bg-zinc-900", className)}>
       {secondImageUrl && <link rel="preload" as="image" href={secondImageUrl} />}
       <a href={getURL(`/product/${productSlug}`, locale)} className="relative block w-full overflow-hidden aspect-3/4">
-        <ImageOrPlaceholder className={"z-0 object-contain w-full h-full transition-opacity duration-300 rounded-lg " + (secondImage ? "group-hover/prd:opacity-0" : "")} image={productImage} />
-        {secondImage && <ImageOrPlaceholder className="absolute inset-0 z-10 object-contain w-full h-full transition-opacity duration-300 rounded-lg opacity-0 group-hover/prd:opacity-100" image={secondImage} />}
+        <ImageOrPlaceholder className={"z-0 object-contain w-full h-full transition-opacity duration-300 rounded-lg " + (secondImage ? "group-hover/prd:opacity-0" : "")} image={productImage} alt={product.title || ""} />
+        {secondImage && <ImageOrPlaceholder className="absolute inset-0 z-10 object-contain w-full h-full transition-opacity duration-300 rounded-lg opacity-0 group-hover/prd:opacity-100" image={secondImage} alt={product.title || ""} />}
       </a>
       {product.brand && (
         <div className="absolute top-3 left-3">

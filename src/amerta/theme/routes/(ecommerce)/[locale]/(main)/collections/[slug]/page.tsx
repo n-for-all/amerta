@@ -125,7 +125,7 @@ export default async function CollectionPage({ params, searchParams }: { params:
       <main className="container">
         <div className="flex flex-col items-center text-center py-14 lg:py-20">
           <h1 className="mt-5 text-3xl font-medium leading-none sm:text-4xl xl:text-5xl/none">
-            <span className="text-zinc-500">{__("Collection")}</span>
+            <span className="text-zinc-500">{__("Collection")}</span>{" "}
             <br />
             <span className="underline">{collectionName}</span>
           </h1>

@@ -1,8 +1,12 @@
 import { type Product } from "@/payload-types";
 import { hasStock } from "@/amerta/core/utilities/has-stock";
 
-export const generateProductJSONLD = (product: Product, currency: any, url: string) => {
-  const brandName = typeof product.brand === 'object' && product.brand ? product.brand.title : undefined;
+/**
+ * @param fallbackBrand used when the product has no brand assigned (e.g. the store's own name),
+ * Google Merchant listings expect a brand on every product.
+ */
+export const generateProductJSONLD = (product: Product, currency: any, url: string, fallbackBrand?: string) => {
+  const brandName = (typeof product.brand === 'object' && product.brand ? product.brand.title : undefined) || fallbackBrand || undefined;
   
   const defaultImage = product.meta?.image && typeof product.meta.image === 'object' 
     ? product.meta.image.url 
@@ -27,6 +31,16 @@ export const generateProductJSONLD = (product: Product, currency: any, url: stri
     commonData.brand = {
       "@type": "Brand",
       "name": brandName
+    };
+  }
+
+  if (product.reviewCount && product.reviewCount > 0 && product.rating) {
+    commonData.aggregateRating = {
+      "@type": "AggregateRating",
+      "ratingValue": Number(product.rating.toFixed(1)),
+      "reviewCount": product.reviewCount,
+      "bestRating": 5,
+      "worstRating": 1,
     };
   }
 

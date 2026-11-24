@@ -7,28 +7,28 @@ import { CMSLink } from "@/amerta/components/Link";
 import { Media } from "@/amerta/components/Media";
 import { FooterForm } from "@/amerta/theme/blocks/common/Footer/form";
 
-const FooterLogo = ({ logoLight, logoDark, logoClassName }) => {
+const FooterLogo = ({ logoLight, logoDark, logoClassName, siteTitle }) => {
   return (
     <div className={logoClassName || ""}>
       {logoLight && (
         <div className="block h-full dark:hidden">
-          <Media resource={logoLight} className="relative h-full" imgClassName="w-auto!" fill={true} />
+          <Media resource={logoLight} alt={siteTitle} className="relative h-full" imgClassName="w-auto!" fill={true} />
         </div>
       )}
       {logoDark && (
         <div className="hidden h-full dark:block">
-          <Media resource={logoDark} className="relative h-full" imgClassName="w-auto!" fill={true} />
+          <Media resource={logoDark} alt={siteTitle} className="relative h-full" imgClassName="w-auto!" fill={true} />
         </div>
       )}
       {/* Fallback if only one logo is provided */}
       {!logoDark && logoLight && (
         <div className="hidden h-full dark:block">
-          <Media resource={logoLight} className="relative h-full" imgClassName="w-auto!" fill={true} />
+          <Media resource={logoLight} alt={siteTitle} className="relative h-full" imgClassName="w-auto!" fill={true} />
         </div>
       )}
       {!logoLight && logoDark && (
         <div className="block h-full dark:hidden">
-          <Media resource={logoDark} className="relative h-full" imgClassName="w-auto!" fill={true} />
+          <Media resource={logoDark} alt={siteTitle} className="relative h-full" imgClassName="w-auto!" fill={true} />
         </div>
       )}
     </div>
@@ -45,6 +45,8 @@ const FooterLogo = ({ logoLight, logoDark, logoClassName }) => {
 
 export async function Footer({ locale }: { locale?: string }) {
   const footerData: Footer = await getCachedGlobal("footer" as keyof Config["globals"], 1, locale)();
+  const settings: any = await getCachedGlobal("settings" as keyof Config["globals"], 1, locale)();
+  const siteTitle: string = settings?.siteTitle || "";
 
   const { logoLight, logoDark, logoClassName, footerButton, title, description, footerMenus = [], footerForm, socialMedia = [], copyright, className, footerBottomMenu } = footerData || {};
   const hasForm = footerForm?.enable && footerForm?.form;
@@ -54,7 +56,7 @@ export async function Footer({ locale }: { locale?: string }) {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           {/* Logo Section */}
           <div>
-            <FooterLogo logoLight={logoLight} logoDark={logoDark} logoClassName={logoClassName || "h-12"} />
+            <FooterLogo siteTitle={siteTitle} logoLight={logoLight} logoDark={logoDark} logoClassName={logoClassName || "h-12"} />
             {title ? <p className="max-w-lg mt-6 text-sm text-zinc-600 dark:text-zinc-300">{title}</p> : null}
             {description ? <p className="max-w-lg mt-2 mr-10 text-sm rtl:ml-10 rtl:mr-0 text-zinc-600 dark:text-zinc-300">{description}</p> : null}
             {footerButton && <CMSLink className="inline-block mt-4" size="lg" {...footerButton} locale={locale!} />}

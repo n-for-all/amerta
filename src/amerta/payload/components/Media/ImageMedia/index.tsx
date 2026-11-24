@@ -58,7 +58,7 @@ export const ImageMedia: React.FC<{
 
     width = fullWidth!;
     height = fullHeight!;
-    alt = altFromResource || "";
+    alt = altFromResource || altFromProps || "";
     const cacheTag = resource.filesize || "";
     src = `${url}?v=${cacheTag}`;
   }

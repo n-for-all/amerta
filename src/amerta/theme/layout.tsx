@@ -71,7 +71,7 @@ const ThemeShopLayout: React.FC<Props> = async ({ children, header, locale }) =>
     >
       <div>
         {announcementBar}
-        <div className="relative sticky top-0 z-30 text-black bg-white dark:bg-black lg:block dark:text-white">{header ? header : <Header {...headerData} currencies={currencies} currentCurrency={currency} locales={enabledLocalesArray} />}</div>
+        <div className="relative sticky top-0 z-30 text-black bg-white dark:bg-black lg:block dark:text-white">{header ? header : <Header {...headerData} siteTitle={settingsData.siteTitle || ""} currencies={currencies} currentCurrency={currency} locales={enabledLocalesArray} />}</div>
         {children}
         <Footer locale={locale} />
         {enableWhatsappChat && settingsData.whatsappChatLink ? <WhatsappChat url={settingsData.whatsappChatLink} /> : null}

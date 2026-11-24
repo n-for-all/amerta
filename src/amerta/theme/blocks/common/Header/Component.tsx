@@ -50,28 +50,28 @@ const ToggleTheme = ({ className, label }: { className?: string; label: string }
   );
 };
 
-const HeaderLogo = ({ logoLight, logoDark, logoClassName, locale }: { logoLight?: HeaderProps["logoLight"]; logoDark?: HeaderProps["logoDark"]; logoClassName?: string | null; locale: string }) => {
+const HeaderLogo = ({ logoLight, logoDark, logoClassName, locale, siteTitle }: { logoLight?: HeaderProps["logoLight"]; logoDark?: HeaderProps["logoDark"]; logoClassName?: string | null; locale: string; siteTitle?: string }) => {
   return (
     <Link href={getURL(`/`, locale)} className={cn("relative block w-full min-w-32", "h-8 md:h-10", logoClassName)}>
       {logoLight && (
         <div className="block dark:hidden">
-          <Media resource={logoLight} fill={true} htmlElement={null} imgClassName="w-auto!" />
+          <Media resource={logoLight} alt={siteTitle} fill={true} htmlElement={null} imgClassName="w-auto!" />
         </div>
       )}
       {logoDark && (
         <div className="hidden dark:block">
-          <Media resource={logoDark} fill={true} htmlElement={null} imgClassName="w-auto!" />
+          <Media resource={logoDark} alt={siteTitle} fill={true} htmlElement={null} imgClassName="w-auto!" />
         </div>
       )}
       {/* Fallback if only one logo is provided */}
       {!logoDark && logoLight && (
         <div className="hidden dark:block">
-          <Media resource={logoLight} fill={true} htmlElement={null} imgClassName="w-auto!" />
+          <Media resource={logoLight} alt={siteTitle} fill={true} htmlElement={null} imgClassName="w-auto!" />
         </div>
       )}
       {!logoLight && logoDark && (
         <div className="block dark:hidden">
-          <Media resource={logoDark} fill={true} htmlElement={null} imgClassName="w-auto!" />
+          <Media resource={logoDark} alt={siteTitle} fill={true} htmlElement={null} imgClassName="w-auto!" />
         </div>
       )}
       {!logoLight && !logoDark && (
@@ -100,9 +100,10 @@ type HeaderComponentProps = HeaderProps & {
   currencies: Currency[];
   currentCurrency: Currency;
   locales: { label: string; code: string }[];
+  siteTitle?: string;
 };
 
-export const Header: React.FC<HeaderComponentProps> = ({ menu, currencies, locales, currentCurrency, logoLight, logoDark, logoClassName, buttonLink, enableThemeSwitch, defaultTheme, className }: HeaderComponentProps) => {
+export const Header: React.FC<HeaderComponentProps> = ({ menu, currencies, locales, currentCurrency, siteTitle, logoLight, logoDark, logoClassName, buttonLink, enableThemeSwitch, defaultTheme, className }: HeaderComponentProps) => {
   const { setTheme } = useTheme();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const pathname = usePathname();
@@ -167,7 +168,7 @@ export const Header: React.FC<HeaderComponentProps> = ({ menu, currencies, local
           <div className="flex items-center justify-between py-6">
             {/* Logo */}
             <div className="flex flex-shrink-0 lg:flex-1">
-              <HeaderLogo logoLight={logoLight} logoDark={logoDark} logoClassName={cn("flex-shrink-0", logoClassName)} locale={locale} />
+              <HeaderLogo logoLight={logoLight} logoDark={logoDark} logoClassName={cn("flex-shrink-0", logoClassName)} locale={locale} siteTitle={siteTitle} />
             </div>
 
             {/* Desktop Menu Links */}
