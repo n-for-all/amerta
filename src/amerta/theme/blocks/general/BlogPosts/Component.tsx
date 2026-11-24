@@ -31,6 +31,16 @@ export const ThemeShopBlogPostsBlock: React.FC<Props> = async ({ buttonPrimary, 
 
   const { docs: blogPosts } = await getBlogPosts({ locale, limit: limit || 5, filter: where });
 
+  // The carousel is a client component: pass only what PostCard shows, not each post's full content
+  const cardPosts = blogPosts.map((post: any) => ({
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    publishedAt: post.publishedAt,
+    heroImage: post.heroImage && typeof post.heroImage === "object" ? { url: post.heroImage.url, alt: post.heroImage.alt } : null,
+    categories: Array.isArray(post.categories) ? post.categories.map((c: any) => (c && typeof c === "object" ? { id: c.id, title: c.title } : c)) : [],
+  })) as any[];
+
   let buttonPrimaryUrl: string | null = null;
   if (buttonPrimary) {
     buttonPrimaryUrl = getLinkUrl({ ...buttonPrimary, locale: locale as string | undefined });
@@ -51,7 +61,7 @@ export const ThemeShopBlogPostsBlock: React.FC<Props> = async ({ buttonPrimary, 
         ) : null}
 
         <p className="max-w-xs lg:max-w-sm text-sm/6 text-zinc-600 dark:text-zinc-400">{description}</p>
-        <BlogPostsCarousel posts={blogPosts} locale={locale} />
+        <BlogPostsCarousel posts={cardPosts} locale={locale} />
       </div>
     </div>
   );

@@ -59,3 +59,23 @@ export const getURL = (path: string, locale?: string | null): string => {
   }
   return pathParts.filter(Boolean).join("/");
 };
+
+/**
+ * The header is a client component, so its props are serialized into every page's HTML.
+ * Menu links populate the whole linked document (a page brings its entire layout, ~165 KB for a
+ * typical home page), so keep only what link URLs and labels need.
+ */
+export const slimLinkReferences = (node: any): any => {
+  if (Array.isArray(node)) return node.map(slimLinkReferences);
+  if (!node || typeof node !== "object") return node;
+  const out: any = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === "reference" && value && typeof value === "object" && (value as any).value && typeof (value as any).value === "object") {
+      const doc = (value as any).value;
+      out[key] = { ...(value as any), value: { id: doc.id, slug: doc.slug, title: doc.title, isFrontPage: doc.isFrontPage } };
+    } else {
+      out[key] = slimLinkReferences(value);
+    }
+  }
+  return out;
+};

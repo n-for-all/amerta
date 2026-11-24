@@ -14,6 +14,7 @@ import { getCurrencies } from "@/amerta/core/utilities/get-currencies";
 import { AnnouncementBar } from "@/amerta/theme/blocks/common/AnnouncementBar";
 
 import { getActiveApps } from "@/amerta/core/utilities/get-active-apps";
+import { slimLinkReferences } from "@/amerta/utilities/getURL";
 
 interface Props {
   children: ReactNode;
@@ -71,7 +72,7 @@ const ThemeShopLayout: React.FC<Props> = async ({ children, header, locale }) =>
     >
       <div>
         {announcementBar}
-        <div className="relative sticky top-0 z-30 text-black bg-white dark:bg-black lg:block dark:text-white">{header ? header : <Header {...headerData} siteTitle={settingsData.siteTitle || ""} currencies={currencies} currentCurrency={currency} locales={enabledLocalesArray} />}</div>
+        <div className="relative sticky top-0 z-30 text-black bg-white dark:bg-black lg:block dark:text-white">{header ? header : <Header {...slimLinkReferences(headerData)} siteTitle={settingsData.siteTitle || ""} currencies={currencies} currentCurrency={currency} locales={enabledLocalesArray} />}</div>
         {children}
         <Footer locale={locale} />
         {enableWhatsappChat && settingsData.whatsappChatLink ? <WhatsappChat url={settingsData.whatsappChatLink} /> : null}
