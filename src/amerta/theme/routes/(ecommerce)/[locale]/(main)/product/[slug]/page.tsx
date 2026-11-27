@@ -16,6 +16,7 @@ import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency
 import { generateProductJSONLD } from "@/amerta/utilities/generateProductJSONLD";
 import { getURL } from "@/amerta/utilities/getURL";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
+import { getProductReviews } from "@/amerta/core/utilities/get-product-reviews";
 
 export default async function ProductPage({ params, searchParams }: { params: Promise<{ slug: string; locale: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> }) {
   const { slug, locale } = await params;
@@ -43,7 +44,8 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
   let jsonLd: any = null;
   try {
     const settings: any = await getCachedGlobal("settings" as never, 1, locale)();
-    jsonLd = generateProductJSONLD(product, currency, url, settings?.siteTitle);
+    const reviews = product.reviewCount ? await getProductReviews(product.id, 1, 20) : [];
+    jsonLd = generateProductJSONLD(product, currency, url, settings?.siteTitle, reviews);
   } catch (err) {
     console.error("Failed to generate product JSON-LD:", err);
   }
