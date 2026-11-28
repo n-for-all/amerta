@@ -4,9 +4,10 @@ import { Separator } from "@/amerta/theme/blocks/common/Separator";
 import { Button } from "@/amerta/theme/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/amerta/theme/ui/select"; // Assuming this is where your component lives
 import { cn } from "@/amerta/utilities/ui";
-import { LogOut, LayoutDashboard, MapPin, ShoppingBag, User } from "lucide-react";
+import { Loader2, LogOut, LayoutDashboard, MapPin, ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { getURL } from "@/amerta/utilities/getURL";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
@@ -25,6 +26,15 @@ export function AccountSidebar({ locale }: AccountSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { __ } = useEcommerce();
+  // While the next account page is being fetched: the chosen item shows a spinner and the page area is dimmed
+  const [isPending, startTransition] = useTransition();
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+  const loadingHref = isPending ? pendingHref : null;
+
+  const go = (itemHref: string, url: string) => {
+    setPendingHref(itemHref);
+    startTransition(() => router.push(url));
+  };
 
   const isActive = (itemHref: string) => {
     const fullHref = `/account${itemHref}`;
@@ -38,15 +48,14 @@ export function AccountSidebar({ locale }: AccountSidebarProps) {
 
   const handleMobileChange = (val: string) => {
     router.refresh();
-    if (val === "logout") {
-      router.push(getURL("/logout", locale));
-    } else {
-      router.push(getURL(`/account${val}`, locale));
-    }
+    go(val, val === "logout" ? getURL("/logout", locale) : getURL(`/account${val}`, locale));
   };
 
   return (
     <>
+      {/* Read by the page area next to the menu (see the account layout) to dim itself while loading */}
+      <span hidden className="peer/account" data-pending={isPending ? "" : undefined} />
+
       {/* --- Mobile View: Shadcn Select --- */}
       <div className="w-full mb-8 md:hidden">
         <label className="block mt-4 mb-2 text-sm font-medium sr-only text-muted-foreground">{__("My Account")}</label>
@@ -55,6 +64,7 @@ export function AccountSidebar({ locale }: AccountSidebarProps) {
           <SelectTrigger className="w-full mt-4 bg-white h-11 dark:bg-zinc-950">
             {/* We render the icon + label manually in the value slot for better visuals */}
             <div className="flex items-center gap-2">
+              {isPending && <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />}
               <SelectValue placeholder={__(activeItem.label)} />
             </div>
           </SelectTrigger>
@@ -86,11 +96,24 @@ export function AccountSidebar({ locale }: AccountSidebarProps) {
           <nav className="space-y-2">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const active = isActive(item.href);
+              const loading = loadingHref === item.href;
+              // The chosen item is highlighted straight away, without waiting for its page
+              const active = loadingHref ? loading : isActive(item.href);
+              const url = getURL(`/account${item.href}`, locale);
               return (
                 <Button variant={active ? "default" : "ghost"} asChild key={item.id} className={cn("justify-start w-full gap-2", active && "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100")}>
-                  <Link href={getURL(`/account${item.href}`, locale)} className="flex items-center gap-2">
-                    <Icon className="w-4 h-4" />
+                  <Link
+                    href={url}
+                    aria-busy={loading || undefined}
+                    className="flex items-center gap-2"
+                    onClick={(event) => {
+                      // New tab / new window clicks are left to the browser
+                      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+                      event.preventDefault();
+                      if (!isActive(item.href)) go(item.href, url);
+                    }}
+                  >
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <Icon className="w-4 h-4" />}
                     {__(item.label)}
                   </Link>
                 </Button>

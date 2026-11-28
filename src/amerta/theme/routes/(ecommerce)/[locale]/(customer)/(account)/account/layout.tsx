@@ -16,7 +16,7 @@ export default async function AccountLayout({ children, params }: { children: Re
         <h2 className="mt-8 mb-4 text-2xl font-semibold sr-only">My Account</h2>
         <div className="flex flex-col items-start mx-auto md:flex-row">
           <AccountSidebar locale={locale} />
-          <main className="flex-1 w-full md:py-8 md:pl-8 md:border-l md:border-border min-h-[500px] md:border-zinc-200 dark:md:border-zinc-800 rtl:md:pl-0 rtl:md:pr-8 rtl:md:border-l-0 rtl:md:border-r"> {children}</main>
+          <main className="flex-1 w-full transition-opacity peer-data-[pending]/account:opacity-40 peer-data-[pending]/account:pointer-events-none md:py-8 md:pl-8 md:border-l md:border-border min-h-[500px] md:border-zinc-200 dark:md:border-zinc-800 rtl:md:pl-0 rtl:md:pr-8 rtl:md:border-l-0 rtl:md:border-r"> {children}</main>
         </div>
       </div>
     </div>
