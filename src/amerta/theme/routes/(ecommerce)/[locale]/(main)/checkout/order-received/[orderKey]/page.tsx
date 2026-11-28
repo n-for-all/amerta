@@ -6,12 +6,13 @@ import { getSalesChannel } from "@/amerta/core/utilities/get-sales-channel";
 import { OrderReceived } from "@/amerta/theme/components/OrderReceived";
 import { getDefaultCurrency } from "@/amerta/core/utilities/get-default-currency";
 import { cookies } from "next/headers";
-import { CatalogCheckoutFrame } from "@/amerta/apps/catalog/components/storefront/CatalogCheckoutFrame";
 
 export default async function OrderReceivedPage({ params }: { params: Promise<{ orderKey: string; locale: string }> }) {
   const { orderKey, locale } = await params;
   const decryptedOrderKey = decryptSignature(decodeURIComponent(orderKey));
   if (!decryptedOrderKey) return notFound();
+
+
 
   const decryptedOrderExpiry = decryptedOrderKey.split(":")[1];
   if (decryptedOrderExpiry && Date.now() > parseInt(decryptedOrderExpiry, 10)) {
@@ -68,10 +69,5 @@ export default async function OrderReceivedPage({ params }: { params: Promise<{ 
   const isCOD = paymentGateway === "cod";
   const currency = getDefaultCurrency(salesChannel!);
 
-  // An order that came from the catalog keeps the catalog's look
-  return (
-    <CatalogCheckoutFrame locale={locale} source={order.source || null}>
-      <OrderReceived initialOrder={order} initialPayment={payment} customerEmail={customerEmail} customerName={customerName} locale={locale} currency={currency} isCOD={isCOD} orderKey={orderKey} />
-    </CatalogCheckoutFrame>
-  );
+  return <OrderReceived initialOrder={order} initialPayment={payment} customerEmail={customerEmail} customerName={customerName} locale={locale} currency={currency} isCOD={isCOD} orderKey={orderKey} />;
 }

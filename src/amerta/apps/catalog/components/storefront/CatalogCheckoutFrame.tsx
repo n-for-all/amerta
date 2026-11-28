@@ -1,21 +1,17 @@
-import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import { getURL } from "@/amerta/utilities/getURL";
-import { SOURCE_COOKIE, isCatalogSource } from "@/amerta/apps/catalog/settings";
 import { getCatalogContext } from "@/amerta/apps/catalog/services/catalogItems";
 import { CatalogFrame } from "@/amerta/apps/catalog/components/storefront/CatalogFrame";
 import { getCatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/frameProps";
 
 /**
- * A customer who came from the catalog keeps the catalog's look through checkout: the same slim
- * bar instead of the shop's header and footer, with a link back to the catalog. Everyone else
- * (and every shop without the Catalog app) gets the page unchanged.
+ * The frame of the catalog's own checkout page (/catalog/checkout): the catalog's slim bar with a
+ * link back to the catalog, instead of the shop's header and footer. The shop's regular checkout
+ * page is a different page and is not touched.
  */
-export async function CatalogCheckoutFrame({ locale, source, children }: { locale: string; source?: string | null; children: React.ReactNode }) {
-  const from = source === undefined ? (await cookies()).get(SOURCE_COOKIE)?.value : source;
-  if (!isCatalogSource(from)) return <>{children}</>;
-
+export async function CatalogCheckoutFrame({ locale, children }: { locale: string; children: React.ReactNode }) {
   const ctx = await getCatalogContext(locale);
-  if (!ctx) return <>{children}</>;
+  if (!ctx) notFound();
 
   return (
     <CatalogFrame {...(await getCatalogFrameProps(ctx))} backUrl={getURL("/catalog", locale)} wide>

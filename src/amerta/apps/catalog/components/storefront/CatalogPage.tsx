@@ -40,7 +40,7 @@ export async function CatalogPage({ locale }: { locale: string }) {
       coverImage={settings.coverImage}
       logoUrl={logo && typeof logo === "object" ? logo.url || null : null}
       websiteUrl={getURL("/", locale) || "/"}
-      checkoutUrl={getURL("/checkout", locale)}
+      checkoutUrl={getURL("/catalog/checkout", locale)}
       orderMode={settings.orderMode}
       buyOnWebsite={settings.buyOnWebsite}
       frame={await getCatalogFrameProps(ctx)}
