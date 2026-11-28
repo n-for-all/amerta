@@ -279,7 +279,24 @@ export const CatalogClient = (props: CatalogClientProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const ordering = useOrder(props);
-  const openItem = openId ? items.find((item) => item.id === openId) || null : null;
+  const [linkedItem, setLinkedItem] = useState<CatalogItem | null>(null);
+  const openItem = openId ? items.find((item) => item.id === openId) || (linkedItem?.id === openId ? linkedItem : null) : null;
+
+  // /catalog?product=<id> opens that product (the cart's product links arrive this way)
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get("product");
+    if (!id) return;
+    url.searchParams.delete("product");
+    window.history.replaceState(null, "", url.pathname + url.search);
+    fetch(`/api/catalog/item/${encodeURIComponent(id)}?locale=${encodeURIComponent(locale)}`, { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((item: CatalogItem) => {
+        setLinkedItem(item);
+        setOpenId(item.id);
+      })
+      .catch(() => undefined);
+  }, [locale]);
   const closePopup = useCallback(() => setOpenId(null), []);
 
   const loadMore = useCallback(async () => {
@@ -324,13 +341,13 @@ export const CatalogClient = (props: CatalogClientProps) => {
           <div className="relative">
             {/* The logo already says the shop's name, so the name is only written out when there is no logo */}
             {logoUrl && (
-              <a href={websiteUrl} aria-label={labels.visitWebsite} className="block">
+              <a href={websiteUrl} data-catalog-keep="" aria-label={labels.visitWebsite} className="block">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={logoUrl} alt="" className="w-auto mx-auto h-9" />
               </a>
             )}
             <h1 className={logoUrl ? "mt-3 text-xs font-medium" : "text-xl font-bold"}>
-              <a href={websiteUrl} className="inline-flex items-center gap-1 hover:underline underline-offset-4">
+              <a href={websiteUrl} data-catalog-keep="" className="inline-flex items-center gap-1 hover:underline underline-offset-4">
                 <span>{logoUrl ? labels.visitWebsite : heading}</span>
                 <svg viewBox="0 0 24 24" className="w-[0.9em] h-[0.9em] rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M9 6l6 6-6 6" />
@@ -409,7 +426,7 @@ export const CatalogClient = (props: CatalogClientProps) => {
           {!hasMore && items.length > 0 && (
             <p className="py-8 text-sm text-center text-zinc-600 dark:text-zinc-300">
               {labels.endQuestion}{" "}
-              <a href={websiteUrl} className="font-semibold underline underline-offset-4">
+              <a href={websiteUrl} data-catalog-keep="" className="font-semibold underline underline-offset-4">
                 {labels.endLink}
               </a>
             </p>

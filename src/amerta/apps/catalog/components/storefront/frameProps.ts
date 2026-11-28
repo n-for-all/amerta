@@ -21,6 +21,8 @@ export async function getCatalogFrameProps(ctx: Context): Promise<CatalogFramePr
     currencies: await getCurrencies(salesChannel),
     currentCurrency: currency,
     locales: LOCALES.filter((l) => (enabledLocales ? enabledLocales.includes(l.code) : true)).map((l) => ({ label: l.label, code: l.code })),
+    catalogUrl: getURL("/catalog", locale),
+    catalogCheckoutUrl: getURL("/catalog/checkout", locale),
     labels: { search: __("Search"), account: __("Account"), toggleTheme: __("Toggle theme"), backToCatalog: __("Back to catalog") },
   };
 }

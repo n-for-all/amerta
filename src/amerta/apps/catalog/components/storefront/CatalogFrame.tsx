@@ -19,6 +19,9 @@ export interface CatalogFrameProps {
   currentCurrency: Currency;
   locales: { label: string; code: string }[];
   labels: { search: string; account: string; toggleTheme: string; backToCatalog: string };
+  /** Where the catalog and its checkout live, so cart links can be kept inside the catalog */
+  catalogUrl: string;
+  catalogCheckoutUrl: string;
 }
 
 /**
@@ -33,6 +36,8 @@ export const CatalogFrame = ({
   currentCurrency,
   locales,
   labels,
+  catalogUrl,
+  catalogCheckoutUrl,
   backUrl,
   wide,
   tagSource,
@@ -66,6 +71,67 @@ export const CatalogFrame = ({
       document.body.style.overflow = previousOverflow;
     };
   }, [ref, tagSource]);
+
+  // Nothing in the cart or the checkout leads out of the catalog. The cart and the checkout form are
+  // the shop's own components and are left as they are; while the catalog is open their links are
+  // adjusted from here: "Check out" goes to the catalog's checkout, a product opens in the catalog,
+  // and "View cart" / "Continue shopping" (which lead to the shop) are put away.
+  useEffect(() => {
+    const pathOf = (anchor: HTMLAnchorElement): string | null => {
+      try {
+        const url = new URL(anchor.href, window.location.href);
+        if (url.origin !== window.location.origin) return null;
+        // Drop a leading language segment such as /ar or /en-GB
+        return url.pathname.replace(/^\/[a-z]{2}(-[A-Za-z]{2})?(?=\/|$)/, "").replace(/\/+$/, "") || "/";
+      } catch {
+        return null;
+      }
+    };
+    const scopes = () => [ref.current, ...Array.from(document.querySelectorAll<HTMLElement>('[role="dialog"]'))].filter(Boolean) as HTMLElement[];
+
+    const tidy = () => {
+      for (const scope of scopes()) {
+        for (const anchor of Array.from(scope.querySelectorAll<HTMLAnchorElement>("a[href]:not([data-catalog-keep])"))) {
+          const path = pathOf(anchor);
+          if (path !== "/" && path !== "/cart") continue;
+          // "or Continue shopping →" sits in a small text wrapper: put the whole line away
+          const parent = anchor.parentElement;
+          const line = parent && ["SPAN", "P"].includes(parent.tagName) ? parent : anchor;
+          if (!line.hidden) line.hidden = true;
+          // "View cart" shared a two-column row with "Check out", which now takes the full width
+          if (path === "/cart" && parent && getComputedStyle(parent).display === "grid") parent.style.gridTemplateColumns = "1fr";
+        }
+      }
+    };
+
+    let queued = 0;
+    const observer = new MutationObserver(() => {
+      cancelAnimationFrame(queued);
+      queued = requestAnimationFrame(tidy);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    tidy();
+
+    const onClick = (event: MouseEvent) => {
+      const anchor = (event.target as HTMLElement | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (!anchor || anchor.hasAttribute("data-catalog-keep") || !scopes().some((scope) => scope.contains(anchor))) return;
+      const path = pathOf(anchor);
+      if (!path) return;
+      const product = path.match(/^\/products?\/([^/]+)$/);
+      const target = path === "/checkout" ? catalogCheckoutUrl : product ? `${catalogUrl}?product=${encodeURIComponent(product[1]!)}` : null;
+      if (!target) return;
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.assign(target);
+    };
+    document.addEventListener("click", onClick, true);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(queued);
+      document.removeEventListener("click", onClick, true);
+    };
+  }, [ref, catalogUrl, catalogCheckoutUrl]);
 
   const iconButton = "flex items-center justify-center p-1.5 rounded-md cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800";
 
