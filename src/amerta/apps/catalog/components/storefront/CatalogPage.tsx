@@ -2,13 +2,12 @@ import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { printf } from "fast-printf";
-import { getCurrencies } from "@/amerta/core/utilities/get-currencies";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { getURL } from "@/amerta/utilities/getURL";
-import { LOCALES } from "@/amerta/localization/locales";
 import { getCatalogSettings } from "../../settings";
 import { getCatalogContext, getCatalogItems } from "../../services/catalogItems";
 import { CatalogClient } from "./CatalogClient";
+import { getCatalogFrameProps } from "./frameProps";
 
 export async function getCatalogHeading(locale: string): Promise<string | null> {
   const payload = await getPayload({ config: configPromise });
@@ -25,13 +24,12 @@ export async function getCatalogHeading(locale: string): Promise<string | null> 
 export async function CatalogPage({ locale }: { locale: string }) {
   const ctx = await getCatalogContext(locale);
   if (!ctx) notFound();
-  const { settings, salesChannel, currency, __ } = ctx;
+  const { settings, __ } = ctx;
 
   const siteSettings: any = await getCachedGlobal("settings" as never, 1, locale)();
   const headerData: any = await getCachedGlobal("header" as never, 1, locale)();
   const siteTitle = siteSettings?.siteTitle || "";
   const logo = headerData?.logoDark || headerData?.logoLight;
-  const enabledLocales = siteSettings?.locales as string[] | undefined;
   const first = await getCatalogItems(ctx, 1);
 
   return (
@@ -42,14 +40,10 @@ export async function CatalogPage({ locale }: { locale: string }) {
       coverImage={settings.coverImage}
       logoUrl={logo && typeof logo === "object" ? logo.url || null : null}
       websiteUrl={getURL("/", locale) || "/"}
-      accountUrl={getURL("/account", locale)}
       checkoutUrl={getURL("/checkout", locale)}
       orderMode={settings.orderMode}
       buyOnWebsite={settings.buyOnWebsite}
-      enableThemeSwitch={!!headerData?.enableThemeSwitch}
-      currencies={await getCurrencies(salesChannel)}
-      currentCurrency={currency}
-      locales={LOCALES.filter((l) => (enabledLocales ? enabledLocales.includes(l.code) : true)).map((l) => ({ label: l.label, code: l.code }))}
+      frame={await getCatalogFrameProps(ctx)}
       initialItems={first.items}
       initialHasMore={first.hasMore}
       labels={{
@@ -69,9 +63,6 @@ export async function CatalogPage({ locale }: { locale: string }) {
         endQuestion: __("Can't find what you are looking for?"),
         endLink: printf(__("Visit %s"), siteTitle || __("our website")),
         close: __("Close"),
-        search: __("Search"),
-        account: __("Account"),
-        toggleTheme: __("Toggle theme"),
       }}
     />
   );

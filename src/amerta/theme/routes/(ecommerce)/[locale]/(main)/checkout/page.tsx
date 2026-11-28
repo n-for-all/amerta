@@ -7,15 +7,18 @@ import { Logo } from "@/amerta/theme/blocks/common/Header/logo";
 import { generateStaticMeta } from "@/amerta/utilities/generateMeta";
 import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 import { getCurrentCart } from "@/amerta/core/utilities/get-current-cart";
+import { CatalogCheckoutFrame } from "@/amerta/apps/catalog/components/storefront/CatalogCheckoutFrame";
 
 export default async function CheckoutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const data = await getCheckoutData(locale);
   const ecommerceSettings: EcommerceSettings = await getCachedGlobal("ecommerce-settings" as keyof Config["globals"], 1, locale)();
   return (
-    <div className="px-4 pt-16 pb-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <Checkout data={data} cart={await getCurrentCart(locale)} ecommerceSettings={ecommerceSettings} logo={<Logo logoClassName="flex justify-center h-10 md:h-10" locale={locale} />} />
-    </div>
+    <CatalogCheckoutFrame locale={locale}>
+      <div className="px-4 pt-16 pb-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <Checkout data={data} cart={await getCurrentCart(locale)} ecommerceSettings={ecommerceSettings} logo={<Logo logoClassName="flex justify-center h-10 md:h-10" locale={locale} />} />
+      </div>
+    </CatalogCheckoutFrame>
   );
 }
 
