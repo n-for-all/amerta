@@ -333,13 +333,7 @@ export const CatalogClient = (props: CatalogClientProps) => {
   return (
     <div ref={rootRef} className="fixed inset-0 z-40 overflow-y-auto bg-white text-zinc-900 dark:bg-black dark:text-white">
       <header className="sticky top-0 z-30 bg-white border-b border-zinc-200 dark:bg-black dark:border-zinc-800">
-        <div className="flex flex-wrap items-center justify-between max-w-2xl px-4 py-2 mx-auto gap-x-3 gap-y-1">
-          <div className="flex items-baseline gap-3">
-            <span className="text-lg font-semibold">{labels.catalog}</span>
-            <a href={websiteUrl} className="text-sm underline text-zinc-600 underline-offset-4 dark:text-zinc-300">
-              {labels.visitWebsite}
-            </a>
-          </div>
+        <div className="flex flex-wrap items-center justify-end max-w-2xl px-4 py-2 mx-auto gap-x-3 gap-y-1">
           <div className="flex items-center gap-1">
             <CurrencyPopover currentCurrency={currentCurrency} currencies={currencies} />
             <LanguageSwitcher locale={locale} locales={locales} />
@@ -376,12 +370,20 @@ export const CatalogClient = (props: CatalogClientProps) => {
             <img src={coverImage} alt="" className="absolute inset-0 object-cover w-full h-full opacity-40" />
           )}
           <div className="relative">
-            {logoUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="" className="w-auto h-12 mx-auto mb-4" />
+            {/* The logo already says the shop's name, so the name is only written out when there is no logo */}
+            {logoUrl ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={logoUrl} alt="" className="w-auto h-12 mx-auto" />
+                <h1 className="sr-only">{heading}</h1>
+              </>
+            ) : (
+              <h1 className="text-2xl font-bold">{heading}</h1>
             )}
-            <h1 className="text-2xl font-bold">{heading}</h1>
-            {intro && <p className="max-w-md mx-auto mt-2 text-sm text-white/85">{intro}</p>}
+            {intro && <p className="max-w-md mx-auto mt-3 text-sm text-white/85">{intro}</p>}
+            <a href={websiteUrl} className="inline-block mt-4 text-sm font-medium underline underline-offset-4 text-white/90 hover:text-white">
+              {labels.visitWebsite}
+            </a>
           </div>
         </div>
 
