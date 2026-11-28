@@ -19,6 +19,14 @@ export interface CatalogSettings {
   intro: string;
   /** Optional picture behind the heading (image URL). */
   coverImage: string;
+  /** Show the catalog in dark mode, whatever the shop's own theme is. */
+  darkMode: boolean;
+  /** Tools in the catalog's top bar. The cart is always shown. */
+  showAccount: boolean;
+  showCurrency: boolean;
+  showLanguage: boolean;
+  showSearch: boolean;
+  showWishlist: boolean;
   /** Customers can order through the website. */
   buyOnWebsite: boolean;
   /** What the website button does: straight to checkout, or add to the cart. */
@@ -41,6 +49,12 @@ export const DEFAULT_CATALOG_SETTINGS: CatalogSettings = {
   heading: "",
   intro: "",
   coverImage: "",
+  darkMode: false,
+  showAccount: true,
+  showCurrency: true,
+  showLanguage: true,
+  showSearch: true,
+  showWishlist: true,
   buyOnWebsite: true,
   orderMode: "buy_now",
   productMode: "all",

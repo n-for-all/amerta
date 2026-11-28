@@ -15,6 +15,10 @@ export interface CatalogFrameProps {
   locale: string;
   accountUrl: string;
   enableThemeSwitch: boolean;
+  /** Always dark, whatever the shop's theme is */
+  darkMode: boolean;
+  /** Which tools the bar shows; the cart is always there */
+  show: { account: boolean; currency: boolean; language: boolean; search: boolean; wishlist: boolean };
   currencies: Currency[];
   currentCurrency: Currency;
   locales: { label: string; code: string }[];
@@ -32,6 +36,8 @@ export const CatalogFrame = ({
   locale,
   accountUrl,
   enableThemeSwitch,
+  darkMode,
+  show,
   currencies,
   currentCurrency,
   locales,
@@ -71,6 +77,23 @@ export const CatalogFrame = ({
       document.body.style.overflow = previousOverflow;
     };
   }, [ref, tagSource]);
+
+  // Dark mode covers the whole screen, including the cart and search that open over it, so it is
+  // set on the page while the catalog is open (the visitor's own theme choice is not overwritten).
+  useEffect(() => {
+    if (!darkMode) return;
+    const root = document.documentElement;
+    const previous = root.getAttribute("data-theme");
+    const apply = () => root.getAttribute("data-theme") !== "dark" && root.setAttribute("data-theme", "dark");
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => {
+      observer.disconnect();
+      if (previous) root.setAttribute("data-theme", previous);
+      else root.removeAttribute("data-theme");
+    };
+  }, [darkMode]);
 
   // Nothing in the cart or the checkout leads out of the catalog. The cart and the checkout form are
   // the shop's own components and are left as they are; while the catalog is open their links are
@@ -136,7 +159,7 @@ export const CatalogFrame = ({
   const iconButton = "flex items-center justify-center p-1.5 rounded-md cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800";
 
   return (
-    <div ref={ref} className="fixed inset-0 z-40 overflow-y-auto bg-white text-zinc-900 dark:bg-black dark:text-white">
+    <div ref={ref} data-theme={darkMode ? "dark" : undefined} className="fixed inset-0 z-40 overflow-y-auto bg-white text-zinc-900 dark:bg-black dark:text-white">
       <header className="sticky top-0 z-30 bg-white border-b border-zinc-200 dark:bg-black dark:border-zinc-800">
         <div className={"flex flex-wrap items-center px-4 py-1.5 mx-auto gap-x-1 gap-y-1 text-sm [&_svg]:max-w-5 [&_svg]:max-h-5 " + (wide ? "max-w-7xl sm:px-6 lg:px-8" : "max-w-2xl")}>
           {/* A small arrow back to the catalog, then the shop's tools on the left and only the cart on the right */}
@@ -148,8 +171,8 @@ export const CatalogFrame = ({
             </a>
           )}
           <div className="flex items-center gap-1">
-            <CurrencyPopover currentCurrency={currentCurrency} currencies={currencies} />
-            <LanguageSwitcher locale={locale} locales={locales} />
+            {show.currency && <CurrencyPopover currentCurrency={currentCurrency} currencies={currencies} />}
+            {show.language && <LanguageSwitcher locale={locale} locales={locales} />}
             {enableThemeSwitch && (
               <button type="button" className={iconButton} aria-label={labels.toggleTheme} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden="true">
@@ -157,20 +180,24 @@ export const CatalogFrame = ({
                 </svg>
               </button>
             )}
-            <button type="button" className={iconButton} aria-label={labels.search} onClick={() => setSearchOpen(true)}>
-              <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true">
-                <path d="M17 17L21 21" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <Link href={accountUrl} className={iconButton} aria-label={labels.account}>
-              <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true">
-                <path d="M15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12C13.6569 12 15 10.6569 15 9Z" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M17 17C17 14.2386 14.7614 12 12 12C9.23858 12 7 14.2386 7 17" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-            <Wishlist className="hover:bg-zinc-100 dark:hover:bg-zinc-800" />
+            {show.search && (
+              <button type="button" className={iconButton} aria-label={labels.search} onClick={() => setSearchOpen(true)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true">
+                  <path d="M17 17L21 21" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            )}
+            {show.account && (
+              <Link href={accountUrl} className={iconButton} aria-label={labels.account}>
+                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true">
+                  <path d="M15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12C13.6569 12 15 10.6569 15 9Z" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M17 17C17 14.2386 14.7614 12 12 12C9.23858 12 7 14.2386 7 17" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            )}
+            {show.wishlist && <Wishlist className="hover:bg-zinc-100 dark:hover:bg-zinc-800" />}
           </div>
           <div className="ml-auto">
             <Cart />
@@ -179,7 +206,7 @@ export const CatalogFrame = ({
       </header>
 
       {children}
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} locale={locale} />
+      {show.search && <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} locale={locale} />}
     </div>
   );
 };

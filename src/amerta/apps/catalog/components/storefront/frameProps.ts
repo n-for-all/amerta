@@ -9,7 +9,7 @@ type Context = NonNullable<Awaited<ReturnType<typeof getCatalogContext>>>;
 
 /** What the catalog's top bar needs: currencies, languages, the theme switch and its labels. */
 export async function getCatalogFrameProps(ctx: Context): Promise<CatalogFrameProps> {
-  const { locale, salesChannel, currency, __ } = ctx;
+  const { locale, salesChannel, currency, settings, __ } = ctx;
   const siteSettings: any = await getCachedGlobal("settings" as never, 1, locale)();
   const headerData: any = await getCachedGlobal("header" as never, 1, locale)();
   const enabledLocales = siteSettings?.locales as string[] | undefined;
@@ -17,7 +17,10 @@ export async function getCatalogFrameProps(ctx: Context): Promise<CatalogFramePr
   return {
     locale,
     accountUrl: getURL("/account", locale),
-    enableThemeSwitch: !!headerData?.enableThemeSwitch,
+    // A catalog fixed to dark mode has nothing to switch
+    enableThemeSwitch: !!headerData?.enableThemeSwitch && !settings.darkMode,
+    darkMode: settings.darkMode,
+    show: { account: settings.showAccount, currency: settings.showCurrency, language: settings.showLanguage, search: settings.showSearch, wishlist: settings.showWishlist },
     currencies: await getCurrencies(salesChannel),
     currentCurrency: currency,
     locales: LOCALES.filter((l) => (enabledLocales ? enabledLocales.includes(l.code) : true)).map((l) => ({ label: l.label, code: l.code })),

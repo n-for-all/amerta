@@ -263,6 +263,53 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
             </section>
 
             <section className="catalog-settings__section">
+              <h2 className="catalog-settings__heading">Look and top bar</h2>
+              <label className="catalog-settings__check">
+                <input type="checkbox" checked={settings.darkMode} onChange={(e) => set("darkMode", e.target.checked)} />
+                <span>
+                  <strong>Dark mode</strong>
+                  <em>The catalog and its checkout are always dark, whatever the shop's own theme is.</em>
+                </span>
+              </label>
+              <label className="catalog-settings__check">
+                <input type="checkbox" checked={settings.showAccount} onChange={(e) => set("showAccount", e.target.checked)} />
+                <span>
+                  <strong>Show account</strong>
+                  <em>The account icon in the top bar.</em>
+                </span>
+              </label>
+              <label className="catalog-settings__check">
+                <input type="checkbox" checked={settings.showCurrency} onChange={(e) => set("showCurrency", e.target.checked)} />
+                <span>
+                  <strong>Show currency</strong>
+                  <em>The currency switcher in the top bar.</em>
+                </span>
+              </label>
+              <label className="catalog-settings__check">
+                <input type="checkbox" checked={settings.showLanguage} onChange={(e) => set("showLanguage", e.target.checked)} />
+                <span>
+                  <strong>Show language</strong>
+                  <em>The language switcher in the top bar.</em>
+                </span>
+              </label>
+              <label className="catalog-settings__check">
+                <input type="checkbox" checked={settings.showSearch} onChange={(e) => set("showSearch", e.target.checked)} />
+                <span>
+                  <strong>Show search</strong>
+                  <em>The search icon in the top bar.</em>
+                </span>
+              </label>
+              <label className="catalog-settings__check">
+                <input type="checkbox" checked={settings.showWishlist} onChange={(e) => set("showWishlist", e.target.checked)} />
+                <span>
+                  <strong>Show wishlist</strong>
+                  <em>The wishlist icon in the top bar.</em>
+                </span>
+              </label>
+              <p className="catalog-settings__help">The cart is always shown.</p>
+            </section>
+
+            <section className="catalog-settings__section">
               <h2 className="catalog-settings__heading">Product feed</h2>
               <label className="catalog-settings__check">
                 <input type="checkbox" checked={settings.feedEnabled} onChange={(e) => set("feedEnabled", e.target.checked)} />
