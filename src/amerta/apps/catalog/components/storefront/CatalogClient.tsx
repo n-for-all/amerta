@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Check, Plus, X } from "lucide-react";
 import { Button } from "@/amerta/theme/ui/button";
 import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { addToCart } from "@/amerta/core/utilities/cart.client";
@@ -185,8 +186,8 @@ const ProductPopup = ({ preview, locale, labels, buyOnWebsite, orderMode, orderi
           (shown ? "translate-y-0 opacity-100 sm:scale-100" : "translate-y-full opacity-100 sm:translate-y-0 sm:opacity-0 sm:scale-95")
         }
       >
-        <button ref={closeRef} type="button" onClick={close} aria-label={labels.close} className="absolute z-10 flex items-center justify-center text-xl rounded-full shadow w-9 h-9 top-3 right-3 rtl:right-auto rtl:left-3 bg-white/90 text-zinc-900">
-          ×
+        <button ref={closeRef} type="button" onClick={close} aria-label={labels.close} className="absolute z-10 flex items-center justify-center rounded-full shadow w-9 h-9 top-3 right-3 rtl:right-auto rtl:left-3 bg-white/90 text-zinc-900">
+          <X className="w-5 h-5" aria-hidden="true" />
         </button>
 
         <div className="overflow-y-auto">
@@ -399,7 +400,7 @@ export const CatalogClient = (props: CatalogClientProps) => {
                               </Button>
                             ) : orderMode === "add_to_cart" ? (
                               <button type="button" disabled={busy} onClick={() => ordering.order(item)} aria-label={`${labels.addToCart}: ${item.title}`} title={labels.addToCart} className="flex items-center justify-center text-lg rounded-lg cursor-pointer w-8 h-8 bg-zinc-100 hover:bg-zinc-200 disabled:opacity-50 dark:bg-zinc-800 dark:hover:bg-zinc-700">
-                                {added ? "✓" : "+"}
+                                {added ? <Check className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
                               </button>
                             ) : (
                               <Button type="button" size="xs" className="px-3 text-xs" disabled={busy} onClick={() => ordering.order(item)}>
