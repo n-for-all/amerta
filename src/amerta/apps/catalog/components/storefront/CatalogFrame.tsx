@@ -9,7 +9,7 @@ import { CurrencyPopover } from "@/amerta/theme/components/CurrencyPopover";
 import { LanguageSwitcher } from "@/amerta/theme/components/LanguageSwitcher";
 import { SearchModal } from "@/amerta/theme/components/SearchModal";
 import { useTheme } from "@/amerta/providers/Theme";
-import { CATALOG_SOURCES, SOURCE_COOKIE, SOURCE_MAX_AGE } from "../../settings";
+import { CATALOG_SOURCES, SOURCE_COOKIE, SOURCE_MAX_AGE } from "@/amerta/apps/catalog/settings";
 
 export interface CatalogFrameProps {
   locale: string;

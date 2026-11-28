@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 import { getURL } from "@/amerta/utilities/getURL";
-import { SOURCE_COOKIE, isCatalogSource } from "../../settings";
-import { getCatalogContext } from "../../services/catalogItems";
-import { CatalogFrame } from "./CatalogFrame";
-import { getCatalogFrameProps } from "./frameProps";
+import { SOURCE_COOKIE, isCatalogSource } from "@/amerta/apps/catalog/settings";
+import { getCatalogContext } from "@/amerta/apps/catalog/services/catalogItems";
+import { CatalogFrame } from "@/amerta/apps/catalog/components/storefront/CatalogFrame";
+import { getCatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/frameProps";
 
 /**
  * A customer who came from the catalog keeps the catalog's look through checkout: the same slim

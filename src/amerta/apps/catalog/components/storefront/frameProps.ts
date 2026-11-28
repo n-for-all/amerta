@@ -2,8 +2,8 @@ import { getCurrencies } from "@/amerta/core/utilities/get-currencies";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { getURL } from "@/amerta/utilities/getURL";
 import { LOCALES } from "@/amerta/localization/locales";
-import type { getCatalogContext } from "../../services/catalogItems";
-import type { CatalogFrameProps } from "./CatalogFrame";
+import type { getCatalogContext } from "@/amerta/apps/catalog/services/catalogItems";
+import type { CatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/CatalogFrame";
 
 type Context = NonNullable<Awaited<ReturnType<typeof getCatalogContext>>>;
 

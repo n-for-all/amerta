@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/amerta/theme/ui/button";
 import { addToCart } from "@/amerta/core/utilities/cart.client";
-import { CATALOG_SOURCES } from "../../settings";
-import { CatalogFrame, CatalogFrameProps } from "./CatalogFrame";
-import type { CatalogItem, CatalogItemDetails, CatalogVariant } from "../../services/catalogItems";
+import { CATALOG_SOURCES } from "@/amerta/apps/catalog/settings";
+import { CatalogFrame, CatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/CatalogFrame";
+import type { CatalogItem, CatalogItemDetails, CatalogVariant } from "@/amerta/apps/catalog/services/catalogItems";
 
 export interface CatalogLabels {
   catalog: string;

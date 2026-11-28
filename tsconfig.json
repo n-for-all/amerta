@@ -46,6 +46,7 @@
         "./src/amerta/payload/*"
       ],
       "@/amerta/apps/*": [
+        "./src/theme/apps/*",
         "./src/amerta/apps/*"
       ],
       "@/amerta/theme/*": [

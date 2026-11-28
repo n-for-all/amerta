@@ -4,10 +4,10 @@ import configPromise from "@payload-config";
 import { printf } from "fast-printf";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { getURL } from "@/amerta/utilities/getURL";
-import { getCatalogSettings } from "../../settings";
-import { getCatalogContext, getCatalogItems } from "../../services/catalogItems";
-import { CatalogClient } from "./CatalogClient";
-import { getCatalogFrameProps } from "./frameProps";
+import { getCatalogSettings } from "@/amerta/apps/catalog/settings";
+import { getCatalogContext, getCatalogItems } from "@/amerta/apps/catalog/services/catalogItems";
+import { CatalogClient } from "@/amerta/apps/catalog/components/storefront/CatalogClient";
+import { getCatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/frameProps";
 
 export async function getCatalogHeading(locale: string): Promise<string | null> {
   const payload = await getPayload({ config: configPromise });
