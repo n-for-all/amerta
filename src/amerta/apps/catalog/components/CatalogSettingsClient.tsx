@@ -132,6 +132,13 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
                 </label>
                 <input id="catalog-intro" className="catalog-settings__input" value={settings.intro} onChange={(e) => set("intro", e.target.value)} />
               </div>
+              <div className="catalog-settings__field">
+                <label className="catalog-settings__label" htmlFor="catalog-cover">
+                  Cover picture
+                </label>
+                <input id="catalog-cover" className="catalog-settings__input" placeholder="https://…" value={settings.coverImage} onChange={(e) => set("coverImage", e.target.value)} />
+                <p className="catalog-settings__help">Optional. Paste the address of an image from your media library; it shows behind the heading.</p>
+              </div>
             </section>
 
             <section className="catalog-settings__section">

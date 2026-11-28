@@ -17,6 +17,8 @@ export interface CatalogSettings {
   heading: string;
   /** Short line under the heading. */
   intro: string;
+  /** Optional picture behind the heading (image URL). */
+  coverImage: string;
   /** "Buy now" goes straight to the website checkout. */
   buyOnWebsite: boolean;
   /** Show an "Order on WhatsApp" button. */
@@ -32,6 +34,7 @@ export interface CatalogSettings {
 export const DEFAULT_CATALOG_SETTINGS: CatalogSettings = {
   heading: "",
   intro: "",
+  coverImage: "",
   buyOnWebsite: true,
   orderOnWhatsapp: false,
   whatsappNumber: "",

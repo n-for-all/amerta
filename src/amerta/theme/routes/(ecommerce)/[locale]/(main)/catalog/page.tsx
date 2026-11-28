@@ -5,10 +5,10 @@ import { getURL } from "@/amerta/utilities/getURL";
 
 // Catalog app: a quick "buy now" page to link from Instagram, Facebook or WhatsApp.
 // It only exists while the Catalog app is active.
-export default async function CatalogRoute({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ page?: string }> }) {
+export default async function CatalogRoute({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ page?: string; collection?: string }> }) {
   const { locale } = await params;
-  const { page } = await searchParams;
-  return <CatalogPage locale={locale} page={Math.max(1, parseInt(page || "1", 10) || 1)} />;
+  const { page, collection } = await searchParams;
+  return <CatalogPage locale={locale} page={Math.max(1, parseInt(page || "1", 10) || 1)} collection={collection} />;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
