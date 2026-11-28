@@ -13,7 +13,7 @@ import { anyone } from "../../access/anyone";
 import { authenticated } from "../../access/authenticated";
 import { formatAdminURL } from "payload/shared";
 import config from "@payload-config";
-import { uploadDir } from "../Media";
+import { compressUpload, compressUploadSizes, uploadDir } from "../Media";
 import { getServerSideURL } from "@/amerta/utilities/getURL";
 import fs from "fs";
 import path from "path";
@@ -54,6 +54,8 @@ export const ProductMedia: CollectionConfig = {
     update: authenticated,
   },
   hooks: {
+    beforeOperation: [compressUpload],
+    afterChange: [compressUploadSizes("products")],
     afterDelete: [
       ({ doc }) => {
         const staticDir = uploadDir("products");
