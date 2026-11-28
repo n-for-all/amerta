@@ -72,11 +72,13 @@ export const CatalogFrame = ({
   return (
     <div ref={ref} className="fixed inset-0 z-40 overflow-y-auto bg-white text-zinc-900 dark:bg-black dark:text-white">
       <header className="sticky top-0 z-30 bg-white border-b border-zinc-200 dark:bg-black dark:border-zinc-800">
-        <div className={"flex flex-wrap items-center px-4 py-1.5 mx-auto gap-x-3 gap-y-1 text-sm [&_svg]:max-w-5 [&_svg]:max-h-5 " + (wide ? "max-w-7xl sm:px-6 lg:px-8" : "max-w-2xl")}>
-          {/* On a phone the link back takes its own line; then the shop's tools on the left and only the cart on the right */}
+        <div className={"flex flex-wrap items-center px-4 py-1.5 mx-auto gap-x-1 gap-y-1 text-sm [&_svg]:max-w-5 [&_svg]:max-h-5 " + (wide ? "max-w-7xl sm:px-6 lg:px-8" : "max-w-2xl")}>
+          {/* A small arrow back to the catalog, then the shop's tools on the left and only the cart on the right */}
           {backUrl && (
-            <a href={backUrl} className="text-sm font-medium underline basis-full sm:basis-auto underline-offset-4">
-              ← {labels.backToCatalog}
+            <a href={backUrl} aria-label={labels.backToCatalog} title={labels.backToCatalog} className={iconButton}>
+              <svg viewBox="0 0 24 24" className="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+              </svg>
             </a>
           )}
           <div className="flex items-center gap-1">
