@@ -72,13 +72,14 @@ export const CatalogFrame = ({
   return (
     <div ref={ref} className="fixed inset-0 z-40 overflow-y-auto bg-white text-zinc-900 dark:bg-black dark:text-white">
       <header className="sticky top-0 z-30 bg-white border-b border-zinc-200 dark:bg-black dark:border-zinc-800">
-        <div className={"flex flex-wrap items-center px-4 py-1.5 mx-auto gap-x-3 gap-y-1 text-sm [&_svg]:max-w-5 [&_svg]:max-h-5 " + (backUrl ? "justify-between " : "justify-end ") + (wide ? "max-w-7xl sm:px-6 lg:px-8" : "max-w-2xl")}>
-          {backUrl && (
-            <a href={backUrl} className="text-sm font-medium underline underline-offset-4">
-              ← {labels.backToCatalog}
-            </a>
-          )}
-          <div className="flex items-center gap-1">
+        <div className={"flex flex-wrap items-center px-4 py-1.5 mx-auto gap-x-3 gap-y-1 text-sm [&_svg]:max-w-5 [&_svg]:max-h-5 " + "justify-between " + (wide ? "max-w-7xl sm:px-6 lg:px-8" : "max-w-2xl")}>
+          {/* The shop's tools sit on the left; only the cart is on the right */}
+          <div className="flex flex-wrap items-center gap-1">
+            {backUrl && (
+              <a href={backUrl} className="mr-2 text-sm font-medium underline underline-offset-4">
+                ← {labels.backToCatalog}
+              </a>
+            )}
             <CurrencyPopover currentCurrency={currentCurrency} currencies={currencies} />
             <LanguageSwitcher locale={locale} locales={locales} />
             {enableThemeSwitch && (
@@ -102,8 +103,8 @@ export const CatalogFrame = ({
               </svg>
             </Link>
             <Wishlist className="hover:bg-zinc-100 dark:hover:bg-zinc-800" />
-            <Cart />
           </div>
+          <Cart />
         </div>
       </header>
 
