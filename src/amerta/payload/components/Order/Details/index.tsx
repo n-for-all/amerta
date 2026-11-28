@@ -7,6 +7,12 @@ import { useDocumentInfo, useFormFields } from "@payloadcms/ui";
 import styles from "./index.module.scss";
 import { getAdminRelativeURL } from "@/amerta/utilities/getAdminURL";
 
+const ORDER_SOURCE_LABELS: Record<string, string> = {
+  catalog: "Catalog",
+  catalog_feed: "Catalog feed (Facebook / Instagram)",
+  catalog_whatsapp: "Catalog (WhatsApp link)",
+};
+
 export const OrderDetails: React.FC = () => {
   const { data: savedData } = useDocumentInfo();
 
@@ -199,6 +205,15 @@ export const OrderDetails: React.FC = () => {
             <div className={styles.label}>Status:</div>
             <div className={styles.value}>{liveStatus ?? "—"}</div>
           </div>
+
+          {order.source && (
+            <div className={styles.row}>
+              <div className={styles.label}>Source:</div>
+              <div className={styles.value}>
+                <span className={`${styles.badge} ${styles.badgeSource}`}>{ORDER_SOURCE_LABELS[order.source] || order.source}</span>
+              </div>
+            </div>
+          )}
 
           <div className={styles.row}>
             <div className={styles.label}>Payment:</div>

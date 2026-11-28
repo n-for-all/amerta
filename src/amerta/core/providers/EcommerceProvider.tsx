@@ -5,6 +5,7 @@ import React, { createContext, useContext, ReactNode, useMemo, useCallback, useR
 import { reportMissingTranslation } from "./actions/reportMissingTranslation";
 import { getDefaultCurrency } from "../utilities/get-default-currency";
 import { getExchangeRate } from "../utilities/get-exchange-rate";
+import { SOURCE_COOKIE, SOURCE_MAX_AGE, cleanSource, isCatalogSource } from "@/amerta/apps/catalog/settings";
 
 type Dictionary = Record<string, Record<string, string>>;
 
@@ -85,6 +86,17 @@ export const EcommerceProvider: React.FC<EcommerceProviderProps> = ({
 
     return () => clearInterval(intervalId);
   }, [locale]);
+
+  // Catalog app: a visit that arrives from a catalog link (utm_source=catalog…) is remembered,
+  // so the order placed afterwards records that it came from the catalog.
+  const catalogActive = activeApps.includes("catalog");
+  useEffect(() => {
+    if (!catalogActive) return;
+    const source = new URLSearchParams(window.location.search).get("utm_source");
+    if (isCatalogSource(source)) {
+      document.cookie = `${SOURCE_COOKIE}=${cleanSource(source)}; path=/; max-age=${SOURCE_MAX_AGE}; samesite=lax`;
+    }
+  }, [catalogActive]);
 
   const exchangeRate = useMemo(() => {
     const defaultCurrency = getDefaultCurrency(salesChannel);

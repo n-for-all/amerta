@@ -18,6 +18,7 @@ import { isInStock } from "@/amerta/core/utilities/is-in-stock";
 import { NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
 import { cookies } from "next/headers";
+import { SOURCE_COOKIE, cleanSource } from "@/amerta/apps/catalog/settings";
 
 function getActualComputedTotal(calculatedItems: Array<{ price: number; quantity: number }>, discount: number, shippingTotal: number, taxAmount: number): number {
   // 1. Loop through all items and sum up the actual item total
@@ -335,6 +336,8 @@ export const createOrder = async (req: PayloadRequest) => {
         orderedBy: customerId!,
         status: "pending",
         isTest: isTestOrder,
+        // Where the visit started (set by the Catalog app), so the order shows it
+        source: cleanSource(cookiesInstance.get(SOURCE_COOKIE)?.value) || undefined,
         discountTotal: cart.discount,
         rulesDiscount: cart.rulesDiscount || 0,
         appliedRules: (cart.offers || []).map((offer) => offer.id),

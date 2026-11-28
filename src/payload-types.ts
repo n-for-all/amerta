@@ -2539,6 +2539,10 @@ export interface Order {
   orderCounter?: number | null;
   orderedBy: string | Customer;
   salesChannel: string | SalesChannel;
+  /**
+   * Where the order came from, e.g. catalog. Empty means the regular website.
+   */
+  source?: string | null;
   status?: ('pending' | 'processing' | 'shipped' | 'completed' | 'cancelled' | 'refunded' | 'on-hold') | null;
   /**
    * Placed by a test customer and paid via the gateway sandbox. Runs every live-order function; delete it to revert.
@@ -5221,6 +5225,7 @@ export interface OrdersSelect<T extends boolean = true> {
   orderCounter?: T;
   orderedBy?: T;
   salesChannel?: T;
+  source?: T;
   status?: T;
   isTest?: T;
   stockReduced?: T;
@@ -7142,7 +7147,7 @@ export interface App {
   /**
    * Select which apps should be active.
    */
-  activeApps?: ('google-merchant' | 'cj-dropshipping' | 'loyalty' | 'shopify-catalog')[] | null;
+  activeApps?: ('google-merchant' | 'cj-dropshipping' | 'loyalty' | 'shopify-catalog' | 'catalog')[] | null;
   /**
    * Internal JSON store for all app configurations. (Key = App Slug, Value = App Settings)
    */

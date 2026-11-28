@@ -24,7 +24,7 @@ export const Orders: CollectionConfig = {
   admin: {
     group: "",
     useAsTitle: "orderId",
-    defaultColumns: ["orderId", "createdAt", "orderedBy", "status", "isTest"],
+    defaultColumns: ["orderId", "createdAt", "orderedBy", "status", "source", "isTest"],
     components: {
       edit: {
         beforeDocumentControls: [
@@ -85,6 +85,17 @@ export const Orders: CollectionConfig = {
       required: true,
       admin: {
         position: "sidebar",
+      },
+    },
+    {
+      name: "source",
+      type: "text",
+      label: "Source",
+      index: true,
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+        description: "Where the order came from, e.g. catalog. Empty means the regular website.",
       },
     },
     {
