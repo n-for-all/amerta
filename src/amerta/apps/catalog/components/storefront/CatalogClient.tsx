@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/amerta/theme/ui/button";
+import { ImageMedia } from "@/amerta/components/Media/ImageMedia";
 import { addToCart } from "@/amerta/core/utilities/cart.client";
 import { CATALOG_SOURCES } from "@/amerta/apps/catalog/settings";
 import { CatalogFrame, CatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/CatalogFrame";
@@ -123,12 +124,6 @@ const useOrder = ({ locale, orderMode, checkoutUrl, labels }: Pick<CatalogClient
  * price) and fills in the rest when it arrives, so nothing jumps. It slides up on phones and
  * fades in on larger screens, and leaves the same way.
  */
-/**
- * A resized, compressed copy of one of the shop's own pictures. The originals can be several hundred
- * kilobytes each, far too heavy for a small thumbnail on a phone. Other pictures (SVG, other sites) stay as they are.
- */
-const sized = (url: string, width: number): string => (url.startsWith("/") && !url.startsWith("//") && !url.includes("?") && !/\.svg$/i.test(url) ? `/_next/image?url=${encodeURIComponent(url)}&w=${width}&q=75` : url);
-
 const ProductPopup = ({ preview, locale, labels, buyOnWebsite, orderMode, ordering, onClose }: { preview: CatalogItem; locale: string; labels: CatalogLabels; buyOnWebsite: boolean; orderMode: "buy_now" | "add_to_cart"; ordering: ReturnType<typeof useOrder>; onClose: () => void }) => {
   const [details, setDetails] = useState<CatalogItemDetails | null>(null);
   const [failed, setFailed] = useState(false);
@@ -198,8 +193,9 @@ const ProductPopup = ({ preview, locale, labels, buyOnWebsite, orderMode, orderi
           {/* The picture area keeps its square shape from the first frame, so the text below never jumps */}
           <div className="flex overflow-x-auto aspect-square snap-x snap-mandatory bg-zinc-100 dark:bg-zinc-800">
             {images.map((url, index) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={url} src={sized(url, 828)} alt={item.title} className="object-contain w-full h-full shrink-0 snap-center" loading={index === 0 ? "eager" : "lazy"} />
+              <div key={url} className="relative w-full h-full shrink-0 snap-center">
+                <ImageMedia src={url} alt={item.title} fill imgClassName="object-contain" size="(max-width: 640px) 100vw, 512px" loading={index === 0 ? "eager" : "lazy"} />
+              </div>
             ))}
           </div>
           <div className="p-4">
@@ -340,8 +336,7 @@ export const CatalogClient = (props: CatalogClientProps) => {
         <div className={"relative flex flex-col items-center justify-center px-6 overflow-hidden text-center text-white bg-zinc-900 sm:rounded-2xl " + (coverImage ? "min-h-56 py-10" : "py-8")}>
           {coverImage && (
             <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={sized(coverImage, 828)} alt="" className="absolute inset-0 object-cover w-full h-full" fetchPriority="high" />
+              <ImageMedia src={coverImage} alt="" fill priority imgClassName="object-cover" size="(max-width: 672px) 100vw, 672px" />
               <div className="absolute inset-0 bg-black/60" />
             </>
           )}
@@ -377,11 +372,9 @@ export const CatalogClient = (props: CatalogClientProps) => {
                   {newSection && <h2 className="pt-6 pb-1 text-sm font-semibold tracking-wide uppercase">{item.section}</h2>}
                   <div className="flex items-center gap-3 py-3 border-b border-zinc-200 dark:border-zinc-800">
                     <button type="button" onClick={() => setOpenId(item.id)} className="flex items-center flex-1 min-w-0 gap-3 text-left cursor-pointer rtl:text-right">
-                      <span className="block w-16 h-16 overflow-hidden rounded-lg shrink-0 bg-zinc-100 dark:bg-zinc-800 sm:w-20 sm:h-20">
-                        {item.image && (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={sized(item.image, 128)} alt="" className="object-cover w-full h-full" loading="lazy" decoding="async" />
-                        )}
+                      <span className="relative block w-16 h-16 overflow-hidden rounded-lg shrink-0 bg-zinc-100 dark:bg-zinc-800 sm:w-20 sm:h-20">
+                        {/* The shop's own picture component: resized to the size shown, same quality as the rest of the shop */}
+                        {item.image && <ImageMedia src={item.image} alt="" fill imgClassName="object-contain" size="80px" />}
                       </span>
                       <span className="flex-1 min-w-0">
                         <span className="block text-sm font-semibold leading-snug">{item.title}</span>
