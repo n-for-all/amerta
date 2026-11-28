@@ -40,14 +40,14 @@ export default async function OrdersTable({ customerId, locale, page: pageParam,
   return (
     <div className="w-full">
       {!orders || orders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg border-zinc-200 bg-zinc-50/50">
-          <div className="p-4 mb-4 rounded-full bg-zinc-100">
-            <svg className="w-8 h-8 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <div className="p-4 mb-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
+            <svg className="w-8 h-8 text-zinc-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
           </div>
           <h3 className="text-lg font-semibold">{__("No orders found")}</h3>
-          <p className="max-w-sm mt-2 mb-6 text-sm text-gray-500">{__("You haven't placed any orders yet. Start shopping to see your orders here.")}</p>
+          <p className="max-w-sm mt-2 mb-6 text-sm text-zinc-500 dark:text-zinc-400">{__("You haven't placed any orders yet. Start shopping to see your orders here.")}</p>
           <Button asChild>
             <Link href={getURL(`/products`, locale)}>{__("Start Shopping")}</Link>
           </Button>
