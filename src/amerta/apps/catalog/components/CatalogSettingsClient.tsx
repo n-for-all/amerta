@@ -75,6 +75,7 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
   const [settings, setSettings] = useState<CatalogSettings>(DEFAULT_CATALOG_SETTINGS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetch("/api/catalog/settings", { credentials: "include" })
@@ -113,6 +114,27 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
       toast.error(err.message || "Could not save the catalog settings");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const uploadCover = async (file: File | undefined, input: HTMLInputElement) => {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("_payload", JSON.stringify({ alt: "Catalog cover" }));
+      const res = await fetch("/api/media", { method: "POST", credentials: "include", body: form });
+      const data = await res.json();
+      const url = data?.doc?.url;
+      if (!res.ok || !url) throw new Error(data?.errors?.[0]?.message || "Upload failed");
+      set("coverImage", url);
+      toast.success("Picture uploaded. Press Save to use it.");
+    } catch (err: any) {
+      toast.error(err.message || "Could not upload the picture");
+    } finally {
+      setUploading(false);
+      input.value = "";
     }
   };
 
@@ -224,8 +246,19 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
                 <label className="catalog-settings__label" htmlFor="catalog-cover">
                   Cover picture
                 </label>
-                <input id="catalog-cover" className="catalog-settings__input" placeholder="https://…" value={settings.coverImage} onChange={(e) => set("coverImage", e.target.value)} />
-                <p className="catalog-settings__help">Optional. Paste the address of an image from your media library; it shows behind the heading.</p>
+                {settings.coverImage && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="catalog-settings__cover" src={settings.coverImage} alt="Current cover" />
+                )}
+                <div className="catalog-settings__copy">
+                  <input id="catalog-cover" type="file" accept="image/*" className="catalog-settings__input" disabled={uploading} onChange={(e) => uploadCover(e.target.files?.[0], e.currentTarget)} />
+                  {settings.coverImage && (
+                    <button type="button" className="catalog-settings__button catalog-settings__button--secondary" onClick={() => set("coverImage", "")}>
+                      Remove
+                    </button>
+                  )}
+                </div>
+                <p className="catalog-settings__help">{uploading ? "Uploading…" : "Shown at the top of the catalog under a dark overlay, with the heading and intro line on top. A wide picture works best. Press Save after choosing one."}</p>
               </div>
             </section>
 

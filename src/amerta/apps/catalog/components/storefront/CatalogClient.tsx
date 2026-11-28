@@ -364,26 +364,31 @@ export const CatalogClient = (props: CatalogClientProps) => {
       </header>
 
       <main className="max-w-2xl pb-16 mx-auto sm:px-6 sm:pt-6">
-        <div className="relative flex flex-col items-center justify-center px-6 py-12 overflow-hidden text-center text-white bg-zinc-900 sm:rounded-2xl">
+        {/* Cover: the shop's picture under a dark overlay, with its name (a link to the website) and a few words */}
+        <div className={"relative flex flex-col items-center justify-center px-6 overflow-hidden text-center text-white bg-zinc-900 sm:rounded-2xl " + (coverImage ? "min-h-72 py-14" : "py-12")}>
           {coverImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={coverImage} alt="" className="absolute inset-0 object-cover w-full h-full opacity-40" />
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={coverImage} alt="" className="absolute inset-0 object-cover w-full h-full" />
+              <div className="absolute inset-0 bg-black/60" />
+            </>
           )}
           <div className="relative">
-            {/* The logo already says the shop's name, so the name is only written out when there is no logo */}
-            {logoUrl ? (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={logoUrl} alt="" className="w-auto h-12 mx-auto" />
-                <h1 className="sr-only">{heading}</h1>
-              </>
-            ) : (
-              <h1 className="text-2xl font-bold">{heading}</h1>
+            {/* Without a picture the logo stands in; it already says the shop's name */}
+            {!coverImage && logoUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoUrl} alt="" className="w-auto h-12 mx-auto mb-4" />
             )}
-            {intro && <p className="max-w-md mx-auto mt-3 text-sm text-white/85">{intro}</p>}
-            <a href={websiteUrl} className="inline-block mt-4 text-sm font-medium underline underline-offset-4 text-white/90 hover:text-white">
-              {labels.visitWebsite}
-            </a>
+            <h1 className={!coverImage && logoUrl ? "text-sm font-medium" : "text-2xl font-bold sm:text-3xl"}>
+              <a href={websiteUrl} className="inline-flex items-center gap-1 hover:underline underline-offset-4">
+                <span>{!coverImage && logoUrl ? labels.visitWebsite : heading}</span>
+                <svg viewBox="0 0 24 24" className="w-[0.9em] h-[0.9em] rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" />
+                </svg>
+                {coverImage && <span className="sr-only">{labels.visitWebsite}</span>}
+              </a>
+            </h1>
+            {intro && <p className="max-w-md mx-auto mt-2 text-white/90 line-clamp-3">{intro}</p>}
           </div>
         </div>
 
