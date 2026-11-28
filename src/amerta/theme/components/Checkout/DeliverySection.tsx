@@ -13,6 +13,8 @@ export function DeliverySection() {
   const { form, deliveryMethods, loadingDeliveryMethods, checkoutState } = context;
   const { currency, exchangeRate, __ } = useEcommerce();
   const { qualifiesForFree } = checkoutState;
+  // Delivery depends on the city in some countries; once the country is known, the only thing left to pick is the city
+  const needsCity = !!checkoutState.hasSpecificCities && !!form.watch("country") && !form.watch("city");
   return (
     <div className="pt-10 mt-10 border-t border-zinc-200 dark:border-zinc-800">
       <h3 className="text-2xl font-medium">{__("Delivery method")}</h3>
@@ -70,7 +72,7 @@ export function DeliverySection() {
           )}
         />
       ) : (
-        <div className="p-4 mt-6 text-sm text-yellow-800 border border-yellow-200 rounded-md bg-yellow-50">{__("Select a valid address to see delivery options.")}</div>
+        <div className="p-4 mt-6 text-sm text-yellow-800 border border-yellow-200 rounded-md bg-yellow-50">{needsCity ? __("Select your city to see delivery options.") : __("Select a valid address to see delivery options.")}</div>
       )}
     </div>
   );

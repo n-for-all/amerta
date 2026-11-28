@@ -11,6 +11,8 @@ import { PaymentHandle } from "@/amerta/theme/components/Payment/gateways/types"
 import { CheckoutFormValues } from "@/amerta/theme/components/Checkout";
 import { OrderSubmissionPayload } from "@/amerta/core/types/order-submission";
 import { addressRefinement } from "@/amerta/core/utilities/address-rules";
+import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
+import { COUNTRIES } from "@/amerta/constants";
 
 export const requiredString = (message: string) => z.string({ error: message }).min(1, message);
 
@@ -81,6 +83,12 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
   const { saveAddress: saveGuestAddress } = useGuestAddressStorage();
   const [showErrorDialog, setShowErrorDialog] = useState(false);
 
+  // A delivery country is preselected, so delivery methods show without waiting for a choice:
+  // the shop's home country (the one of its default phone code) when it delivers there, otherwise the first one.
+  const { defaultPhoneCountryCode } = useEcommerce();
+  const homeCountryNames = COUNTRIES.filter((c) => c.code === defaultPhoneCountryCode).map((c) => c.name.toLowerCase());
+  const defaultCountryId = (data?.countries?.find((c) => homeCountryNames.includes((c.name || "").toLowerCase())) || data?.countries?.[0])?.id || "";
+
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(
       customer
@@ -92,7 +100,7 @@ export function useCheckout({ cart: initialCart, customer, data, paymentMethodRe
       email: customer?.email || "",
       firstName: customer?.firstName || "",
       lastName: customer?.lastName || "",
-      country: "",
+      country: defaultCountryId,
       city: "",
       paymentMethodId: data?.paymentMethods?.[0]?.id || "",
       addressId: customer?.address?.items?.find((a) => a.isDefaultShipping)?.id || "",
