@@ -158,10 +158,12 @@ export async function getCatalogItems(ctx: Context, page = 1): Promise<{ items: 
   };
 }
 
-/** Everything the product popup shows. */
+/** Everything the product popup shows, for a product found by its id or by its address name (slug). */
 export async function getCatalogItemDetails(ctx: Context, id: string): Promise<CatalogItemDetails | null> {
   const { payload, settings, salesChannel, locale } = ctx;
-  const result = await payload.find({ collection: "products", where: { and: [...catalogWhere(settings, salesChannel.id).and, { id: { equals: id } }] } as any, depth: 1, limit: 1, locale: locale as LocaleCode });
+  // Links from the search and the cart carry the product's address name (slug); the catalog's own rows carry its id
+  const productKey = /^[0-9a-f]{24}$/i.test(id) ? { or: [{ id: { equals: id } }, { slug: { equals: id } }] } : { slug: { equals: id } };
+  const result = await payload.find({ collection: "products", where: { and: [...catalogWhere(settings, salesChannel.id).and, productKey] } as any, depth: 1, limit: 1, locale: locale as LocaleCode });
   const product = result.docs[0] as Product | undefined;
   if (!product) return null;
 
