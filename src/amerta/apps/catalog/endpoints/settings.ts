@@ -24,8 +24,13 @@ export const updateCatalogSettingsEndpoint: Endpoint = {
       const settings = { ...DEFAULT_CATALOG_SETTINGS, ...(currentAppSettings.catalog || {}) };
       for (const key of Object.keys(DEFAULT_CATALOG_SETTINGS)) {
         if (!(key in body)) continue;
-        settings[key] = typeof DEFAULT_CATALOG_SETTINGS[key] === "boolean" ? Boolean(body[key]) : String(body[key] ?? "").trim();
+        const fallback = DEFAULT_CATALOG_SETTINGS[key];
+        if (Array.isArray(fallback)) settings[key] = Array.isArray(body[key]) ? body[key].map(String).slice(0, 2000) : [];
+        else if (typeof fallback === "boolean") settings[key] = Boolean(body[key]);
+        else settings[key] = String(body[key] ?? "").trim();
       }
+      settings.orderMode = settings.orderMode === "add_to_cart" ? "add_to_cart" : "buy_now";
+      settings.productMode = settings.productMode === "selected" ? "selected" : "all";
       settings.whatsappNumber = whatsappDigits(settings.whatsappNumber);
 
       await req.payload.updateGlobal({

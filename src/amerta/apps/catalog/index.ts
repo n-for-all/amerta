@@ -2,6 +2,7 @@ import { AmertaApp } from "../types";
 import { getCatalogSettingsEndpoint, updateCatalogSettingsEndpoint } from "./endpoints/settings";
 import { buyNowEndpoint } from "./endpoints/buyNow";
 import { catalogFeedEndpoint } from "./endpoints/feed";
+import { catalogItemEndpoint, catalogItemsEndpoint } from "./endpoints/items";
 
 export const catalogApp: AmertaApp = {
   name: "Catalog",
@@ -27,6 +28,6 @@ export const catalogApp: AmertaApp = {
         },
       },
     },
-    endpoints: [...(config.endpoints || []), getCatalogSettingsEndpoint, updateCatalogSettingsEndpoint, buyNowEndpoint, catalogFeedEndpoint],
+    endpoints: [...(config.endpoints || []), getCatalogSettingsEndpoint, updateCatalogSettingsEndpoint, buyNowEndpoint, catalogFeedEndpoint, catalogItemsEndpoint, catalogItemEndpoint],
   }),
 };

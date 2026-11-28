@@ -106,4 +106,32 @@
       white-space: nowrap;
     }
   }
+
+  &__options {
+    margin: 0 0 16px 28px;
+    padding-left: 16px;
+    border-left: 2px solid var(--theme-elevation-150);
+  }
+
+  &__picker {
+    margin-top: 8px;
+  }
+
+  &__list {
+    max-height: 320px;
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    overflow-y: auto;
+    list-style: none;
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 4px;
+
+    label {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 4px 0;
+      cursor: pointer;
+    }
+  }
 }

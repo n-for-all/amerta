@@ -24,6 +24,53 @@ const CopyRow = ({ label, help, value }: { label: string; help: string; value: s
   </div>
 );
 
+const ProductPicker = ({ selected, onChange }: { selected: string[]; onChange: (ids: string[]) => void }) => {
+  const [products, setProducts] = useState<{ id: string; title: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    fetch("/api/products?limit=1000&depth=0&sort=title&select[title]=true&where[_status][equals]=published", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => setProducts((data.docs || []).map((doc: any) => ({ id: String(doc.id), title: doc.title || doc.id }))))
+      .catch(() => toast.error("Could not load the products"))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const visible = products.filter((product) => product.title.toLowerCase().includes(filter.trim().toLowerCase()));
+  const toggle = (id: string) => onChange(selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id]);
+
+  if (loading) return <p className="catalog-settings__help">Loading products…</p>;
+
+  return (
+    <div className="catalog-settings__picker">
+      <div className="catalog-settings__copy">
+        <input className="catalog-settings__input" placeholder="Search products" aria-label="Search products" value={filter} onChange={(e) => setFilter(e.target.value)} />
+        <button type="button" className="catalog-settings__button catalog-settings__button--secondary" onClick={() => onChange(Array.from(new Set([...selected, ...visible.map((p) => p.id)])))}>
+          Select shown
+        </button>
+        <button type="button" className="catalog-settings__button catalog-settings__button--secondary" onClick={() => onChange([])}>
+          Clear
+        </button>
+      </div>
+      <p className="catalog-settings__help">
+        {selected.length} of {products.length} products selected
+      </p>
+      <ul className="catalog-settings__list">
+        {visible.map((product) => (
+          <li key={product.id}>
+            <label>
+              <input type="checkbox" checked={selected.includes(product.id)} onChange={() => toggle(product.id)} />
+              <span>{product.title}</span>
+            </label>
+          </li>
+        ))}
+        {visible.length === 0 && <li className="catalog-settings__help">No products match.</li>}
+      </ul>
+    </div>
+  );
+};
+
 export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }) => {
   const [settings, setSettings] = useState<CatalogSettings>(DEFAULT_CATALOG_SETTINGS);
   const [loading, setLoading] = useState(true);
@@ -44,6 +91,10 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
   const save = async () => {
     if (settings.orderOnWhatsapp && !settings.whatsappNumber.replace(/\D/g, "")) {
       toast.error("Add your WhatsApp number, or turn off Order on WhatsApp");
+      return;
+    }
+    if (settings.productMode === "selected" && settings.productIds.length === 0) {
+      toast.error("Choose at least one product, or show all products");
       return;
     }
     setSaving(true);
@@ -88,10 +139,28 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
               <label className="catalog-settings__check">
                 <input type="checkbox" checked={settings.buyOnWebsite} onChange={(e) => set("buyOnWebsite", e.target.checked)} />
                 <span>
-                  <strong>Buy now on the website</strong>
-                  <em>One tap takes the customer straight to checkout with that product. No cart step.</em>
+                  <strong>Order on the website</strong>
+                  <em>Customers order and pay through your shop's checkout.</em>
                 </span>
               </label>
+              {settings.buyOnWebsite && (
+                <div className="catalog-settings__options" role="radiogroup" aria-label="Website button">
+                  <label className="catalog-settings__check">
+                    <input type="radio" name="catalog-order-mode" checked={settings.orderMode === "buy_now"} onChange={() => set("orderMode", "buy_now")} />
+                    <span>
+                      <strong>Buy now</strong>
+                      <em>One tap takes the customer straight to checkout with that product. No cart step.</em>
+                    </span>
+                  </label>
+                  <label className="catalog-settings__check">
+                    <input type="radio" name="catalog-order-mode" checked={settings.orderMode === "add_to_cart"} onChange={() => set("orderMode", "add_to_cart")} />
+                    <span>
+                      <strong>Add to cart</strong>
+                      <em>A + button adds the product to the cart, so the customer can order several products together.</em>
+                    </span>
+                  </label>
+                </div>
+              )}
               <label className="catalog-settings__check">
                 <input type="checkbox" checked={settings.orderOnWhatsapp} onChange={(e) => set("orderOnWhatsapp", e.target.checked)} />
                 <span>
@@ -116,6 +185,25 @@ export const CatalogSettingsClient: React.FC<{ siteUrl: string }> = ({ siteUrl }
                   </div>
                 </>
               )}
+            </section>
+
+            <section className="catalog-settings__section">
+              <h2 className="catalog-settings__heading">Products</h2>
+              <label className="catalog-settings__check">
+                <input type="radio" name="catalog-product-mode" checked={settings.productMode === "all"} onChange={() => set("productMode", "all")} />
+                <span>
+                  <strong>All products</strong>
+                  <em>Every published product, including new ones as you add them.</em>
+                </span>
+              </label>
+              <label className="catalog-settings__check">
+                <input type="radio" name="catalog-product-mode" checked={settings.productMode === "selected"} onChange={() => set("productMode", "selected")} />
+                <span>
+                  <strong>Only the products I choose</strong>
+                  <em>The catalog page and the product feed show just these.</em>
+                </span>
+              </label>
+              {settings.productMode === "selected" && <ProductPicker selected={settings.productIds} onChange={(ids) => set("productIds", ids)} />}
             </section>
 
             <section className="catalog-settings__section">

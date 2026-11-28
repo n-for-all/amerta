@@ -19,8 +19,14 @@ export interface CatalogSettings {
   intro: string;
   /** Optional picture behind the heading (image URL). */
   coverImage: string;
-  /** "Buy now" goes straight to the website checkout. */
+  /** Customers can order through the website. */
   buyOnWebsite: boolean;
+  /** What the website button does: straight to checkout, or add to the cart. */
+  orderMode: "buy_now" | "add_to_cart";
+  /** Which products the catalog shows. */
+  productMode: "all" | "selected";
+  /** The chosen products when productMode is "selected". */
+  productIds: string[];
   /** Show an "Order on WhatsApp" button. */
   orderOnWhatsapp: boolean;
   /** WhatsApp number with country code, e.g. 971501234567. */
@@ -36,6 +42,9 @@ export const DEFAULT_CATALOG_SETTINGS: CatalogSettings = {
   intro: "",
   coverImage: "",
   buyOnWebsite: true,
+  orderMode: "buy_now",
+  productMode: "all",
+  productIds: [],
   orderOnWhatsapp: false,
   whatsappNumber: "",
   whatsappMessage: "Hi, I would like to order this from your catalog:",
@@ -58,7 +67,11 @@ export async function getCatalogSettings(payload: Payload): Promise<{ active: bo
     const appsGlobal = await payload.findGlobal({ slug: "apps", depth: 0 });
     const active = ((appsGlobal?.activeApps as string[]) || []).includes("catalog");
     const saved = ((appsGlobal?.appSettings as Record<string, any>) || {}).catalog || {};
-    return { active, settings: { ...DEFAULT_CATALOG_SETTINGS, ...saved } };
+    const settings: CatalogSettings = { ...DEFAULT_CATALOG_SETTINGS, ...saved };
+    settings.orderMode = settings.orderMode === "add_to_cart" ? "add_to_cart" : "buy_now";
+    settings.productMode = settings.productMode === "selected" ? "selected" : "all";
+    settings.productIds = Array.isArray(settings.productIds) ? settings.productIds.map(String) : [];
+    return { active, settings };
   } catch {
     return { active: false, settings: DEFAULT_CATALOG_SETTINGS };
   }

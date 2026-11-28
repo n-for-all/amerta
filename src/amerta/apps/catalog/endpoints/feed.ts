@@ -77,7 +77,7 @@ export const catalogFeedEndpoint: Endpoint = {
       let page = 1;
       let hasNextPage = true;
       while (hasNextPage && page <= 20) {
-        const result: any = await getProductsBy({ locale, limit: 250, page, sortQuery: ["-createdAt"] });
+        const result: any = await getProductsBy({ locale, limit: 250, page, sortQuery: ["-createdAt"], whereQuery: settings.productMode === "selected" ? { id: { in: settings.productIds.length ? settings.productIds : ["000000000000000000000000"] } } : {} });
         for (const product of result.docs) {
           if (!product.title) continue;
 
