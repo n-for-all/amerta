@@ -5,7 +5,7 @@ import { printf } from "fast-printf";
 import { getCachedGlobal } from "@/amerta/utilities/getGlobals";
 import { getURL } from "@/amerta/utilities/getURL";
 import { getCatalogSettings } from "@/amerta/apps/catalog/settings";
-import { getCatalogContext, getCatalogItems } from "@/amerta/apps/catalog/services/catalogItems";
+import { getCatalogContext, getCatalogItems, localImagePath } from "@/amerta/apps/catalog/services/catalogItems";
 import { CatalogClient } from "@/amerta/apps/catalog/components/storefront/CatalogClient";
 import { getCatalogFrameProps } from "@/amerta/apps/catalog/components/storefront/frameProps";
 
@@ -37,8 +37,8 @@ export async function CatalogPage({ locale }: { locale: string }) {
       locale={locale}
       heading={settings.heading || siteTitle || __("Catalog")}
       intro={settings.intro}
-      coverImage={settings.coverImage}
-      logoUrl={logo && typeof logo === "object" ? logo.url || null : null}
+      coverImage={localImagePath(settings.coverImage) || ""}
+      logoUrl={logo && typeof logo === "object" ? localImagePath(logo.url) : null}
       websiteUrl={getURL("/", locale) || "/"}
       checkoutUrl={getURL("/catalog/checkout", locale)}
       orderMode={settings.orderMode}

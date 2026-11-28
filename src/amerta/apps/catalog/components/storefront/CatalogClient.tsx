@@ -123,6 +123,12 @@ const useOrder = ({ locale, orderMode, checkoutUrl, labels }: Pick<CatalogClient
  * price) and fills in the rest when it arrives, so nothing jumps. It slides up on phones and
  * fades in on larger screens, and leaves the same way.
  */
+/**
+ * A resized, compressed copy of one of the shop's own pictures. The originals can be several hundred
+ * kilobytes each, far too heavy for a small thumbnail on a phone. Other pictures (SVG, other sites) stay as they are.
+ */
+const sized = (url: string, width: number): string => (url.startsWith("/") && !url.startsWith("//") && !url.includes("?") && !/\.svg$/i.test(url) ? `/_next/image?url=${encodeURIComponent(url)}&w=${width}&q=75` : url);
+
 const ProductPopup = ({ preview, locale, labels, buyOnWebsite, orderMode, ordering, onClose }: { preview: CatalogItem; locale: string; labels: CatalogLabels; buyOnWebsite: boolean; orderMode: "buy_now" | "add_to_cart"; ordering: ReturnType<typeof useOrder>; onClose: () => void }) => {
   const [details, setDetails] = useState<CatalogItemDetails | null>(null);
   const [failed, setFailed] = useState(false);
@@ -193,7 +199,7 @@ const ProductPopup = ({ preview, locale, labels, buyOnWebsite, orderMode, orderi
           <div className="flex overflow-x-auto aspect-square snap-x snap-mandatory bg-zinc-100 dark:bg-zinc-800">
             {images.map((url, index) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={url} src={url} alt={item.title} className="object-contain w-full h-full shrink-0 snap-center" loading={index === 0 ? "eager" : "lazy"} />
+              <img key={url} src={sized(url, 828)} alt={item.title} className="object-contain w-full h-full shrink-0 snap-center" loading={index === 0 ? "eager" : "lazy"} />
             ))}
           </div>
           <div className="p-4">
@@ -335,7 +341,7 @@ export const CatalogClient = (props: CatalogClientProps) => {
           {coverImage && (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={coverImage} alt="" className="absolute inset-0 object-cover w-full h-full" />
+              <img src={sized(coverImage, 828)} alt="" className="absolute inset-0 object-cover w-full h-full" fetchPriority="high" />
               <div className="absolute inset-0 bg-black/60" />
             </>
           )}
@@ -374,7 +380,7 @@ export const CatalogClient = (props: CatalogClientProps) => {
                       <span className="block w-16 h-16 overflow-hidden rounded-lg shrink-0 bg-zinc-100 dark:bg-zinc-800 sm:w-20 sm:h-20">
                         {item.image && (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={item.image} alt="" className="object-cover w-full h-full" loading="lazy" />
+                          <img src={sized(item.image, 128)} alt="" className="object-cover w-full h-full" loading="lazy" decoding="async" />
                         )}
                       </span>
                       <span className="flex-1 min-w-0">

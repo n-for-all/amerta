@@ -10,6 +10,7 @@ import { getProductPricing } from "@/amerta/core/utilities/get-product-pricing";
 import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { hasStock } from "@/amerta/core/utilities/has-stock";
 import { isInStock } from "@/amerta/core/utilities/is-in-stock";
+import { getServerSideURL } from "@/amerta/utilities/getURL";
 import { createTranslator } from "@/amerta/core/utilities/translation";
 import { getURL } from "@/amerta/utilities/getURL";
 import { LocaleCode } from "@/amerta/localization/locales";
@@ -50,7 +51,14 @@ export interface CatalogItemDetails extends CatalogItem {
   variants: CatalogVariant[];
 }
 
-const imageUrl = (image: any): string | null => (image && typeof image === "object" && image.url ? image.url : null);
+/** A picture stored by this shop as a path on the site ("/api/..."), so the page can ask for a small, resized copy of it. */
+export const localImagePath = (url?: string | null): string | null => {
+  if (!url) return null;
+  const site = getServerSideURL();
+  return site && url.startsWith(site + "/") ? url.slice(site.length) : url;
+};
+
+const imageUrl = (image: any): string | null => (image && typeof image === "object" ? localImagePath(image.url) : null);
 
 /** The products the catalog may show: published, sold on their own, in this sales channel, and chosen in the settings. */
 export const catalogWhere = (settings: CatalogSettings, salesChannelId: string) => ({
