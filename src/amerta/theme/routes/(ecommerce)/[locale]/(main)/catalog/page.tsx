@@ -14,5 +14,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const heading = await getCatalogHeading(locale);
   if (!heading) notFound();
-  return { title: heading, alternates: { canonical: getURL("/catalog", locale) } };
+  // The catalog repeats the shop's products, so it stays out of search results (links on it are still followed)
+  return { title: heading, alternates: { canonical: getURL("/catalog", locale) }, robots: { index: false, follow: true } };
 }

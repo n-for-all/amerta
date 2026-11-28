@@ -48,5 +48,6 @@ export default async function CatalogCheckoutPage({ params }: { params: Promise<
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  return generateStaticMeta({ pageName: "checkoutPage", locale, type: "checkout" });
+  const meta = await generateStaticMeta({ pageName: "checkoutPage", locale, type: "checkout" });
+  return { ...meta, robots: { index: false, follow: false } };
 }
