@@ -142,7 +142,7 @@ export const OrderReceived: React.FC<Props> = ({ initialOrder, initialPayment, c
                 <div className="relative aspect-[3/4] w-24 flex-none flex-shrink-0 overflow-hidden rounded-md bg-zinc-100">{image && <ImageMedia src={image} alt={title} fill imgClassName="object-contain w-full h-full" />}</div>
                 <div className="flex flex-col flex-auto space-y-1">
                   <h3 className="uppercase text-zinc-900 dark:text-zinc-200">
-                    <Link href={getURL(`/products/${slug}`, locale)}>{title}</Link>
+                    <Link href={getURL(`/product/${slug}`, locale)}>{title}</Link>
                   </h3>
                   {item.variantText && <p className="text-xs uppercase">{item.variantText}</p>}
                   <p className="mt-auto text-xs uppercase text-zinc-500">

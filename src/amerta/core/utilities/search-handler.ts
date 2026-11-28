@@ -63,7 +63,7 @@ export const searchHandler = async (req: PayloadRequest): Promise<Response> => {
       const pricing = getProductPricing(doc!, currency);
       return {
         id: doc.id,
-        url: getURL(`/products/${doc.slug}`, locale),
+        url: getURL(`/product/${doc.slug}`, locale),
         image: doc.images ? (doc.images[0] as ProductMedia).url : null,
         price: pricing ? pricing.minPrice || pricing.price : null,
         title: doc.title,

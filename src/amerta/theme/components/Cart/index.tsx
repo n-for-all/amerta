@@ -214,7 +214,7 @@ export default function Cart({ onClose }: CartProps) {
                                         {/* Product Name and Price */}
                                         <div className="flex justify-between font-medium">
                                           <h3 className="leading-tight">
-                                            <Link href={`/en/products/${product.id}`} className="uppercase text-sm/6 text-zinc-900 dark:text-white">
+                                            <Link href={getURL(`/product/${product.slug || product.id}`, locale)} className="uppercase text-sm/6 text-zinc-900 dark:text-white">
                                               {product.title}
                                             </Link>
                                           </h3>

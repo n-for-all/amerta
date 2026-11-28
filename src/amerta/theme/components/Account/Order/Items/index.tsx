@@ -1,4 +1,5 @@
 "use client";
+import { getURL } from "@/amerta/utilities/getURL";
 import React from "react";
 import type { Currency, Order, Payment, Product, ProductMedia } from "@/payload-types";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import { formatPrice } from "@/amerta/core/utilities/format-price";
 import { ImageOrPlaceholder } from "@/amerta/theme/components/Thumbnail";
 import { useEcommerce } from "@/amerta/core/providers/EcommerceProvider";
 
-export const OrderItems: React.FC<{ currency?: Currency; order: Order; locale: string; payment?: Payment }> = ({ currency, order, payment }) => {
+export const OrderItems: React.FC<{ currency?: Currency; order: Order; locale: string; payment?: Payment }> = ({ currency, order, payment, locale }) => {
   const { __ } = useEcommerce();
   if (!order) return null;
 
@@ -47,7 +48,7 @@ export const OrderItems: React.FC<{ currency?: Currency; order: Order; locale: s
               <div className="flex flex-row items-center gap-6 min-w-32">
                 {/* Product Image */}
                 {productImage ? (
-                  <Link href={productSlug ? `/products/${productSlug}` : "#"} className="relative flex-shrink-0 w-24 h-32 ">
+                  <Link href={productSlug ? getURL(`/product/${productSlug}`, locale) : "#"} className="relative flex-shrink-0 w-24 h-32 ">
                     <ImageOrPlaceholder image={productImage} alt={item.productName || ""} className="object-contain w-full h-full rounded-md" />
                   </Link>
                 ) : (
@@ -61,7 +62,7 @@ export const OrderItems: React.FC<{ currency?: Currency; order: Order; locale: s
                 <div className="flex flex-col gap-1">
                   <div>
                     {productSlug ? (
-                      <Link href={`/products/${productSlug}`} className="text-base font-semibold hover:underline">
+                      <Link href={getURL(`/product/${productSlug}`, locale)} className="text-base font-semibold hover:underline">
                         {item.productName || metaData?.title || product?.title || ""}
                       </Link>
                     ) : (

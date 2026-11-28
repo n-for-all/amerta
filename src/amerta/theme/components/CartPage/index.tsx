@@ -133,7 +133,7 @@ export default function CartPage() {
                       <div>
                         <div className="flex justify-between">
                           <h3 className="text-sm">
-                            <Link href={`/en/products/${product.slug || product.id}`} className="font-medium uppercase hover:text-zinc-600">
+                            <Link href={getURL(`/product/${product.slug || product.id}`, locale)} className="font-medium uppercase hover:text-zinc-600">
                               {product.title}
                             </Link>
                           </h3>
