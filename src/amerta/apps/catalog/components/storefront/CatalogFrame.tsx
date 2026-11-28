@@ -117,6 +117,8 @@ export const CatalogFrame = ({
         for (const anchor of Array.from(scope.querySelectorAll<HTMLAnchorElement>("a[href]:not([data-catalog-keep])"))) {
           const path = pathOf(anchor);
           if (path !== "/" && path !== "/cart") continue;
+          // A logo (a picture that links home) stays where it is; a click on it leads back to the catalog (see onClick)
+          if (path === "/" && anchor.querySelector("img, svg, picture")) continue;
           // "or Continue shopping →" sits in a small text wrapper: put the whole line away
           const parent = anchor.parentElement;
           const line = parent && ["SPAN", "P"].includes(parent.tagName) ? parent : anchor;
@@ -141,7 +143,7 @@ export const CatalogFrame = ({
       const path = pathOf(anchor);
       if (!path) return;
       const product = path.match(/^\/products?\/([^/]+)$/);
-      const target = path === "/checkout" ? catalogCheckoutUrl : product ? `${catalogUrl}?product=${encodeURIComponent(product[1]!)}` : null;
+      const target = path === "/checkout" ? catalogCheckoutUrl : path === "/" ? catalogUrl : product ? `${catalogUrl}?product=${encodeURIComponent(product[1]!)}` : null;
       if (!target) return;
       event.preventDefault();
       event.stopPropagation();
